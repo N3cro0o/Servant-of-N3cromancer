@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://cwhxijf40rcnx"]
+
+[ext_resource type="Script" path="res://Scenes/PlayerCharacter/PlayerLine/player_line.gd" id="1_ten86"]
+[ext_resource type="PackedScene" uid="uid://dcu2kdtm2wqvc" path="res://Scenes/PlayerCharacter/PlayerBody/player_character.tscn" id="2_xdajv"]
+
+[node name="PlayerLine" type="Line2D"]
+points = PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+script = ExtResource("1_ten86")
+distance_points = 2.0
+
+[node name="PlayerCharacter" parent="." instance=ExtResource("2_xdajv")]
+
+[node name="AdditionalLine" type="Line2D" parent="."]
+points = PackedVector2Array(0, 0, 0, 0)
