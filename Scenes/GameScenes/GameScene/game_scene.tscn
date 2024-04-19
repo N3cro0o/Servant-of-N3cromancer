@@ -1,0 +1,88 @@
+[gd_scene load_steps=9 format=3 uid="uid://vypfdtx3st2g"]
+
+[ext_resource type="PackedScene" uid="uid://cwhxijf40rcnx" path="res://Scenes/PlayerCharacter/PlayerLine/player_line.tscn" id="1_0j60h"]
+[ext_resource type="Script" path="res://Scenes/GameScenes/GameScene/game_scene.gd" id="1_hmcmp"]
+[ext_resource type="PackedScene" uid="uid://bx18cpaetf7lm" path="res://Scenes/PlayerCharacter/Mouse/mouse_entity.tscn" id="2_fwa26"]
+[ext_resource type="PackedScene" uid="uid://cxecydc21mmwa" path="res://Scenes/SceneKiller/killer.tscn" id="5_4g2j3"]
+[ext_resource type="PackedScene" uid="uid://ccatmhjjcq6yv" path="res://Scenes/Obstacles/Spawner/obstacle_spawner.tscn" id="5_ob05u"]
+[ext_resource type="Texture2D" uid="uid://b11h83jdg31y7" path="res://Images/icon.svg" id="6_1guq7"]
+[ext_resource type="Texture2D" uid="uid://gvpii7lmsrxu" path="res://Images/hit_frame.png" id="7_ts68p"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_yrvdb"]
+font_size = 24
+
+[node name="GameScene" type="Node2D"]
+script = ExtResource("1_hmcmp")
+
+[node name="Spawners" type="Node" parent="."]
+
+[node name="Spawner1" parent="Spawners" instance=ExtResource("5_ob05u")]
+position = Vector2(540, -100)
+
+[node name="Spawner2" parent="Spawners" instance=ExtResource("5_ob05u")]
+position = Vector2(240, -100)
+
+[node name="Spawner3" parent="Spawners" instance=ExtResource("5_ob05u")]
+position = Vector2(841, -100)
+
+[node name="Obstacles" type="Node" parent="."]
+
+[node name="PlayerLine" parent="." instance=ExtResource("1_0j60h")]
+position = Vector2(540, 2040)
+
+[node name="MouseEntity" parent="." instance=ExtResource("2_fwa26")]
+position = Vector2(525, 1557)
+
+[node name="Buttons" type="Node" parent="."]
+
+[node name="TouchLeft" type="TouchScreenButton" parent="Buttons"]
+modulate = Color(1, 1, 1, 0.54902)
+z_index = 10
+position = Vector2(32, 2126)
+scale = Vector2(1.8, 1.8)
+texture_normal = ExtResource("6_1guq7")
+texture_pressed = ExtResource("6_1guq7")
+action = "key_left"
+
+[node name="TouchRight" type="TouchScreenButton" parent="Buttons"]
+modulate = Color(1, 1, 1, 0.564706)
+z_index = 10
+position = Vector2(816, 2121)
+scale = Vector2(1.8, 1.8)
+texture_normal = ExtResource("6_1guq7")
+texture_pressed = ExtResource("6_1guq7")
+action = "key_right"
+
+[node name="DebugLabel" type="Label" parent="."]
+z_index = 10
+offset_right = 40.0
+offset_bottom = 23.0
+text = "debug tesat"
+label_settings = SubResource("LabelSettings_yrvdb")
+
+[node name="Killers" type="Node" parent="."]
+
+[node name="ScenesKiller" parent="Killers" instance=ExtResource("5_4g2j3")]
+position = Vector2(540, 3000)
+
+[node name="ScenesKiller2" parent="Killers" instance=ExtResource("5_4g2j3")]
+position = Vector2(540, -621)
+
+[node name="HitFrame" type="Sprite2D" parent="."]
+position = Vector2(540, 1200)
+texture = ExtResource("7_ts68p")
+
+[node name="Timer" type="Timer" parent="HitFrame"]
+one_shot = true
+
+[connection signal="on_spawned_entity" from="Spawners/Spawner1" to="." method="_spawner1_spawn"]
+[connection signal="on_spawned_static_entity" from="Spawners/Spawner1" to="Spawners/Spawner2" method="lock_static_spawn"]
+[connection signal="on_spawned_static_entity" from="Spawners/Spawner1" to="Spawners/Spawner3" method="lock_static_spawn"]
+[connection signal="on_spawned_entity" from="Spawners/Spawner2" to="." method="_spawner1_spawn"]
+[connection signal="on_spawned_static_entity" from="Spawners/Spawner2" to="Spawners/Spawner1" method="lock_static_spawn"]
+[connection signal="on_spawned_static_entity" from="Spawners/Spawner2" to="Spawners/Spawner3" method="lock_static_spawn"]
+[connection signal="on_spawned_entity" from="Spawners/Spawner3" to="." method="_spawner1_spawn"]
+[connection signal="on_spawned_static_entity" from="Spawners/Spawner3" to="Spawners/Spawner1" method="lock_static_spawn"]
+[connection signal="on_spawned_static_entity" from="Spawners/Spawner3" to="Spawners/Spawner2" method="lock_static_spawn"]
+[connection signal="on_player_hit" from="PlayerLine" to="." method="on_player_hit"]
+[connection signal="timeout" from="HitFrame/Timer" to="." method="on_hit_timer_timeout"]

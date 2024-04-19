@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="SpawnObstacleDataHolder" load_steps=2 format=3 uid="uid://chynsxlq4cx8l"]
+
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/spawn_obstacle_data_holder.gd" id="1_dyx2u"]
+
+[resource]
+script = ExtResource("1_dyx2u")
+scene_directory = "res://Scenes/Obstacles/Gravity/gravity_obstacle_1.tscn"
+type = 0
+weight = 4

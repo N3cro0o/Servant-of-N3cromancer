@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://ccatmhjjcq6yv"]
+
+[ext_resource type="Script" path="res://Scenes/Obstacles/Spawner/obstacle_spawner.gd" id="1_rkn13"]
+[ext_resource type="Resource" uid="uid://bal5m5yrck2w" path="res://Scenes/Obstacles/Non-gravity/vertical_obstacle_1.tres" id="2_py5lv"]
+[ext_resource type="Resource" uid="uid://chynsxlq4cx8l" path="res://Scenes/Obstacles/Gravity/gravity_obstacle_1.tres" id="3_6pyww"]
+
+[node name="ObstacleSpawner" type="Node2D"]
+script = ExtResource("1_rkn13")
+spawned_things = Array[Resource("res://Resources/DataHolders/Script/spawn_obstacle_data_holder.gd")]([ExtResource("2_py5lv"), ExtResource("3_6pyww")])
+spawn_delay = 3.0
+
+[node name="SpawnTimer" type="Timer" parent="."]
+
+[connection signal="on_spawned_static_entity" from="." to="." method="lock_static_spawn"]
+[connection signal="timeout" from="SpawnTimer" to="." method="_spawn_logic"]

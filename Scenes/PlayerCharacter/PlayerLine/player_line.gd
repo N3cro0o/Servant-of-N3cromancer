@@ -1,5 +1,5 @@
 extends Line2D
-
+class_name PlayerLine1
 enum last_pos {
 	LEFT = -1,
 	MIDDLE = 0,
@@ -16,6 +16,7 @@ enum last_pos {
 var count : int
 
 # Signals
+signal on_player_hit
 
 # Methods
 func _ready():
@@ -42,6 +43,7 @@ func pos_changer(move:last_pos):
 		return
 	elif last_point_pos == last_pos.RIGHT and move == last_pos.RIGHT:
 		return
+	@warning_ignore("int_as_enum_without_cast")
 	last_point_pos += move
 
 func _push_position_down_array():
@@ -51,11 +53,16 @@ func _push_position_down_array():
 
 func _change_last_point_pos():
 	var index = count
-	set_point_position(index,Vector2(100 * last_point_pos, get_point_position(index).y))
+	set_point_position(index, Vector2(300 * last_point_pos, get_point_position(index).y))
 	var pos := get_point_position(index)
-	print(pos.x)
 	var i := PI / 2
 	var mid = (pos.x - body.position.x) / 2
 	for x in count:
 		set_point_position(x, Vector2(sin(i) * -mid + pos.x - mid,-x * distance_points))
 		i += PI / count
+
+func return_body_position():
+	return body.position + position
+
+func on_body_hit():
+	on_player_hit.emit()

@@ -1,18 +1,24 @@
-[gd_scene load_steps=4 format=3 uid="uid://d0coii8fjegws"]
+[gd_scene load_steps=5 format=3 uid="uid://d0coii8fjegws"]
 
 [ext_resource type="Texture2D" uid="uid://b11h83jdg31y7" path="res://Images/icon.svg" id="1_65wdx"]
+[ext_resource type="Script" path="res://Scenes/Obstacles/Gravity/gravity_obstacle_1.gd" id="1_84aml"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_43322"]
-bounce = 0.2
+bounce = 0.5
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gjyj7"]
-radius = 37.2156
+radius = 111.0
 
-[node name="GravityObstacle1" type="RigidBody2D"]
+[node name="GravityObstacle1" type="RigidBody2D" groups=["obstacle"]]
+collision_layer = 2
 physics_material_override = SubResource("PhysicsMaterial_43322")
+script = ExtResource("1_84aml")
+weight = 5
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.561025, 0.561025)
+modulate = Color(0.847059, 0.227451, 0.254902, 1)
+z_index = -1
+scale = Vector2(1.683, 1.683)
 texture = ExtResource("1_65wdx")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

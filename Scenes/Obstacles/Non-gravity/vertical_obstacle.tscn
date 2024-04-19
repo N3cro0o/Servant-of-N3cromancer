@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://dydoshehcpuh2"]
+
+[ext_resource type="Texture2D" uid="uid://b11h83jdg31y7" path="res://Images/icon.svg" id="1_071v2"]
+[ext_resource type="Script" path="res://Scenes/Obstacles/Non-gravity/vertical_obstacle.gd" id="1_afigr"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hctr1"]
+size = Vector2(216, 120)
+
+[node name="VerticalObstacle" type="RigidBody2D"]
+collision_layer = 4
+collision_mask = 0
+gravity_scale = 0.0
+can_sleep = false
+lock_rotation = true
+freeze = true
+script = ExtResource("1_afigr")
+speed = 200.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.847059, 0.227451, 0.254902, 1)
+z_index = -1
+scale = Vector2(1.689, 0.939)
+texture = ExtResource("1_071v2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_hctr1")

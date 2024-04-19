@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://cor3guxh347t7"]
+
+[ext_resource type="Script" path="res://Masters/GameMaster/GM.gd" id="1_cy212"]
+[ext_resource type="PackedScene" uid="uid://vypfdtx3st2g" path="res://Scenes/GameScenes/GameScene/game_scene.tscn" id="1_jg632"]
+
+[node name="GM" type="Node" node_paths=PackedStringArray("curr_scene")]
+script = ExtResource("1_cy212")
+curr_scene = NodePath("Screen/GameScene")
+
+[node name="Screen" type="Node" parent="."]
+
+[node name="Camera2D" type="Camera2D" parent="Screen"]
+position = Vector2(540, 1200)
+
+[node name="GameScene" parent="Screen" instance=ExtResource("1_jg632")]
