@@ -1,3 +1,4 @@
 obstacle
 mouse_thing
 player
+mainbody

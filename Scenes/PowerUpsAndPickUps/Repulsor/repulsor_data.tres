@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="SpawnPickupDataHolder" load_steps=3 format=3 uid="uid://c58fbv2edq6cw"]
+
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/spawn_pickup_data_holder.gd" id="1_7grya"]
+[ext_resource type="Script" path="res://Scenes/PowerUpsAndPickUps/Repulsor/repulsor_logic.gd" id="1_f8q15"]
+
+[resource]
+script = ExtResource("1_7grya")
+name = "Repulsor"
+image_dir = "res://Images/icon.svg"
+falling_speed = 150
+action_logic = ExtResource("1_f8q15")
+weight = 1

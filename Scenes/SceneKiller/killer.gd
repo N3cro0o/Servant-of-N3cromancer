@@ -1,8 +1,6 @@
 class_name Killer extends Area2D
 # Variables
-@export var xd = {
-	"obstacle": false,
-}
+
 # Signals
 
 # Methods

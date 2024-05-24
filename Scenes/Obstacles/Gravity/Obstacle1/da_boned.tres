@@ -1,0 +1,39 @@
+[gd_resource type="SpriteFrames" load_steps=6 format=3 uid="uid://bk5er1c13yw8"]
+
+[ext_resource type="Texture2D" uid="uid://cvu3xrm5qoi8y" path="res://Images/Obstacles/DaBoned/1/Da Bone.png" id="1_ki0pr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5pmlf"]
+atlas = ExtResource("1_ki0pr")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cxvmo"]
+atlas = ExtResource("1_ki0pr")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yxbuw"]
+atlas = ExtResource("1_ki0pr")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mfb14"]
+atlas = ExtResource("1_ki0pr")
+region = Rect2(384, 0, 128, 128)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5pmlf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cxvmo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yxbuw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mfb14")
+}],
+"loop": true,
+"name": &"default",
+"speed": 15.0
+}]

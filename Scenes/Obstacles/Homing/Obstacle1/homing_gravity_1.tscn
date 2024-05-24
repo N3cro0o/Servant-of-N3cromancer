@@ -1,0 +1,77 @@
+[gd_scene load_steps=11 format=3 uid="uid://cp2kpjr8jpyly"]
+
+[ext_resource type="Script" path="res://Scenes/Obstacles/Homing/Obstacle1/homing_gravity_1.gd" id="1_usq0s"]
+[ext_resource type="Resource" uid="uid://dj1bcy6upyt3g" path="res://Scenes/Obstacles/Homing/Obstacle1/homing_gravity_1.tres" id="2_pfe2u"]
+[ext_resource type="SpriteFrames" uid="uid://07x7gvbt0nhl" path="res://Scenes/Obstacles/Homing/Obstacle1/fireball_homing1.tres" id="3_2jswe"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ia8g6"]
+friction = 0.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s2o6p"]
+size = Vector2(86, 102)
+
+[sub_resource type="Gradient" id="Gradient_mrmqs"]
+offsets = PackedFloat32Array(0, 0.75, 1)
+colors = PackedColorArray(0.81668, 0.769565, 0.0200397, 1, 0.933333, 0.384314, 0.239216, 0.713726, 0.972549, 0.137255, 0.835294, 0.360784)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_8acft"]
+gradient = SubResource("Gradient_mrmqs")
+
+[sub_resource type="Curve" id="Curve_l4xxu"]
+_data = [Vector2(0.0232558, 0.43956), 0.0, 0.0, 0, 0, Vector2(0.412791, 0.879121), 0.0, 0.0, 0, 0, Vector2(0.825581, 0.604396), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_jyubb"]
+curve = SubResource("Curve_l4xxu")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_yh4c2"]
+lifetime_randomness = 0.1
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 69.0
+angle_min = 14.4
+angle_max = 216.0
+gravity = Vector3(0, -200, 0)
+linear_accel_max = 100.0
+radial_accel_min = 32.0
+radial_accel_max = 76.0
+scale_min = 8.0
+scale_max = 18.0
+scale_curve = SubResource("CurveTexture_jyubb")
+color_ramp = SubResource("GradientTexture1D_8acft")
+
+[node name="FireBall" type="RigidBody2D" groups=["obstacle"]]
+collision_layer = 4
+collision_mask = 0
+physics_material_override = SubResource("PhysicsMaterial_ia8g6")
+gravity_scale = 0.0
+can_sleep = false
+freeze = true
+freeze_mode = 1
+script = ExtResource("1_usq0s")
+speed = 600
+rotation_speed = 0.5
+weight = 2
+spawn_data = ExtResource("2_pfe2u")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_s2o6p")
+
+[node name="BumTimer" type="Timer" parent="."]
+
+[node name="FireBallSprite" type="AnimatedSprite2D" parent="."]
+rotation = -1.5708
+scale = Vector2(1.53093, 1.53093)
+sprite_frames = ExtResource("3_2jswe")
+autoplay = "default"
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+z_index = -1
+amount = 5
+process_material = SubResource("ParticleProcessMaterial_yh4c2")
+lifetime = 0.8
+randomness = 0.2
+fixed_fps = 24
+
+[connection signal="timeout" from="BumTimer" to="." method="_on_bum_timer_timeout"]

@@ -1,0 +1,32 @@
+[gd_resource type="SpriteFrames" load_steps=5 format=3 uid="uid://ctoh0yx4fq34t"]
+
+[ext_resource type="Texture2D" uid="uid://cwtwowjevavcg" path="res://Images/Skul_shield.png" id="1_hsq16"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u0wps"]
+atlas = ExtResource("1_hsq16")
+region = Rect2(0, 0, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yj5r3"]
+atlas = ExtResource("1_hsq16")
+region = Rect2(160, 0, 160, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b3wwy"]
+atlas = ExtResource("1_hsq16")
+region = Rect2(320, 0, 160, 160)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u0wps")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yj5r3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b3wwy")
+}],
+"loop": false,
+"name": &"default",
+"speed": 0.0
+}]

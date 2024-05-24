@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="SpawnObstacleDataHolder" load_steps=2 format=3 uid="uid://ceur701l7a75w"]
+
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/spawn_obstacle_data_holder.gd" id="1_p5b5c"]
+
+[resource]
+script = ExtResource("1_p5b5c")
+scene_directory = "res://Scenes/Obstacles/Non-gravity/Obstacle2 - Wide/static_wide_obstacle.tscn"
+type = 1
+weight = 2
+flip = true
+spawner_is_empty = true

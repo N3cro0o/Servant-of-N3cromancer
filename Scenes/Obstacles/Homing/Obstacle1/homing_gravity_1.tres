@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="SpawnObstacleDataHolder" load_steps=2 format=3 uid="uid://dj1bcy6upyt3g"]
+
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/spawn_obstacle_data_holder.gd" id="1_hqbwc"]
+
+[resource]
+script = ExtResource("1_hqbwc")
+scene_directory = "res://Scenes/Obstacles/Homing/Obstacle1/homing_gravity_1.tscn"
+type = 2
+weight = 3
+flip = false
+can_lock_rotation = true
+spawner_is_empty = false

@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://d0coii8fjegws"]
+
+[ext_resource type="Script" path="res://Scenes/Obstacles/Gravity/Obstacle1/gravity_obstacle_1.gd" id="1_84aml"]
+[ext_resource type="SpriteFrames" uid="uid://bk5er1c13yw8" path="res://Scenes/Obstacles/Gravity/Obstacle1/da_boned.tres" id="2_lpb2u"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_43322"]
+bounce = 0.5
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jv2jj"]
+radius = 55.8408
+height = 223.413
+
+[node name="GravityObstacle1" type="RigidBody2D" groups=["obstacle"]]
+collision_layer = 2
+physics_material_override = SubResource("PhysicsMaterial_43322")
+angular_velocity = 6.28319
+angular_damp_mode = 1
+script = ExtResource("1_84aml")
+weight = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(5, -1)
+rotation = -0.776672
+shape = SubResource("CapsuleShape2D_jv2jj")
+
+[node name="Label" type="Label" parent="."]
+visible = false
+offset_left = -47.0
+offset_top = 131.0
+offset_right = -7.0
+offset_bottom = 154.0
+theme_override_font_sizes/font_size = 30
+text = "asdasd"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(1.5, 1.5)
+sprite_frames = ExtResource("2_lpb2u")
+autoplay = "default"
+frame_progress = 0.550903

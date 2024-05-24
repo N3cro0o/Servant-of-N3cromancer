@@ -10,18 +10,23 @@ config_version=5
 
 [application]
 
-config/name="Test mobile"
-run/main_scene="res://Masters/GameMaster/GM.tscn"
+config/name="Skul of N3cromancer"
+run/main_scene="res://Scenes/GameScenes/GameScene/game_scene.tscn"
 config/quit_on_go_back=false
 config/features=PackedStringArray("4.2", "GL Compatibility")
+run/max_fps=60
 boot_splash/show_image=false
 config/icon="res://Images/icon.svg"
+
+[autoload]
+
+GmM="*res://Masters/GameMaster/GM.tscn"
+ScM="*res://Masters/ScoreMaster/score_manager.tscn"
 
 [display]
 
 window/size/viewport_width=1080
 window/size/viewport_height=2400
-window/size/mode=3
 window/size/resizable=false
 window/size/borderless=true
 window/stretch/mode="canvas_items"
@@ -69,10 +74,11 @@ pointing/emulate_touch_from_mouse=true
 
 [layer_names]
 
-2d_physics/layer_1="Mouse"
+2d_physics/layer_1="MousePlayer"
 2d_physics/layer_2="Obstacle"
 2d_physics/layer_3="Non-collision obstacle"
 2d_physics/layer_4="Obstacle-Obstacle"
+2d_physics/layer_5="PickUp"
 
 [physics]
 

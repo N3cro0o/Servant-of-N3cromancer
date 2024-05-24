@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://cxecydc21mmwa"]
+[gd_scene load_steps=4 format=3 uid="uid://cxecydc21mmwa"]
 
 [ext_resource type="Script" path="res://Scenes/SceneKiller/killer.gd" id="1_43xuj"]
+[ext_resource type="Texture2D" uid="uid://ejh00nh7bku6" path="res://Images/meme/kapix.jpg" id="2_tu700"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b4oms"]
 size = Vector2(50000, 20)
@@ -11,6 +12,10 @@ script = ExtResource("1_43xuj")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_b4oms")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(44.0776, 0.00793651)
+texture = ExtResource("2_tu700")
 
 [connection signal="area_entered" from="." to="." method="something_entered"]
 [connection signal="body_entered" from="." to="." method="something_entered"]

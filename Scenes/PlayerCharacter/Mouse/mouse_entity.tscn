@@ -3,26 +3,29 @@
 [ext_resource type="Script" path="res://Scenes/PlayerCharacter/Mouse/mouse_entity.gd" id="1_k1hii"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pw3sr"]
-radius = 25.0
+radius = 65.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_g6b0e"]
-radius = 20.0
+radius = 35.0
 
 [node name="MouseEntity" type="StaticBody2D" groups=["mouse_thing", "player"]]
 collision_mask = 2
 script = ExtResource("1_k1hii")
-radius = 20.0
-mouse_color = Color(0, 1, 0, 0.0980392)
+radius = 35.0
+mouse_color = Color(0, 1, 0, 0.0392157)
 
 [node name="Area2D" type="Area2D" parent="."]
-collision_mask = 2
+collision_mask = 6
+monitoring = false
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_pw3sr")
-debug_color = Color(0.196078, 0.635294, 0.254902, 0.419608)
+debug_color = Color(0, 0.643137, 0.298039, 0.419608)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_g6b0e")
+disabled = true
 
 [connection signal="body_entered" from="Area2D" to="." method="game_object_give_velocity"]
+[connection signal="body_exited" from="Area2D" to="." method="game_object_give_velocity_on_exit"]
