@@ -9,17 +9,17 @@ extends ObstacleGravityBase
 var move_vector = Vector2(0,-1)
 var can_calc_rotation = true
 var mouse_hit_check = false
+var super_lock_rotation := false
 # Signals
 
 # Methods
 func _init():
 	rotation = PI
 
-func _ready():
-	#add_start_velocity(Vector2(0, -200), 0)
-	pass
-
 func _process(delta):
+	# Override lock rotation to true
+	if super_lock_rotation:
+		lock_rotation = true
 	# Random sprite vibration - seems sus
 	var x = randi_range(-1, 1)
 	var y = randi_range(-1, 1)
@@ -33,7 +33,19 @@ func _process(delta):
 	if !lock_rotation:
 		rotation = rotate_toward(rotation, move_vector.angle() - PI/2, delta * rotation_speed)
 	# Movement
-	position += velocity_vec.rotated(rotation) * delta
+	if can_move:
+		position += velocity_vec.rotated(rotation) * delta
+
+func repulse(strength:int):
+	can_move = false
+	super_lock_rotation = true
+	set_deferred("lock_rotation", true)
+	call_deferred("repulse_help", strength)
+	#super.call_deferred("repulse", strength) ----> perpetuum debile
+
+func repulse_help(strength:int):
+	rotation = move_vector.angle() + PI/2
+	super.repulse(strength)
 
 func on_mouse_hit():
 	super.on_mouse_hit()

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="SpawnPickupDataHolder" load_steps=3 format=3 uid="uid://cjsyk324p42aq"]
+
+[ext_resource type="Script" path="res://Scenes/PowerUpsAndPickUps/PLN/coin_logic.gd" id="1_2j4vm"]
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/spawn_pickup_data_holder.gd" id="2_spw87"]
+
+[resource]
+script = ExtResource("2_spw87")
+name = "Polski złoty"
+image_dir = "res://Images/PickUps/PLN/pln.png"
+type = 0
+falling_speed = 200
+action_logic = ExtResource("1_2j4vm")
+weight = 8

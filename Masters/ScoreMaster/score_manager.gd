@@ -11,3 +11,6 @@ func reset_score():
 	score = 0
 	coins = 0
 	coins_game += coins
+
+func add_coins(num : int):
+	coins += num

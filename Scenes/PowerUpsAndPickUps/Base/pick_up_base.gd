@@ -1,6 +1,12 @@
 class_name PickUpBase extends RigidBody2D
 
 const debug_string = "[hint=%s]%s[/hint]"
+enum pickup_type_enum
+{
+	Coin = 0,
+	Scroll = 1
+}
+
 #region Variables
 ## Used for some specific obstacle variables
 @export var spawn_data : SpawnPickupDataHolder:
@@ -14,9 +20,20 @@ const debug_string = "[hint=%s]%s[/hint]"
 			name = "PickUpBase"
 			var sc = load("res://Scenes/PowerUpsAndPickUps/Base/pick_up_logic.gd")
 			action.set_script(sc)
+@export var type : pickup_type_enum = pickup_type_enum.Coin:
+	set(typ):
+		type = typ
+		match typ:
+			pickup_type_enum.Coin:
+				bg_sprite.visible = false
+			pickup_type_enum.Scroll:
+				bg_sprite.visible = true
+				sprite.scale = Vector2(0.825, 0.825)
+				sprite.position = Vector2(-5, 15)
 @export_range(1, 1000) var weight := 1
 @onready var coll_shape := $CollisionShape2D
-@onready var sprite = $Sprite2D
+@onready var sprite : Sprite2D = $MainSprite
+@onready var bg_sprite = $BGSprite
 @onready var action : PickUpLogicTemplate = $ActionBlock
 var loaded = false
 var fall_speed := 0
@@ -30,8 +47,9 @@ var collision_radius :float:
 func update_parms():
 	if !loaded:
 		return
-	# Strings
+	# Strings & enums
 	name = spawn_data.name
+	type = spawn_data.type
 	# Texture
 	var spr = load(spawn_data.image_dir)
 	sprite.texture = spr

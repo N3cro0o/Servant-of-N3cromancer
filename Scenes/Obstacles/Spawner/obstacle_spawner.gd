@@ -147,7 +147,8 @@ func spawn_pickup(id):
 	var gm = get_node("/root/GmM") as GM
 	if id % gm.pickup_spawn_period == 0:
 		var id_pickup = 0
-		id = id % pickup_weight
+		id = randi_range(0, pickup_weight - 1)
+		print(id)
 		for x in spawned_pickups:
 			if (id - x.weight) < 0:
 				# Found the border value, END!
@@ -159,11 +160,10 @@ func spawn_pickup(id):
 		# Spawn pickup
 		var scene_pickup = PICKUP_BASE.instantiate() as PickUpBase
 		# Set basic props
-		GameScene.instance._add_obstacle(scene_pickup)
+		GameScene.instance._add_pickup(scene_pickup)
 		scene_pickup.position = position
 		# Set pickup props
 		scene_pickup.spawn_data = spawned_pickups[id_pickup]
-
 
 func _spawn_logic():
 	timer.stop() # stop to change the delay, I hope it should work

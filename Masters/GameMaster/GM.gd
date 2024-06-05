@@ -7,6 +7,7 @@ const GAME_SCENE = preload("res://Scenes/GameScenes/GameScene/game_scene.tscn")
 ## Variable used to calculate frequency of pickups, shows mean objects required to spawn a pickup
 @export var pickup_spawn_period = 5
 var curr_scene : Node2D
+@export var arr = [12, 123, "123", null]
 #endregion
 
 #region Method
@@ -15,6 +16,7 @@ func _ready():
 	curr_scene = get_tree().root.get_child(x - 1) as GameScene
 	if curr_scene != null:
 		curr_scene.on_failing_level.connect(reload_scene)
+	arr.remove_at(2)
 
 func reload_scene():
 	# Bruh, ONLY 10 errors... WHAT COULD GO WRONG????

@@ -9,9 +9,9 @@
 [ext_resource type="PackedScene" uid="uid://cxecydc21mmwa" path="res://Scenes/SceneKiller/killer.tscn" id="5_4g2j3"]
 [ext_resource type="PackedScene" uid="uid://ccatmhjjcq6yv" path="res://Scenes/Obstacles/Spawner/obstacle_spawner.tscn" id="5_ob05u"]
 [ext_resource type="Resource" uid="uid://ceur701l7a75w" path="res://Scenes/Obstacles/Non-gravity/Obstacle2 - Wide/static_wide.tres" id="5_w47lh"]
-[ext_resource type="Texture2D" uid="uid://b11h83jdg31y7" path="res://Images/icon.svg" id="6_1guq7"]
 [ext_resource type="Resource" uid="uid://23r2kj0qc0k3" path="res://Scenes/Obstacles/Non-gravity/Obstacle3/shield_static.tres" id="6_xsjg0"]
 [ext_resource type="Texture2D" uid="uid://gvpii7lmsrxu" path="res://Images/hit_frame.png" id="7_ts68p"]
+[ext_resource type="Texture2D" uid="uid://2g2u76harw2m" path="res://Images/circle_shape_black.png" id="10_mv04k"]
 [ext_resource type="Texture2D" uid="uid://b613ar7xw3mka" path="res://Images/BG.png" id="13_oy0il"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_yrvdb"]
@@ -35,11 +35,13 @@ position = Vector2(240, -297)
 spawned_things = Array[Resource("res://Resources/DataHolders/Script/spawn_obstacle_data_holder.gd")]([ExtResource("3_jswrj"), ExtResource("4_s5o4r"), ExtResource("5_w47lh")])
 
 [node name="Spawner3" parent="Spawners" instance=ExtResource("5_ob05u")]
-position = Vector2(841, -297)
+position = Vector2(840, -297)
 left_right = true
 spawned_things = Array[Resource("res://Resources/DataHolders/Script/spawn_obstacle_data_holder.gd")]([ExtResource("3_jswrj"), ExtResource("4_s5o4r"), ExtResource("5_w47lh")])
 
 [node name="Obstacles" type="Node" parent="."]
+
+[node name="Pickups" type="Node" parent="."]
 
 [node name="PlayerLine" parent="." instance=ExtResource("1_0j60h")]
 position = Vector2(540, 1920)
@@ -50,21 +52,21 @@ position = Vector2(540, 1557)
 [node name="Buttons" type="Node" parent="."]
 
 [node name="TouchLeft" type="TouchScreenButton" parent="Buttons"]
-modulate = Color(1, 1, 1, 0)
+modulate = Color(1, 1, 1, 0.509804)
 z_index = 10
 position = Vector2(32, 2121)
 scale = Vector2(3.95313, 1.8)
-texture_normal = ExtResource("6_1guq7")
-texture_pressed = ExtResource("6_1guq7")
+texture_normal = ExtResource("10_mv04k")
+texture_pressed = ExtResource("10_mv04k")
 action = "key_left"
 
 [node name="TouchRight" type="TouchScreenButton" parent="Buttons"]
-modulate = Color(1, 1, 1, 0)
+modulate = Color(1, 1, 1, 0.509804)
 z_index = 10
 position = Vector2(540, 2121)
 scale = Vector2(3.95625, 1.8)
-texture_normal = ExtResource("6_1guq7")
-texture_pressed = ExtResource("6_1guq7")
+texture_normal = ExtResource("10_mv04k")
+texture_pressed = ExtResource("10_mv04k")
 action = "key_right"
 
 [node name="DebugLabel" type="Label" parent="."]

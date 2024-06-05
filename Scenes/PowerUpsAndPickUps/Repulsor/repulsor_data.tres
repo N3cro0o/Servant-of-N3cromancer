@@ -6,7 +6,8 @@
 [resource]
 script = ExtResource("1_7grya")
 name = "Repulsor"
-image_dir = "res://Images/icon.svg"
+image_dir = "res://Images/PickUps/Scrolls/Symbols/repulsor.png"
+type = 1
 falling_speed = 150
 action_logic = ExtResource("1_f8q15")
 weight = 1

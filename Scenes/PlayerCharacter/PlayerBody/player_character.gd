@@ -1,4 +1,4 @@
-extends Area2D
+class_name PlayerBody extends Area2D
 # Variables
 @onready var skul_sprites = $SpriteSkul
 @onready var shield_sprite = $Shield

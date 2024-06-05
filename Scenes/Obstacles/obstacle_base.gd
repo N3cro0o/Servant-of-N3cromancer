@@ -10,12 +10,12 @@ const debug_string = "[hint=%s]%s[/hint]"
 @onready var last_position = position
 @export var damage := 1
 @export var can_lock_rotation = false
+## Variable saved during initialisation in ObstacleSpawner
 var player_body : PlayerLine1
 var timer := 0.0
 var hit := false
 var velocity := Vector2.ZERO
-
-# Signals
+var can_move := true
 
 # Methods
 func add_start_velocity(velocity_vec:Vector2, angle:float):
@@ -25,3 +25,16 @@ func add_start_velocity(velocity_vec:Vector2, angle:float):
 
 func on_mouse_hit():
 	hit = true
+
+func _ready():
+	pass
+
+func repulse(strength:int):
+	var norm_vec : Vector2 = (player_body.return_body_position() - position)
+	norm_vec = norm_vec.normalized()
+	apply_impulse(norm_vec * strength * -10)
+
+func _notification(what):
+	if what == NOTIFICATION_PREDELETE:
+		GameScene.instance.on_obstacle_remove(self)
+		pass

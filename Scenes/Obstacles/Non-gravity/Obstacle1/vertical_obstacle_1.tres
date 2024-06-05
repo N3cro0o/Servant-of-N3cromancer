@@ -6,6 +6,7 @@
 script = ExtResource("1_pdnnl")
 scene_directory = "res://Scenes/Obstacles/Non-gravity/Obstacle1/vertical_obstacle.tscn"
 type = 1
-weight = 4
+weight = 6
 flip = false
+can_lock_rotation = false
 spawner_is_empty = false

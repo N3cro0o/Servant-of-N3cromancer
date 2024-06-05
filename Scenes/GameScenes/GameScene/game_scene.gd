@@ -15,10 +15,10 @@ enum state {
 @onready var small_bubble := $MouseEntity
 @onready var big_boi := $PlayerLine
 @onready var spawners = $Spawners
-@onready var obstacles := $Obstacles
 @onready var debug_label := $DebugLabel
 @onready var hit_frame := $HitFrame
 
+var obstacles_array :Array[ObstacleGravityBase]
 var hit_color_zeroing = true
 var p_state
 ## Current player hp
@@ -33,7 +33,7 @@ var fps : float:
 var fpsp : float:
 	set(f):
 		fpsp = 1 / f
-
+var lock_logic := false
 # Signals
 signal on_take_damage
 signal on_failing_level
@@ -82,8 +82,18 @@ func _spawner1_spawn():
 func return_player_pos():
 	return big_boi.return_body_position()
 
-func _add_obstacle(object):
-	obstacles.add_child(object)
+func _add_obstacle(object:ObstacleGravityBase):
+	$Obstacles.add_child(object)
+	obstacles_array.push_back(object)
+
+func _add_pickup(object):
+	$Pickups.add_child(object)
+
+func on_obstacle_remove(object):
+	if !lock_logic:
+		var ob = obstacles_array.find(object)
+		if ob >= 0:
+			obstacles_array.remove_at(ob)
 
 # Old name, please ignore. Too lazy to change
 func on_player_hit(s, hp1):
@@ -106,4 +116,5 @@ func on_hit_timer_timeout():
 	hit_color_zeroing = true
 
 func on_player_death():
+	lock_logic = true
 	on_failing_level.emit()

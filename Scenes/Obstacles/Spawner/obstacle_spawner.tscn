@@ -1,14 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://ccatmhjjcq6yv"]
+[gd_scene load_steps=7 format=3 uid="uid://ccatmhjjcq6yv"]
 
 [ext_resource type="Script" path="res://Scenes/Obstacles/Spawner/obstacle_spawner.gd" id="1_rkn13"]
 [ext_resource type="Resource" uid="uid://bal5m5yrck2w" path="res://Scenes/Obstacles/Non-gravity/Obstacle1/vertical_obstacle_1.tres" id="2_py5lv"]
 [ext_resource type="Resource" uid="uid://chynsxlq4cx8l" path="res://Scenes/Obstacles/Gravity/Obstacle1/gravity_obstacle_1.tres" id="3_6pyww"]
 [ext_resource type="Resource" uid="uid://c58fbv2edq6cw" path="res://Scenes/PowerUpsAndPickUps/Repulsor/repulsor_data.tres" id="4_fsmu0"]
+[ext_resource type="Resource" uid="uid://drv2mwl03kmv4" path="res://Scenes/PowerUpsAndPickUps/Insta-shield/insta_shield.tres" id="5_n2jul"]
+[ext_resource type="Resource" uid="uid://cjsyk324p42aq" path="res://Scenes/PowerUpsAndPickUps/PLN/coin_data.tres" id="6_bmnya"]
 
 [node name="ObstacleSpawner" type="Node2D"]
 script = ExtResource("1_rkn13")
 spawned_things = Array[Resource("res://Resources/DataHolders/Script/spawn_obstacle_data_holder.gd")]([ExtResource("2_py5lv"), ExtResource("3_6pyww")])
-spawned_pickups = Array[Resource("res://Resources/DataHolders/Script/spawn_pickup_data_holder.gd")]([ExtResource("4_fsmu0"), ExtResource("4_fsmu0"), ExtResource("4_fsmu0"), ExtResource("4_fsmu0")])
+spawned_pickups = Array[Resource("res://Resources/DataHolders/Script/spawn_pickup_data_holder.gd")]([ExtResource("4_fsmu0"), ExtResource("5_n2jul"), ExtResource("6_bmnya")])
 spawn_delay = 3.0
 
 [node name="SpawnTimer" type="Timer" parent="."]
