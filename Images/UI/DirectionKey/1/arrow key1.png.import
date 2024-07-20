@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://xikw7timay6n"
-path="res://.godot/imported/Skul.png-0d9cd0077ea741b2767f91463743c6d8.ctex"
+uid="uid://8glmydbtnfi0"
+path="res://.godot/imported/arrow key1.png-f8427fbe6e533a318c5674abd2c64474.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Images/Skul.png"
-dest_files=["res://.godot/imported/Skul.png-0d9cd0077ea741b2767f91463743c6d8.ctex"]
+source_file="res://Images/UI/DirectionKey/1/arrow key1.png"
+dest_files=["res://.godot/imported/arrow key1.png-f8427fbe6e533a318c5674abd2c64474.ctex"]
 
 [params]
 

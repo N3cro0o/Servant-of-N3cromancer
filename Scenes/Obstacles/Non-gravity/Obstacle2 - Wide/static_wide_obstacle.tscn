@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scenes/Obstacles/Non-gravity/Obstacle2 - Wide/static_wide_obstacle.gd" id="1_lk0ac"]
 [ext_resource type="Resource" uid="uid://ceur701l7a75w" path="res://Scenes/Obstacles/Non-gravity/Obstacle2 - Wide/static_wide.tres" id="2_o2llh"]
-[ext_resource type="Texture2D" uid="uid://c44yn4ylg083n" path="res://Images/Spike_trap.png" id="3_n5513"]
+[ext_resource type="Texture2D" uid="uid://c44yn4ylg083n" path="res://Images/Obstacles/Bolec/1/Spike_trap.png" id="3_n5513"]
 
 [node name="BolecUokriestra" type="RigidBody2D"]
 collision_layer = 4

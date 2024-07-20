@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b613ar7xw3mka"
-path="res://.godot/imported/BG.png-05baead0e9379c41fb1b0ff41f28e3b8.ctex"
+uid="uid://c44yn4ylg083n"
+path="res://.godot/imported/Spike_trap.png-4ec9ac8aa82e23e278eb0b13a932049b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Images/BG.png"
-dest_files=["res://.godot/imported/BG.png-05baead0e9379c41fb1b0ff41f28e3b8.ctex"]
+source_file="res://Images/Obstacles/Bolec/1/Spike_trap.png"
+dest_files=["res://.godot/imported/Spike_trap.png-4ec9ac8aa82e23e278eb0b13a932049b.ctex"]
 
 [params]
 

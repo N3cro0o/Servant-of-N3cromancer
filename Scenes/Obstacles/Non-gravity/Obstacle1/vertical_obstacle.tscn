@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Scenes/Obstacles/Non-gravity/Obstacle1/vertical_obstacle.gd" id="1_afigr"]
 [ext_resource type="Resource" uid="uid://bal5m5yrck2w" path="res://Scenes/Obstacles/Non-gravity/Obstacle1/vertical_obstacle_1.tres" id="2_a45ct"]
 [ext_resource type="Texture2D" uid="uid://2g2u76harw2m" path="res://Images/circle_shape_black.png" id="3_rwlss"]
-[ext_resource type="Texture2D" uid="uid://bc7l7rnsljjrt" path="res://Images/Static wall.png" id="3_yaxk1"]
+[ext_resource type="Texture2D" uid="uid://bc7l7rnsljjrt" path="res://Images/Obstacles/Wall/1/Static wall.png" id="3_yaxk1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hctr1"]
 size = Vector2(182, 124)

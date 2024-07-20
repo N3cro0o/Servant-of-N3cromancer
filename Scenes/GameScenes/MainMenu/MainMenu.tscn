@@ -1,6 +1,47 @@
-[gd_scene load_steps=2 format=3 uid="uid://b25blksts531e"]
+[gd_scene load_steps=19 format=3 uid="uid://b25blksts531e"]
 
 [ext_resource type="Script" path="res://Scenes/GameScenes/MainMenu/MainMenu.gd" id="1_kr5jv"]
+[ext_resource type="Texture2D" uid="uid://cqokty70yi47f" path="res://Images/meme/think.png" id="2_h7oi1"]
+[ext_resource type="Theme" uid="uid://do6gg3r8fydfa" path="res://Resources/Themes/main_menu_theme.tres" id="2_ximrp"]
+[ext_resource type="Texture2D" uid="uid://b8jdovsstkyme" path="res://Images/Nekromanta/BG/Nekromanter.png" id="3_2p31q"]
+[ext_resource type="PackedScene" uid="uid://imepv3wsnq7a" path="res://Scenes/UI/TutorialEntry/tutorial_text_position.tscn" id="3_eryuf"]
+[ext_resource type="Texture2D" uid="uid://05n6w04hvevx" path="res://Images/Player/Skull/Skul_Tutorial1.png" id="4_gkbkp"]
+[ext_resource type="Texture2D" uid="uid://b0h7ilebl8u1x" path="res://Images/Nekromanta/BG/Nekromanter_eye.png" id="4_lx2tu"]
+[ext_resource type="Texture2D" uid="uid://8glmydbtnfi0" path="res://Images/UI/DirectionKey/1/arrow key1.png" id="5_th02m"]
+[ext_resource type="Texture2D" uid="uid://cvu3xrm5qoi8y" path="res://Images/Obstacles/DaBoned/1/Da Bone.png" id="6_boj74"]
+[ext_resource type="Texture2D" uid="uid://bbbtstqjw2upl" path="res://Images/Obstacles/Fireball/1/fireball.png" id="6_j3bp6"]
+[ext_resource type="Texture2D" uid="uid://d2j5jhadmnc2q" path="res://Images/PickUps/PLN/pln.png" id="8_0i08e"]
+[ext_resource type="Theme" uid="uid://crkmdsyao4mj3" path="res://Resources/Themes/tutorial_text.tres" id="8_8xf6y"]
+[ext_resource type="Texture2D" uid="uid://2g2u76harw2m" path="res://Images/circle_shape_black.png" id="10_12gtp"]
+[ext_resource type="Shader" path="res://Resources/Shaders/blur.gdshader" id="11_cfsdn"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ll4ha"]
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(-50, -50, 0)
+emission_shape = 4
+emission_point_count = 1
+velocity_pivot = Vector3(0, 1, 0)
+direction = Vector3(1, 0.5, 0)
+spread = 27.5
+initial_velocity_min = 225.0
+initial_velocity_max = 350.0
+angular_velocity_max = 84.0
+gravity = Vector3(0, 75, 0)
+scale_min = 0.3
+scale_max = 1.5
+color = Color(0.917647, 0, 0.105882, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p0q0r"]
+shader = ExtResource("11_cfsdn")
+shader_parameter/lod = 3.213
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ywtvl"]
+atlas = ExtResource("6_boj74")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_phrv1"]
+atlas = ExtResource("6_j3bp6")
+region = Rect2(0, 0, 128, 128)
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -13,40 +54,171 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_kr5jv")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+clip_children = 1
+amount = 20
+amount_ratio = 0.5
+process_material = SubResource("ParticleProcessMaterial_ll4ha")
+texture = ExtResource("10_12gtp")
+lifetime = 10.0
+randomness = 0.1
+visibility_rect = Rect2(-25, -25, 1136, 2445)
+
+[node name="Mancer" type="Sprite2D" parent="GPUParticles2D"]
+modulate = Color(1, 1, 1, 0.333333)
+show_behind_parent = true
+position = Vector2(1293.79, 2593.86)
+scale = Vector2(7.18216, 7.18216)
+texture = ExtResource("3_2p31q")
+
+[node name="Eye" type="Sprite2D" parent="GPUParticles2D"]
+modulate = Color(0, 0, 1, 0.105882)
+show_behind_parent = true
+z_index = 2
+position = Vector2(1293.79, 2593.86)
+scale = Vector2(7.18216, 7.18216)
+texture = ExtResource("4_lx2tu")
+
+[node name="Shader" type="Sprite2D" parent="GPUParticles2D"]
+modulate = Color(1, 1, 1, 0.0509804)
+z_index = 1
+material = SubResource("ShaderMaterial_p0q0r")
+position = Vector2(834.501, 1139.5)
+scale = Vector2(4.34571, 5.70508)
+texture = ExtResource("2_h7oi1")
+
+[node name="MenuPanel" type="MarginContainer" parent="."]
+z_index = 2
 layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
+anchors_preset = 15
 anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -50.0
-offset_bottom = 50.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 50
 theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 50
+theme_override_constants/margin_bottom = 250
 
-[node name="MenuPositions" type="VBoxContainer" parent="MarginContainer"]
+[node name="Title" type="RichTextLabel" parent="MenuPanel"]
+visible = false
 layout_mode = 2
-size_flags_vertical = 4
-theme_override_constants/separation = 10
-
-[node name="Title" type="RichTextLabel" parent="MarginContainer/MenuPositions"]
-layout_mode = 2
-theme_override_font_sizes/normal_font_size = 128
+size_flags_vertical = 0
+mouse_filter = 1
+theme = ExtResource("2_ximrp")
 bbcode_enabled = true
-text = "[center]asdasdawd[/center]"
+text = "[left]asdasdawd[/left]"
 fit_content = true
 scroll_active = false
 
-[node name="PlayButton" type="Button" parent="MarginContainer/MenuPositions"]
+[node name="MenuPositions" type="VBoxContainer" parent="MenuPanel"]
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_constants/separation = 55
+
+[node name="PlayButtonEndless" type="Button" parent="MenuPanel/MenuPositions"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme = ExtResource("2_ximrp")
 theme_override_constants/outline_size = 0
 theme_override_font_sizes/font_size = 80
 action_mode = 0
-text = "Play!"
+text = "Escape from 'Mancer"
+alignment = 0
 
-[connection signal="pressed" from="MarginContainer/MenuPositions/PlayButton" to="." method="on_play_button_press"]
+[node name="PlayButtonTutorial" type="Button" parent="MenuPanel/MenuPositions"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme = ExtResource("2_ximrp")
+theme_override_constants/outline_size = 0
+theme_override_font_sizes/font_size = 80
+action_mode = 0
+text = "Rethink the plan"
+alignment = 0
+
+[node name="ShopButton" type="Button" parent="MenuPanel/MenuPositions"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme = ExtResource("2_ximrp")
+theme_override_constants/outline_size = 0
+theme_override_font_sizes/font_size = 80
+action_mode = 0
+text = "Seek help"
+alignment = 0
+
+[node name="QuitButton" type="Button" parent="MenuPanel/MenuPositions"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme = ExtResource("2_ximrp")
+theme_override_constants/outline_size = 0
+theme_override_font_sizes/font_size = 80
+action_mode = 0
+text = "Leave your scheme"
+alignment = 0
+
+[node name="TutorialPanel" type="MarginContainer" parent="MenuPanel"]
+visible = false
+layout_mode = 2
+mouse_filter = 0
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 80
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 80
+
+[node name="Panel" type="ColorRect" parent="MenuPanel/TutorialPanel"]
+layout_mode = 2
+color = Color(0.831373, 0.823529, 0.729412, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="MenuPanel/TutorialPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MenuPanel/TutorialPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 90
+
+[node name="TutorialTextEntry" parent="MenuPanel/TutorialPanel/MarginContainer/VBoxContainer" instance=ExtResource("3_eryuf")]
+layout_mode = 2
+text = "As a lower minion you don't have many options to defend yourself but running away and using your magic."
+image = ExtResource("4_gkbkp")
+
+[node name="TutorialTextEntry2" parent="MenuPanel/TutorialPanel/MarginContainer/VBoxContainer" instance=ExtResource("3_eryuf")]
+layout_mode = 2
+inverted_layout = true
+text = "[right]Use buttons at the bottom of the screen to move left or right [/right]"
+image = ExtResource("5_th02m")
+
+[node name="TutorialTextEntry3" parent="MenuPanel/TutorialPanel/MarginContainer/VBoxContainer" instance=ExtResource("3_eryuf")]
+layout_mode = 2
+text = "Touch the screen to use moving magic. 
+
+Use it to deflect incoming obstacles!"
+image = SubResource("AtlasTexture_ywtvl")
+
+[node name="TutorialTextEntry4" parent="MenuPanel/TutorialPanel/MarginContainer/VBoxContainer" instance=ExtResource("3_eryuf")]
+layout_mode = 2
+text = "Watch out for homing projectiles! You have to use the properties of your magic to change their trajectory."
+image = SubResource("AtlasTexture_phrv1")
+
+[node name="TutorialTextEntry5" parent="MenuPanel/TutorialPanel/MarginContainer/VBoxContainer" instance=ExtResource("3_eryuf")]
+layout_mode = 2
+inverted_layout = true
+text = "[right]And one last thing. Try to pick up every scroll and coin you will see. You won't regret it![/right]"
+image = ExtResource("8_0i08e")
+
+[node name="Button" type="Button" parent="MenuPanel/TutorialPanel/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme = ExtResource("8_8xf6y")
+theme_override_font_sizes/font_size = 80
+text = "Return to menu"
+
+[connection signal="pressed" from="MenuPanel/MenuPositions/PlayButtonEndless" to="." method="on_play_button_press"]
+[connection signal="pressed" from="MenuPanel/MenuPositions/PlayButtonTutorial" to="." method="on_tutorial_text_button_press"]
+[connection signal="pressed" from="MenuPanel/MenuPositions/ShopButton" to="." method="on_shop_button_press"]
+[connection signal="pressed" from="MenuPanel/MenuPositions/QuitButton" to="." method="on_quit_button_press"]
+[connection signal="pressed" from="MenuPanel/TutorialPanel/MarginContainer/Button" to="." method="on_tutorial_text_button_press"]

@@ -12,13 +12,15 @@ enum state {
 
 # Variables
 @export var bg_sprites : Array[Sprite2D]
+@export_category("Buttons")
+@export_range(1.0, 2.0) var button_height_scale = 1.0
 @onready var small_bubble := $MouseEntity
 @onready var big_boi := $PlayerLine
 @onready var spawners = $Spawners
 @onready var debug_label := $DebugLabel
 @onready var hit_frame := $HitFrame
 
-var obstacles_array :Array[ObstacleGravityBase]
+# Player vars
 var hit_color_zeroing = true
 var p_state
 ## Current player hp
@@ -27,6 +29,8 @@ var hp
 var hp_last = 0
 ## Start player hp
 var hp_start
+# Game vars
+var obstacles_array :Array[ObstacleGravityBase]
 var fps : float:
 	set(f):
 		fps = 1 / f
@@ -34,6 +38,10 @@ var fpsp : float:
 	set(f):
 		fpsp = 1 / f
 var lock_logic := false
+# Button vars
+var margin_side = 75
+var margin_between = 20
+var margin_bottom = 100
 # Signals
 signal on_take_damage
 signal on_failing_level
@@ -43,9 +51,31 @@ func _init():
 	instance = self
 
 func _ready():
+	GmM.curr_scene = self
 	hit_frame.self_modulate = Color(1,1,1,0)
 	hp = big_boi.health_points
 	hp_start = hp
+	#region Buttons
+	var bttn_left :TouchScreenButton = $Camera2D/ButtonL
+	var bttn_right :TouchScreenButton = $Camera2D/ButtonR
+	var screen_size = Vector2(1080, 2400)
+	print(screen_size)
+	# From left border to right --> margin_side px, margin_between px, margin_side px
+	var screen_width = screen_size.x - (2 * margin_side + margin_between)
+	var bttn_height = 128 * button_height_scale
+	# Scale
+	var bttn_size_scalar : float = (screen_width / 2)
+	bttn_size_scalar /= 256
+	bttn_left.scale = Vector2(bttn_size_scalar, button_height_scale)
+	bttn_right.scale = Vector2(bttn_size_scalar, button_height_scale)
+	# Position
+	screen_width = screen_size.x / 2 - margin_side
+	print(screen_size)
+	screen_size.y -= $Camera2D.position.y
+	var bttn_position = Vector2(screen_width,screen_size.y - margin_bottom - bttn_height)
+	bttn_left.position = Vector2(-bttn_position.x, bttn_position.y)
+	bttn_right.position = Vector2(bttn_position.x, bttn_position.y + bttn_height)
+	#endregion
 
 func _physics_process(delta):
 	fpsp = delta
@@ -62,15 +92,12 @@ func _process(delta):
 		x.position.y += delta * 250
 		if x.position.y >= 3600:
 			x.position.y -= 2400 * 3 -1
-	# Quit game
-	if Input.is_action_just_pressed("ui_cancel"):
-		get_tree().quit()
 	# Debug text
 	var d_text1 = "Solid obstacle checks:\nSpawner 1: %s\nSpawner 2: %s\nSpawner 3: %s\n\n"
 	debug_label.text = d_text1 % [spawners.get_child(0).can_spawn_static,
 	 spawners.get_child(1).can_spawn_static, spawners.get_child(2).can_spawn_static]
-	debug_label.text += "Player state: %s, %d\nMouse speed: %d\nMax mouse speed: %d" % [state.find_key\
-	(big_boi.p_state), hp, $MouseEntity.velocity, $MouseEntity.max_velocity]
+	debug_label.text += "Player state: %s, %d\nMouse speed: %d\nMouse pos: %s" % [state.find_key\
+	(big_boi.p_state), hp, $MouseEntity.velocity, $MouseEntity.position]
 	#debug_label.text += "\nFPS1: %f, FPS2: %f" % [fps, fpsp]
 	# And lastly, hp diference
 	hp_last = hp
@@ -118,3 +145,14 @@ func on_hit_timer_timeout():
 func on_player_death():
 	lock_logic = true
 	on_failing_level.emit()
+	GmM.after_game_over_logic()
+	get_tree().call_deferred("reload_current_scene")
+
+func _input(event):
+	if event.is_action("ui_cancel"):
+		GmM.change_scene(0)
+
+func _notification(what):
+	# Quit game
+	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
+		GmM.change_scene(0)

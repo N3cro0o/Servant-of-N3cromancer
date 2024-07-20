@@ -10,8 +10,8 @@ config_version=5
 
 [application]
 
-config/name="Skul of N3cromancer"
-run/main_scene="res://Scenes/GameScenes/GameScene/game_scene.tscn"
+config/name="Skul of Nekromanter"
+run/main_scene="res://Scenes/GameScenes/MainMenu/MainMenu.tscn"
 config/quit_on_go_back=false
 config/features=PackedStringArray("4.2", "GL Compatibility")
 run/max_fps=60
@@ -27,10 +27,8 @@ ScM="*res://Masters/ScoreMaster/score_manager.tscn"
 
 window/size/viewport_width=1080
 window/size/viewport_height=2400
-window/size/resizable=false
-window/size/borderless=true
-window/stretch/mode="canvas_items"
-window/stretch/aspect="expand"
+window/stretch/mode="viewport"
+window/stretch/aspect="keep_height"
 window/handheld/orientation=1
 
 [dotnet]
@@ -89,3 +87,4 @@ pointing/emulate_touch_from_mouse=true
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
 textures/vram_compression/import_etc2_astc=true
+environment/defaults/default_clear_color=Color(0.176471, 0.192157, 0.231373, 1)

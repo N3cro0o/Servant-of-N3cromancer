@@ -9,11 +9,13 @@ var skul_dir = 0
 signal on_hit(damage)
 
 # Methods
-func _on_body_entered(body):
+func _on_hitbox_activation(body):
 	if body is ObstacleGravityBase:
 		var d = body.damage
 		on_hit.emit(d)
-	elif body is PickUpBase:
+
+func on_pickbox_activation(body):
+	if body is PickUpBase:
 		body.on_hit_activate()
 
 func reset_shield_color():

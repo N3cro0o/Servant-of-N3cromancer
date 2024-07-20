@@ -10,6 +10,11 @@ var coins_game : int
 func reset_score():
 	score = 0
 	coins = 0
+	coins_game = 0
+
+func finalize_level_score():
+	score = 0
+	coins = 0
 	coins_game += coins
 
 func add_coins(num : int):

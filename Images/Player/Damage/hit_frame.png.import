@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cwtwowjevavcg"
-path="res://.godot/imported/Skul_shield.png-756a87494675cac59bfe7a585c2d833d.ctex"
+uid="uid://gvpii7lmsrxu"
+path="res://.godot/imported/hit_frame.png-ee5f190a1ca76f0474114ee1aeb7acd7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Images/Skul_shield.png"
-dest_files=["res://.godot/imported/Skul_shield.png-756a87494675cac59bfe7a585c2d833d.ctex"]
+source_file="res://Images/Player/Damage/hit_frame.png"
+dest_files=["res://.godot/imported/hit_frame.png-ee5f190a1ca76f0474114ee1aeb7acd7.ctex"]
 
 [params]
 

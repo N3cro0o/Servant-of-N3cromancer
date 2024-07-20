@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c44yn4ylg083n"
-path="res://.godot/imported/Spike_trap.png-32261a11fe33524bf4837adbd4040903.ctex"
+uid="uid://b0h7ilebl8u1x"
+path="res://.godot/imported/Nekromanter_eye.png-6eb9a832f076a2c17c09194193b40871.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Images/Spike_trap.png"
-dest_files=["res://.godot/imported/Spike_trap.png-32261a11fe33524bf4837adbd4040903.ctex"]
+source_file="res://Images/Nekromanta/BG/Nekromanter_eye.png"
+dest_files=["res://.godot/imported/Nekromanter_eye.png-6eb9a832f076a2c17c09194193b40871.ctex"]
 
 [params]
 

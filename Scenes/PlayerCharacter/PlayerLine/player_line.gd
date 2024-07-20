@@ -67,6 +67,12 @@ signal on_player_status_change(s:state, hp:int)
 signal on_player_death
 
 # Methods
+static func simulate_key_press(s:String): # Input just pressed simulation doesn't work for code
+	if s == "key_left":
+		instance.pos_changer(last_pos.LEFT)
+	elif s == "key_right":
+		instance.pos_changer(last_pos.RIGHT)
+
 func _init():
 	instance = self
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bc7l7rnsljjrt"
-path="res://.godot/imported/Static wall.png-34a9debba6f87ba3f317f023377a8b79.ctex"
+uid="uid://bar3luho1bnld"
+path="res://.godot/imported/iconSkulForeground.png-0b149da90c2663a418b950c245176b19.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Images/Static wall.png"
-dest_files=["res://.godot/imported/Static wall.png-34a9debba6f87ba3f317f023377a8b79.ctex"]
+source_file="res://Images/Icons/Adaptive/iconSkulForeground.png"
+dest_files=["res://.godot/imported/iconSkulForeground.png-0b149da90c2663a418b950c245176b19.ctex"]
 
 [params]
 

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bp4ujdaptvvk4"
-path="res://.godot/imported/gravity shift tileset.png-bebf316c90314e1ca4c9bcd8da7e46c8.ctex"
+path="res://.godot/imported/gravity shift tileset.png-94479e2f2c03631fcbef89915e35979e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Images/gravity shift tileset.png"
-dest_files=["res://.godot/imported/gravity shift tileset.png-bebf316c90314e1ca4c9bcd8da7e46c8.ctex"]
+source_file="res://Images/Obstacles/GravityShift/1/gravity shift tileset.png"
+dest_files=["res://.godot/imported/gravity shift tileset.png-94479e2f2c03631fcbef89915e35979e.ctex"]
 
 [params]
 
