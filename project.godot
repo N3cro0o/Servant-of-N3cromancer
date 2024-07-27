@@ -22,6 +22,7 @@ config/icon="res://Images/icon.svg"
 
 GmM="*res://Masters/GameMaster/GM.tscn"
 ScM="*res://Masters/ScoreMaster/score_manager.tscn"
+SvM="*res://Masters/SaveMaster/save_manager.gd"
 
 [display]
 

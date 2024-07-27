@@ -57,7 +57,7 @@ script = ExtResource("1_kr5jv")
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 clip_children = 1
 amount = 20
-amount_ratio = 0.5
+amount_ratio = 0.75
 process_material = SubResource("ParticleProcessMaterial_ll4ha")
 texture = ExtResource("10_12gtp")
 lifetime = 10.0
@@ -101,7 +101,6 @@ theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 250
 
 [node name="Title" type="RichTextLabel" parent="MenuPanel"]
-visible = false
 layout_mode = 2
 size_flags_vertical = 0
 mouse_filter = 1
@@ -143,7 +142,15 @@ theme = ExtResource("2_ximrp")
 theme_override_constants/outline_size = 0
 theme_override_font_sizes/font_size = 80
 action_mode = 0
-text = "Seek help"
+text = "Buy new gear"
+alignment = 0
+
+[node name="OptionsButton" type="Button" parent="MenuPanel/MenuPositions"]
+layout_mode = 2
+theme = ExtResource("2_ximrp")
+theme_override_constants/outline_size = 0
+theme_override_font_sizes/font_size = 80
+text = "Options"
 alignment = 0
 
 [node name="QuitButton" type="Button" parent="MenuPanel/MenuPositions"]
@@ -153,7 +160,7 @@ theme = ExtResource("2_ximrp")
 theme_override_constants/outline_size = 0
 theme_override_font_sizes/font_size = 80
 action_mode = 0
-text = "Leave your scheme"
+text = "Return to your duties"
 alignment = 0
 
 [node name="TutorialPanel" type="MarginContainer" parent="MenuPanel"]
@@ -220,5 +227,7 @@ text = "Return to menu"
 [connection signal="pressed" from="MenuPanel/MenuPositions/PlayButtonEndless" to="." method="on_play_button_press"]
 [connection signal="pressed" from="MenuPanel/MenuPositions/PlayButtonTutorial" to="." method="on_tutorial_text_button_press"]
 [connection signal="pressed" from="MenuPanel/MenuPositions/ShopButton" to="." method="on_shop_button_press"]
+[connection signal="pressed" from="MenuPanel/MenuPositions/OptionsButton" to="." method="on_options_button_press"]
 [connection signal="pressed" from="MenuPanel/MenuPositions/QuitButton" to="." method="on_quit_button_press"]
 [connection signal="pressed" from="MenuPanel/TutorialPanel/MarginContainer/Button" to="." method="on_tutorial_text_button_press"]
+[connection signal="pressed" from="MenuPanel/TutorialPanel/MarginContainer/Button" to="." method="unlock_endless"]

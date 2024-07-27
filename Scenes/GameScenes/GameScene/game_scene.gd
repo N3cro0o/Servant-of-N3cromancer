@@ -12,10 +12,11 @@ enum state {
 
 # Variables
 @export var bg_sprites : Array[Sprite2D]
+@export var enemy_stages : Array[EndlessEnemyStageData]
 @export_category("Buttons")
 @export_range(1.0, 2.0) var button_height_scale = 1.0
 @onready var small_bubble := $MouseEntity
-@onready var big_boi := $PlayerLine
+@onready var big_boi :PlayerLine1 = $PlayerLine
 @onready var spawners = $Spawners
 @onready var debug_label := $DebugLabel
 @onready var hit_frame := $HitFrame
@@ -38,10 +39,36 @@ var fpsp : float:
 	set(f):
 		fpsp = 1 / f
 var lock_logic := false
+var bg_lock := false
 # Button vars
 var margin_side = 75
 var margin_between = 20
 var margin_bottom = 100
+# Difficulty vars
+var diff_trunc_val = 1
+var difficulty := 0.0:
+	set(d):
+		if !lock_diff:
+			difficulty = d
+			# Max diff
+			if difficulty >= enemy_stages[stage].difficulty_threshold:
+				lock_diff = true
+				difficulty = enemy_stages[stage].difficulty_threshold
+				for spawn in spawners.get_children() as Array[SpawnerBasic]:
+					spawn.active = false
+			# Speed increase
+			if difficulty >= diff_trunc_val:
+				diff_trunc_val += 1
+				speed += accelerate
+				speed_multi = speed / 5
+## speed in [m/s] because metric is far superior, no thing or no one will change this
+var speed := 5.0
+var max_speed := 7.5
+var accelerate = 0.1
+static var speed_multi := 1.0
+var lock_diff = false
+var stage = 0
+
 # Signals
 signal on_take_damage
 signal on_failing_level
@@ -59,7 +86,6 @@ func _ready():
 	var bttn_left :TouchScreenButton = $Camera2D/ButtonL
 	var bttn_right :TouchScreenButton = $Camera2D/ButtonR
 	var screen_size = Vector2(1080, 2400)
-	print(screen_size)
 	# From left border to right --> margin_side px, margin_between px, margin_side px
 	var screen_width = screen_size.x - (2 * margin_side + margin_between)
 	var bttn_height = 128 * button_height_scale
@@ -76,9 +102,13 @@ func _ready():
 	bttn_left.position = Vector2(-bttn_position.x, bttn_position.y)
 	bttn_right.position = Vector2(bttn_position.x, bttn_position.y + bttn_height)
 	#endregion
+	speed = big_boi.speed
+	accelerate = big_boi.return_accelerate()
+	max_speed = big_boi.return_max_speed()
 
 func _physics_process(delta):
 	fpsp = delta
+	ScM.distance += speed * delta
 
 func _process(delta):
 	fps = delta
@@ -88,17 +118,18 @@ func _process(delta):
 		c = c.lerp(Color(1,1,1,(hp_start - hp) * .05), delta * 5)
 		hit_frame.self_modulate = c
 	# BG movement
-	for x in bg_sprites:
-		x.position.y += delta * 250
-		if x.position.y >= 3600:
-			x.position.y -= 2400 * 3 -1
+	if !bg_lock:
+		for x in bg_sprites:
+			x.position.y += delta * 250 * speed_multi
+			if x.position.y >= 3600:
+				x.position.y -= 2400 * 3 - 1
 	# Debug text
 	var d_text1 = "Solid obstacle checks:\nSpawner 1: %s\nSpawner 2: %s\nSpawner 3: %s\n\n"
 	debug_label.text = d_text1 % [spawners.get_child(0).can_spawn_static,
 	 spawners.get_child(1).can_spawn_static, spawners.get_child(2).can_spawn_static]
-	debug_label.text += "Player state: %s, %d\nMouse speed: %d\nMouse pos: %s" % [state.find_key\
-	(big_boi.p_state), hp, $MouseEntity.velocity, $MouseEntity.position]
-	#debug_label.text += "\nFPS1: %f, FPS2: %f" % [fps, fpsp]
+	debug_label.text += "Player state: %s, %d\nDistance: %f, %d\nSpeed: %f m/s\nMouse pos: %s" % [state.find_key\
+	(big_boi.p_state), hp, ScM.distance, snappedf(ScM.distance, 1), speed, $MouseEntity.position]
+	debug_label.text += "\nDifficulty: %f" % difficulty
 	# And lastly, hp diference
 	hp_last = hp
 
@@ -143,11 +174,29 @@ func on_hit_timer_timeout():
 	hit_color_zeroing = true
 
 func on_player_death():
+	print_rich("[hint=GameScene]Game Over![/hint]")
+	p_state = state.DED
 	lock_logic = true
+	bg_lock = true
 	on_failing_level.emit()
+	GmM.after_game_over_logic(0)
+	# Stop-time
+	for obs in obstacles_array:
+		obs.stop_move()
+	for spawn in spawners.get_children() as Array[SpawnerBasic]:
+		spawn.active = false
+	for pickup in $Pickups.get_children() as Array[PickUpBase]:
+		pickup.queue_free()
+		$Pickups.remove_child(pickup)
+
+func reset_level_request():
 	GmM.after_game_over_logic()
 	get_tree().call_deferred("reload_current_scene")
 
+func quit_level_request():
+	GmM.change_scene(0)
+
+#region Pierdoly
 func _input(event):
 	if event.is_action("ui_cancel"):
 		GmM.change_scene(0)
@@ -156,3 +205,4 @@ func _notification(what):
 	# Quit game
 	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
 		GmM.change_scene(0)
+#endregion

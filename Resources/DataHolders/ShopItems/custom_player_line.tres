@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemShopData" load_steps=3 format=3 uid="uid://dabns3awh2xyp"]
+
+[ext_resource type="Texture2D" uid="uid://dlyrcvvwpht1b" path="res://Images/meme/STOP.png" id="1_j6qgg"]
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/item_shop_data.gd" id="1_y6a8y"]
+
+[resource]
+script = ExtResource("1_y6a8y")
+name = "Custom Line"
+cost = 250
+image = ExtResource("1_j6qgg")
+desc = "This line looks boring, make it look so
+[i]F A N C Y[/i]"
+resource_script = "king_nothing"

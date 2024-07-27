@@ -1,19 +1,22 @@
-extends Node2D
+class_name SpawnerBasic extends Node2D
 
 const PICKUP_PATH = "res://Scenes/PowerUpsAndPickUps/Base/pick_up_base.tscn"
 const PICKUP_BASE = preload(PICKUP_PATH)
 
 #region Variables
 @export var active := true
+@export_enum("Left", "Center", "Right") var spawn_position = "Center"
 ## Left or right sided spawner [br]
 ## False - left, True - right
 @export var left_right = false
-@export var spawned_things : Array[SpawnObstacleDataHolder]
-@export var spawned_pickups : Array[SpawnPickupDataHolder]
 @export_range(0, 5) var spawn_delay
+## Minimum weight needed for no-repeating
+@export var weight_threshold = 3
 @onready var timer = $SpawnTimer
 @onready var static_timer = $StaticTimer
 
+var spawned_things : Array[SpawnObstacleDataHolder]
+var spawned_pickups : Array[SpawnPickupDataHolder]
 var packed_scenes_array : Array[PackedScene]
 var gravity_scenes_array : Array[PackedScene]
 var static_scenes_array : Array[PackedScene]
@@ -31,6 +34,8 @@ var spawn_static_index := 0:
 		else:
 			static_timer.start(.5)
 var can_spawn_static = true
+var repeat_index = -1
+var diff := 0.0
 #endregion
 
 #region Signals
@@ -39,7 +44,24 @@ signal on_spawned_static_entity(w)
 #endregion
 
 #region Methods
+func _init():
+	# Set-up spawner
+	if spawn_position == "Right":
+		left_right = true
+	else:
+		left_right = false
+
 func _ready():
+	# Get spawn data
+	match spawn_position:
+		"Left":
+			spawned_things = GameScene.instance.enemy_stages[0].left
+		"Center":
+			spawned_things = GameScene.instance.enemy_stages[0].center
+		"Right":
+			spawned_things = GameScene.instance.enemy_stages[0].right
+	spawned_pickups = GameScene.instance.enemy_stages[0].pickups
+	# Check if no obstacles
 	if spawned_things.is_empty():
 		queue_free()
 	else:
@@ -67,10 +89,11 @@ func _process(_delta):
 		var rotation_vec = position - GameScene.instance.return_player_pos()
 		var angle = atan2(rotation_vec.y, rotation_vec.x)
 		rotation = angle - deg_to_rad(90)
+		diff = GameScene.instance.difficulty
 
 func randomize_spawn_delay():
 	randomize()
-	var rand_f = randf_range(1.5, 1.8 + spawn_delay) + spawn_static_index / 2.0
+	var rand_f = randf_range(1.5, 2 + spawn_delay - (diff / 20)) + spawn_static_index / 2.0
 	if active:
 		timer.start(rand_f)
 
@@ -95,6 +118,21 @@ func spawn_thing(id):
 			else:
 				id -= x.weight
 				id_scene += 1
+		# Repeat check
+		if id_scene == repeat_index:
+			var rand_index = randi_range(0, spawned_things.size())
+			var loop_i = 0
+			while rand_index != repeat_index:
+				rand_index = randi_range(0, spawned_things.size())
+				loop_i += 1
+				if loop_i > 3:
+					rand_index = 0
+					break
+			if spawned_things[rand_index].weight >= weight_threshold:
+				# If genererated object weight is larger or equal to WT, pick new repeat_index
+				repeat_index = rand_index
+			# Replace id_scene with generated index
+			id_scene = rand_index
 		# Static check - add static check and spawn other stuff
 		if spawned_things[id_scene].type == 1 and spawn_static_index >= 2:
 			id_scene = change_id(id_scene, 1)
@@ -106,7 +144,7 @@ func spawn_thing(id):
 		if !other_check:
 			spawn_object = packed_scenes_array[id_scene].instantiate()
 		else:
-			var i = randi_range(0, 0)
+			var i = randi_range(0, other_array_len-1)
 			spawn_object = other_scenes_array[i].instantiate()
 		if(GameScene.instance != null):
 			GameScene.instance._add_obstacle(spawn_object)
@@ -120,14 +158,15 @@ func spawn_thing(id):
 			spawn_static_index += 2
 			on_spawned_static_entity.emit(spawn_object.weight)
 		# Tags
-		# Flip
+			# Flip
 		if spawned_things[id_scene].flip:
 			if left_right:
 				spawn_object.scale.x = -1
-		# Rotation
+			# Rotation
 		spawn_object.can_lock_rotation = spawned_things[id_scene].can_lock_rotation
-		# Other stuff like spawning pickups
+		# Other logic
 		spawn_pickup(id_last)
+		GameScene.instance.difficulty += float(spawned_things[id_scene].weight) / 80
 
 func change_id(id, type):
 	var rand_var = randf()

@@ -13,7 +13,8 @@ const debug_string = "[hint=%s]%s[/hint]"
 ## Variable saved during initialisation in ObstacleSpawner
 var player_body : PlayerLine1
 var timer := 0.0
-var hit := false
+var mouse_hit := false
+var body_hit := false
 var velocity := Vector2.ZERO
 var can_move := true
 
@@ -24,7 +25,7 @@ func add_start_velocity(velocity_vec:Vector2, angle:float):
 	linear_velocity += vec
 
 func on_mouse_hit():
-	hit = true
+	mouse_hit = true
 
 func _ready():
 	pass
@@ -33,6 +34,13 @@ func repulse(strength:int):
 	var norm_vec : Vector2 = (player_body.return_body_position() - position)
 	norm_vec = norm_vec.normalized()
 	apply_impulse(norm_vec * strength * -10)
+
+func stop_move():
+	set_deferred("lock_rotation", true)
+	gravity_scale = 0
+	linear_velocity = Vector2.ZERO
+	set_deferred("freeze", true)
+	set_deferred("can_move", false)
 
 func _notification(what):
 	if what == NOTIFICATION_PREDELETE:

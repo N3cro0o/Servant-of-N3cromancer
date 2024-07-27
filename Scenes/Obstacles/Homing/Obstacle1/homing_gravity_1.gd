@@ -17,6 +17,9 @@ func _init():
 	rotation = PI
 
 func _process(delta):
+	# Boom boom check
+	if body_hit:
+		queue_free()
 	# Override lock rotation to true
 	if super_lock_rotation:
 		lock_rotation = true

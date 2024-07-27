@@ -1,7 +1,5 @@
 class_name SpawnObstacleDataHolder extends Resource
 
-# Const data
-
 # Variables
 @export_category("Base")
 ## Engine absolute path to desired scene to initialize

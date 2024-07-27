@@ -14,6 +14,9 @@ class_name GM extends Node
 var black_colour = Color.BLACK
 var curr_scene : Node
 var transition_iterat = 0
+
+# Save Data
+var endless_unlock = false
 #endregion
 
 #region Method
@@ -40,6 +43,7 @@ func after_game_over_logic(num := 0):
 			ScM.finalize_level_score()
 		-1:
 			ScM.reset_score()
+	SvM.save_data()
 
 func change_scene(scene_to_go : int):
 	await transition_screen_in()

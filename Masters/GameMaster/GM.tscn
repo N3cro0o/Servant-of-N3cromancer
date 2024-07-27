@@ -1,23 +1,19 @@
-[gd_scene load_steps=8 format=3 uid="uid://cor3guxh347t7"]
+[gd_scene load_steps=9 format=3 uid="uid://cor3guxh347t7"]
 
 [ext_resource type="Script" path="res://Masters/GameMaster/GM.gd" id="1_cy212"]
-[ext_resource type="Script" path="res://Resources/DataHolders/Script/item_shop_data.gd" id="2_eo6il"]
-[ext_resource type="Texture2D" uid="uid://dlyrcvvwpht1b" path="res://Images/meme/STOP.png" id="2_fdpnd"]
+[ext_resource type="Resource" uid="uid://b5q8fsvxcwuvk" path="res://Resources/DataHolders/ShopItems/unlock_endless.tres" id="2_mnsxk"]
 [ext_resource type="PackedScene" uid="uid://b25blksts531e" path="res://Scenes/GameScenes/MainMenu/MainMenu.tscn" id="2_v7m5h"]
 [ext_resource type="PackedScene" uid="uid://vypfdtx3st2g" path="res://Scenes/GameScenes/GameScene/game_scene.tscn" id="3_csgce"]
+[ext_resource type="Resource" uid="uid://by14f0wrvthua" path="res://Resources/DataHolders/ShopItems/light_skul.tres" id="3_kcmeh"]
+[ext_resource type="Resource" uid="uid://c7nsnwdwl0b0d" path="res://Resources/DataHolders/ShopItems/inventory_v1.tres" id="4_x4cw1"]
+[ext_resource type="Resource" uid="uid://dabns3awh2xyp" path="res://Resources/DataHolders/ShopItems/custom_player_line.tres" id="5_hiv8n"]
 [ext_resource type="PackedScene" uid="uid://dua8n2u5i2pav" path="res://Scenes/GameScenes/ShopMenu/shop_menu.tscn" id="5_ol480"]
-
-[sub_resource type="Resource" id="Resource_u61yf"]
-script = ExtResource("2_eo6il")
-name = "Bottom Text"
-cost = 0
-image = ExtResource("2_fdpnd")
-desc = "Bottom Text"
 
 [node name="GM" type="Node"]
 script = ExtResource("1_cy212")
 transition_speed = 0.25
-items = Array[ExtResource("2_eo6il")]([SubResource("Resource_u61yf")])
+items = Array[Resource("res://Resources/DataHolders/Script/item_shop_data.gd")]([ExtResource("2_mnsxk"), ExtResource("3_kcmeh"), ExtResource("4_x4cw1"), ExtResource("5_hiv8n")])
+pickup_spawn_period = 15
 scene_array = Array[PackedScene]([ExtResource("2_v7m5h"), ExtResource("3_csgce"), ExtResource("5_ol480")])
 
 [node name="Control" type="Control" parent="."]
@@ -38,3 +34,5 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 color = Color(0.0980392, 0.0980392, 0.129412, 1)
+
+[node name="LogicNode" type="Node" parent="."]

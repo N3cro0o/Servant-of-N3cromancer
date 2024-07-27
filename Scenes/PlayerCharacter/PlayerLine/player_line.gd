@@ -29,6 +29,8 @@ enum state {
 			left_line_pos = last_pos.MIDDLE
 		_change_last_point_pos(self, last_point_pos)
 @export var health_points := 5
+## Used to calculate distance score
+@export var speed : float = 5.0
 @onready var body := $PlayerCharacter
 @onready var line2 := $AdditionalLine
 @onready var line_r = $HelpLines/LineR
@@ -53,14 +55,19 @@ var p_state : state = state.NORMAL:
 		p_state = s
 		on_player_status_change.emit(s, health_points)
 		if(health_points <= 0):
+			p_state = state.DED
+			on_game_over()
 			on_player_death.emit()
 var count : int
 var left_line_pos := last_pos.LEFT
 var right_line_pos := last_pos.RIGHT
 var inv := false
+var mega_inv = false
 var target_pos : Vector2
 var offset := 0.0
 var velocity := 0.0
+var inv_check = false
+var lock_movement = false
 
 # Signals
 signal on_player_status_change(s:state, hp:int)
@@ -86,42 +93,59 @@ func _ready():
 		_i += 2 * PI / count
 
 func _process(_delta):
+	# Debug inv
+	if mega_inv:
+		inv = true
 	# Heath logic
 	if p_state == state.RECHARGE_HIT:
 		p_state = state.SHIELD_BROKEN
 	elif p_state == state.BROKEN_HIT:
 		p_state = state.SHIELD_BROKEN
-	# Angle calcs
-	var vec : Vector2 = get_point_position(count) - body.position
-	var a = vec.angle() + PI/2
-	skul_dir = a
-	# Rail Lines position
-	line_r.position = position
-	line_l.position = position
-	_change_last_point_pos(line_r, right_line_pos)
-	_change_last_point_pos(line_l, left_line_pos)
-	# Extra long line stuff
-	var point_vec = get_point_position(get_point_count() - 1)
-	line2.set_point_position(0, point_vec)
-	line2.set_point_position(1, Vector2(point_vec.x, point_vec.y - 2000))
-	point_vec = line_r.get_point_position(get_point_count() - 2)
-	line_r.set_point_position(125, Vector2(point_vec.x, point_vec.y - 2000))
-	point_vec = line_l.get_point_position(get_point_count() - 2)
-	line_l.set_point_position(125, Vector2(point_vec.x, point_vec.y - 2000))
-	# Pushing down position
-	_push_position_down_array(self)
-	_push_position_down_array(line_l)
-	_push_position_down_array(line_r)
-	# Body and changing line curve
-	target_pos = get_point_position(20) # 21th point cuz there's some buffer space while dtaping one dir
-	offset = target_pos.x - body.position.x
-	velocity = lerp(velocity, offset / _delta, _delta)
-	body.position.x += velocity * _delta # delta cuz its smooooooooth now!
-	velocity *= 0.85 # damping
-	if(Input.is_action_just_pressed("key_left")):
-		pos_changer(last_pos.LEFT)
-	elif(Input.is_action_just_pressed("key_right")):
-		pos_changer(last_pos.RIGHT)
+		# Blinking health
+	if inv:
+		if body.skul_sprites.self_modulate.r < 0.1 and !inv_check:
+			inv_check = true
+		elif body.skul_sprites.self_modulate.r > 0.9 and inv_check:
+			inv_check = false
+		var i = 1
+		if inv_check:
+			i = -1
+		body.skul_sprites.self_modulate.r -= 0.025 * i
+	else:
+		body.skul_sprites.self_modulate.r = lerpf(body.skul_sprites.self_modulate.r, \
+		1, _delta * 20)
+	if !lock_movement:
+		# Angle calcs
+		var vec : Vector2 = get_point_position(count) - body.position
+		var a = vec.angle() + PI/2
+		skul_dir = a
+		# Rail Lines position
+		line_r.position = position
+		line_l.position = position
+		_change_last_point_pos(line_r, right_line_pos)
+		_change_last_point_pos(line_l, left_line_pos)
+		# Extra long line stuff
+		var point_vec = get_point_position(get_point_count() - 1)
+		line2.set_point_position(0, point_vec)
+		line2.set_point_position(1, Vector2(point_vec.x, point_vec.y - 2000))
+		point_vec = line_r.get_point_position(get_point_count() - 2)
+		line_r.set_point_position(125, Vector2(point_vec.x, point_vec.y - 2000))
+		point_vec = line_l.get_point_position(get_point_count() - 2)
+		line_l.set_point_position(125, Vector2(point_vec.x, point_vec.y - 2000))
+		# Pushing down position
+		_push_position_down_array(self)
+		_push_position_down_array(line_l)
+		_push_position_down_array(line_r)
+		# Body and changing line curve
+		target_pos = get_point_position(20) # 21th point cuz there's some buffer space while dtaping one dir
+		offset = target_pos.x - body.position.x
+		velocity = lerp(velocity, offset / _delta, _delta)
+		body.position.x += velocity * _delta # delta cuz its smooooooooth now!
+		velocity *= 0.85 # damping
+		if(Input.is_action_just_pressed("key_left")):
+			pos_changer(last_pos.LEFT)
+		elif(Input.is_action_just_pressed("key_right")):
+			pos_changer(last_pos.RIGHT)
 
 func pos_changer(move:last_pos):
 	if last_point_pos == last_pos.LEFT and move == last_pos.LEFT:
@@ -149,22 +173,30 @@ func _change_last_point_pos(l:Line2D, line_pos:last_pos):
 func return_body_position():
 	return body.position + position
 
+func return_accelerate():
+	return body.speed_multi
+
+func return_max_speed():
+	return body.max_speed
+
 func on_body_hit(d):
-	# Add 0 damage logic, it doesn't work properly
+	var d1 = d - 1
 	if !inv:
 		match p_state:
 			state.NORMAL:
 				p_state = state.SHIELD_BROKEN
-				shield_timer_reset_after_hit(2.5)
+				shield_timer_reset_after_hit(3 + d1)
 			state.SHIELD_RECHARGE:
-				health_points -= d
 				p_state = state.RECHARGE_HIT
-				shield_timer_reset_after_hit(1.5)
+				timer.stop()
+				shield_timer_reset_after_hit(5 + d1 * 2)
+				health_points -= d
 			state.SHIELD_BROKEN:
-				health_points -= d * 2
 				p_state = state.BROKEN_HIT
 				if d != 0:
 					inv = true
+					shield_timer_reset_after_hit(3.5)
+				health_points -= d * 2
 			state.RECHARGE_HIT:
 				return
 			state.BROKEN_HIT:
@@ -175,10 +207,10 @@ func on_body_hit(d):
 func on_shield_recharge_end():
 	print_rich("[hint=PlayerLine]Shield recharged[/hint]")
 	p_state = state.NORMAL
-	inv = false
 
 func on_shield_recharge_start():
 	print_rich("[hint=PlayerLine]Update timer[/hint]")
+	inv = false
 	p_state = state.SHIELD_RECHARGE
 	timer_charge.start(3.5)
 	body.return_shield_color()
@@ -187,3 +219,9 @@ func shield_timer_reset_after_hit(time:float):
 	timer_charge.stop()
 	timer.start(time)
 	body.reset_shield_color()
+
+func on_game_over():
+	timer.stop()
+	timer_charge.stop()
+	lock_movement = true
+	body.on_game_over()

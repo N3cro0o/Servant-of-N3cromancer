@@ -1,20 +1,17 @@
-[gd_scene load_steps=19 format=3 uid="uid://vypfdtx3st2g"]
+[gd_scene load_steps=16 format=3 uid="uid://vypfdtx3st2g"]
 
 [ext_resource type="PackedScene" uid="uid://cwhxijf40rcnx" path="res://Scenes/PlayerCharacter/PlayerLine/player_line.tscn" id="1_0j60h"]
 [ext_resource type="Script" path="res://Scenes/GameScenes/GameScene/game_scene.gd" id="1_hmcmp"]
+[ext_resource type="Resource" uid="uid://dnoa567f4fvv2" path="res://Resources/DataHolders/EndlessStages/stage1.tres" id="2_70m4v"]
 [ext_resource type="PackedScene" uid="uid://bx18cpaetf7lm" path="res://Scenes/PlayerCharacter/Mouse/mouse_entity.tscn" id="2_fwa26"]
 [ext_resource type="Texture2D" uid="uid://cw4egb0obgrol" path="res://Images/UI/DirectionKey/1/arrow key2.png" id="3_jqbrk"]
-[ext_resource type="Resource" uid="uid://bal5m5yrck2w" path="res://Scenes/Obstacles/Non-gravity/Obstacle1/vertical_obstacle_1.tres" id="3_jswrj"]
-[ext_resource type="Resource" uid="uid://chynsxlq4cx8l" path="res://Scenes/Obstacles/Gravity/Obstacle1/gravity_obstacle_1.tres" id="4_s5o4r"]
-[ext_resource type="Resource" uid="uid://dj1bcy6upyt3g" path="res://Scenes/Obstacles/Homing/Obstacle1/homing_gravity_1.tres" id="5_2p1de"]
 [ext_resource type="PackedScene" uid="uid://cxecydc21mmwa" path="res://Scenes/SceneKiller/killer.tscn" id="5_4g2j3"]
 [ext_resource type="PackedScene" uid="uid://ccatmhjjcq6yv" path="res://Scenes/Obstacles/Spawner/obstacle_spawner.tscn" id="5_ob05u"]
-[ext_resource type="Resource" uid="uid://ceur701l7a75w" path="res://Scenes/Obstacles/Non-gravity/Obstacle2 - Wide/static_wide.tres" id="5_w47lh"]
-[ext_resource type="Resource" uid="uid://23r2kj0qc0k3" path="res://Scenes/Obstacles/Non-gravity/Obstacle3/shield_static.tres" id="6_xsjg0"]
 [ext_resource type="Texture2D" uid="uid://8glmydbtnfi0" path="res://Images/UI/DirectionKey/1/arrow key1.png" id="10_7vqps"]
-[ext_resource type="Script" path="res://Resources/RandomScripts/GameSceneButton/game_button.gd" id="10_iqsew"]
+[ext_resource type="Script" path="res://Resources/RandomScripts/game_button.gd" id="12_qu5tx"]
 [ext_resource type="Texture2D" uid="uid://gvpii7lmsrxu" path="res://Images/Player/Damage/hit_frame.png" id="12_ubvyc"]
 [ext_resource type="Texture2D" uid="uid://b613ar7xw3mka" path="res://Images/BG/BG.png" id="13_tjaki"]
+[ext_resource type="PackedScene" uid="uid://cc0c6bo2wcejw" path="res://Scenes/UI/GameOverScreen/end_panel.tscn" id="16_fi7fd"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_yrvdb"]
 font_size = 24
@@ -25,7 +22,8 @@ font_size = 24
 
 [node name="GameScene" type="Node2D" node_paths=PackedStringArray("bg_sprites")]
 script = ExtResource("1_hmcmp")
-bg_sprites = [NodePath("BG/Bg"), NodePath("BG/BgDown"), NodePath("BG/BgUp")]
+bg_sprites = [NodePath("BG/BgUp"), NodePath("BG/Bg"), NodePath("BG/BgDown")]
+enemy_stages = Array[Resource("res://Resources/DataHolders/Script/endless_enemy_stage.gd")]([ExtResource("2_70m4v")])
 button_height_scale = 1.6
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -54,16 +52,15 @@ action = "key_right"
 
 [node name="Spawner1" parent="Spawners" instance=ExtResource("5_ob05u")]
 position = Vector2(540, -297)
-spawned_things = Array[Resource("res://Resources/DataHolders/Script/spawn_obstacle_data_holder.gd")]([ExtResource("3_jswrj"), ExtResource("4_s5o4r"), ExtResource("5_2p1de"), ExtResource("6_xsjg0")])
 
 [node name="Spawner2" parent="Spawners" instance=ExtResource("5_ob05u")]
 position = Vector2(240, -297)
-spawned_things = Array[Resource("res://Resources/DataHolders/Script/spawn_obstacle_data_holder.gd")]([ExtResource("3_jswrj"), ExtResource("4_s5o4r"), ExtResource("5_w47lh")])
+spawn_position = "Left"
 
 [node name="Spawner3" parent="Spawners" instance=ExtResource("5_ob05u")]
 position = Vector2(840, -297)
+spawn_position = "Right"
 left_right = true
-spawned_things = Array[Resource("res://Resources/DataHolders/Script/spawn_obstacle_data_holder.gd")]([ExtResource("3_jswrj"), ExtResource("4_s5o4r"), ExtResource("5_w47lh")])
 
 [node name="Obstacles" type="Node" parent="."]
 
@@ -117,7 +114,7 @@ size_flags_horizontal = 3
 theme_override_styles/focus = SubResource("StyleBoxEmpty_53yr0")
 action_mode = 0
 expand_icon = true
-script = ExtResource("10_iqsew")
+script = ExtResource("12_qu5tx")
 image = NodePath("ArrowImage")
 action = &"key_left"
 
@@ -140,7 +137,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/focus = SubResource("StyleBoxEmpty_f5dm2")
 expand_icon = true
-script = ExtResource("10_iqsew")
+script = ExtResource("12_qu5tx")
 image = NodePath("ArrowImage")
 action = &"key_right"
 
@@ -202,6 +199,11 @@ position = Vector2(540, 3600)
 scale = Vector2(3, 3)
 texture = ExtResource("13_tjaki")
 
+[node name="EndPanel" parent="." instance=ExtResource("16_fi7fd")]
+visible = false
+z_index = 20
+
+[connection signal="on_failing_level" from="." to="EndPanel" method="update_desc"]
 [connection signal="on_spawned_entity" from="Spawners/Spawner1" to="." method="_spawner1_spawn"]
 [connection signal="on_spawned_static_entity" from="Spawners/Spawner1" to="Spawners/Spawner2" method="lock_static_spawn"]
 [connection signal="on_spawned_static_entity" from="Spawners/Spawner1" to="Spawners/Spawner3" method="lock_static_spawn"]
@@ -220,3 +222,5 @@ texture = ExtResource("13_tjaki")
 [connection signal="button_up" from="Buttons/MarginContainer/HBoxContainer/ButtonRight" to="Buttons/MarginContainer/HBoxContainer/ButtonRight" method="on_button_update"]
 [connection signal="pressed" from="Buttons/MarginContainer/HBoxContainer/ButtonRight" to="Buttons/MarginContainer/HBoxContainer/ButtonRight" method="on_button_pressed"]
 [connection signal="timeout" from="HitFrame/Timer" to="." method="on_hit_timer_timeout"]
+[connection signal="on_quit_request" from="EndPanel" to="." method="quit_level_request"]
+[connection signal="on_reset_request" from="EndPanel" to="." method="reset_level_request"]

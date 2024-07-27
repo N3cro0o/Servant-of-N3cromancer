@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ItemShopData" load_steps=3 format=3 uid="uid://by14f0wrvthua"]
+
+[ext_resource type="Texture2D" uid="uid://ejh00nh7bku6" path="res://Images/meme/kapix.jpg" id="1_2f11k"]
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/item_shop_data.gd" id="1_vdq56"]
+
+[resource]
+script = ExtResource("1_vdq56")
+name = "Nimble Skul"
+cost = 50
+image = ExtResource("1_2f11k")
+desc = "Toż to Kacper Szcoch, pogromca malborasów i czcigodny leń WUST!"
+resource_script = "light_skul_unlock"

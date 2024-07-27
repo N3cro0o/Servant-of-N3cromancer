@@ -12,6 +12,7 @@ distance_points = 6.0
 
 [node name="PlayerCharacter" parent="." instance=ExtResource("2_xdajv")]
 z_as_relative = false
+speed_multi = 0.2
 
 [node name="HelpLines" type="Node" parent="."]
 
