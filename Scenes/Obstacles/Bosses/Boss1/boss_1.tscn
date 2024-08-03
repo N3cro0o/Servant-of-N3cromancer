@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://bqkgkbbrmsicx"]
+
+[ext_resource type="Script" path="res://Scenes/Obstacles/Bosses/Boss1/boss_1.gd" id="1_5pmoh"]
+[ext_resource type="Texture2D" uid="uid://b11h83jdg31y7" path="res://Images/icon.svg" id="1_cdjt8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n2hxe"]
+size = Vector2(1100, 150)
+
+[node name="Boss1" type="RigidBody2D"]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_5pmoh")
+speed = 50.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_n2hxe")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(8.59375, 1.17187)
+texture = ExtResource("1_cdjt8")
+
+[connection signal="body_entered" from="." to="." method="check_for_da_bone"]

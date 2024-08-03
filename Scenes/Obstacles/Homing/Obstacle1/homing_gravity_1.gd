@@ -1,4 +1,4 @@
-extends ObstacleGravityBase
+class_name ObstacleHomingFireball extends ObstacleGravityBase
 
 # Variables
 @export var speed : int = 200

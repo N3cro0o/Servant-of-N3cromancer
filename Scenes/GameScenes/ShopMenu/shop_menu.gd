@@ -44,6 +44,7 @@ func cycle_items(num : int):
 func on_buy():
 	if !shake_check and !item.bought:
 		if ScM.coins_game >= cost:
+			ScM.coins_game -= cost
 			print_rich(ItemShopData.debug_text % [item.name, Time.get_time_dict_from_system()])
 			item.on_buy()
 			GmM.items[current_item_index].bought = true

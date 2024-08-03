@@ -10,4 +10,6 @@ cost = 250
 image = ExtResource("1_j6qgg")
 desc = "This line looks boring, make it look so
 [i]F A N C Y[/i]"
+category = 90
 resource_script = "king_nothing"
+variable1 = 0.0

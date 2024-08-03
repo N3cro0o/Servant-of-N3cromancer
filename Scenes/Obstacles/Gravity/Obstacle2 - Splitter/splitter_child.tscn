@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://cxgkbfrhaf7tr"]
+
+[ext_resource type="PhysicsMaterial" uid="uid://bix64luwfd3ge" path="res://Scenes/Obstacles/Gravity/Obstacle1/obstacle1_physics_material.tres" id="1_fhvrx"]
+[ext_resource type="Script" path="res://Scenes/Obstacles/obstacle_base.gd" id="1_h2ihr"]
+[ext_resource type="Texture2D" uid="uid://b11h83jdg31y7" path="res://Images/icon.svg" id="1_uepbd"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5tf40"]
+radius = 43.0116
+
+[node name="SplitterChild" type="RigidBody2D"]
+collision_layer = 2
+physics_material_override = ExtResource("1_fhvrx")
+linear_damp_mode = 1
+angular_damp_mode = 1
+script = ExtResource("1_h2ihr")
+grace_period = 0.3
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.6, 0.639216, 0, 1)
+scale = Vector2(0.671875, 0.671875)
+texture = ExtResource("1_uepbd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_5tf40")

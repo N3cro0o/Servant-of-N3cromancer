@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://c0bl18e5dxesj"]
+
+[ext_resource type="Texture2D" uid="uid://b11h83jdg31y7" path="res://Images/icon.svg" id="1_45oxj"]
+[ext_resource type="Script" path="res://Scenes/Obstacles/Non-gravity/Obstacle4 - teleport/teleporter.gd" id="1_q3neo"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_iacks"]
+radius = 63.0079
+
+[node name="Teleporter" type="RigidBody2D"]
+collision_layer = 4
+can_sleep = false
+lock_rotation = true
+freeze = true
+freeze_mode = 1
+script = ExtResource("1_q3neo")
+teleportation_chance = 0.687
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.12549, 0.121569, 0.113725, 1)
+texture = ExtResource("1_45oxj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_iacks")

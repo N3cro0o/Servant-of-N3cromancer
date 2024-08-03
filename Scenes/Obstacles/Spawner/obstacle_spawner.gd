@@ -15,13 +15,16 @@ const PICKUP_BASE = preload(PICKUP_PATH)
 @onready var timer = $SpawnTimer
 @onready var static_timer = $StaticTimer
 
+var spawner_position : ObstacleNonverticalTele.state
 var spawned_things : Array[SpawnObstacleDataHolder]
+var spawned_bosses : Array[SpawnObstacleDataHolder]
 var spawned_pickups : Array[SpawnPickupDataHolder]
 var packed_scenes_array : Array[PackedScene]
 var gravity_scenes_array : Array[PackedScene]
 var static_scenes_array : Array[PackedScene]
 var homing_scenes_array : Array[PackedScene]
 var other_scenes_array : Array[PackedScene]
+var boss_scenes_array: Array[PackedScene]
 var other_array_len = 0
 var weight = 0
 var pickup_weight = 0
@@ -53,36 +56,12 @@ func _init():
 
 func _ready():
 	# Get spawn data
-	match spawn_position:
-		"Left":
-			spawned_things = GameScene.instance.enemy_stages[0].left
-		"Center":
-			spawned_things = GameScene.instance.enemy_stages[0].center
-		"Right":
-			spawned_things = GameScene.instance.enemy_stages[0].right
-	spawned_pickups = GameScene.instance.enemy_stages[0].pickups
+	advance_to_next_stage()
 	# Check if no obstacles
 	if spawned_things.is_empty():
 		queue_free()
 	else:
 		randomize_spawn_delay()
-		for x in spawned_things:
-			var scene = load(x.scene_directory)
-			match x.type:
-				0: # Grav
-					gravity_scenes_array.push_back(scene)
-				1: # Static
-					static_scenes_array.push_back(scene)
-				2: # Homing
-					homing_scenes_array.push_back(scene)
-				3: # Other
-					other_scenes_array.push_back(scene)
-					other_array_len += 1
-			packed_scenes_array.push_back(scene)
-			weight += x.weight
-		for y in spawned_pickups:
-			pickup_weight += y.weight
-	print_rich("[b]Weight: %d[b]" % weight)
 
 func _process(_delta):
 	if GameScene.instance != null:
@@ -90,6 +69,58 @@ func _process(_delta):
 		var angle = atan2(rotation_vec.y, rotation_vec.x)
 		rotation = angle - deg_to_rad(90)
 		diff = GameScene.instance.difficulty
+
+func setup_spawning_data():
+	var scene
+	for x in spawned_things:
+		scene = load(x.scene_directory)
+		match x.type:
+			0: # Grav
+				gravity_scenes_array.push_back(scene)
+			1: # Static
+				static_scenes_array.push_back(scene)
+			2: # Homing
+				homing_scenes_array.push_back(scene)
+			3: # Other
+				other_scenes_array.push_back(scene)
+				other_array_len += 1
+		packed_scenes_array.push_back(scene)
+		weight += x.weight
+	for y in spawned_pickups:
+		pickup_weight += y.weight
+	for z in spawned_bosses:
+		scene = load(z.scene_directory)
+		print(z.scene_directory)
+		boss_scenes_array.push_back(scene)
+	print_rich("[b]Weight: %d[b]" % weight)
+
+func advance_to_next_stage():
+	# Reset data
+	active = false
+	weight = 0
+	other_array_len = 0
+	packed_scenes_array.resize(0)
+	gravity_scenes_array.resize(0)
+	static_scenes_array.resize(0)
+	homing_scenes_array.resize(0)
+	other_scenes_array.resize(0)
+	# Get stage data
+	var stage = GameScene.instance.stage
+	print("Stage ",stage)
+	match spawn_position:
+		"Left":
+			spawned_things = GameScene.instance.enemy_stages[stage].left
+			spawner_position = ObstacleNonverticalTele.state.LEFT
+		"Center":
+			spawned_things = GameScene.instance.enemy_stages[stage].center
+			spawner_position = ObstacleNonverticalTele.state.CENTER
+		"Right":
+			spawned_things = GameScene.instance.enemy_stages[stage].right
+			spawner_position = ObstacleNonverticalTele.state.RIGHT
+	spawned_pickups = GameScene.instance.enemy_stages[stage].pickups
+	spawned_bosses = GameScene.instance.enemy_stages[stage].bosses
+	setup_spawning_data()
+	active = true
 
 func randomize_spawn_delay():
 	randomize()
@@ -164,9 +195,40 @@ func spawn_thing(id):
 				spawn_object.scale.x = -1
 			# Rotation
 		spawn_object.can_lock_rotation = spawned_things[id_scene].can_lock_rotation
+			# ObstacleNonverticalTele
+		if spawned_things[id_scene].tele_state:
+			spawn_object = spawn_object as ObstacleNonverticalTele
+			spawn_object.curr_position = spawner_position
 		# Other logic
 		spawn_pickup(id_last)
 		GameScene.instance.difficulty += float(spawned_things[id_scene].weight) / 80
+
+func spawn_boss(id_scene):
+	# Spawn
+	var spawn_object : ObstacleGravityBase
+	spawn_object = boss_scenes_array[id_scene].instantiate()
+	if(GameScene.instance != null):
+		GameScene.instance._add_obstacle(spawn_object)
+	# Setting properties
+	spawn_object.position = position
+	spawn_object.add_start_velocity(Vector2(0,-20), rotation)
+	spawn_object.player_body = PlayerLine1.instance
+	spawn_static_index = 0
+	on_spawned_entity.emit()
+	if spawned_things[id_scene].type == 1:
+		spawn_static_index += 2
+		on_spawned_static_entity.emit(spawn_object.weight)
+	# Tags
+		# Flip
+	if spawned_things[id_scene].flip:
+		if left_right:
+			spawn_object.scale.x = -1
+		# Rotation
+	spawn_object.can_lock_rotation = spawned_things[id_scene].can_lock_rotation
+		# ObstacleNonverticalTele
+	if spawned_things[id_scene].tele_state:
+		spawn_object = spawn_object as ObstacleNonverticalTele
+		spawn_object.curr_position = spawner_position
 
 func change_id(id, type):
 	var rand_var = randf()

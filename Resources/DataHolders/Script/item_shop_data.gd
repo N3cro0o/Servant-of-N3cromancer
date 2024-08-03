@@ -3,14 +3,23 @@ class_name ItemShopData extends Resource
 const debug_text = "[hint=ItemShopData]Item %s bought at %s[/hint]"
 const debug_text1 = "[hint=ItemShopData]Item %s bought failed at %s[/hint]"
 
+enum category_shop {
+	SKUL = 2,
+	INVENTORY = 1,
+	RANDOM = 90,
+	ENDLESS = 0
+}
+
 @export_group("Basic")
 @export var name : String = ""
 @export var cost : int = 0
 @export var image : Texture2D
 @export_multiline var desc : String = ""
+@export var category : category_shop = category_shop.RANDOM
 @export_group("Script")
 @export_enum("king_nothing", "endless_unlock", "light_skul_unlock",\
 	"scroll_storag_upgrade") var resource_script = "king_nothing"
+@export var variable1 = 0.0
 var bought = false
 
 func on_buy():
@@ -25,3 +34,6 @@ func endless_unlock():
 
 func light_skul_unlock():
 	pass
+
+func scroll_storag_upgrade():
+	GmM.inventory_space += variable1

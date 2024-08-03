@@ -36,8 +36,8 @@ func on_shop_button_press():
 	GmM.change_scene(2)
 
 func on_options_button_press():
-	SvM.reset_data()
-	SvM.save_data()
+	GmM.reset_save_data()
+	get_tree().reload_current_scene()
 
 func quit_game():
 	await SvM.save_data()

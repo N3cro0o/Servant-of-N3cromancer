@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://dfh8wxy5ssygi"]
+
+[ext_resource type="Texture2D" uid="uid://b11h83jdg31y7" path="res://Images/icon.svg" id="1_muhcj"]
+[ext_resource type="PhysicsMaterial" uid="uid://bix64luwfd3ge" path="res://Scenes/Obstacles/Gravity/Obstacle1/obstacle1_physics_material.tres" id="1_qfjwv"]
+[ext_resource type="Script" path="res://Scenes/Obstacles/Gravity/Obstacle3 - Bullet/bullet.gd" id="1_wl5rs"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tfy34"]
+radius = 65.123
+
+[node name="BulletType" type="RigidBody2D" groups=["obstacle"]]
+collision_layer = 2
+physics_material_override = ExtResource("1_qfjwv")
+script = ExtResource("1_wl5rs")
+screen_fraction = 0.6
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.878431, 0, 0.792157, 1)
+texture = ExtResource("1_muhcj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_tfy34")

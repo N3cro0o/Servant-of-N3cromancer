@@ -16,7 +16,6 @@ can_sleep = false
 lock_rotation = true
 freeze = true
 script = ExtResource("1_afigr")
-speed = 250.0
 spawn_data = ExtResource("2_a45ct")
 
 [node name="SpriteShadow" type="Sprite2D" parent="."]

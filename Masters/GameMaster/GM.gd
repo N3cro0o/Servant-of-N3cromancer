@@ -9,6 +9,7 @@ class_name GM extends Node
 ## NOT CHANCE[br]
 ## Variable used to calculate frequency of pickups, shows mean objects required to spawn a pickup
 @export var pickup_spawn_period = 5
+@export var body_array : Array[PackedScene]
 @export var scene_array : Array[PackedScene]
 @onready var screen_black := $Control/BlackScreen
 var black_colour = Color.BLACK
@@ -17,9 +18,16 @@ var transition_iterat = 0
 
 # Save Data
 var endless_unlock = false
+var current_body = 1
+var inventory_space = 0
 #endregion
 
 #region Method
+func sort_by_shop_category(a : ItemShopData, b : ItemShopData):
+	if a.category < b.category:
+		return true
+	return false
+
 func _ready():
 	black_colour = screen_black.color
 	screen_black.color = Color(black_colour, 0)
@@ -52,4 +60,10 @@ func change_scene(scene_to_go : int):
 	get_tree().change_scene_to_packed(scene)
 	curr_scene = get_tree().get_current_scene()
 	await transition_screen_out()
+
+func reset_save_data():
+	SvM.reset_data()
+	inventory_space = 0
+	endless_unlock = false
+	SvM.save_data()
 #endregion

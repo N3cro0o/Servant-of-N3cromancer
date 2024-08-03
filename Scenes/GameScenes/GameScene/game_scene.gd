@@ -18,8 +18,9 @@ enum state {
 @onready var small_bubble := $MouseEntity
 @onready var big_boi :PlayerLine1 = $PlayerLine
 @onready var spawners = $Spawners
-@onready var debug_label := $DebugLabel
+@onready var debug_label := $WindowBox/DebugLabel
 @onready var hit_frame := $HitFrame
+@onready var inventory = $WindowBox/ScrollsBox/InventoryLogic
 
 # Player vars
 var hit_color_zeroing = true
@@ -40,6 +41,7 @@ var fpsp : float:
 		fpsp = 1 / f
 var lock_logic := false
 var bg_lock := false
+var boss
 # Button vars
 var margin_side = 75
 var margin_between = 20
@@ -54,8 +56,7 @@ var difficulty := 0.0:
 			if difficulty >= enemy_stages[stage].difficulty_threshold:
 				lock_diff = true
 				difficulty = enemy_stages[stage].difficulty_threshold
-				for spawn in spawners.get_children() as Array[SpawnerBasic]:
-					spawn.active = false
+				spawn_boss()
 			# Speed increase
 			if difficulty >= diff_trunc_val:
 				diff_trunc_val += 1
@@ -70,6 +71,7 @@ var lock_diff = false
 var stage = 0
 
 # Signals
+signal on_stage_advance
 signal on_take_damage
 signal on_failing_level
 
@@ -96,7 +98,6 @@ func _ready():
 	bttn_right.scale = Vector2(bttn_size_scalar, button_height_scale)
 	# Position
 	screen_width = screen_size.x / 2 - margin_side
-	print(screen_size)
 	screen_size.y -= $Camera2D.position.y
 	var bttn_position = Vector2(screen_width,screen_size.y - margin_bottom - bttn_height)
 	bttn_left.position = Vector2(-bttn_position.x, bttn_position.y)
@@ -129,7 +130,7 @@ func _process(delta):
 	 spawners.get_child(1).can_spawn_static, spawners.get_child(2).can_spawn_static]
 	debug_label.text += "Player state: %s, %d\nDistance: %f, %d\nSpeed: %f m/s\nMouse pos: %s" % [state.find_key\
 	(big_boi.p_state), hp, ScM.distance, snappedf(ScM.distance, 1), speed, $MouseEntity.position]
-	debug_label.text += "\nDifficulty: %f" % difficulty
+	debug_label.text += "\nDifficulty: %f, %d" % [difficulty, stage + 1]
 	# And lastly, hp diference
 	hp_last = hp
 
@@ -195,6 +196,27 @@ func reset_level_request():
 
 func quit_level_request():
 	GmM.change_scene(0)
+
+func return_inventory():
+	return inventory
+
+func activate_spawners(state : bool):
+	for spawn in spawners.get_children() as Array[SpawnerBasic]:
+		spawn.active = state
+
+func advance_stage():
+	if stage < enemy_stages.size():
+		stage += 1
+	lock_diff = false
+	difficulty = 0
+	diff_trunc_val = 2
+	accelerate /= 2
+	on_stage_advance.emit()
+
+func spawn_boss():
+	var rand_boss_num = randi_range(0, enemy_stages[stage].bosses.size() - 1)
+	var main_spawner = spawners.get_child(0) as SpawnerBasic
+	main_spawner.spawn_boss(rand_boss_num)
 
 #region Pierdoly
 func _input(event):

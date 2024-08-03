@@ -16,7 +16,6 @@ enum state {
 }
 
 # Variables
-@export var distance_points := 0.0
 @export var last_point_pos := last_pos.MIDDLE:
 	set(x):
 		last_point_pos = x
@@ -31,12 +30,13 @@ enum state {
 @export var health_points := 5
 ## Used to calculate distance score
 @export var speed : float = 5.0
-@onready var body := $PlayerCharacter
 @onready var line2 := $AdditionalLine
 @onready var line_r = $HelpLines/LineR
 @onready var line_l = $HelpLines/LineL
 @onready var timer = $ShieldTimer1
 @onready var timer_charge = $ShieldTimer2
+
+var body : PlayerBody
 var skul_dir = 0:
 	set(f):
 		var dir = 1
@@ -48,7 +48,8 @@ var skul_dir = 0:
 			dir = 0
 		skul_dir = dir
 		body.skul_dir = dir
-
+var line_points_number = 125
+var distance_points = 5.5
 ## Remember to ALWAYS change heath before update p_state var
 var p_state : state = state.NORMAL:
 	set(s):
@@ -68,6 +69,7 @@ var offset := 0.0
 var velocity := 0.0
 var inv_check = false
 var lock_movement = false
+var greater_line_number = true
 
 # Signals
 signal on_player_status_change(s:state, hp:int)
@@ -84,7 +86,27 @@ func _init():
 	instance = self
 
 func _ready():
+	# Spawn player body
+	body = GmM.body_array[GmM.current_body].instantiate()
+	add_child(body)
+	body.on_hit.connect(on_body_hit)
+	line_points_number = body.line_points_number
+	distance_points = body.distance_points
+	if line_points_number < points.size():
+		greater_line_number = false
+	var difference = 124
+	while line_points_number != points.size():
+		if !greater_line_number:
+			remove_point(difference)
+			line_r.remove_point(difference)
+			line_l.remove_point(difference)
+			difference -= 1
+		else:
+			add_point(Vector2.ZERO)
+			line_r.add_point(Vector2.ZERO)
+			line_l.add_point(Vector2.ZERO)
 	count = get_point_count() - 1
+	print(count)
 	var _i :=  PI / 2
 	for x in count + 1:
 		set_point_position(x, Vector2(0, -x * distance_points))
@@ -129,15 +151,15 @@ func _process(_delta):
 		line2.set_point_position(0, point_vec)
 		line2.set_point_position(1, Vector2(point_vec.x, point_vec.y - 2000))
 		point_vec = line_r.get_point_position(get_point_count() - 2)
-		line_r.set_point_position(125, Vector2(point_vec.x, point_vec.y - 2000))
+		line_r.set_point_position(count + 1, Vector2(point_vec.x, point_vec.y - 2000))
 		point_vec = line_l.get_point_position(get_point_count() - 2)
-		line_l.set_point_position(125, Vector2(point_vec.x, point_vec.y - 2000))
+		line_l.set_point_position(count + 1, Vector2(point_vec.x, point_vec.y - 2000))
 		# Pushing down position
 		_push_position_down_array(self)
 		_push_position_down_array(line_l)
 		_push_position_down_array(line_r)
 		# Body and changing line curve
-		target_pos = get_point_position(20) # 21th point cuz there's some buffer space while dtaping one dir
+		target_pos = get_point_position(body.target_point) # 21th point cuz there's some buffer space while dtaping one dir
 		offset = target_pos.x - body.position.x
 		velocity = lerp(velocity, offset / _delta, _delta)
 		body.position.x += velocity * _delta # delta cuz its smooooooooth now!

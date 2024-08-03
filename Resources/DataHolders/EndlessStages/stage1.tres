@@ -1,5 +1,6 @@
-[gd_resource type="Resource" script_class="EndlessEnemyStageData" load_steps=10 format=3 uid="uid://dnoa567f4fvv2"]
+[gd_resource type="Resource" script_class="EndlessEnemyStageData" load_steps=11 format=3 uid="uid://dnoa567f4fvv2"]
 
+[ext_resource type="Resource" uid="uid://bj47i888dekbp" path="res://Scenes/Obstacles/Bosses/Boss1/boss_1.tres" id="1_25mnb"]
 [ext_resource type="Script" path="res://Resources/DataHolders/Script/endless_enemy_stage.gd" id="1_axgug"]
 [ext_resource type="Resource" uid="uid://bal5m5yrck2w" path="res://Scenes/Obstacles/Non-gravity/Obstacle1/vertical_obstacle_1.tres" id="1_j0smj"]
 [ext_resource type="Resource" uid="uid://chynsxlq4cx8l" path="res://Scenes/Obstacles/Gravity/Obstacle1/gravity_obstacle_1.tres" id="2_22wac"]
@@ -16,5 +17,5 @@ left = Array[Resource("res://Resources/DataHolders/Script/spawn_obstacle_data_ho
 center = Array[Resource("res://Resources/DataHolders/Script/spawn_obstacle_data_holder.gd")]([ExtResource("4_pf17q"), ExtResource("1_j0smj"), ExtResource("3_evavx"), ExtResource("2_22wac")])
 right = Array[Resource("res://Resources/DataHolders/Script/spawn_obstacle_data_holder.gd")]([ExtResource("1_j0smj"), ExtResource("2_22wac"), ExtResource("5_hve2u")])
 difficulty_threshold = 10.0
-bosses = Array[Resource("res://Resources/DataHolders/Script/spawn_obstacle_data_holder.gd")]([])
+bosses = Array[Resource("res://Resources/DataHolders/Script/spawn_obstacle_data_holder.gd")]([ExtResource("1_25mnb")])
 pickups = Array[Resource("res://Resources/DataHolders/Script/spawn_pickup_data_holder.gd")]([ExtResource("6_8u208"), ExtResource("7_ppk6v"), ExtResource("8_t5ytc")])

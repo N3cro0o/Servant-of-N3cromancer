@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="SpawnObstacleDataHolder" load_steps=2 format=3 uid="uid://bj47i888dekbp"]
+
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/spawn_obstacle_data_holder.gd" id="1_l3uys"]
+
+[resource]
+script = ExtResource("1_l3uys")
+scene_directory = "res://Scenes/Obstacles/Bosses/Boss1/boss_1.tscn"
+type = 4
+weight = 1
+flip = false
+can_lock_rotation = false
+spawner_is_empty = false
+tele_state = false

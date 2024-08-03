@@ -1,14 +1,18 @@
-[gd_scene load_steps=16 format=3 uid="uid://vypfdtx3st2g"]
+[gd_scene load_steps=20 format=3 uid="uid://vypfdtx3st2g"]
 
 [ext_resource type="PackedScene" uid="uid://cwhxijf40rcnx" path="res://Scenes/PlayerCharacter/PlayerLine/player_line.tscn" id="1_0j60h"]
 [ext_resource type="Script" path="res://Scenes/GameScenes/GameScene/game_scene.gd" id="1_hmcmp"]
 [ext_resource type="Resource" uid="uid://dnoa567f4fvv2" path="res://Resources/DataHolders/EndlessStages/stage1.tres" id="2_70m4v"]
 [ext_resource type="PackedScene" uid="uid://bx18cpaetf7lm" path="res://Scenes/PlayerCharacter/Mouse/mouse_entity.tscn" id="2_fwa26"]
 [ext_resource type="Texture2D" uid="uid://cw4egb0obgrol" path="res://Images/UI/DirectionKey/1/arrow key2.png" id="3_jqbrk"]
+[ext_resource type="Resource" uid="uid://u5q1wif5552p" path="res://Resources/DataHolders/EndlessStages/stage2.tres" id="3_tdpiv"]
+[ext_resource type="Script" path="res://Scenes/GameScenes/GameScene/inventory_logic.gd" id="4_75syx"]
+[ext_resource type="Texture2D" uid="uid://0owx080eewsp" path="res://Images/PickUps/Scrolls/Symbols/repulsor.png" id="4_w28lu"]
 [ext_resource type="PackedScene" uid="uid://cxecydc21mmwa" path="res://Scenes/SceneKiller/killer.tscn" id="5_4g2j3"]
 [ext_resource type="PackedScene" uid="uid://ccatmhjjcq6yv" path="res://Scenes/Obstacles/Spawner/obstacle_spawner.tscn" id="5_ob05u"]
+[ext_resource type="Texture2D" uid="uid://2g2u76harw2m" path="res://Images/circle_shape_black.png" id="6_natll"]
+[ext_resource type="Texture2D" uid="uid://jcx2r032ex1m" path="res://Images/PickUps/Scrolls/Symbols/Shield.png" id="8_hwywf"]
 [ext_resource type="Texture2D" uid="uid://8glmydbtnfi0" path="res://Images/UI/DirectionKey/1/arrow key1.png" id="10_7vqps"]
-[ext_resource type="Script" path="res://Resources/RandomScripts/game_button.gd" id="12_qu5tx"]
 [ext_resource type="Texture2D" uid="uid://gvpii7lmsrxu" path="res://Images/Player/Damage/hit_frame.png" id="12_ubvyc"]
 [ext_resource type="Texture2D" uid="uid://b613ar7xw3mka" path="res://Images/BG/BG.png" id="13_tjaki"]
 [ext_resource type="PackedScene" uid="uid://cc0c6bo2wcejw" path="res://Scenes/UI/GameOverScreen/end_panel.tscn" id="16_fi7fd"]
@@ -16,15 +20,123 @@
 [sub_resource type="LabelSettings" id="LabelSettings_yrvdb"]
 font_size = 24
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_53yr0"]
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_872gb"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_f5dm2"]
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_1b5py"]
 
 [node name="GameScene" type="Node2D" node_paths=PackedStringArray("bg_sprites")]
 script = ExtResource("1_hmcmp")
 bg_sprites = [NodePath("BG/BgUp"), NodePath("BG/Bg"), NodePath("BG/BgDown")]
-enemy_stages = Array[Resource("res://Resources/DataHolders/Script/endless_enemy_stage.gd")]([ExtResource("2_70m4v")])
+enemy_stages = Array[Resource("res://Resources/DataHolders/Script/endless_enemy_stage.gd")]([ExtResource("2_70m4v"), ExtResource("3_tdpiv")])
 button_height_scale = 1.6
+
+[node name="WindowBox" type="Control" parent="."]
+z_index = 20
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1080.0
+offset_bottom = 2400.0
+
+[node name="DebugLabel" type="Label" parent="WindowBox"]
+layout_mode = 0
+offset_right = 136.0
+offset_bottom = 34.0
+text = "debug tesat"
+label_settings = SubResource("LabelSettings_yrvdb")
+
+[node name="EndPanel" parent="WindowBox" instance=ExtResource("16_fi7fd")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScrollsBox" type="VBoxContainer" parent="WindowBox"]
+layout_mode = 0
+offset_left = 912.0
+offset_top = 1591.0
+offset_right = 1040.0
+offset_bottom = 2033.0
+theme_override_constants/separation = 30
+
+[node name="InventoryLogic" type="Node" parent="WindowBox/ScrollsBox"]
+script = ExtResource("4_75syx")
+
+[node name="RepulseButton" type="TextureButton" parent="WindowBox/ScrollsBox"]
+layout_mode = 2
+texture_normal = ExtResource("4_w28lu")
+texture_pressed = ExtResource("4_w28lu")
+texture_disabled = SubResource("CompressedTexture2D_872gb")
+stretch_mode = 0
+
+[node name="TextureRect" type="TextureRect" parent="WindowBox/ScrollsBox/RepulseButton"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_natll")
+
+[node name="Vbox" type="VBoxContainer" parent="WindowBox/ScrollsBox/RepulseButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="NumberLabel" type="RichTextLabel" parent="WindowBox/ScrollsBox/RepulseButton/Vbox"]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 1
+theme_override_colors/default_color = Color(0.764706, 0.764706, 0.764706, 0.635294)
+theme_override_font_sizes/normal_font_size = 96
+text = "0"
+fit_content = true
+autowrap_mode = 0
+
+[node name="ShieldButton" type="TextureButton" parent="WindowBox/ScrollsBox"]
+layout_mode = 2
+texture_normal = ExtResource("8_hwywf")
+texture_pressed = ExtResource("8_hwywf")
+texture_disabled = SubResource("CompressedTexture2D_1b5py")
+stretch_mode = 0
+
+[node name="TextureRect" type="TextureRect" parent="WindowBox/ScrollsBox/ShieldButton"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_natll")
+
+[node name="Vbox" type="VBoxContainer" parent="WindowBox/ScrollsBox/ShieldButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="NumberLabel" type="RichTextLabel" parent="WindowBox/ScrollsBox/ShieldButton/Vbox"]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 1
+theme_override_colors/default_color = Color(0.764706, 0.764706, 0.764706, 0.635294)
+theme_override_font_sizes/normal_font_size = 96
+text = "0"
+fit_content = true
+autowrap_mode = 0
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(540, 1200)
@@ -72,90 +184,6 @@ position = Vector2(540, 1920)
 [node name="MouseEntity" parent="." instance=ExtResource("2_fwa26")]
 position = Vector2(540, 1557)
 
-[node name="DebugLabel" type="Label" parent="."]
-z_index = 10
-offset_right = 40.0
-offset_bottom = 23.0
-text = "debug tesat"
-label_settings = SubResource("LabelSettings_yrvdb")
-
-[node name="Buttons" type="Control" parent="."]
-visible = false
-z_index = 1
-layout_mode = 3
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 3729.0
-offset_top = 1466.0
-offset_right = 4809.0
-offset_bottom = 1775.0
-grow_vertical = 0
-
-[node name="MarginContainer" type="MarginContainer" parent="Buttons"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 45
-theme_override_constants/margin_right = 45
-theme_override_constants/margin_bottom = 30
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Buttons/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 25
-alignment = 1
-
-[node name="ButtonLeft" type="Button" parent="Buttons/MarginContainer/HBoxContainer" node_paths=PackedStringArray("image")]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_styles/focus = SubResource("StyleBoxEmpty_53yr0")
-action_mode = 0
-expand_icon = true
-script = ExtResource("12_qu5tx")
-image = NodePath("ArrowImage")
-action = &"key_left"
-
-[node name="ArrowImage" type="TextureRect" parent="Buttons/MarginContainer/HBoxContainer/ButtonLeft"]
-modulate = Color(1, 1, 1, 0.745098)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-pivot_offset = Vector2(4, 4)
-size_flags_horizontal = 4
-size_flags_vertical = 4
-texture = ExtResource("10_7vqps")
-expand_mode = 5
-
-[node name="ButtonRight" type="Button" parent="Buttons/MarginContainer/HBoxContainer" node_paths=PackedStringArray("image")]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_styles/focus = SubResource("StyleBoxEmpty_f5dm2")
-expand_icon = true
-script = ExtResource("12_qu5tx")
-image = NodePath("ArrowImage")
-action = &"key_right"
-
-[node name="ArrowImage" type="TextureRect" parent="Buttons/MarginContainer/HBoxContainer/ButtonRight"]
-modulate = Color(1, 1, 1, 0.745098)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(-1, 1)
-pivot_offset = Vector2(4, 4)
-size_flags_horizontal = 4
-size_flags_vertical = 4
-texture = ExtResource("10_7vqps")
-expand_mode = 5
-
 [node name="Killers" type="Node" parent="."]
 
 [node name="ScenesKiller" parent="Killers" instance=ExtResource("5_4g2j3")]
@@ -199,11 +227,14 @@ position = Vector2(540, 3600)
 scale = Vector2(3, 3)
 texture = ExtResource("13_tjaki")
 
-[node name="EndPanel" parent="." instance=ExtResource("16_fi7fd")]
-visible = false
-z_index = 20
-
-[connection signal="on_failing_level" from="." to="EndPanel" method="update_desc"]
+[connection signal="on_failing_level" from="." to="WindowBox/EndPanel" method="update_desc"]
+[connection signal="on_stage_advance" from="." to="Spawners/Spawner1" method="advance_to_next_stage"]
+[connection signal="on_stage_advance" from="." to="Spawners/Spawner2" method="advance_to_next_stage"]
+[connection signal="on_stage_advance" from="." to="Spawners/Spawner3" method="advance_to_next_stage"]
+[connection signal="on_quit_request" from="WindowBox/EndPanel" to="." method="quit_level_request"]
+[connection signal="on_reset_request" from="WindowBox/EndPanel" to="." method="reset_level_request"]
+[connection signal="pressed" from="WindowBox/ScrollsBox/RepulseButton" to="WindowBox/ScrollsBox/InventoryLogic" method="repulse_use"]
+[connection signal="pressed" from="WindowBox/ScrollsBox/ShieldButton" to="WindowBox/ScrollsBox/InventoryLogic" method="shield_use"]
 [connection signal="on_spawned_entity" from="Spawners/Spawner1" to="." method="_spawner1_spawn"]
 [connection signal="on_spawned_static_entity" from="Spawners/Spawner1" to="Spawners/Spawner2" method="lock_static_spawn"]
 [connection signal="on_spawned_static_entity" from="Spawners/Spawner1" to="Spawners/Spawner3" method="lock_static_spawn"]
@@ -215,12 +246,4 @@ z_index = 20
 [connection signal="on_spawned_static_entity" from="Spawners/Spawner3" to="Spawners/Spawner2" method="lock_static_spawn"]
 [connection signal="on_player_death" from="PlayerLine" to="." method="on_player_death"]
 [connection signal="on_player_status_change" from="PlayerLine" to="." method="on_player_hit"]
-[connection signal="button_down" from="Buttons/MarginContainer/HBoxContainer/ButtonLeft" to="Buttons/MarginContainer/HBoxContainer/ButtonLeft" method="on_button_update"]
-[connection signal="button_up" from="Buttons/MarginContainer/HBoxContainer/ButtonLeft" to="Buttons/MarginContainer/HBoxContainer/ButtonLeft" method="on_button_update"]
-[connection signal="pressed" from="Buttons/MarginContainer/HBoxContainer/ButtonLeft" to="Buttons/MarginContainer/HBoxContainer/ButtonLeft" method="on_button_pressed"]
-[connection signal="button_down" from="Buttons/MarginContainer/HBoxContainer/ButtonRight" to="Buttons/MarginContainer/HBoxContainer/ButtonRight" method="on_button_update"]
-[connection signal="button_up" from="Buttons/MarginContainer/HBoxContainer/ButtonRight" to="Buttons/MarginContainer/HBoxContainer/ButtonRight" method="on_button_update"]
-[connection signal="pressed" from="Buttons/MarginContainer/HBoxContainer/ButtonRight" to="Buttons/MarginContainer/HBoxContainer/ButtonRight" method="on_button_pressed"]
 [connection signal="timeout" from="HitFrame/Timer" to="." method="on_hit_timer_timeout"]
-[connection signal="on_quit_request" from="EndPanel" to="." method="quit_level_request"]
-[connection signal="on_reset_request" from="EndPanel" to="." method="reset_level_request"]

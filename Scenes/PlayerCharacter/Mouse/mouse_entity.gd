@@ -1,7 +1,13 @@
-extends StaticBody2D
+class_name MouseEntity1 extends StaticBody2D
 # Variables
+static var instance : MouseEntity1
+
 @export var radius:float # Collider and area radius
 @export var push_strength := 100.0
+@export var disabled_hitbox := false:
+	set(b):
+		disabled_hitbox = b
+		print("Disabled hitbox ", b)
 @export var mouse_color := Color.GREEN
 @onready var detect_area := $Area2D
 @onready var hit_box := $CollisionShape2D
@@ -13,7 +19,11 @@ var active := false:
 	set(b):
 		active = b
 		if b:
-			hit_box.disabled = false
+			print(disabled_hitbox)
+			if !disabled_hitbox:
+				hit_box.disabled = false
+			else:
+				hit_box.disabled = true
 			detect_area.monitoring = true
 		else:
 			hit_box.disabled = true
@@ -22,10 +32,11 @@ var active := false:
 var obstacles_hit : Array[PhysicsBody2D] = []
 var frames = 0
 var max_velocity := 0.0
-# Signals
-
 
 # Methods
+func _init():
+	instance = self
+
 func _ready():
 	active = false
 	pos = position

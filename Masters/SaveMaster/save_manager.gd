@@ -6,7 +6,8 @@ var data = {
 	"highscore" : 0,
 	"coins" : 0,
 	"current_skul" : 0,
-	"unlocks_shop" : [false, false, false]
+	# Unlock endless, nimble skull, custom Line, inventory 1
+	"unlocks_shop" : [false, false, false, false]
 }
 
 signal on_save_completed

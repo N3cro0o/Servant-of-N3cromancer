@@ -9,4 +9,6 @@ name = "Basic holder"
 cost = 35
 image = ExtResource("1_dio8f")
 desc = "Turn's out that random scrolls you find can be stored inside this bag made from magic scrap. Could be useful"
-resource_script = "king_nothing"
+category = 1
+resource_script = "scroll_storag_upgrade"
+variable1 = 1.0

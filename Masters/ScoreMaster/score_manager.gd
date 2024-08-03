@@ -18,7 +18,7 @@ func reset_score():
 
 func finalize_level_score():
 	var s : int = 0
-	s = distance / 50
+	s = int(distance / 50)
 	highscore += s
 	coins_game += coins
 	if highscore < score:
