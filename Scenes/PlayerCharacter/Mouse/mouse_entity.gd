@@ -4,10 +4,7 @@ static var instance : MouseEntity1
 
 @export var radius:float # Collider and area radius
 @export var push_strength := 100.0
-@export var disabled_hitbox := false:
-	set(b):
-		disabled_hitbox = b
-		print("Disabled hitbox ", b)
+@export var disabled_hitbox := false
 @export var mouse_color := Color.GREEN
 @onready var detect_area := $Area2D
 @onready var hit_box := $CollisionShape2D
@@ -19,7 +16,6 @@ var active := false:
 	set(b):
 		active = b
 		if b:
-			print(disabled_hitbox)
 			if !disabled_hitbox:
 				hit_box.disabled = false
 			else:

@@ -200,11 +200,12 @@ func quit_level_request():
 func return_inventory():
 	return inventory
 
-func activate_spawners(state : bool):
+func activate_spawners(state_spawner : bool):
 	for spawn in spawners.get_children() as Array[SpawnerBasic]:
-		spawn.active = state
+		spawn.active = state_spawner
 
 func advance_stage():
+	boss.on_boss_kill.disconnect(advance_stage)
 	if stage < enemy_stages.size():
 		stage += 1
 	lock_diff = false
@@ -216,7 +217,8 @@ func advance_stage():
 func spawn_boss():
 	var rand_boss_num = randi_range(0, enemy_stages[stage].bosses.size() - 1)
 	var main_spawner = spawners.get_child(0) as SpawnerBasic
-	main_spawner.spawn_boss(rand_boss_num)
+	boss = main_spawner.spawn_boss(rand_boss_num)
+	boss.on_boss_kill.connect(advance_stage)
 
 #region Pierdoly
 func _input(event):

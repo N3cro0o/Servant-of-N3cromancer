@@ -14,7 +14,6 @@ var speed_vector = Vector2.RIGHT
 # Methods
 func _ready():
 	super._ready()
-	body_entered.connect(_on_body_entered)
 	sprite = get_node_or_null("SpriteMain")
 	shadow = get_node_or_null("SpriteShadow")
 
