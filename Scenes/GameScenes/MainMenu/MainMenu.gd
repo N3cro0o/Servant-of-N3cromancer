@@ -1,9 +1,9 @@
 class_name MainMenu extends Control
 
 # Variables
-@onready var title = $MenuPanel/Title
-@onready var play_button = $MenuPanel/MenuPositions/PlayButtonEndless
-@onready var tutorial_panel = $MenuPanel/TutorialPanel
+@onready var title = $MenuPanel2/Title
+@onready var play_button = $MenuPanel2/MenuPositions/PlayButtonEndless
+@onready var tutorial_panel = $MenuPanel2/TutorialPanel
 
 # Signals
 signal on_play_request
@@ -36,8 +36,7 @@ func on_shop_button_press():
 	GmM.change_scene(2)
 
 func on_options_button_press():
-	GmM.reset_save_data()
-	get_tree().reload_current_scene()
+	GmM.change_scene(3)
 
 func quit_game():
 	await SvM.save_data()

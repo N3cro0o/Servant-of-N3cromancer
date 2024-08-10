@@ -24,8 +24,7 @@ func finalize_level_score():
 	if highscore < score:
 		highscore = score
 		on_new_highscore.emit()
-	SvM.data["coins"] = coins_game
-	SvM.data["highscore"] = highscore
+	SvM.update_score(coins_game, highscore)
 	score = 0
 	coins = 0
 

@@ -9,6 +9,7 @@ const DA_BONE_DATA = preload("res://Scenes/Obstacles/Gravity/Obstacle1/gravity_o
 var death_timer = 35.0
 var death_timer_trunc = 34.0
 var damage_timer = 0
+var kill_check = false
 
 signal on_boss_kill
 
@@ -32,13 +33,15 @@ func _physics_process(delta):
 	death_timer -= delta
 	if death_timer <= 0:
 		kill_boss()
-	if death_timer < death_timer_trunc:
+	if death_timer < death_timer_trunc and !kill_check:
 		death_timer_trunc -= 1.5
 		var rand_spwnr_num = randi_range(0, 2)
 		var boner = DA_BONE.instantiate()
 		spawners.get_child(rand_spwnr_num).spawn_something(boner, DA_BONE_DATA)
 
 func kill_boss():
-	on_boss_kill.emit()
-	death_timer = 100
-	speed = 1000
+	if !kill_check:
+		on_boss_kill.emit()
+		speed = 1000
+		kill_check = true
+	modulate = Color(modulate, modulate.a - 0.015)

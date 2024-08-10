@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="PlayerBodyHolder" load_steps=4 format=3 uid="uid://bp5yxaou74djr"]
+
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/player_body_holder.gd" id="1_4i84y"]
+[ext_resource type="Texture2D" uid="uid://xikw7timay6n" path="res://Images/Player/Skull/Skul.png" id="1_eu53o"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gqp7a"]
+atlas = ExtResource("1_eu53o")
+region = Rect2(128, 0, 128, 128)
+
+[resource]
+script = ExtResource("1_4i84y")
+body_name = "Basic"
+body_scene_path = "res://Scenes/PlayerCharacter/PlayerBody/Standard/player_character.tscn"
+body_image = SubResource("AtlasTexture_gqp7a")
+body_color = Color(1, 1, 1, 1)
+body_unlocked = true

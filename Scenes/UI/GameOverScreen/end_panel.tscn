@@ -1,5 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://cc0c6bo2wcejw"]
+[gd_scene load_steps=3 format=3 uid="uid://cc0c6bo2wcejw"]
 
+[ext_resource type="Theme" uid="uid://do6gg3r8fydfa" path="res://Resources/Themes/main_theme.tres" id="1_ee3aq"]
 [ext_resource type="Script" path="res://Scenes/UI/GameOverScreen/end_panel.gd" id="1_nqexy"]
 
 [node name="EndPanel" type="Control"]
@@ -7,6 +8,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 1080.0
 offset_bottom = 2400.0
+theme = ExtResource("1_ee3aq")
 script = ExtResource("1_nqexy")
 
 [node name="BG" type="ColorRect" parent="."]
@@ -43,7 +45,6 @@ size_flags_vertical = 3
 [node name="YouDiedBruhLabel" type="RichTextLabel" parent="Margin/Box/Upper"]
 layout_mode = 2
 size_flags_vertical = 4
-theme_override_colors/default_color = Color(0.854902, 0.854902, 0.854902, 1)
 theme_override_font_sizes/normal_font_size = 180
 bbcode_enabled = true
 text = "[center]You failed to escape"
@@ -55,7 +56,6 @@ size_flags_vertical = 3
 
 [node name="DescriptionLabel" type="RichTextLabel" parent="Margin/Box/Middle"]
 layout_mode = 2
-theme_override_colors/default_color = Color(0.854902, 0.854902, 0.854902, 1)
 theme_override_font_sizes/normal_font_size = 64
 text = "Papaj"
 fit_content = true
@@ -71,7 +71,6 @@ alignment = 1
 
 [node name="ResetTimerLabel" type="RichTextLabel" parent="Margin/Box/Bottom/VBoxContainer"]
 layout_mode = 2
-theme_override_colors/default_color = Color(0.854902, 0.854902, 0.854902, 1)
 theme_override_font_sizes/normal_font_size = 64
 bbcode_enabled = true
 text = "Emm"

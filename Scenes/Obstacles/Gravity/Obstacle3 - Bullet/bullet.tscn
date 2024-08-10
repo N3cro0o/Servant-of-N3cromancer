@@ -1,11 +1,12 @@
 [gd_scene load_steps=5 format=3 uid="uid://dfh8wxy5ssygi"]
 
-[ext_resource type="Texture2D" uid="uid://b11h83jdg31y7" path="res://Images/icon.svg" id="1_muhcj"]
 [ext_resource type="PhysicsMaterial" uid="uid://bix64luwfd3ge" path="res://Scenes/Obstacles/Gravity/Obstacle1/obstacle1_physics_material.tres" id="1_qfjwv"]
 [ext_resource type="Script" path="res://Scenes/Obstacles/Gravity/Obstacle3 - Bullet/bullet.gd" id="1_wl5rs"]
+[ext_resource type="Texture2D" uid="uid://bwbcwq78s0o14" path="res://Images/Obstacles/Dart/Wind_bolec_ignition.png" id="3_w5jwf"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_tfy34"]
-radius = 65.123
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_olsnk"]
+radius = 47.0
+height = 192.0
 
 [node name="BulletType" type="RigidBody2D" groups=["obstacle"]]
 collision_layer = 2
@@ -14,8 +15,8 @@ script = ExtResource("1_wl5rs")
 screen_fraction = 0.6
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(0.878431, 0, 0.792157, 1)
-texture = ExtResource("1_muhcj")
+rotation = -0.785398
+texture = ExtResource("3_w5jwf")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_tfy34")
+shape = SubResource("CapsuleShape2D_olsnk")

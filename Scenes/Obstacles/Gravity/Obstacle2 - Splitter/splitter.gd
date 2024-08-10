@@ -27,8 +27,9 @@ func split():
 		var f = randf_range(-child_random_spread, child_random_spread)
 		for i in 2:
 			# Spawn and properites
-			var obs = CHILD_OBSTACLE.instantiate() as ObstacleGravityBase
+			var obs = CHILD_OBSTACLE.instantiate() as ObstacleGravitySplitterChild
 			var rotat = spawn_rotation + deg_to_rad(child_spread + f)
+			obs.sprite_texture(-child_spread)
 			obs.position = position + Vector2(0, -100)
 			child_spread *= -1
 			var vel = Vector2(0, -child_speed).rotated(rotat)

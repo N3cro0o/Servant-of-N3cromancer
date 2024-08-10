@@ -38,6 +38,7 @@ offset_right = 1080.0
 offset_bottom = 2400.0
 
 [node name="DebugLabel" type="Label" parent="WindowBox"]
+visible = false
 layout_mode = 0
 offset_right = 136.0
 offset_bottom = 34.0

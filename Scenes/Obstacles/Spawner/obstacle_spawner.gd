@@ -270,6 +270,9 @@ func _spawn_logic():
 	spawn_obstacle(spawn_id)
 	randomize_spawn_delay()
 
+func lock_spawn():
+	active = false
+
 func lock_static_spawn(w):
 	spawn_static_index += w
 

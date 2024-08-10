@@ -9,16 +9,21 @@ class_name GM extends Node
 ## NOT CHANCE[br]
 ## Variable used to calculate frequency of pickups, shows mean objects required to spawn a pickup
 @export var pickup_spawn_period = 5
-@export var body_array : Array[PackedScene]
+@export var body_holder_array : Array[PlayerBodyHolder]
 @export var scene_array : Array[PackedScene]
 @onready var screen_black := $Control/BlackScreen
+var body_array : Array[PackedScene]
 var black_colour = Color.BLACK
+var line_color_array = [Color("ffffff"), Color("ed0e4c"), Color("3b0ae5"), Color("1ec622"),
+	Color("ff53c5"), Color("cda000")]
 var curr_scene : Node
 var transition_iterat = 0
 
 # Save Data
-var endless_unlock = false
-var current_body = 1
+var endless_unlock = true
+var line_customization_unlock = false
+var current_body = 0
+var line_color = 0
 var inventory_space = 0
 #endregion
 
@@ -28,7 +33,14 @@ func sort_by_shop_category(a : ItemShopData, b : ItemShopData):
 		return true
 	return false
 
+func update_line_color(color : int):
+	line_color = color
+	SvM.update_line_color(color)
+
 func _ready():
+	for x in body_holder_array:
+		var body = load(x.body_scene_path)
+		body_array.push_back(body)
 	black_colour = screen_black.color
 	screen_black.color = Color(black_colour, 0)
 	transition_iterat = transition_speed * 60
@@ -51,7 +63,6 @@ func after_game_over_logic(num := 0):
 			ScM.finalize_level_score()
 		-1:
 			ScM.reset_score()
-	SvM.save_data()
 
 func change_scene(scene_to_go : int):
 	await transition_screen_in()
@@ -61,9 +72,13 @@ func change_scene(scene_to_go : int):
 	curr_scene = get_tree().get_current_scene()
 	await transition_screen_out()
 
+#endregion
+
 func reset_save_data():
 	SvM.reset_data()
+	endless_unlock = true
+	line_customization_unlock = false
+	current_body = 0
+	line_color = 0
 	inventory_space = 0
-	endless_unlock = false
 	SvM.save_data()
-#endregion

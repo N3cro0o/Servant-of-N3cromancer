@@ -62,6 +62,8 @@ var difficulty := 0.0:
 				diff_trunc_val += 1
 				speed += accelerate
 				speed_multi = speed / 5
+				if speed > big_boi.return_max_speed():
+					speed = big_boi.return_max_speed()
 ## speed in [m/s] because metric is far superior, no thing or no one will change this
 var speed := 5.0
 var max_speed := 7.5

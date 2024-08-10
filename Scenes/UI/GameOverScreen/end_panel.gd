@@ -23,6 +23,7 @@ func update_desc():
 	else:
 		desc_label.text = descritpion % arr
 	visible = true
+	SvM.save_data()
 
 func _process(delta):
 	if visible:

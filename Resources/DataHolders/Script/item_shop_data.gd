@@ -18,7 +18,7 @@ enum category_shop {
 @export var category : category_shop = category_shop.RANDOM
 @export_group("Script")
 @export_enum("king_nothing", "endless_unlock", "light_skul_unlock",\
-	"scroll_storag_upgrade") var resource_script = "king_nothing"
+	"scroll_storag_upgrade", "custom_line") var resource_script = "king_nothing"
 @export var variable1 = 0.0
 var bought = false
 
@@ -33,7 +33,10 @@ func endless_unlock():
 	GmM.endless_unlock = true
 
 func light_skul_unlock():
-	pass
+	GmM.body_holder_array[variable1].body_unlocked = true
 
 func scroll_storag_upgrade():
 	GmM.inventory_space += variable1
+
+func custom_line():
+	GmM.line_customization_unlock = true

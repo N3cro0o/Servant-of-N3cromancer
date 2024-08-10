@@ -1,5 +1,7 @@
 class_name ObstacleGravityJumping extends ObstacleGravityBase
 
+const TEXTURE = preload("res://Images/Obstacles/Dart/Wind_bolec.png")
+
 @export_range(0, 1) var screen_fraction = 0.5
 var middle_screen
 var player_vec : Vector2
@@ -21,8 +23,13 @@ func _physics_process(delta):
 
 func jump():
 	print("jump")
+	$Sprite2D.texture = TEXTURE
 	player_vec += Vector2(0, -50)
 	var vec = player_vec.normalized() * linear_velocity.length()
 	vec.y *= 0.75
 	linear_velocity = vec
 	jumped_check = true
+
+func on_mouse_hit():
+	super.on_mouse_hit()
+	$Sprite2D.texture = TEXTURE

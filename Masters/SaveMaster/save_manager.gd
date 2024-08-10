@@ -6,8 +6,9 @@ var data = {
 	"highscore" : 0,
 	"coins" : 0,
 	"current_skul" : 0,
-	# Unlock endless, nimble skull, custom Line, inventory 1
-	"unlocks_shop" : [false, false, false, false]
+	"line_color" : 0,
+	# Unlock nimble skull, custom Line, inventory 1
+	"unlocks_shop" : [false, false, false]
 }
 
 signal on_save_completed
@@ -19,13 +20,15 @@ func _ready():
 	else:
 		reset_data()
 
+#region Save System
+
 func reset_data():
 	data["highscore"] = 0
 	data["coins"] = 0
 	data["current_skul"] = 0
-	var size = data["unlocks_shop"].size()
-	for i in size:
+	for i in GmM.items.size():
 		data["unlocks_shop"][i] = false
+	data["line_color"] = 0
 
 func save_data():
 	var file = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
@@ -47,12 +50,34 @@ func load_data():
 	file.close()
 	print_rich("[hint=SaveManager]Data loaded from file[/hint] at %s" % Time.get_time_dict_from_system())
 	# Load data
+		# Coins and highscore
 	ScM.coins_game = data["coins"]
+	ScM.highscore = data["highscore"]
+		# Upgrades shop
 	var upgrade_names : String = ""
-	for i in 3:
+	for i in data["unlocks_shop"].size():
 		var b = data["unlocks_shop"][i]
 		if b:
 			GmM.items[i].on_buy()
 			upgrade_names += "%s " % GmM.items[i].name
+		# Line color
+	GmM.line_color = data["line_color"]
+		# Current skul body
+	GmM.current_body = data["current_skul"]
 	print_rich("[hint=SaveManager]Data loaded[/hint]\n%s\n\n" % upgrade_names)
 	on_load_completed.emit()
+
+#endregion
+
+func update_player_body(body_id : int):
+	data["current_skul"] = body_id
+
+func update_score(coin, score):
+	data["highscore"] = score
+	data["coins"] = coin
+
+func update_line_color(color : int):
+	data["line_color"] = color
+
+func update_upgrade_shop_bought(id : int):
+	data["unlocks_shop"][id] = true

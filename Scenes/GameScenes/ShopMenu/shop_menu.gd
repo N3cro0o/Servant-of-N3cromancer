@@ -49,7 +49,7 @@ func on_buy():
 			item.on_buy()
 			GmM.items[current_item_index].bought = true
 			items_array[current_item_index].bought = true
-			SvM.data["unlocks_shop"][current_item_index] = true
+			SvM.update_upgrade_shop_bought(current_item_index)
 			change_current_item(current_item_index)
 		else:
 			print_rich(ItemShopData.debug_text1 % [item.name, Time.get_time_dict_from_system()])

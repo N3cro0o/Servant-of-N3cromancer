@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://crf30rcedkanq"]
 
-[ext_resource type="Texture2D" uid="uid://b11h83jdg31y7" path="res://Images/icon.svg" id="1_dcm6e"]
 [ext_resource type="Script" path="res://Scenes/Obstacles/Gravity/Obstacle2 - Splitter/splitter.gd" id="1_j2b4s"]
+[ext_resource type="SpriteFrames" uid="uid://bpfay1ntp1cru" path="res://Scenes/Obstacles/Gravity/Obstacle2 - Splitter/splitter_frames.tres" id="2_vxenc"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3o7gr"]
 radius = 62.0322
@@ -19,8 +19,9 @@ child_spread = 22.5
 speed = 550.0
 use_rotation = true
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_dcm6e")
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("2_vxenc")
+autoplay = "default"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_3o7gr")

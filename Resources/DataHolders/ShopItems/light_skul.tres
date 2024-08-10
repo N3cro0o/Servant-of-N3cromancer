@@ -6,9 +6,9 @@
 [resource]
 script = ExtResource("1_vdq56")
 name = "Nimble Skul"
-cost = 50
+cost = 30
 image = ExtResource("1_pgbjy")
-desc = "Toż to Kacper Szcoch, pogromca malborasów i czcigodny leń WUST!"
+desc = "I found a cracked skul while doing your duties. This one is faster but its magic is weak"
 category = 2
 resource_script = "light_skul_unlock"
-variable1 = 0.0
+variable1 = 1.0

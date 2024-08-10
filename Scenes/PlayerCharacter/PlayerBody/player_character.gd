@@ -29,9 +29,10 @@ func _ready():
 
 func _on_hitbox_activation(body):
 	if body is ObstacleGravityBase:
-		var d = body.damage
-		body.body_hit = true
-		on_hit.emit(d)
+		if body.damage >= 0:
+			var d = body.damage
+			body.body_hit = true
+			on_hit.emit(d)
 
 func on_pickbox_activation(body):
 	if body is PickUpBase:

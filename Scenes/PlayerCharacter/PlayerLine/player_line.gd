@@ -33,6 +33,7 @@ enum state {
 @onready var line2 := $AdditionalLine
 @onready var line_r = $HelpLines/LineR
 @onready var line_l = $HelpLines/LineL
+@onready var line_add = $AdditionalLine
 @onready var timer = $ShieldTimer1
 @onready var timer_charge = $ShieldTimer2
 
@@ -90,6 +91,13 @@ func _ready():
 	body = GmM.body_array[GmM.current_body].instantiate()
 	add_child(body)
 	body.on_hit.connect(on_body_hit)
+	# Update line colors
+	var color = GmM.line_color_array[GmM.line_color]
+	default_color = color
+	line_r.default_color = Color(color, line_r.default_color.a)
+	line_l.default_color = Color(color, line_l.default_color.a)
+	line_add.default_color = color
+	# Line logic
 	line_points_number = body.line_points_number
 	distance_points = body.distance_points
 	if line_points_number < points.size():
