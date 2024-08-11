@@ -1,6 +1,41 @@
-[gd_scene load_steps=2 format=3 uid="uid://cor3guxh347t7"]
+[gd_scene load_steps=11 format=3 uid="uid://cor3guxh347t7"]
 
 [ext_resource type="Script" path="res://Masters/GameMaster/GM.gd" id="1_cy212"]
+[ext_resource type="PackedScene" uid="uid://b25blksts531e" path="res://Scenes/GameScenes/MainMenu/MainMenu.tscn" id="2_v7m5h"]
+[ext_resource type="PackedScene" uid="uid://vypfdtx3st2g" path="res://Scenes/GameScenes/GameScene/game_scene.tscn" id="3_csgce"]
+[ext_resource type="Resource" uid="uid://by14f0wrvthua" path="res://Resources/DataHolders/ShopItems/light_skul.tres" id="3_kcmeh"]
+[ext_resource type="Resource" uid="uid://c7nsnwdwl0b0d" path="res://Resources/DataHolders/ShopItems/inventory_v1.tres" id="4_x4cw1"]
+[ext_resource type="Resource" uid="uid://dabns3awh2xyp" path="res://Resources/DataHolders/ShopItems/custom_player_line.tres" id="5_hiv8n"]
+[ext_resource type="PackedScene" uid="uid://dua8n2u5i2pav" path="res://Scenes/GameScenes/ShopMenu/shop_menu.tscn" id="5_ol480"]
+[ext_resource type="Resource" uid="uid://bp5yxaou74djr" path="res://Scenes/PlayerCharacter/PlayerBody/Standard/standard.tres" id="6_1xkax"]
+[ext_resource type="Resource" uid="uid://dsu1xapvsjh57" path="res://Scenes/PlayerCharacter/PlayerBody/Fast/fast.tres" id="7_0ti8r"]
+[ext_resource type="PackedScene" uid="uid://do88bn15nxcbu" path="res://Scenes/GameScenes/OptionsMenu/options.tscn" id="11_ov1ce"]
 
 [node name="GM" type="Node"]
 script = ExtResource("1_cy212")
+transition_speed = 0.25
+items = Array[Resource("res://Resources/DataHolders/Script/item_shop_data.gd")]([ExtResource("3_kcmeh"), ExtResource("5_hiv8n"), ExtResource("4_x4cw1")])
+pickup_spawn_period = 15
+body_holder_array = Array[Resource("res://Resources/DataHolders/Script/player_body_holder.gd")]([ExtResource("6_1xkax"), ExtResource("7_0ti8r")])
+scene_array = Array[PackedScene]([ExtResource("2_v7m5h"), ExtResource("3_csgce"), ExtResource("5_ol480"), ExtResource("11_ov1ce")])
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BlackScreen" type="ColorRect" parent="Control"]
+z_index = 4096
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.0980392, 0.0980392, 0.129412, 1)
+
+[node name="LogicNode" type="Node" parent="."]

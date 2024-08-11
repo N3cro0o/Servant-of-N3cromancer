@@ -1,0 +1,46 @@
+[gd_scene load_steps=3 format=3 uid="uid://cwhxijf40rcnx"]
+
+[ext_resource type="Script" path="res://Scenes/PlayerCharacter/PlayerLine/player_line.gd" id="1_ten86"]
+[ext_resource type="PackedScene" uid="uid://dcu2kdtm2wqvc" path="res://Scenes/PlayerCharacter/PlayerBody/Standard/player_character.tscn" id="2_xdajv"]
+
+[node name="PlayerLine" type="Line2D"]
+z_index = -10
+position = Vector2(1, 0)
+points = PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+script = ExtResource("1_ten86")
+distance_points = 6.0
+
+[node name="PlayerCharacter" parent="." instance=ExtResource("2_xdajv")]
+z_as_relative = false
+speed_multi = 0.2
+
+[node name="HelpLines" type="Node" parent="."]
+
+[node name="LineR" type="Line2D" parent="HelpLines"]
+z_index = -20
+z_as_relative = false
+position = Vector2(1, 0)
+points = PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+width = 6.0
+default_color = Color(1, 1, 1, 0.392157)
+
+[node name="LineL" type="Line2D" parent="HelpLines"]
+show_behind_parent = true
+z_index = -20
+z_as_relative = false
+points = PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+width = 6.0
+default_color = Color(1, 1, 1, 0.392157)
+
+[node name="AdditionalLine" type="Line2D" parent="."]
+points = PackedVector2Array(0, 0, 0, 0)
+
+[node name="ShieldTimer1" type="Timer" parent="."]
+one_shot = true
+
+[node name="ShieldTimer2" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="on_hit" from="PlayerCharacter" to="." method="on_body_hit"]
+[connection signal="timeout" from="ShieldTimer1" to="." method="on_shield_recharge_start"]
+[connection signal="timeout" from="ShieldTimer2" to="." method="on_shield_recharge_end"]

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ItemShopData" load_steps=3 format=3 uid="uid://c7nsnwdwl0b0d"]
+
+[ext_resource type="Texture2D" uid="uid://bmwgq31sa8d2o" path="res://Images/UI/scroll_quiver.png" id="1_bv8k1"]
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/item_shop_data.gd" id="1_fgidi"]
+
+[resource]
+script = ExtResource("1_fgidi")
+name = "Basic holder"
+cost = 15
+image = ExtResource("1_bv8k1")
+desc = "Turns out that random scrolls you find can be stored inside this bag made from magic scrap. Could be useful"
+category = 1
+resource_script = "scroll_storag_upgrade"
+variable1 = 1.0

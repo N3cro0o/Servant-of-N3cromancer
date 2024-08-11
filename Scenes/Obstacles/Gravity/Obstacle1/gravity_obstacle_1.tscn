@@ -1,18 +1,16 @@
 [gd_scene load_steps=5 format=3 uid="uid://d0coii8fjegws"]
 
 [ext_resource type="Script" path="res://Scenes/Obstacles/Gravity/Obstacle1/gravity_obstacle_1.gd" id="1_84aml"]
+[ext_resource type="PhysicsMaterial" uid="uid://bix64luwfd3ge" path="res://Scenes/Obstacles/Gravity/Obstacle1/obstacle1_physics_material.tres" id="1_x7c8e"]
 [ext_resource type="SpriteFrames" uid="uid://bk5er1c13yw8" path="res://Scenes/Obstacles/Gravity/Obstacle1/da_boned.tres" id="2_lpb2u"]
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_43322"]
-bounce = 0.5
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jv2jj"]
 radius = 55.8408
 height = 223.413
 
-[node name="GravityObstacle1" type="RigidBody2D" groups=["obstacle"]]
+[node name="GravityObstacle1" type="RigidBody2D" groups=["boned", "obstacle"]]
 collision_layer = 2
-physics_material_override = SubResource("PhysicsMaterial_43322")
+physics_material_override = ExtResource("1_x7c8e")
 linear_damp_mode = 1
 angular_velocity = 6.28319
 angular_damp_mode = 1

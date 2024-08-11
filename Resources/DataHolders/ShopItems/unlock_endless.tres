@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ItemShopData" load_steps=3 format=3 uid="uid://b5q8fsvxcwuvk"]
+
+[ext_resource type="Texture2D" uid="uid://b78kfmdwrhg8m" path="res://Images/Icons/Main/iconSku256l.png" id="1_iww7q"]
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/item_shop_data.gd" id="1_w3evx"]
+
+[resource]
+script = ExtResource("1_w3evx")
+name = "Skip tutorial"
+cost = 0
+image = ExtResource("1_iww7q")
+desc = "You have been thinking about the Escape for months, who needs tutorial anyway?"
+category = 0
+resource_script = "endless_unlock"
+variable1 = 0.0

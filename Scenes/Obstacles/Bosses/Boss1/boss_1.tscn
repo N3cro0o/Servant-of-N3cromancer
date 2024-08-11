@@ -1,0 +1,55 @@
+[gd_scene load_steps=6 format=3 uid="uid://bqkgkbbrmsicx"]
+
+[ext_resource type="Script" path="res://Scenes/Obstacles/Bosses/Boss1/boss_1.gd" id="1_5pmoh"]
+[ext_resource type="Texture2D" uid="uid://cxtef1quglbdx" path="res://Images/Obstacles/Boss1/boss1.png" id="2_8q6ah"]
+[ext_resource type="Texture2D" uid="uid://qolskofdwqeu" path="res://Images/Obstacles/Boss1/boss1_back.png" id="3_33ehy"]
+[ext_resource type="PackedScene" uid="uid://ccatmhjjcq6yv" path="res://Scenes/Obstacles/Spawner/obstacle_spawner.tscn" id="3_wr7ic"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n2hxe"]
+size = Vector2(1100, 150)
+
+[node name="Boss1" type="RigidBody2D"]
+collision_layer = 4
+collision_mask = 3
+can_sleep = false
+lock_rotation = true
+freeze = true
+freeze_mode = 1
+script = ExtResource("1_5pmoh")
+speed = 25.0
+damage = -1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_n2hxe")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(2.01563, 2.01563)
+texture = ExtResource("2_8q6ah")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+position = Vector2(-2.07518e-05, -736.373)
+rotation = -3.14159
+scale = Vector2(2.75972, 3.87011)
+texture = ExtResource("3_33ehy")
+
+[node name="Spawners" type="Node2D" parent="."]
+position = Vector2(0, -150)
+
+[node name="ObstacleSpawner" parent="Spawners" instance=ExtResource("3_wr7ic")]
+position = Vector2(0, -150)
+active = false
+
+[node name="ObstacleSpawner2" parent="Spawners" instance=ExtResource("3_wr7ic")]
+position = Vector2(300, -150)
+active = false
+spawn_position = "Right"
+left_right = true
+
+[node name="ObstacleSpawner3" parent="Spawners" instance=ExtResource("3_wr7ic")]
+position = Vector2(-300, -150)
+active = false
+spawn_position = "Left"
+
+[connection signal="on_boss_kill" from="." to="Spawners/ObstacleSpawner" method="lock_spawn"]
+[connection signal="on_boss_kill" from="." to="Spawners/ObstacleSpawner2" method="lock_spawn"]
+[connection signal="on_boss_kill" from="." to="Spawners/ObstacleSpawner3" method="lock_spawn"]

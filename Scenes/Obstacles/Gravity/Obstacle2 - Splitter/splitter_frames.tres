@@ -1,0 +1,39 @@
+[gd_resource type="SpriteFrames" load_steps=6 format=3 uid="uid://bpfay1ntp1cru"]
+
+[ext_resource type="Texture2D" uid="uid://di6wsn2or8f1k" path="res://Images/Obstacles/Splitter/splitter_obstacle.png" id="1_6vg5k"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_njfw4"]
+atlas = ExtResource("1_6vg5k")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sosj4"]
+atlas = ExtResource("1_6vg5k")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ninsv"]
+atlas = ExtResource("1_6vg5k")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3xyop"]
+atlas = ExtResource("1_6vg5k")
+region = Rect2(384, 0, 128, 128)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_njfw4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sosj4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ninsv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3xyop")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]

@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://imepv3wsnq7a"]
+
+[ext_resource type="Script" path="res://Scenes/UI/TutorialEntry/tutorial_text_position.gd" id="1_125yx"]
+[ext_resource type="Theme" uid="uid://crkmdsyao4mj3" path="res://Resources/Themes/tutorial_text.tres" id="1_n5kja"]
+
+[node name="TutorialTextEntry" type="HBoxContainer"]
+theme = ExtResource("1_n5kja")
+theme_override_constants/separation = 15
+script = ExtResource("1_125yx")
+
+[node name="Label" type="RichTextLabel" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+fit_content = true
+
+[node name="Image" type="TextureRect" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+stretch_mode = 5

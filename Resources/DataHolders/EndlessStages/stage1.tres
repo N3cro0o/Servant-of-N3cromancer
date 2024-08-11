@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="EndlessEnemyStageData" load_steps=11 format=3 uid="uid://dnoa567f4fvv2"]
+
+[ext_resource type="Resource" uid="uid://bj47i888dekbp" path="res://Scenes/Obstacles/Bosses/Boss1/boss_1.tres" id="1_25mnb"]
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/endless_enemy_stage.gd" id="1_axgug"]
+[ext_resource type="Resource" uid="uid://bal5m5yrck2w" path="res://Scenes/Obstacles/Non-gravity/Obstacle1/vertical_obstacle_1.tres" id="1_j0smj"]
+[ext_resource type="Resource" uid="uid://chynsxlq4cx8l" path="res://Scenes/Obstacles/Gravity/Obstacle1/gravity_obstacle_1.tres" id="2_22wac"]
+[ext_resource type="Resource" uid="uid://dj1bcy6upyt3g" path="res://Scenes/Obstacles/Homing/Obstacle1/homing_gravity_1.tres" id="3_evavx"]
+[ext_resource type="Resource" uid="uid://23r2kj0qc0k3" path="res://Scenes/Obstacles/Non-gravity/Obstacle3/shield_static.tres" id="4_pf17q"]
+[ext_resource type="Resource" uid="uid://ceur701l7a75w" path="res://Scenes/Obstacles/Non-gravity/Obstacle2 - Wide/static_wide.tres" id="5_hve2u"]
+[ext_resource type="Resource" uid="uid://c58fbv2edq6cw" path="res://Scenes/PowerUpsAndPickUps/Repulsor/repulsor_data.tres" id="6_8u208"]
+[ext_resource type="Resource" uid="uid://drv2mwl03kmv4" path="res://Scenes/PowerUpsAndPickUps/Insta-shield/insta_shield.tres" id="7_ppk6v"]
+[ext_resource type="Resource" uid="uid://cjsyk324p42aq" path="res://Scenes/PowerUpsAndPickUps/PLN/coin_data.tres" id="8_t5ytc"]
+
+[resource]
+script = ExtResource("1_axgug")
+left = Array[Resource("res://Resources/DataHolders/Script/spawn_obstacle_data_holder.gd")]([ExtResource("1_j0smj"), ExtResource("2_22wac"), ExtResource("5_hve2u")])
+center = Array[Resource("res://Resources/DataHolders/Script/spawn_obstacle_data_holder.gd")]([ExtResource("4_pf17q"), ExtResource("1_j0smj"), ExtResource("3_evavx"), ExtResource("2_22wac")])
+right = Array[Resource("res://Resources/DataHolders/Script/spawn_obstacle_data_holder.gd")]([ExtResource("1_j0smj"), ExtResource("2_22wac"), ExtResource("5_hve2u")])
+difficulty_threshold = 10.0
+bosses = Array[Resource("res://Resources/DataHolders/Script/spawn_obstacle_data_holder.gd")]([ExtResource("1_25mnb")])
+pickups = Array[Resource("res://Resources/DataHolders/Script/spawn_pickup_data_holder.gd")]([ExtResource("6_8u208"), ExtResource("7_ppk6v"), ExtResource("8_t5ytc")])

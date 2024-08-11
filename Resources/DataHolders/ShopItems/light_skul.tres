@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ItemShopData" load_steps=3 format=3 uid="uid://by14f0wrvthua"]
+
+[ext_resource type="Texture2D" uid="uid://05n6w04hvevx" path="res://Images/Player/Skull/Skul_Tutorial1.png" id="1_pgbjy"]
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/item_shop_data.gd" id="1_vdq56"]
+
+[resource]
+script = ExtResource("1_vdq56")
+name = "Nimble Skul"
+cost = 30
+image = ExtResource("1_pgbjy")
+desc = "I found a cracked skul while doing your duties. This one is faster but its magic is weak"
+category = 2
+resource_script = "light_skul_unlock"
+variable1 = 1.0

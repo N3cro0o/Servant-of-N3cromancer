@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ItemShopData" load_steps=3 format=3 uid="uid://dabns3awh2xyp"]
+
+[ext_resource type="Texture2D" uid="uid://yj16v6kt1c04" path="res://Images/UI/line_palette.png" id="1_88d3s"]
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/item_shop_data.gd" id="1_y6a8y"]
+
+[resource]
+script = ExtResource("1_y6a8y")
+name = "Custom Line"
+cost = 100
+image = ExtResource("1_88d3s")
+desc = "That line I always follow looks boring, make it look so
+[i]F A N C Y[/i]"
+category = 90
+resource_script = "custom_line"
+variable1 = 0.0
