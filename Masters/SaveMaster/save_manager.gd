@@ -8,7 +8,9 @@ var data = {
 	"current_skul" : 0,
 	"line_color" : 0,
 	# Unlock nimble skull, custom Line, inventory 1
-	"unlocks_shop" : [false, false, false]
+	"unlocks_shop" : [false, false, false],
+	# Options
+	"volume_master" : 1
 }
 
 signal on_save_completed
@@ -29,6 +31,8 @@ func reset_data():
 	for i in GmM.items.size():
 		data["unlocks_shop"][i] = false
 	data["line_color"] = 0
+	# Options data
+	data["volume_master"] = 1
 
 func save_data():
 	var file = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
@@ -65,6 +69,9 @@ func load_data():
 		# Current skul body
 	GmM.current_body = data["current_skul"]
 	print_rich("[hint=SaveManager]Data loaded[/hint]\n%s\n\n" % upgrade_names)
+	# Load options data
+		# Volume master
+	Sfx.update_bus_volume("master", data["volume_master"])
 	on_load_completed.emit()
 
 #endregion
@@ -81,3 +88,6 @@ func update_line_color(color : int):
 
 func update_upgrade_shop_bought(id : int):
 	data["unlocks_shop"][id] = true
+
+func update_volume_master(val : float):
+	data["volume_master"] = val

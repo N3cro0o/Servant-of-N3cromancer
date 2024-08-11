@@ -30,12 +30,18 @@ enum state {
 @export var health_points := 5
 ## Used to calculate distance score
 @export var speed : float = 5.0
+@export_group("Audio")
+@export var streams : Array[SoundHolder] = [preload("res://SFX/moving.tres"), preload("res://SFX/slap.tres"),\
+	preload("res://SFX/skul_crack.tres")]
 @onready var line2 := $AdditionalLine
 @onready var line_r = $HelpLines/LineR
 @onready var line_l = $HelpLines/LineL
 @onready var line_add = $AdditionalLine
 @onready var timer = $ShieldTimer1
 @onready var timer_charge = $ShieldTimer2
+@onready var player_repeat = $PlayerRepeat
+@onready var player_hit = $PlayerHit
+@onready var player_hit_super = $PlayerHitSuper
 
 var body : PlayerBody
 var skul_dir = 0:
@@ -91,6 +97,11 @@ func _ready():
 	body = GmM.body_array[GmM.current_body].instantiate()
 	add_child(body)
 	body.on_hit.connect(on_body_hit)
+	# Sounds setup
+	player_hit.stream = streams[1].stream
+	player_hit.volume_db = streams[1].volume
+	player_hit_super.stream = streams[2].stream
+	player_hit_super.volume_db = streams[2].volume
 	# Update line colors
 	var color = GmM.line_color_array[GmM.line_color]
 	default_color = color
@@ -149,6 +160,10 @@ func _process(_delta):
 		var vec : Vector2 = get_point_position(count) - body.position
 		var a = vec.angle() + PI/2
 		skul_dir = a
+		#if skul_dir != 0:
+			#play_autoplay(streams[0], true)
+		#else:
+			#play_autoplay(streams[0], false)
 		# Rail Lines position
 		line_r.position = position
 		line_l.position = position
@@ -167,7 +182,8 @@ func _process(_delta):
 		_push_position_down_array(line_l)
 		_push_position_down_array(line_r)
 		# Body and changing line curve
-		target_pos = get_point_position(body.target_point) # 21th point cuz there's some buffer space while dtaping one dir
+		target_pos = get_point_position(body.target_point) # 21th point cuz there's some buffer space 
+			#while dtaping one dir
 		offset = target_pos.x - body.position.x
 		velocity = lerp(velocity, offset / _delta, _delta)
 		body.position.x += velocity * _delta # delta cuz its smooooooooth now!
@@ -200,6 +216,19 @@ func _change_last_point_pos(l:Line2D, line_pos:last_pos):
 		l.set_point_position(x, Vector2(sin(i) * -mid + pos.x - mid,-x * distance_points))
 		i += PI / count
 
+func play_autoplay(stream : SoundHolder, play : bool):
+	if play:
+		if !player_repeat.playing:
+			player_repeat.stream = stream.stream
+			player_repeat.volume_db = stream.volume
+			player_repeat.play()
+	else:
+		if player_repeat.playing:
+			player_repeat.stop()
+
+func repeat_autoplay():
+	player_repeat.play()
+
 func return_body_position():
 	return body.position + position
 
@@ -221,12 +250,14 @@ func on_body_hit(d):
 				timer.stop()
 				shield_timer_reset_after_hit(5 + d1 * 2)
 				health_points -= d
+				player_hit.play()
 			state.SHIELD_BROKEN:
 				p_state = state.BROKEN_HIT
 				if d != 0:
 					inv = true
 					shield_timer_reset_after_hit(3.5)
 				health_points -= d * 2
+				player_hit_super.play()
 			state.RECHARGE_HIT:
 				return
 			state.BROKEN_HIT:

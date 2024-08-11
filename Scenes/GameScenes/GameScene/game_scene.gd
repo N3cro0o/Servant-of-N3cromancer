@@ -73,6 +73,7 @@ var lock_diff = false
 var stage = 0
 
 # Signals
+signal on_level_start
 signal on_stage_advance
 signal on_take_damage
 signal on_failing_level
@@ -108,6 +109,8 @@ func _ready():
 	speed = big_boi.speed
 	accelerate = big_boi.return_accelerate()
 	max_speed = big_boi.return_max_speed()
+	# Level setup completed
+	on_level_start.emit()
 
 func _physics_process(delta):
 	fpsp = delta
@@ -128,11 +131,12 @@ func _process(delta):
 				x.position.y -= 2400 * 3 - 1
 	# Debug text
 	var d_text1 = "Solid obstacle checks:\nSpawner 1: %s\nSpawner 2: %s\nSpawner 3: %s\n\n"
-	debug_label.text = d_text1 % [spawners.get_child(0).can_spawn_static,
-	 spawners.get_child(1).can_spawn_static, spawners.get_child(2).can_spawn_static]
-	debug_label.text += "Player state: %s, %d\nDistance: %f, %d\nSpeed: %f m/s\nMouse pos: %s" % [state.find_key\
-	(big_boi.p_state), hp, ScM.distance, snappedf(ScM.distance, 1), speed, $MouseEntity.position]
-	debug_label.text += "\nDifficulty: %f, %d" % [difficulty, stage + 1]
+	if spawners.get_child_count() > 3:
+		debug_label.text = d_text1 % [spawners.get_child(0).can_spawn_static,
+		 spawners.get_child(1).can_spawn_static, spawners.get_child(2).can_spawn_static]
+		debug_label.text += "Player state: %s, %d\nDistance: %f, %d\nSpeed: %f m/s\nMouse pos: %s" % [state.find_key\
+		(big_boi.p_state), hp, ScM.distance, snappedf(ScM.distance, 1), speed, $MouseEntity.position]
+		debug_label.text += "\nDifficulty: %f, %d" % [difficulty, stage + 1]
 	# And lastly, hp diference
 	hp_last = hp
 

@@ -35,5 +35,14 @@ one_shot = true
 [node name="ShieldTimer2" type="Timer" parent="."]
 one_shot = true
 
+[node name="PlayerRepeat" type="AudioStreamPlayer" parent="."]
+
+[node name="PlayerHit" type="AudioStreamPlayer" parent="."]
+
+[node name="PlayerHitSuper" type="AudioStreamPlayer" parent="."]
+
 [connection signal="timeout" from="ShieldTimer1" to="." method="on_shield_recharge_start"]
 [connection signal="timeout" from="ShieldTimer2" to="." method="on_shield_recharge_end"]
+[connection signal="finished" from="PlayerRepeat" to="." method="repeat_autoplay"]
+[connection signal="finished" from="PlayerHit" to="." method="repeat_autoplay"]
+[connection signal="finished" from="PlayerHitSuper" to="." method="repeat_autoplay"]

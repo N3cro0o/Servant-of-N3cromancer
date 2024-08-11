@@ -8,6 +8,8 @@ extends Control
 # Line part
 @onready var line = $Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line
 @onready var line_color_grid = $Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line/Box/Margin/Grid
+# Options
+@onready var master_slider = $Margin/VBox/Main/Options/Margin/VBox/SoundSlider/MasterSlider
 
 var active_tab = 0
 var active_body = 0
@@ -20,6 +22,7 @@ func _ready():
 			button.button_pressed = true
 		var panel = button.get_child(0) as ColorRect
 		panel.color = GmM.line_color_array[i]
+	master_slider.value = SvM.data["volume_master"]
 	# Unlocks
 	set_unlockable_panels()
 	update_customisattion_body_data()
@@ -29,6 +32,7 @@ func set_unlockable_panels():
 		child.visible = GmM.line_customization_unlock
 
 func on_change_tab(num : int):
+	Sfx.play_sound_ui_number(0)
 	main.set_current_tab(num)
 	active_tab = num
 	main.queue_redraw()
@@ -54,6 +58,7 @@ func change_body_object(num : int):
 			break
 	SvM.update_player_body(active_body)
 	update_customisattion_body_data()
+	Sfx.play_sound_ui_number(0)
 
 func player_line_color_change(color : int):
 	GmM.update_line_color(color)
@@ -63,12 +68,16 @@ func player_line_color_change(color : int):
 func on_game_data_reset():
 	GmM.reset_save_data()
 	set_unlockable_panels()
+	Sfx.play_sound_ui_number(0)
 
+func change_master_bus_volume(num):
+	Sfx.update_bus_volume("master", num)
 #endregion
 
 func return_button_pressed():
 	SvM.save_data()
 	GmM.change_scene(0)
+	Sfx.play_sound_ui_number(0)
 
 func _notification(what):
 	# Return to Main Menu

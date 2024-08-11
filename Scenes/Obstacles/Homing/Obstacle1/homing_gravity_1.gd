@@ -3,9 +3,13 @@ class_name ObstacleHomingFireball extends ObstacleGravityBase
 # Variables
 @export var speed : int = 200
 @export_range(0, 1) var rotation_speed : float = 1.5
+@export var sound : SoundHolder
 @onready var velocity_vec = Vector2.UP * speed
 @onready var bum_timer = $BumTimer
 @onready var ball_sprite = $FireBallSprite
+@onready var player = $Player
+@onready var coll_shape = $CollisionShape2D
+
 var move_vector = Vector2(0,-1)
 var can_calc_rotation = true
 var mouse_hit_check = false
@@ -16,10 +20,13 @@ var super_lock_rotation := false
 func _init():
 	rotation = PI
 
+func _ready():
+	super._ready()
+	# Boom sound
+	player.stream = sound.stream
+	player.volume_db = sound.volume
+
 func _process(delta):
-	# Boom boom check
-	if body_hit:
-		queue_free()
 	# Override lock rotation to true
 	if super_lock_rotation:
 		lock_rotation = true
@@ -56,5 +63,15 @@ func on_mouse_hit():
 		bum_timer.start(7)
 		mouse_hit_check = true
 
+func on_body_hit(b):
+	body_hit = b
+	player.play()
+	coll_shape.set_deferred("disabled", true)
+	ball_sprite.visible = false
+	speed = 0
+
 func _on_bum_timer_timeout():
+	on_sound_end()
+
+func on_sound_end():
 	queue_free()

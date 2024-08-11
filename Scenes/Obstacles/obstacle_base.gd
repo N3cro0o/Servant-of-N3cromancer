@@ -16,7 +16,8 @@ var player_body : PlayerLine1
 var timer := 0.0
 var start_layer
 var mouse_hit := false
-var body_hit := false
+var body_hit := false:
+	set = on_body_hit
 var velocity := Vector2.ZERO
 var lock_delete_logic := false
 var can_move := true
@@ -54,6 +55,9 @@ func add_start_velocity_with_grace(velocity_vec:Vector2, angle:float, grace:floa
 
 func on_mouse_hit():
 	mouse_hit = true
+
+func on_body_hit(b):
+	body_hit = b
 
 func repulse(strength:int):
 	var norm_vec : Vector2 = (player_body.return_body_position() - position)

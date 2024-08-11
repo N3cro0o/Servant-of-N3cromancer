@@ -33,7 +33,9 @@ func _process(delta):
 		reset_label.text = "[center]Time until level reset: %d[/center]" % snappedf((time - timer), 1)
 
 func on_end_bttn_press():
+	Sfx.play_sound_ui_number(0)
 	on_quit_request.emit()
 
 func on_reset_bttn_press():
+	Sfx.play_sound_ui_number(0)
 	on_reset_request.emit()

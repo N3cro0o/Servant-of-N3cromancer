@@ -339,20 +339,25 @@ theme_override_constants/separation = 15
 
 [node name="MasterLabel" type="RichTextLabel" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider"]
 layout_mode = 2
-text = "Master - not implemented"
+text = "Master"
 fit_content = true
 
 [node name="MasterSlider" type="HSlider" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider"]
+custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
-editable = false
+max_value = 1.2
+step = 0.01
+value = 1.0
 scrollable = false
 
 [node name="MusicSlider" type="RichTextLabel" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider"]
+visible = false
 layout_mode = 2
 text = "Music - not implemented"
 fit_content = true
 
 [node name="MusicSlider2" type="HSlider" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider"]
+visible = false
 layout_mode = 2
 editable = false
 scrollable = false
@@ -407,6 +412,7 @@ text = "Return to menu"
 [connection signal="pressed" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line/Box/Margin/Grid/GreenColor" to="." method="player_line_color_change" binds= [3]]
 [connection signal="pressed" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line/Box/Margin/Grid/PinkColor" to="." method="player_line_color_change" binds= [4]]
 [connection signal="pressed" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line/Box/Margin/Grid/YellowColor" to="." method="player_line_color_change" binds= [5]]
+[connection signal="value_changed" from="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/MasterSlider" to="." method="change_master_bus_volume"]
 [connection signal="pressed" from="Margin/VBox/Main/Options/Margin/VBox/ResetData" to="." method="on_game_data_reset"]
 [connection signal="tab_changed" from="Margin/VBox/Tab/TabBar" to="." method="on_change_tab"]
 [connection signal="pressed" from="Margin/VBox/ReturnButotn" to="." method="return_button_pressed"]

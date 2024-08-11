@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://cijs2v2gsge12"]
+
+[ext_resource type="Script" path="res://Masters/SFXMaster/sfx_master.gd" id="1_cgl1j"]
+[ext_resource type="AudioStream" uid="uid://dbmaauablawwo" path="res://SFX/manu_sound.wav" id="2_bayem"]
+[ext_resource type="Resource" uid="uid://rkg2t0qwaxwj" path="res://SFX/menu.tres" id="2_ho663"]
+
+[node name="SFXMaster" type="Node"]
+script = ExtResource("1_cgl1j")
+sounds_ui = Array[Resource("res://Resources/DataHolders/Script/sound_holder.gd")]([ExtResource("2_ho663")])
+
+[node name="PlayerUI" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_bayem")
+volume_db = -10.0

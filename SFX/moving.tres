@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="SoundHolder" load_steps=3 format=3 uid="uid://dvcsvhpkrkk44"]
+
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/sound_holder.gd" id="1_6uc6v"]
+[ext_resource type="AudioStream" uid="uid://d2acrffej136p" path="res://SFX/moving.wav" id="2_juqqy"]
+
+[resource]
+script = ExtResource("1_6uc6v")
+name = "player_move"
+stream = ExtResource("2_juqqy")
+volume = -15.0
+autoplay = false
+bus = "Master"

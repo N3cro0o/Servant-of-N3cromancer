@@ -59,11 +59,13 @@ func _init():
 		left_right = false
 
 func _ready():
+	# Wait for level inicialization
+	await GameScene.instance.on_level_start
 	# Get spawn data
 	advance_to_next_stage(active)
 	# Check if no obstacles
 	if spawned_things.is_empty():
-		queue_free()
+		active = false
 	else:
 		randomize_spawn_delay()
 

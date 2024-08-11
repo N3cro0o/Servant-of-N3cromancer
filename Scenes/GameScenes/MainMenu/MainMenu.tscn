@@ -123,11 +123,11 @@ theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 250
 
 [node name="Title" type="RichTextLabel" parent="MenuPanel2"]
-visible = false
 layout_mode = 2
 size_flags_vertical = 0
 mouse_filter = 1
 theme = ExtResource("2_ximrp")
+theme_override_font_sizes/normal_font_size = 128
 bbcode_enabled = true
 text = "[left]asdasdawd[/left]"
 fit_content = true
@@ -230,12 +230,12 @@ image = SubResource("AtlasTexture_ywtvl")
 
 [node name="TutorialTextEntry4" parent="MenuPanel2/TutorialPanel/MarginContainer/VBoxContainer" instance=ExtResource("3_eryuf")]
 layout_mode = 2
+inverted_layout = true
 text = "Watch out for homing projectiles! You have to use the properties of your magic to change their trajectory."
 image = SubResource("AtlasTexture_phrv1")
 
 [node name="TutorialTextEntry5" parent="MenuPanel2/TutorialPanel/MarginContainer/VBoxContainer" instance=ExtResource("3_eryuf")]
 layout_mode = 2
-inverted_layout = true
 text = "[right]And one last thing. Try to pick up every scroll and coin you will see. You won't regret it![/right]"
 image = ExtResource("8_0i08e")
 

@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Skul of Nekromanter"
+config/name="Servant of Nekromanter"
 run/main_scene="res://Scenes/GameScenes/MainMenu/MainMenu.tscn"
 config/quit_on_go_back=false
 config/features=PackedStringArray("4.2", "GL Compatibility")
@@ -23,6 +23,7 @@ config/icon="res://Images/icon.svg"
 GmM="*res://Masters/GameMaster/GM.tscn"
 ScM="*res://Masters/ScoreMaster/score_manager.tscn"
 SvM="*res://Masters/SaveMaster/save_manager.gd"
+Sfx="*res://Masters/SFXMaster/sfx_master.tscn"
 
 [display]
 

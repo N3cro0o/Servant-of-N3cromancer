@@ -40,6 +40,7 @@ func cycle_items(num : int):
 	elif current_item_index >= arr_size:
 		current_item_index = 0
 	change_current_item(current_item_index)
+	Sfx.play_sound_ui_number(0)
 
 func on_buy():
 	if !shake_check and !item.bought:
@@ -54,6 +55,7 @@ func on_buy():
 		else:
 			print_rich(ItemShopData.debug_text1 % [item.name, Time.get_time_dict_from_system()])
 			shake_buy_button()
+	Sfx.play_sound_ui_number(0)
 
 func shake_buy_button():
 	shake_check = true
@@ -75,6 +77,7 @@ func shake_buy_button():
 
 func return_button_pressed():
 	GmM.change_scene(0)
+	Sfx.play_sound_ui_number(0)
 
 func change_current_item(num : int):
 	current_item_index = num
@@ -94,5 +97,5 @@ func change_current_item(num : int):
 func _notification(what):
 	# Return to Main Menu
 	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
-		GmM.change_scene(0)
+		return_button_pressed()
 #endregion
