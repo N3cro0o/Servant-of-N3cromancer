@@ -2,7 +2,11 @@ class_name SaveManager extends Node
 
 const SAVE_PATH = "user://czacha_zapis.json"
 
+@export var save_version = 1.0
+
 var data = {
+	# Control version, update after every major change
+	"version" : 0,
 	"highscore" : 0,
 	"coins" : 0,
 	"current_skul" : 0,
@@ -25,6 +29,7 @@ func _ready():
 #region Save System
 
 func reset_data():
+	data["version"] = save_version
 	data["highscore"] = 0
 	data["coins"] = 0
 	data["current_skul"] = 0
@@ -50,10 +55,15 @@ func check_path(path : String):
 func load_data():
 	var file = FileAccess.open(SAVE_PATH, FileAccess.READ)
 	var json = file.get_as_text()
-	data = JSON.parse_string(json)
+	var data_loaded = JSON.parse_string(json)
 	file.close()
+	for dat in data_loaded:
+		data[dat] = data_loaded[dat]
 	print_rich("[hint=SaveManager]Data loaded from file[/hint] at %s" % Time.get_time_dict_from_system())
 	# Load data
+		# Check version
+	if data["version"] != save_version:
+		print_rich("[hint=SaveManager]Data wrong version[/hint]")
 		# Coins and highscore
 	ScM.coins_game = data["coins"]
 	ScM.highscore = data["highscore"]

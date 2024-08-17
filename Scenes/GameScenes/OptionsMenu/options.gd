@@ -10,12 +10,14 @@ extends Control
 @onready var line_color_grid = $Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line/Box/Margin/Grid
 # Options
 @onready var master_slider = $Margin/VBox/Main/Options/Margin/VBox/SoundSlider/MasterSlider
+@onready var version_label: Label = $Margin/VBox/Main/Options/Margin/VBox/Label
 
 var active_tab = 0
 var active_body = 0
 
 func _ready():
 	active_body = GmM.current_body
+	version_label.text = "Version " + ProjectSettings.get_setting("application/config/version")
 	for i in line_color_grid.get_child_count():
 		var button = line_color_grid.get_child(i) as Button
 		if i == GmM.line_color:

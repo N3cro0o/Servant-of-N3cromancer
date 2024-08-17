@@ -6,7 +6,7 @@ class_name MainMenu extends Control
 @onready var tutorial_panel = $MenuPanel2/TutorialPanel
 
 # Signals
-signal on_play_request
+#signal on_play_request
 
 # Methods
 func _ready():

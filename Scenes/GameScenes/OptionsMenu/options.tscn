@@ -24,20 +24,20 @@ expand_margin_bottom = 2.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_arvc5"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1lddo"]
-bg_color = Color(0.113725, 0.113725, 0.113725, 1)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i883f"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3qkty"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qt7pf"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1svsc"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qt7pf"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1lddo"]
+bg_color = Color(0.113725, 0.113725, 0.113725, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ldjlp"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gbv5n"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3qkty"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i883f"]
 
 [node name="Options" type="Control"]
 layout_mode = 3
@@ -71,12 +71,15 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 8.0
 theme_override_styles/panel = SubResource("StyleBoxEmpty_i3u2l")
 tab_alignment = 1
+current_tab = 1
 tabs_visible = false
 use_hidden_tabs_for_min_size = true
 tab_focus_mode = 0
 
 [node name="PlayerCustomization" type="Control" parent="Margin/VBox/Main"]
+visible = false
 layout_mode = 2
+metadata/_tab_index = 0
 
 [node name="Margin" type="MarginContainer" parent="Margin/VBox/Main/PlayerCustomization"]
 layout_mode = 1
@@ -201,10 +204,10 @@ columns = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_styles/normal = SubResource("StyleBoxEmpty_iojhu")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_iojhu")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_iojhu")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_e0tyr")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_iojhu")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_iojhu")
 toggle_mode = true
 button_group = SubResource("ButtonGroup_ldggw")
 
@@ -221,10 +224,10 @@ mouse_filter = 1
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_styles/normal = SubResource("StyleBoxEmpty_iojhu")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_iojhu")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_iojhu")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_e0tyr")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_iojhu")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_iojhu")
 toggle_mode = true
 button_group = SubResource("ButtonGroup_ldggw")
 
@@ -241,10 +244,10 @@ mouse_filter = 1
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_styles/normal = SubResource("StyleBoxEmpty_iojhu")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_iojhu")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_iojhu")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_e0tyr")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_iojhu")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_iojhu")
 toggle_mode = true
 button_group = SubResource("ButtonGroup_ldggw")
 
@@ -261,10 +264,10 @@ mouse_filter = 1
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_styles/normal = SubResource("StyleBoxEmpty_iojhu")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_iojhu")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_iojhu")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_e0tyr")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_iojhu")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_iojhu")
 toggle_mode = true
 button_group = SubResource("ButtonGroup_ldggw")
 
@@ -281,10 +284,10 @@ mouse_filter = 1
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_styles/normal = SubResource("StyleBoxEmpty_iojhu")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_iojhu")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_iojhu")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_e0tyr")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_iojhu")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_iojhu")
 toggle_mode = true
 button_group = SubResource("ButtonGroup_ldggw")
 
@@ -301,10 +304,10 @@ mouse_filter = 1
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_styles/normal = SubResource("StyleBoxEmpty_iojhu")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_iojhu")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_iojhu")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_e0tyr")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_iojhu")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_iojhu")
 toggle_mode = true
 button_group = SubResource("ButtonGroup_ldggw")
 
@@ -318,8 +321,8 @@ grow_vertical = 2
 mouse_filter = 1
 
 [node name="Options" type="Control" parent="Margin/VBox/Main"]
-visible = false
 layout_mode = 2
+metadata/_tab_index = 1
 
 [node name="Margin" type="MarginContainer" parent="Margin/VBox/Main/Options"]
 layout_mode = 1
@@ -372,6 +375,12 @@ theme_override_font_sizes/font_size = 48
 theme_override_styles/focus = SubResource("StyleBoxEmpty_arvc5")
 text = "Reset game data"
 
+[node name="Label" type="Label" parent="Margin/VBox/Main/Options/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 10
+theme_override_font_sizes/font_size = 25
+text = "Version"
+
 [node name="Tab" type="MarginContainer" parent="Margin/VBox"]
 layout_mode = 2
 size_flags_vertical = 3
@@ -380,17 +389,17 @@ theme_override_constants/margin_right = 50
 
 [node name="TabBar" type="TabBar" parent="Margin/VBox/Tab"]
 layout_mode = 2
-theme_override_styles/tab_selected = SubResource("StyleBoxFlat_1lddo")
-theme_override_styles/tab_hovered = SubResource("StyleBoxEmpty_1svsc")
+theme_override_styles/button_highlight = SubResource("StyleBoxEmpty_i883f")
+theme_override_styles/button_pressed = SubResource("StyleBoxEmpty_3qkty")
 theme_override_styles/tab_unselected = SubResource("StyleBoxEmpty_qt7pf")
+theme_override_styles/tab_hovered = SubResource("StyleBoxEmpty_1svsc")
+theme_override_styles/tab_selected = SubResource("StyleBoxFlat_1lddo")
 theme_override_styles/tab_disabled = SubResource("StyleBoxEmpty_ldjlp")
 theme_override_styles/tab_focus = SubResource("StyleBoxEmpty_gbv5n")
-theme_override_styles/button_pressed = SubResource("StyleBoxEmpty_3qkty")
-theme_override_styles/button_highlight = SubResource("StyleBoxEmpty_i883f")
-tab_count = 2
 tab_alignment = 1
 scrolling_enabled = false
 scroll_to_selected = false
+tab_count = 2
 tab_0/title = "  Customization  "
 tab_1/title = "  Options  "
 

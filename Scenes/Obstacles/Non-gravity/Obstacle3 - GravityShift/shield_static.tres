@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="SpawnObstacleDataHolder" load_steps=2 format=3 uid="uid://23r2kj0qc0k3"]
+
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/spawn_obstacle_data_holder.gd" id="1_ekyi6"]
+
+[resource]
+script = ExtResource("1_ekyi6")
+scene_directory = "res://Scenes/Obstacles/Non-gravity/Obstacle3 - GravityShift/shield_static_object.tscn"
+type = 3
+weight = 1
+flip = false
+can_lock_rotation = false
+spawner_is_empty = false
+tele_state = false

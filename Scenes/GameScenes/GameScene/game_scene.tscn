@@ -1,9 +1,10 @@
-[gd_scene load_steps=20 format=3 uid="uid://vypfdtx3st2g"]
+[gd_scene load_steps=21 format=3 uid="uid://vypfdtx3st2g"]
 
 [ext_resource type="PackedScene" uid="uid://cwhxijf40rcnx" path="res://Scenes/PlayerCharacter/PlayerLine/player_line.tscn" id="1_0j60h"]
 [ext_resource type="Script" path="res://Scenes/GameScenes/GameScene/game_scene.gd" id="1_hmcmp"]
 [ext_resource type="Resource" uid="uid://dnoa567f4fvv2" path="res://Resources/DataHolders/EndlessStages/stage1.tres" id="2_70m4v"]
 [ext_resource type="PackedScene" uid="uid://bx18cpaetf7lm" path="res://Scenes/PlayerCharacter/Mouse/mouse_entity.tscn" id="2_fwa26"]
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/endless_enemy_stage.gd" id="2_xoxp8"]
 [ext_resource type="Texture2D" uid="uid://cw4egb0obgrol" path="res://Images/UI/DirectionKey/1/arrow key2.png" id="3_jqbrk"]
 [ext_resource type="Resource" uid="uid://u5q1wif5552p" path="res://Resources/DataHolders/EndlessStages/stage2.tres" id="3_tdpiv"]
 [ext_resource type="Script" path="res://Scenes/GameScenes/GameScene/inventory_logic.gd" id="4_75syx"]
@@ -27,7 +28,7 @@ font_size = 24
 [node name="GameScene" type="Node2D" node_paths=PackedStringArray("bg_sprites")]
 script = ExtResource("1_hmcmp")
 bg_sprites = [NodePath("BG/BgUp"), NodePath("BG/Bg"), NodePath("BG/BgDown")]
-enemy_stages = Array[Resource("res://Resources/DataHolders/Script/endless_enemy_stage.gd")]([ExtResource("2_70m4v"), ExtResource("3_tdpiv")])
+enemy_stages = Array[ExtResource("2_xoxp8")]([ExtResource("2_70m4v"), ExtResource("3_tdpiv")])
 button_height_scale = 1.6
 
 [node name="WindowBox" type="Control" parent="."]
@@ -175,9 +176,9 @@ position = Vector2(840, -297)
 spawn_position = "Right"
 left_right = true
 
-[node name="Obstacles" type="Node" parent="."]
+[node name="Obstacles" type="Node2D" parent="."]
 
-[node name="Pickups" type="Node" parent="."]
+[node name="Pickups" type="Node2D" parent="."]
 
 [node name="PlayerLine" parent="." instance=ExtResource("1_0j60h")]
 position = Vector2(540, 1920)
@@ -211,19 +212,19 @@ one_shot = true
 [node name="BG" type="Node" parent="."]
 
 [node name="BgUp" type="Sprite2D" parent="BG"]
-z_index = -30
+z_index = -400
 position = Vector2(540, -1200)
 scale = Vector2(3, 3)
 texture = ExtResource("13_tjaki")
 
 [node name="Bg" type="Sprite2D" parent="BG"]
-z_index = -30
+z_index = -400
 position = Vector2(540, 1200)
 scale = Vector2(3, 3)
 texture = ExtResource("13_tjaki")
 
 [node name="BgDown" type="Sprite2D" parent="BG"]
-z_index = -30
+z_index = -400
 position = Vector2(540, 3600)
 scale = Vector2(3, 3)
 texture = ExtResource("13_tjaki")
