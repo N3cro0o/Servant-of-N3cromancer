@@ -145,9 +145,8 @@ image = NodePath("TextureRect")
 
 [node name="TextureRect" type="TextureRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Left"]
 layout_mode = 0
-offset_right = 445.0
-offset_bottom = 154.0
-pivot_offset = Vector2(222.5, 77)
+offset_right = 256.0
+offset_bottom = 128.0
 texture = ExtResource("3_rrsx8")
 
 [node name="Right" type="Button" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box" node_paths=PackedStringArray("image")]
@@ -159,10 +158,9 @@ image = NodePath("TextureRect")
 
 [node name="TextureRect" type="TextureRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Right"]
 layout_mode = 0
-offset_right = 445.0
-offset_bottom = 154.0
+offset_right = 256.0
+offset_bottom = 128.0
 rotation = 3.14159
-pivot_offset = Vector2(222.5, 77)
 texture = ExtResource("3_rrsx8")
 
 [node name="Line" type="ColorRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox"]
