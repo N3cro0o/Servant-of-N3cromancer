@@ -9,6 +9,7 @@
 size = Vector2(1100, 150)
 
 [node name="Boss1" type="RigidBody2D"]
+z_index = 20
 collision_layer = 4
 collision_mask = 3
 can_sleep = false
@@ -27,7 +28,7 @@ scale = Vector2(2.01563, 2.01563)
 texture = ExtResource("2_8q6ah")
 
 [node name="Sprite2D2" type="Sprite2D" parent="."]
-position = Vector2(-2.07518e-05, -736.373)
+position = Vector2(3, -753)
 rotation = -3.14159
 scale = Vector2(2.75972, 3.87011)
 texture = ExtResource("3_33ehy")

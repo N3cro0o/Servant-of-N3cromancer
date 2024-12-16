@@ -1,0 +1,80 @@
+[gd_scene load_steps=9 format=3 uid="uid://s461mov7jkjo"]
+
+[ext_resource type="Script" path="res://Scenes/Obstacles/Non-gravity/Obstacle3 - GravityShift/shield_static_object.gd" id="1_6p4po"]
+[ext_resource type="Texture2D" uid="uid://b11h83jdg31y7" path="res://Images/icon.svg" id="1_g52jj"]
+[ext_resource type="Resource" uid="uid://23r2kj0qc0k3" path="res://Scenes/Obstacles/Non-gravity/Obstacle3 - GravityShift/shield_static.tres" id="2_kqvbx"]
+[ext_resource type="Texture2D" uid="uid://b8vyb6m02tf6k" path="res://Images/Obstacles/GravityShift/1/gravity shift core.png" id="3_rvv16"]
+[ext_resource type="SpriteFrames" uid="uid://c8x3bu3ras2tr" path="res://Scenes/Obstacles/Non-gravity/Obstacle3 - GravityShift/l_frames.tres" id="4_1uu0y"]
+[ext_resource type="SpriteFrames" uid="uid://cl2jsjb8wbec0" path="res://Scenes/Obstacles/Non-gravity/Obstacle3 - GravityShift/m_frames.tres" id="5_k1dq6"]
+[ext_resource type="SpriteFrames" uid="uid://7ettrjdd1pvw" path="res://Scenes/Obstacles/Non-gravity/Obstacle3 - GravityShift/r_frames.tres" id="5_ptpuv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cirfv"]
+size = Vector2(1000, 46)
+
+[node name="NoShieldInator" type="RigidBody2D"]
+modulate = Color(1, 1, 1, 0.376471)
+z_index = 10
+collision_layer = 4
+collision_mask = 0
+can_sleep = false
+lock_rotation = true
+freeze = true
+script = ExtResource("1_6p4po")
+speed = 200.0
+spawn_data = ExtResource("2_kqvbx")
+damage = 0
+
+[node name="BodyDetect" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BodyDetect"]
+shape = SubResource("RectangleShape2D_cirfv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_cirfv")
+
+[node name="Left" type="AnimatedSprite2D" parent="."]
+position = Vector2(-384, 0)
+sprite_frames = ExtResource("4_1uu0y")
+
+[node name="Right" type="AnimatedSprite2D" parent="."]
+position = Vector2(384, 0)
+sprite_frames = ExtResource("5_ptpuv")
+
+[node name="Mid" type="Node2D" parent="."]
+
+[node name="1" type="AnimatedSprite2D" parent="Mid"]
+position = Vector2(-256, 0)
+sprite_frames = ExtResource("5_k1dq6")
+
+[node name="2" type="AnimatedSprite2D" parent="Mid"]
+position = Vector2(-128, 0)
+sprite_frames = ExtResource("5_k1dq6")
+
+[node name="3" type="AnimatedSprite2D" parent="Mid"]
+sprite_frames = ExtResource("5_k1dq6")
+
+[node name="4" type="AnimatedSprite2D" parent="Mid"]
+position = Vector2(128, 0)
+sprite_frames = ExtResource("5_k1dq6")
+
+[node name="5" type="AnimatedSprite2D" parent="Mid"]
+position = Vector2(256, 0)
+sprite_frames = ExtResource("5_k1dq6")
+
+[node name="GravityShiftCore" type="Sprite2D" parent="."]
+scale = Vector2(1.45625, 1)
+texture = ExtResource("3_rvv16")
+
+[node name="SpriteMain" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(0, 0.501961, 0.65098, 0.364706)
+scale = Vector2(7.73438, 0.796875)
+texture = ExtResource("1_g52jj")
+
+[node name="SpriteShadow" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(0, 0.501961, 0.65098, 0.364706)
+scale = Vector2(7.73438, 0.796875)
+texture = ExtResource("1_g52jj")
+
+[connection signal="area_entered" from="BodyDetect" to="." method="on_player_body_hit"]

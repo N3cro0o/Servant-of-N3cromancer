@@ -252,5 +252,5 @@ text = "Return to menu"
 [connection signal="pressed" from="MenuPanel2/MenuPositions/ShopButton" to="." method="on_shop_button_press"]
 [connection signal="pressed" from="MenuPanel2/MenuPositions/OptionsButton" to="." method="on_options_button_press"]
 [connection signal="pressed" from="MenuPanel2/MenuPositions/QuitButton" to="." method="on_quit_button_press"]
-[connection signal="pressed" from="MenuPanel2/TutorialPanel/MarginContainer/Button" to="." method="on_tutorial_text_button_press"]
 [connection signal="pressed" from="MenuPanel2/TutorialPanel/MarginContainer/Button" to="." method="unlock_endless"]
+[connection signal="pressed" from="MenuPanel2/TutorialPanel/MarginContainer/Button" to="." method="on_tutorial_text_button_press"]

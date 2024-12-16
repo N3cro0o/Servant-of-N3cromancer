@@ -1,0 +1,32 @@
+[gd_resource type="SpriteFrames" load_steps=5 format=3 uid="uid://7ettrjdd1pvw"]
+
+[ext_resource type="Texture2D" uid="uid://bp4ujdaptvvk4" path="res://Images/Obstacles/GravityShift/1/gravity shift tileset.png" id="1_5qgjw"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v2wku"]
+atlas = ExtResource("1_5qgjw")
+region = Rect2(896, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r43ra"]
+atlas = ExtResource("1_5qgjw")
+region = Rect2(1024, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1e1p6"]
+atlas = ExtResource("1_5qgjw")
+region = Rect2(1152, 0, 128, 128)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v2wku")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r43ra")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1e1p6")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]

@@ -26,6 +26,7 @@ polygon = PackedVector2Array(-390, -70, -505, -75, -505, 75, -390, 70, -320, 30,
 
 [node name="SpriteShadow" type="Sprite2D" parent="."]
 modulate = Color(0, 0, 0, 0.196078)
+z_index = -50
 position = Vector2(-100, 0)
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("3_n5513")

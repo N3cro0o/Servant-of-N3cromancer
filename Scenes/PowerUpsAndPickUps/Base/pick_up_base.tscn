@@ -8,6 +8,7 @@
 radius = 65.0
 
 [node name="PickUpBase" type="RigidBody2D"]
+z_index = 15
 collision_layer = 16
 collision_mask = 0
 gravity_scale = 0.0

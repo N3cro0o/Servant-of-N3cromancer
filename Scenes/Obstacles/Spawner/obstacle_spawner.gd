@@ -106,9 +106,11 @@ func advance_to_next_stage(active_bool : bool = true):
 	weight = 0
 	pickup_weight = 0
 	other_array_len = 0
-	spawned_things.resize(0)
-	spawned_bosses.resize(0)
-	spawned_pickups.resize(0)
+	#spawned_things.resize(0)
+	#spawned_bosses.resize(0)
+	#spawned_pickups.resize(0)
+	# Resizing changes GameScene data too. Why? Godot moment
+	# Can live without it, just resize other arrays
 	packed_scenes_array.resize(0)
 	gravity_scenes_array.resize(0)
 	static_scenes_array.resize(0)

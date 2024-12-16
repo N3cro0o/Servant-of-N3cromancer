@@ -212,7 +212,7 @@ func activate_spawners(state_spawner : bool):
 
 func advance_stage():
 	boss.on_boss_kill.disconnect(advance_stage)
-	if stage < enemy_stages.size():
+	if stage < enemy_stages.size() - 1:
 		stage += 1
 	lock_diff = false
 	difficulty = 0
