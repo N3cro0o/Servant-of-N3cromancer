@@ -1,10 +1,10 @@
 class_name InventoryLogic extends Node
-
 static var instance : InventoryLogic
+
+#region Variables
 
 @onready var repulsor_label = $"../RepulseButton/Vbox/NumberLabel"
 @onready var shield_label = $"../ShieldButton/Vbox/NumberLabel"
-
 var buttons_array : Array[TextureButton]
 var max_items = 0
 var repulsions = 0:
@@ -22,6 +22,9 @@ var shields = 0:
 		else:
 			hide_button(1)
 
+#endregion
+
+# Basic Godot functions
 func _ready():
 	instance = self
 	max_items = GmM.inventory_space
@@ -34,6 +37,7 @@ func _process(_delta):
 	repulsor_label.text = str(repulsions)
 	shield_label.text = str(shields)
 
+# UI buttons functions
 func show_button(bttn_num : int):
 	buttons_array[bttn_num].disabled = false
 	buttons_array[bttn_num].get_child(0).visible = true
@@ -46,8 +50,7 @@ func hide_button(bttn_num : int):
 	var l = buttons_array[bttn_num].get_child(1).get_child(0) as RichTextLabel
 	l.modulate = Color(Color.WHITE, 0)
 
-#region Scroll Buttons
-
+# Scroll buttons logic functions
 func repulse_add():
 	if repulsions < max_items:
 		repulsions += 1
@@ -76,5 +79,3 @@ func shield_use():
 	var b = PlayerLine1.instance.body as PlayerBody
 	b.return_shield_color()
 	PlayerLine1.instance.p_state = PlayerLine1.instance.state.NORMAL
-
-#endregion

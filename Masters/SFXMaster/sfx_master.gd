@@ -1,9 +1,14 @@
 class_name SFXMaster extends Node
 
+#region Variables
+
 @export var sounds_ui : Array[SoundHolder]
 @onready var player_ui = $PlayerUI
 @onready var master_bus := AudioServer.get_bus_index("Master")
 
+#endregion
+
+# Play sound functions
 func play_sound_ui_number(num : int):
 	var sound : AudioStream = sounds_ui[num].stream
 	play_ui_sound(sound)
@@ -22,6 +27,7 @@ func play_ui_sound(sound : AudioStream):
 	player_ui.stream = sound
 	player_ui.play()
 
+# Bus functions
 func update_bus_volume(bus_name : String, val):
 	match bus_name.capitalize():
 		"Master":

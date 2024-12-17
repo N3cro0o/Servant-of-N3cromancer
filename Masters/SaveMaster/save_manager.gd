@@ -1,5 +1,7 @@
 class_name SaveManager extends Node
-
+#region Variables & constants
+## This is where data is saved... duh\n
+## Should change to the save dir, not to the file
 const SAVE_PATH = "user://czacha_zapis.json"
 
 @export var save_version = 1.1
@@ -17,8 +19,13 @@ var data = {
 	"volume_master" : 1
 }
 
+#endregion
+#region Signals
+
 signal on_save_completed
 signal on_load_completed
+
+#endregion
 
 func _ready():
 	if check_path(SAVE_PATH):
@@ -26,8 +33,7 @@ func _ready():
 	else:
 		reset_data()
 
-#region Save System
-
+# Save system functions
 func reset_data():
 	data["version"] = save_version
 	data["highscore"] = 0
@@ -39,6 +45,7 @@ func reset_data():
 	# Options data
 	data["volume_master"] = 1
 
+## Save game data to local data
 func save_data():
 	if OS.is_userfs_persistent():
 		var file = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
@@ -88,8 +95,7 @@ func load_data():
 		Sfx.update_bus_volume("master", data["volume_master"])
 	on_load_completed.emit()
 
-#endregion
-
+# Update game data functions
 func update_player_body(body_id : int):
 	data["current_skul"] = body_id
 

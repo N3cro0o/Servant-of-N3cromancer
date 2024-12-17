@@ -4,6 +4,7 @@ const PICKUP_PATH = "res://Scenes/PowerUpsAndPickUps/Base/pick_up_base.tscn"
 const PICKUP_BASE = preload(PICKUP_PATH)
 
 #region Variables
+
 @export var active := true:
 	set(b):
 		active = b
@@ -19,19 +20,22 @@ const PICKUP_BASE = preload(PICKUP_PATH)
 @onready var timer = $SpawnTimer
 @onready var static_timer = $StaticTimer
 
+# Spawner vars
 var spawner_position : ObstacleNonverticalTele.state
 var spawned_things : Array[SpawnObstacleDataHolder]
 var spawned_bosses : Array[SpawnObstacleDataHolder]
 var spawned_pickups : Array[SpawnPickupDataHolder]
+var weight = 0
+var pickup_weight = 0
+# Scenes vars
 var packed_scenes_array : Array[PackedScene]
 var gravity_scenes_array : Array[PackedScene]
 var static_scenes_array : Array[PackedScene]
 var homing_scenes_array : Array[PackedScene]
 var other_scenes_array : Array[PackedScene]
 var boss_scenes_array: Array[PackedScene]
+
 var other_array_len = 0
-var weight = 0
-var pickup_weight = 0
 var spawn_static_index := 0:
 	set(i):
 		spawn_static_index = i
@@ -43,14 +47,17 @@ var spawn_static_index := 0:
 var can_spawn_static = true
 var repeat_index = -1
 var diff := 0.0
+
 #endregion
 
 #region Signals
+
 signal on_spawned_entity
 signal on_spawned_static_entity(w)
+
 #endregion
 
-#region Methods
+# Basic Godot functions
 func _init():
 	# Set-up spawner
 	if spawn_position == "Right":
@@ -76,6 +83,13 @@ func _process(_delta):
 		rotation = angle - deg_to_rad(90)
 		diff = GameScene.instance.difficulty
 
+# Help functions
+func randomize_spawn_delay():
+	randomize()
+	var rand_f = randf_range(1.5, 2 + spawn_delay - (diff / 20)) + spawn_static_index / 2.0
+	if active:
+		timer.start(rand_f)
+
 func setup_spawning_data():
 	var scene
 	for x in spawned_things:
@@ -100,6 +114,16 @@ func setup_spawning_data():
 		boss_scenes_array.push_back(scene)
 	print_rich("[b]Weight: %d, Pickup Weight : %d[b]" % [weight, pickup_weight])
 
+func lock_spawn():
+	active = false
+
+func lock_static_spawn(w):
+	spawn_static_index += w
+
+func on_static_timer_timeout():
+	can_spawn_static = true
+
+# Stages functions
 func advance_to_next_stage(active_bool : bool = true):
 	# Reset data
 	active = false
@@ -135,12 +159,7 @@ func advance_to_next_stage(active_bool : bool = true):
 	setup_spawning_data()
 	active = active_bool
 
-func randomize_spawn_delay():
-	randomize()
-	var rand_f = randf_range(1.5, 2 + spawn_delay - (diff / 20)) + spawn_static_index / 2.0
-	if active:
-		timer.start(rand_f)
-
+# Spawn functions
 func spawn_something(spawn_object : ObstacleGravityBase, object_data : SpawnObstacleDataHolder):
 	if(GameScene.instance != null):
 		GameScene.instance._add_obstacle(spawn_object)
@@ -273,13 +292,3 @@ func _spawn_logic():
 	var spawn_id = spawn_index % weight
 	spawn_obstacle(spawn_id)
 	randomize_spawn_delay()
-
-func lock_spawn():
-	active = false
-
-func lock_static_spawn(w):
-	spawn_static_index += w
-
-func on_static_timer_timeout():
-	can_spawn_static = true
-#endregion

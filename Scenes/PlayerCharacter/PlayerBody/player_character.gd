@@ -1,5 +1,6 @@
 class_name PlayerBody extends Area2D
-# Variables
+#region Variables
+
 ## Max speed
 @export var max_speed := 7.5
 ## Used to accelerate during game
@@ -13,38 +14,24 @@ class_name PlayerBody extends Area2D
 @onready var skul_sprites = $SpriteSkul
 @onready var shield_sprite = $Shield
 @onready var shield_color = shield_sprite.modulate
+
 var modulate_shield_color_check = true
 var target_point = 0
 var skul_dir = 0
 
-# Signals
+#endregion
+#region Signals
+
 signal on_hit(damage)
 
-# Methods
+#endregion
+# Basic Godot functions
 func _ready():
 	target_point = int(line_points_number * .16)
 	print_rich("[hint=%s]Target point = [/hint]" % name, target_point)
 	MouseEntity1.instance.disabled_hitbox = no_mouse_object_hitbox
 	MouseEntity1.instance.push_strength = mouse_push_strength
-
-func _on_hitbox_activation(body):
-	if body is ObstacleGravityBase:
-		if body.damage >= 0:
-			var d = body.damage
-			body.body_hit = true
-			on_hit.emit(d)
-
-func on_pickbox_activation(body):
-	if body is PickUpBase:
-		body.on_hit_activate()
-
-func reset_shield_color():
-	modulate_shield_color_check = false
-	shield_sprite.modulate = Color(shield_color, 0)
-
-func return_shield_color():
-	modulate_shield_color_check = true
-
+	
 func _process(delta):
 	if modulate_shield_color_check:
 		var c : Color = shield_sprite.modulate
@@ -59,6 +46,27 @@ func _process(delta):
 		skul_sprites.scale.x = 2
 		shield_sprite.scale.x = 2.05
 
+# Hitbox functions
+func _on_hitbox_activation(body):
+	if body is ObstacleGravityBase:
+		if body.damage >= 0:
+			var d = body.damage
+			body.body_hit = true
+			on_hit.emit(d)
+
+func on_pickbox_activation(body):
+	if body is PickUpBase:
+		body.on_hit_activate()
+
+# Shield functions
+func reset_shield_color():
+	modulate_shield_color_check = false
+	shield_sprite.modulate = Color(shield_color, 0)
+
+func return_shield_color():
+	modulate_shield_color_check = true
+
+# Others
 func on_game_over():
 	set_deferred("monitoring", false)
 	set_deferred("monitorable", false)

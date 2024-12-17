@@ -1,12 +1,16 @@
 class_name PickUpBase extends RigidBody2D
 
 const debug_string = "[hint=%s]%s[/hint]"
+
+#region Enums
+
 enum pickup_type_enum
 {
 	Coin = 0,
 	Scroll = 1
 }
 
+#endregion
 #region Variables
 ## Used for some specific obstacle variables
 @export var spawn_data : SpawnPickupDataHolder:
@@ -41,9 +45,16 @@ var collision_radius :float:
 	set(i):
 		collision_radius = i
 		coll_shape.shape.radius = i
+		
 #endregion
 
-#region Methods
+# Basic Godot functions
+func _ready():
+	if not Engine.is_editor_hint():
+		coll_shape.shape.radius = collision_radius
+	loaded = true
+
+# Pickup logic functions
 func update_parms():
 	if !loaded:
 		return
@@ -57,11 +68,6 @@ func update_parms():
 	fall_speed = spawn_data.falling_speed
 	action.set_script(spawn_data.action_logic)
 	weight = spawn_data.weight
-
-func _ready():
-	if not Engine.is_editor_hint():
-		coll_shape.shape.radius = collision_radius
-	loaded = true
 
 func on_hit_activate():
 	print_rich(debug_string % [name, "Picked Up!"])

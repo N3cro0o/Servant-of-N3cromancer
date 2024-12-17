@@ -1,6 +1,7 @@
 class_name ScoreManager extends Node
 
-# Variables
+#region Variables & Signals
+
 var score : int
 var highscore : int
 var coins : int
@@ -10,7 +11,9 @@ var coins_game : int
 
 signal on_new_highscore
 
-# Methods
+#endregion
+
+# Score functions
 func reset_score():
 	score = 0
 	coins = 0
@@ -28,5 +31,6 @@ func finalize_level_score():
 	score = 0
 	coins = 0
 
+# Coin funtions
 func add_coins(num : int):
 	coins += num

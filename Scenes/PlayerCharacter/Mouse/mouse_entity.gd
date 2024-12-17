@@ -1,6 +1,8 @@
 class_name MouseEntity1 extends StaticBody2D
-# Variables
+
 static var instance : MouseEntity1
+
+#region Variables
 
 @export var radius:float # Collider and area radius
 @export var push_strength := 100.0
@@ -29,7 +31,9 @@ var obstacles_hit : Array[PhysicsBody2D] = []
 var frames = 0
 var max_velocity := 0.0
 
-# Methods
+#endregion
+
+# Basic Godot methods
 func _init():
 	instance = self
 
@@ -82,6 +86,7 @@ func _input(event):
 	if event is InputEventScreenTouch and not event.is_pressed():
 		active = false
 
+# Interact with objects functions
 func game_object_give_velocity(body:ObstacleGravityBase):
 	if body.is_in_group("obstacle"):
 		if velocity_vec.distance_to(Vector2.ZERO) >= 4000:

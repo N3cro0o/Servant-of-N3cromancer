@@ -1,6 +1,6 @@
 class_name ObstacleHomingFireball extends ObstacleGravityBase
 
-# Variables
+#region Variables
 @export var speed : int = 200
 @export_range(0, 1) var rotation_speed : float = 1.5
 @export var sound : SoundHolder
@@ -14,9 +14,13 @@ var move_vector = Vector2(0,-1)
 var can_calc_rotation = true
 var mouse_hit_check = false
 var super_lock_rotation := false
-# Signals
 
-# Methods
+#endregion
+#region Signals
+
+#endregion
+
+# Basic Godot functions
 func _init():
 	rotation = PI
 
@@ -46,6 +50,7 @@ func _process(delta):
 	if can_move:
 		position += velocity_vec.rotated(rotation) * delta
 
+# Scrolls functions
 func repulse(strength:int):
 	can_move = false
 	super_lock_rotation = true
@@ -63,6 +68,7 @@ func on_mouse_hit():
 		bum_timer.start(7)
 		mouse_hit_check = true
 
+# On something functions
 func on_body_hit(b):
 	body_hit = b
 	player.play()
@@ -70,6 +76,7 @@ func on_body_hit(b):
 	ball_sprite.visible = false
 	speed = 0
 
+# Sounds functions
 func _on_bum_timer_timeout():
 	on_sound_end()
 

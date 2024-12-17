@@ -1,10 +1,14 @@
 class_name GravityObstacle1 extends ObstacleGravityBase
-# Variables
+#region Variables
+
 @onready var label = $Label
 
-# Signals
+#endregion
+#region Signals
 
-# Methods
+#endregion
+
+# Basic Godot functions
 func _init():
 	#start_layer = collision_layer
 	var f = randf()
@@ -17,7 +21,7 @@ func _physics_process(delta):
 	label.text = str(round(vel))
 	label.text += "\nX-%d\nY-%d" %[linear_velocity.x, linear_velocity.y]
 
-
+# On something functions
 func on_mouse_hit():
 	super()
 	set_collision_layer_value(4, true)

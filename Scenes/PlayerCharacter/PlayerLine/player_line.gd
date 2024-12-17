@@ -1,6 +1,8 @@
 class_name PlayerLine1 extends Line2D
 static var instance : PlayerLine1
 
+#region Enums
+
 enum last_pos {
 	LEFT = -1,
 	MIDDLE = 0,
@@ -15,7 +17,9 @@ enum state {
 	DED = -3 # Player took an L, massive skill issue
 }
 
-# Variables
+#endregion
+
+#region Variables
 @export var last_point_pos := last_pos.MIDDLE:
 	set(x):
 		last_point_pos = x
@@ -82,13 +86,15 @@ var greater_line_number = true
 signal on_player_status_change(s:state, hp:int)
 signal on_player_death
 
-# Methods
-static func simulate_key_press(s:String): # Input just pressed simulation doesn't work for code
-	if s == "key_left":
-		instance.pos_changer(last_pos.LEFT)
-	elif s == "key_right":
-		instance.pos_changer(last_pos.RIGHT)
+#endregion
 
+#static func simulate_key_press(s:String): # Input just pressed simulation doesn't work for code
+	#if s == "key_left":
+		#instance.pos_changer(last_pos.LEFT)
+	#elif s == "key_right":
+		#instance.pos_changer(last_pos.RIGHT)
+
+# Basic Godot functions
 func _init():
 	instance = self
 
@@ -193,6 +199,7 @@ func _process(_delta):
 		elif(Input.is_action_just_pressed("key_right")):
 			pos_changer(last_pos.RIGHT)
 
+# Position functions
 func pos_changer(move:last_pos):
 	if last_point_pos == last_pos.LEFT and move == last_pos.LEFT:
 		return
@@ -216,6 +223,10 @@ func _change_last_point_pos(l:Line2D, line_pos:last_pos):
 		l.set_point_position(x, Vector2(sin(i) * -mid + pos.x - mid,-x * distance_points))
 		i += PI / count
 
+func return_body_position():
+	return body.position + position
+
+# Sound functions
 func play_autoplay(stream : SoundHolder, play : bool):
 	if play:
 		if !player_repeat.playing:
@@ -229,15 +240,31 @@ func play_autoplay(stream : SoundHolder, play : bool):
 func repeat_autoplay():
 	player_repeat.play()
 
-func return_body_position():
-	return body.position + position
-
+# SPEED functions
 func return_accelerate():
 	return body.speed_multi
 
 func return_max_speed():
 	return body.max_speed
 
+# Shield functions
+func on_shield_recharge_end():
+	print_rich("[hint=PlayerLine]Shield recharged[/hint]")
+	p_state = state.NORMAL
+
+func on_shield_recharge_start():
+	print_rich("[hint=PlayerLine]Update timer[/hint]")
+	inv = false
+	p_state = state.SHIELD_RECHARGE
+	timer_charge.start(3.5)
+	body.return_shield_color()
+
+func shield_timer_reset_after_hit(time:float):
+	timer_charge.stop()
+	timer.start(time)
+	body.reset_shield_color()
+
+# On something functions
 func on_body_hit(d):
 	var d1 = d - 1
 	if !inv:
@@ -264,22 +291,6 @@ func on_body_hit(d):
 				return
 	else:
 		print_rich("[hint=%s]Hit during invicibility[/hint]" % name)
-
-func on_shield_recharge_end():
-	print_rich("[hint=PlayerLine]Shield recharged[/hint]")
-	p_state = state.NORMAL
-
-func on_shield_recharge_start():
-	print_rich("[hint=PlayerLine]Update timer[/hint]")
-	inv = false
-	p_state = state.SHIELD_RECHARGE
-	timer_charge.start(3.5)
-	body.return_shield_color()
-
-func shield_timer_reset_after_hit(time:float):
-	timer_charge.stop()
-	timer.start(time)
-	body.reset_shield_color()
 
 func on_game_over():
 	timer.stop()

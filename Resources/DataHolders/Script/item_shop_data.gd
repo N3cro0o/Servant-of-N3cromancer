@@ -26,6 +26,7 @@ func on_buy():
 	call(resource_script)
 	bought = true
 
+# But the castle's crumbled and you're left with just the name
 func king_nothing():
 	print("Where's your crown, King Nothing?")
 

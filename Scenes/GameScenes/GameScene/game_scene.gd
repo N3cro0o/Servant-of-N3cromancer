@@ -1,6 +1,8 @@
 class_name GameScene extends Node2D
 static var instance : GameScene
 
+#region Enums
+
 enum state {
 	NORMAL = 2, # Normal state
 	SHIELD_BROKEN = 0, # Player can take damage
@@ -10,7 +12,9 @@ enum state {
 	DED = -3 # Player took an L, massive skill issue
 }
 
-# Variables
+#endregion
+#region Variables
+
 @export var bg_sprites : Array[Sprite2D]
 @export var enemy_stages : Array[EndlessEnemyStageData]
 @export_category("Buttons")
@@ -31,6 +35,7 @@ var hp
 var hp_last = 0
 ## Start player hp
 var hp_start
+
 # Game vars
 var obstacles_array :Array[ObstacleGravityBase]
 var fps : float:
@@ -41,11 +46,15 @@ var fpsp : float:
 		fpsp = 1 / f
 var lock_logic := false
 var bg_lock := false
+var lock_diff = false
+var stage = 0
 var boss
+
 # Button vars
 var margin_side = 75
 var margin_between = 20
 var margin_bottom = 100
+
 # Difficulty vars
 var diff_trunc_val = 1
 var difficulty := 0.0:
@@ -69,16 +78,17 @@ var speed := 5.0
 var max_speed := 7.5
 var accelerate = 0.1
 static var speed_multi := 1.0
-var lock_diff = false
-var stage = 0
 
-# Signals
+#endregion
+#region Signals
+
 signal on_level_start
 signal on_stage_advance
 signal on_take_damage
 signal on_failing_level
 
-# Methods
+#endregion
+# Basic Godot functions
 func _init():
 	instance = self
 
@@ -140,12 +150,36 @@ func _process(delta):
 	# And lastly, hp diference
 	hp_last = hp
 
+func _input(event):
+	if event.is_action("ui_cancel"):
+		GmM.change_scene(0)
+
+func _notification(what):
+	# Quit game
+	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
+		GmM.change_scene(0)
+
+# Stages functions
+func advance_stage():
+	boss.on_boss_kill.disconnect(advance_stage)
+	if stage < enemy_stages.size() - 1:
+		stage += 1
+	lock_diff = false
+	difficulty = 0
+	diff_trunc_val = 2
+	accelerate /= 2
+	on_stage_advance.emit()
+
+func spawn_boss():
+	var rand_boss_num = randi_range(0, enemy_stages[stage].bosses.size() - 1)
+	var main_spawner = spawners.get_child(0) as SpawnerBasic
+	boss = main_spawner.spawn_boss(rand_boss_num)
+	boss.on_boss_kill.connect(advance_stage)
+
+# Spawner functions
 func _spawner1_spawn():
 	ScM.score += 1
 	print_rich("[hint=game_scene]Score = %d[/hint]" % ScM.score)
-
-func return_player_pos():
-	return big_boi.return_body_position()
 
 func _add_obstacle(object:ObstacleGravityBase):
 	$Obstacles.add_child(object)
@@ -154,11 +188,22 @@ func _add_obstacle(object:ObstacleGravityBase):
 func _add_pickup(object):
 	$Pickups.add_child(object)
 
+func activate_spawners(state_spawner : bool):
+	for spawn in spawners.get_children() as Array[SpawnerBasic]:
+		spawn.active = state_spawner
+
 func on_obstacle_remove(object):
 	if !lock_logic:
 		var ob = obstacles_array.find(object)
 		if ob >= 0:
 			obstacles_array.remove_at(ob)
+
+# Player functions
+func return_player_pos():
+	return big_boi.return_body_position()
+
+func return_inventory():
+	return inventory
 
 # Old name, please ignore. Too lazy to change
 func on_player_hit(s, hp1):
@@ -196,43 +241,10 @@ func on_player_death():
 		pickup.queue_free()
 		$Pickups.remove_child(pickup)
 
+# Changing scenes logic
 func reset_level_request():
 	GmM.after_game_over_logic()
 	get_tree().call_deferred("reload_current_scene")
 
 func quit_level_request():
 	GmM.change_scene(0)
-
-func return_inventory():
-	return inventory
-
-func activate_spawners(state_spawner : bool):
-	for spawn in spawners.get_children() as Array[SpawnerBasic]:
-		spawn.active = state_spawner
-
-func advance_stage():
-	boss.on_boss_kill.disconnect(advance_stage)
-	if stage < enemy_stages.size() - 1:
-		stage += 1
-	lock_diff = false
-	difficulty = 0
-	diff_trunc_val = 2
-	accelerate /= 2
-	on_stage_advance.emit()
-
-func spawn_boss():
-	var rand_boss_num = randi_range(0, enemy_stages[stage].bosses.size() - 1)
-	var main_spawner = spawners.get_child(0) as SpawnerBasic
-	boss = main_spawner.spawn_boss(rand_boss_num)
-	boss.on_boss_kill.connect(advance_stage)
-
-#region Pierdoly
-func _input(event):
-	if event.is_action("ui_cancel"):
-		GmM.change_scene(0)
-
-func _notification(what):
-	# Quit game
-	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
-		GmM.change_scene(0)
-#endregion

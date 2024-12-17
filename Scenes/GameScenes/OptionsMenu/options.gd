@@ -1,5 +1,7 @@
 extends Control
 
+#region Variables
+
 @onready var main := $Margin/VBox/Main
 # Body part
 @onready var body = $Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body
@@ -15,6 +17,9 @@ extends Control
 var active_tab = 0
 var active_body = 0
 
+#endregion
+
+# Basic Godot functions
 func _ready():
 	active_body = GmM.current_body
 	version_label.text = "Version " + ProjectSettings.get_setting("application/config/version")
@@ -29,6 +34,17 @@ func _ready():
 	set_unlockable_panels()
 	update_customisattion_body_data()
 
+func _notification(what):
+	# Return to Main Menu
+	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
+		return_button_pressed()
+
+# Traversing functions
+func return_button_pressed():
+	SvM.save_data()
+	GmM.change_scene(0)
+	Sfx.play_sound_ui_number(0)
+
 func set_unlockable_panels():
 	for child in line.get_children():
 		child.visible = GmM.line_customization_unlock
@@ -39,7 +55,7 @@ func on_change_tab(num : int):
 	active_tab = num
 	main.queue_redraw()
 
-#region Customisation
+# Customisation functions
 func update_customisattion_body_data():
 	var data = GmM.body_holder_array[active_body]
 	body_label.text = data.body_name + " Skul"
@@ -65,8 +81,7 @@ func change_body_object(num : int):
 func player_line_color_change(color : int):
 	GmM.update_line_color(color)
 
-#endregion
-#region Options
+# Options functions
 func on_game_data_reset():
 	GmM.reset_save_data()
 	set_unlockable_panels()
@@ -74,14 +89,3 @@ func on_game_data_reset():
 
 func change_master_bus_volume(num):
 	Sfx.update_bus_volume("master", num)
-#endregion
-
-func return_button_pressed():
-	SvM.save_data()
-	GmM.change_scene(0)
-	Sfx.play_sound_ui_number(0)
-
-func _notification(what):
-	# Return to Main Menu
-	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
-		return_button_pressed()

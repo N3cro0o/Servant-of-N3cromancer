@@ -1,8 +1,8 @@
 extends Control
 
 #region Variables
-@onready var logic = $LogicNode
 
+@onready var logic = $LogicNode
 # Outputs
 @onready var text_name = $Margin/Box/Up/Box/TextName
 @onready var texture = $Margin/Box/Up/Box/Texture
@@ -19,9 +19,10 @@ var item : ItemShopData
 var cost = 0
 var buy_button_start_pos : Vector2
 var shake_check = false
+
 #endregion
 
-#region Methods
+# Basic Godot functions
 func _ready():
 	items_array = GmM.items
 	if items_array.size() == 0 or items_array[0] == null:
@@ -32,6 +33,12 @@ func _ready():
 func _process(_delta):
 	text_coins.text = "%d" % ScM.coins_game
 
+func _notification(what):
+	# Return to Main Menu
+	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
+		return_button_pressed()
+
+# Navigation functions
 func cycle_items(num : int):
 	var arr_size = items_array.size()
 	current_item_index += num
@@ -42,6 +49,26 @@ func cycle_items(num : int):
 	change_current_item(current_item_index)
 	Sfx.play_sound_ui_number(0)
 
+func return_button_pressed():
+	GmM.change_scene(0)
+	Sfx.play_sound_ui_number(0)
+
+func change_current_item(num : int):
+	current_item_index = num
+	item = items_array[num]
+	cost = item.cost
+	text_name.text = "[center]%s[/center]" % [item.name]
+	text_desc.text = "[center]%s[/center]" % item.desc
+	texture.texture = item.image
+	if item.bought:
+		texture.self_modulate = Color(1, 0.498, 0.494, 0.9)
+		buy.text = "Bought"
+	else:
+		texture.self_modulate = Color(1, 1, 1, 1)
+		buy.text = "Cost: %d" % cost
+	logic.set_script(item.resource_script)
+
+# Buy logic functions
 func on_buy():
 	if !shake_check and !item.bought:
 		if ScM.coins_game >= cost:
@@ -74,28 +101,3 @@ func shake_buy_button():
 		await Engine.get_main_loop().process_frame
 	buy.position = buy_button_start_pos
 	shake_check = false
-
-func return_button_pressed():
-	GmM.change_scene(0)
-	Sfx.play_sound_ui_number(0)
-
-func change_current_item(num : int):
-	current_item_index = num
-	item = items_array[num]
-	cost = item.cost
-	text_name.text = "[center]%s[/center]" % [item.name]
-	text_desc.text = "[center]%s[/center]" % item.desc
-	texture.texture = item.image
-	if item.bought:
-		texture.self_modulate = Color(1, 0.498, 0.494, 0.9)
-		buy.text = "Bought"
-	else:
-		texture.self_modulate = Color(1, 1, 1, 1)
-		buy.text = "Cost: %d" % cost
-	logic.set_script(item.resource_script)
-
-func _notification(what):
-	# Return to Main Menu
-	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
-		return_button_pressed()
-#endregion

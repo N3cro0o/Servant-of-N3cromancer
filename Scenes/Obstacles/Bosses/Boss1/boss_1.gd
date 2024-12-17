@@ -3,16 +3,23 @@ class_name ObstacleNonverticalBoss1 extends ObstacleNonverticalBase
 const DA_BONE = preload("res://Scenes/Obstacles/Gravity/Obstacle1/gravity_obstacle_1.tscn")
 const DA_BONE_DATA = preload("res://Scenes/Obstacles/Gravity/Obstacle1/gravity_obstacle_1.tres")
 
+#region Variable
+
 @export var hp = 5
 @onready var spawners = $Spawners
-
 var death_timer = 35.0
 var death_timer_trunc = 34.0
 var damage_timer = 0
 var kill_check = false
 
+#endregion
+#region Singnals
+
 signal on_boss_kill
 
+#endregion
+
+# Basic Godot functions
 func _ready():
 	super._ready()
 	GameScene.instance.activate_spawners(false)
@@ -39,6 +46,7 @@ func _physics_process(delta):
 		var boner = DA_BONE.instantiate()
 		spawners.get_child(rand_spwnr_num).spawn_something(boner, DA_BONE_DATA)
 
+# Death functions
 func kill_boss():
 	if !kill_check:
 		on_boss_kill.emit()
