@@ -68,6 +68,7 @@ func _init():
 func _ready():
 	# Wait for level inicialization
 	await GameScene.instance.on_level_start
+	GmM.on_paused.connect(on_paused)
 	# Get spawn data
 	advance_to_next_stage(active)
 	# Check if no obstacles
@@ -123,6 +124,14 @@ func lock_static_spawn(w):
 func on_static_timer_timeout():
 	can_spawn_static = true
 
+func on_paused(paused):
+	if paused:
+		timer.paused = true
+		static_timer.paused = true
+	else:
+		timer.paused = false
+		static_timer.paused = false
+
 # Stages functions
 func advance_to_next_stage(active_bool : bool = true):
 	# Reset data
@@ -169,7 +178,7 @@ func spawn_something(spawn_object : ObstacleGravityBase, object_data : SpawnObst
 		on_spawned_static_entity.emit(spawn_object.weight)
 	# Setting properties
 	spawn_object.position = position
-	spawn_object.add_start_velocity(Vector2(0,-20), rotation)
+	spawn_object.add_start_velocity(Vector2(0,-20) * GmM.game_speed, rotation)
 	spawn_object.player_body = PlayerLine1.instance
 	spawn_static_index = 0
 	on_spawned_entity.emit()

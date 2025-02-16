@@ -39,6 +39,7 @@ enum pickup_type_enum
 @onready var sprite : Sprite2D = $MainSprite
 @onready var bg_sprite = $BGSprite
 @onready var action : PickUpLogicTemplate = $ActionBlock
+var actual_velocity
 var loaded = false
 var fall_speed := 0
 var collision_radius :float:
@@ -52,6 +53,8 @@ var collision_radius :float:
 func _ready():
 	if not Engine.is_editor_hint():
 		coll_shape.shape.radius = collision_radius
+	actual_velocity = linear_velocity
+	GmM.on_paused.connect(on_paused)
 	loaded = true
 
 # Pickup logic functions
@@ -73,4 +76,12 @@ func on_hit_activate():
 	print_rich(debug_string % [name, "Picked Up!"])
 	action._do_action()
 	queue_free()
+
+# Paused functions
+func on_paused(paused):
+	if paused:
+		# Zero velocity to... idk keep pickups only accesable during normal gameplay
+		linear_velocity = Vector2.ZERO
+	else:
+		linear_velocity = actual_velocity
 #endregion

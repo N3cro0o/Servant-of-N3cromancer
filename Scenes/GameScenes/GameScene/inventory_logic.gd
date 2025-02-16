@@ -6,7 +6,10 @@ static var instance : InventoryLogic
 @onready var repulsor_label = $"../RepulseButton/Vbox/NumberLabel"
 @onready var shield_label = $"../ShieldButton/Vbox/NumberLabel"
 var buttons_array : Array[TextureButton]
+## Stores how many items player has
 var max_items = 0
+## Read how many active strolls buttons player can have
+var active_scrolls = 0
 var repulsions = 0:
 	set(rep):
 		repulsions = rep
@@ -27,8 +30,7 @@ var shields = 0:
 # Basic Godot functions
 func _ready():
 	instance = self
-	max_items = GmM.inventory_space
-	print_rich("[hint=%s]Inventory space max = %d[/hint]" % [name, max_items])
+	print_rich("[hint=%s]Inventory space max = %d[/hint]" % [name, GmM.inventory_space])
 	for i in range(1, get_parent().get_child_count()):
 		buttons_array.push_back(get_parent().get_child(i))
 		hide_button(i - 1)
@@ -52,7 +54,7 @@ func hide_button(bttn_num : int):
 
 # Scroll buttons logic functions
 func repulse_add():
-	if repulsions < max_items:
+	if repulsions < GmM.inventory_space:
 		repulsions += 1
 		show_button(0)
 		return true
@@ -66,7 +68,7 @@ func repulse_use():
 		ob.repulse(500)
 
 func shield_add():
-	if shields < max_items:
+	if shields < GmM.inventory_space:
 		shields += 1
 		show_button(1)
 		return true

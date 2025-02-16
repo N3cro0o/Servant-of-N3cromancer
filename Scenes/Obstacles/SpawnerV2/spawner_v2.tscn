@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=3 uid="uid://dj0xd4lvpcrnd"]
+
+[ext_resource type="Script" path="res://Scenes/Obstacles/SpawnerV2/spawner_v2.gd" id="1_egqty"]
+[ext_resource type="Resource" uid="uid://b6qoduwm2l0xk" path="res://Resources/DataHolders/GameStages/stage1.tres" id="2_rxkqe"]
+
+[node name="SpawnerV2" type="Node2D"]
+script = ExtResource("1_egqty")
+active = true
+obstacle_data = ExtResource("2_rxkqe")
+
+[node name="Spawners" type="Node2D" parent="."]
+
+[node name="1" type="Node2D" parent="Spawners"]
+
+[node name="2" type="Node2D" parent="Spawners"]
+visible = false
+
+[node name="3" type="Node2D" parent="Spawners"]
+visible = false
+
+[node name="4" type="Node2D" parent="Spawners"]
+visible = false
+
+[node name="5" type="Node2D" parent="Spawners"]
+visible = false
+
+[node name="1" type="Timer" parent="."]
+
+[node name="2" type="Timer" parent="."]
+
+[node name="3" type="Timer" parent="."]
+
+[node name="4" type="Timer" parent="."]
+
+[node name="5" type="Timer" parent="."]

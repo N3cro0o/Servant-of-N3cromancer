@@ -10,6 +10,7 @@ static var instance : MouseEntity1
 @export var mouse_color := Color.GREEN
 @onready var detect_area := $Area2D
 @onready var hit_box := $CollisionShape2D
+var actual_mouse_color := mouse_color
 var pos:Vector2 # mouse pos
 var last_position : Vector2 # last frame pos
 var velocity_vec := Vector2.ZERO
@@ -41,6 +42,8 @@ func _ready():
 	active = false
 	pos = position
 	last_position = position
+	actual_mouse_color = mouse_color
+	GmM.on_paused.connect(on_paused)
 
 func _physics_process(delta):
 	# Frame counter
@@ -75,7 +78,7 @@ func _physics_process(delta):
 
 func _draw():
 	if active:
-		draw_circle(Vector2.ZERO,radius,mouse_color)
+		draw_circle(Vector2.ZERO,radius,actual_mouse_color)
 
 func _input(event):
 	if event is InputEventScreenDrag:
@@ -88,7 +91,7 @@ func _input(event):
 
 # Interact with objects functions
 func game_object_give_velocity(body:ObstacleGravityBase):
-	if body.is_in_group("obstacle"):
+	if body.is_in_group("obstacle") and !GmM.paused:
 		if velocity_vec.distance_to(Vector2.ZERO) >= 4000:
 			body.linear_velocity.y = 0
 		else:
@@ -101,7 +104,19 @@ func game_object_give_velocity(body:ObstacleGravityBase):
 			body.set_deferred("lock_rotation", true)
 
 func game_object_give_velocity_on_exit(body:ObstacleGravityBase):
-	if body.is_in_group("obstacle"):
+	if body.is_in_group("obstacle") and !GmM.paused:
 		obstacles_hit.erase(body)
 		body.timer = 0
 		body.set_deferred("lock_rotation", false)
+
+# Paused functions
+func on_paused(paused):
+	if paused:
+		set_collision_layer_value(1,false)
+		set_collision_mask_value(2,false)
+		actual_mouse_color = Color.TRANSPARENT
+		obstacles_hit.clear()
+	else:
+		set_collision_layer_value(1,true)
+		set_collision_mask_value(2,true)
+		actual_mouse_color = mouse_color

@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="StageEnemyData" load_steps=6 format=3 uid="uid://b6qoduwm2l0xk"]
+
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/spawn_obstacle_data_holder.gd" id="1_jlhqb"]
+[ext_resource type="Resource" uid="uid://chynsxlq4cx8l" path="res://Scenes/Obstacles/Gravity/Obstacle1/gravity_obstacle_1.tres" id="2_0n4wt"]
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/spawn_pickup_data_holder.gd" id="2_b6h58"]
+[ext_resource type="Resource" uid="uid://bal5m5yrck2w" path="res://Scenes/Obstacles/Non-gravity/Obstacle1/vertical_obstacle_1.tres" id="3_d5cbn"]
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/stage_enemy_data.gd" id="3_riegr"]
+
+[resource]
+script = ExtResource("3_riegr")
+spawn_points = 1
+data_1 = Array[ExtResource("1_jlhqb")]([ExtResource("2_0n4wt"), ExtResource("3_d5cbn")])
+data_2 = Array[ExtResource("1_jlhqb")]([])
+data_3 = Array[ExtResource("1_jlhqb")]([])
+data_4 = Array[ExtResource("1_jlhqb")]([])
+data_5 = Array[ExtResource("1_jlhqb")]([])
+difficulty_threshold = 10.0
+bosses = Array[ExtResource("1_jlhqb")]([null])
+pickups = Array[ExtResource("2_b6h58")]([])

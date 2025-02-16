@@ -23,11 +23,15 @@ var velocity := Vector2.ZERO
 var lock_delete_logic := false
 var can_move := true
 var grace_check = false
-
+var unpaused_vel := Vector2.ZERO
 #endregion
 
 # Basic Godot functions
 func _ready():
+	# Subscrive to GmM and instantly check
+	GmM.on_paused.connect(on_paused)
+	on_paused(GmM.paused)
+	
 	start_layer = collision_layer
 	if grace_period > 0:
 		collision_layer = 0
@@ -45,6 +49,9 @@ func _physics_process(delta):
 			print_rich("[hint=%s]Grace period ended[/hint]" % name)
 		elif grace_period > 0:
 			grace_period -= delta
+	# Save pre paused velocity to reuse after unpausing
+	if !GmM.paused:
+		unpaused_vel = linear_velocity
 
 func _notification(what):
 	# Before deletions logic
@@ -76,6 +83,14 @@ func on_mouse_hit():
 # Setter 101 XD 
 func on_body_hit(b):
 	body_hit = b
+
+func on_paused(paused):
+	if paused:
+		linear_velocity *= GmM.paused_slowdown / GmM.real_game_speed
+		gravity_scale = GmM.paused_slowdown
+	else:
+		linear_velocity = unpaused_vel
+		gravity_scale = GmM.real_game_speed
 
 # Scrolls functions
 func repulse(strength:int):

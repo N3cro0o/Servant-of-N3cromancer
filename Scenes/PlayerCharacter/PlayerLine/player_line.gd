@@ -81,7 +81,8 @@ var velocity := 0.0
 var inv_check = false
 var lock_movement = false
 var greater_line_number = true
-
+# Paused variables
+var paused_count := 0
 # Signals
 signal on_player_status_change(s:state, hp:int)
 signal on_player_death
@@ -170,30 +171,36 @@ func _process(_delta):
 			#play_autoplay(streams[0], true)
 		#else:
 			#play_autoplay(streams[0], false)
-		# Rail Lines position
-		line_r.position = position
-		line_l.position = position
-		_change_last_point_pos(line_r, right_line_pos)
-		_change_last_point_pos(line_l, left_line_pos)
-		# Extra long line stuff
-		var point_vec = get_point_position(get_point_count() - 1)
-		line2.set_point_position(0, point_vec)
-		line2.set_point_position(1, Vector2(point_vec.x, point_vec.y - 2000))
-		point_vec = line_r.get_point_position(get_point_count() - 2)
-		line_r.set_point_position(count + 1, Vector2(point_vec.x, point_vec.y - 2000))
-		point_vec = line_l.get_point_position(get_point_count() - 2)
-		line_l.set_point_position(count + 1, Vector2(point_vec.x, point_vec.y - 2000))
-		# Pushing down position
-		_push_position_down_array(self)
-		_push_position_down_array(line_l)
-		_push_position_down_array(line_r)
-		# Body and changing line curve
-		target_pos = get_point_position(body.target_point) # 21th point cuz there's some buffer space 
-			#while dtaping one dir
-		offset = target_pos.x - body.position.x
-		velocity = lerp(velocity, offset / _delta, _delta)
-		body.position.x += velocity * _delta # delta cuz its smooooooooth now!
-		velocity *= 0.85 # damping
+		# Game speed logic
+		# For now it's only paused => slower than normal. Add the faster logic
+		if (GmM.paused and paused_count < (1 / GmM.game_speed)):
+			paused_count += 1
+		else:
+			# Rail Lines position
+			line_r.position = position
+			line_l.position = position
+			_change_last_point_pos(line_r, right_line_pos)
+			_change_last_point_pos(line_l, left_line_pos)
+			# Extra long line stuff
+			var point_vec = get_point_position(get_point_count() - 1)
+			line2.set_point_position(0, point_vec)
+			line2.set_point_position(1, Vector2(point_vec.x, point_vec.y - 2000))
+			point_vec = line_r.get_point_position(get_point_count() - 2)
+			line_r.set_point_position(count + 1, Vector2(point_vec.x, point_vec.y - 2000))
+			point_vec = line_l.get_point_position(get_point_count() - 2)
+			line_l.set_point_position(count + 1, Vector2(point_vec.x, point_vec.y - 2000))
+			# Pushing down position
+			_push_position_down_array(self)
+			_push_position_down_array(line_l)
+			_push_position_down_array(line_r)
+			# Body and changing line curve
+			target_pos = get_point_position(body.target_point) # 21th point cuz there's some buffer space 
+				#while dtaping one dir
+			offset = target_pos.x - body.position.x
+			velocity = lerp(velocity, offset / _delta, _delta)
+			body.position.x += velocity * _delta # delta cuz its smooooooooth now!
+			velocity *= 0.85 # damping
+			paused_count = 0 # Reset counter
 		if(Input.is_action_just_pressed("key_left")):
 			pos_changer(last_pos.LEFT)
 		elif(Input.is_action_just_pressed("key_right")):
@@ -201,12 +208,13 @@ func _process(_delta):
 
 # Position functions
 func pos_changer(move:last_pos):
-	if last_point_pos == last_pos.LEFT and move == last_pos.LEFT:
-		return
-	elif last_point_pos == last_pos.RIGHT and move == last_pos.RIGHT:
-		return
-	@warning_ignore("int_as_enum_without_cast")
-	last_point_pos += move
+	if !GmM.paused:
+		if last_point_pos == last_pos.LEFT and move == last_pos.LEFT:
+			return
+		elif last_point_pos == last_pos.RIGHT and move == last_pos.RIGHT:
+			return
+		@warning_ignore("int_as_enum_without_cast")
+		last_point_pos += move
 
 func _push_position_down_array(l:Line2D):
 	for x in range(0, count):

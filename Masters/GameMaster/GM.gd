@@ -13,6 +13,12 @@ class_name GM extends Node
 @export var pickup_spawn_period = 5
 @export var body_holder_array : Array[PlayerBodyHolder]
 @export var scene_array : Array[PackedScene]
+
+@export_group("Pause")
+## Change this value to change the game speed while paused[br]
+## Default = 0.05
+@export var paused_slowdown := 0.02
+
 @onready var screen_black := $Control/BlackScreen
 
 # Colour stuff
@@ -32,6 +38,21 @@ var current_body = 0
 var line_color = 0
 var inventory_space = 0
 
+# Game time stuff. For example a variable responisble for pausing game
+var paused := false:
+	set(value):
+		paused = value
+		on_paused.emit(paused)
+		if (paused):
+			# Change this value to change the game speed while paused.
+			# Default = 0.05
+			game_speed = paused_slowdown
+		else:
+			game_speed = real_game_speed
+var game_speed := 1.0
+var real_game_speed := 1.0
+
+signal on_paused(b:bool)
 #endregion
 
 # Basic Godot functions
@@ -69,6 +90,7 @@ func transition_screen_out():
 		await Engine.get_main_loop().process_frame
 
 func after_game_over_logic(num := 0):
+	GmM.paused = false
 	match num:
 		0:
 			ScM.finalize_level_score()

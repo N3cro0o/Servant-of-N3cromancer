@@ -25,6 +25,8 @@ enum state {
 @onready var debug_label := $WindowBox/DebugLabel
 @onready var hit_frame := $HitFrame
 @onready var inventory = $WindowBox/ScrollsBox/InventoryLogic
+@onready var pause_panel: Control = $WindowBox/PausePanel
+@onready var camera_buttons : Array[TouchScreenButton] = [$Camera2D/ButtonL, $Camera2D/ButtonR]
 
 # Player vars
 var hit_color_zeroing = true
@@ -78,7 +80,7 @@ var speed := 5.0
 var max_speed := 7.5
 var accelerate = 0.1
 static var speed_multi := 1.0
-
+static var actual_speed_multi := 1.0
 #endregion
 #region Signals
 
@@ -94,6 +96,9 @@ func _init():
 
 func _ready():
 	GmM.curr_scene = self
+	# Connect to GmM
+	GmM.on_paused.connect(on_paused)
+	# Hp stuff
 	hit_frame.self_modulate = Color(1,1,1,0)
 	hp = big_boi.health_points
 	hp_start = hp
@@ -120,6 +125,7 @@ func _ready():
 	accelerate = big_boi.return_accelerate()
 	max_speed = big_boi.return_max_speed()
 	# Level setup completed
+	pause_panel.visible = false
 	on_level_start.emit()
 
 func _physics_process(delta):
@@ -136,7 +142,7 @@ func _process(delta):
 	# BG movement
 	if !bg_lock:
 		for x in bg_sprites:
-			x.position.y += delta * 250 * speed_multi
+			x.position.y += delta * 250 * actual_speed_multi
 			if x.position.y >= 3600:
 				x.position.y -= 2400 * 3 - 1
 	# Debug text
@@ -147,17 +153,20 @@ func _process(delta):
 		debug_label.text += "Player state: %s, %d\nDistance: %f, %d\nSpeed: %f m/s\nMouse pos: %s" % [state.find_key\
 		(big_boi.p_state), hp, ScM.distance, snappedf(ScM.distance, 1), speed, $MouseEntity.position]
 		debug_label.text += "\nDifficulty: %f, %d" % [difficulty, stage + 1]
+	# Paused saving
+	if !GmM.paused:
+		actual_speed_multi = speed_multi
 	# And lastly, hp diference
 	hp_last = hp
 
-func _input(event):
-	if event.is_action("ui_cancel"):
-		GmM.change_scene(0)
+func _input(_event):
+	if Input.is_action_just_pressed("ui_cancel"):
+		pause_game()
 
 func _notification(what):
 	# Quit game
 	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
-		GmM.change_scene(0)
+		pause_game()
 
 # Stages functions
 func advance_stage():
@@ -242,9 +251,26 @@ func on_player_death():
 		$Pickups.remove_child(pickup)
 
 # Changing scenes logic
+func pause_game():
+	if !GmM.paused:
+		pause_panel.visible = true
+		GmM.paused = true
+	else:
+		pause_panel.visible = false
+		GmM.paused = false
+	for bttn in camera_buttons:
+		bttn.visible = !bttn.visible
+
 func reset_level_request():
 	GmM.after_game_over_logic()
 	get_tree().call_deferred("reload_current_scene")
 
 func quit_level_request():
 	GmM.change_scene(0)
+
+func on_paused(paused):
+	if paused:
+		actual_speed_multi *= GmM.paused_slowdown
+	else:
+		actual_speed_multi = speed_multi
+	

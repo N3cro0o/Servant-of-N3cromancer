@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://vypfdtx3st2g"]
+[gd_scene load_steps=22 format=3 uid="uid://vypfdtx3st2g"]
 
 [ext_resource type="PackedScene" uid="uid://cwhxijf40rcnx" path="res://Scenes/PlayerCharacter/PlayerLine/player_line.tscn" id="1_0j60h"]
 [ext_resource type="Script" path="res://Scenes/GameScenes/GameScene/game_scene.gd" id="1_hmcmp"]
@@ -10,13 +10,14 @@
 [ext_resource type="Script" path="res://Scenes/GameScenes/GameScene/inventory_logic.gd" id="4_75syx"]
 [ext_resource type="Texture2D" uid="uid://0owx080eewsp" path="res://Images/PickUps/Scrolls/Symbols/repulsor.png" id="4_w28lu"]
 [ext_resource type="PackedScene" uid="uid://cxecydc21mmwa" path="res://Scenes/SceneKiller/killer.tscn" id="5_4g2j3"]
+[ext_resource type="PackedScene" uid="uid://b4f11y5i27dcu" path="res://Scenes/UI/MainGame/PauseScreen/pause_panel.tscn" id="5_7qvcc"]
 [ext_resource type="PackedScene" uid="uid://ccatmhjjcq6yv" path="res://Scenes/Obstacles/Spawner/obstacle_spawner.tscn" id="5_ob05u"]
 [ext_resource type="Texture2D" uid="uid://2g2u76harw2m" path="res://Images/circle_shape_black.png" id="6_natll"]
 [ext_resource type="Texture2D" uid="uid://jcx2r032ex1m" path="res://Images/PickUps/Scrolls/Symbols/Shield.png" id="8_hwywf"]
 [ext_resource type="Texture2D" uid="uid://8glmydbtnfi0" path="res://Images/UI/DirectionKey/1/arrow key1.png" id="10_7vqps"]
 [ext_resource type="Texture2D" uid="uid://gvpii7lmsrxu" path="res://Images/Player/Damage/hit_frame.png" id="12_ubvyc"]
 [ext_resource type="Texture2D" uid="uid://b613ar7xw3mka" path="res://Images/BG/BG.png" id="13_tjaki"]
-[ext_resource type="PackedScene" uid="uid://cc0c6bo2wcejw" path="res://Scenes/UI/GameOverScreen/end_panel.tscn" id="16_fi7fd"]
+[ext_resource type="PackedScene" uid="uid://cc0c6bo2wcejw" path="res://Scenes/UI/MainGame/GameOverScreen/end_panel.tscn" id="16_fi7fd"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_yrvdb"]
 font_size = 24
@@ -46,6 +47,10 @@ offset_bottom = 34.0
 text = "debug tesat"
 label_settings = SubResource("LabelSettings_yrvdb")
 
+[node name="PausePanel" parent="WindowBox" instance=ExtResource("5_7qvcc")]
+visible = false
+layout_mode = 1
+
 [node name="EndPanel" parent="WindowBox" instance=ExtResource("16_fi7fd")]
 visible = false
 layout_mode = 1
@@ -60,10 +65,11 @@ grow_vertical = 2
 [node name="ScrollsBox" type="VBoxContainer" parent="WindowBox"]
 layout_mode = 0
 offset_left = 912.0
-offset_top = 1591.0
+offset_top = 963.0
 offset_right = 1040.0
-offset_bottom = 2033.0
+offset_bottom = 1965.0
 theme_override_constants/separation = 30
+alignment = 2
 
 [node name="InventoryLogic" type="Node" parent="WindowBox/ScrollsBox"]
 script = ExtResource("4_75syx")
@@ -233,6 +239,9 @@ texture = ExtResource("13_tjaki")
 [connection signal="on_stage_advance" from="." to="Spawners/Spawner1" method="advance_to_next_stage"]
 [connection signal="on_stage_advance" from="." to="Spawners/Spawner2" method="advance_to_next_stage"]
 [connection signal="on_stage_advance" from="." to="Spawners/Spawner3" method="advance_to_next_stage"]
+[connection signal="on_game_start_request" from="WindowBox/PausePanel" to="." method="pause_game"]
+[connection signal="on_quit_request" from="WindowBox/PausePanel" to="." method="quit_level_request"]
+[connection signal="on_reset_request" from="WindowBox/PausePanel" to="." method="reset_level_request"]
 [connection signal="on_quit_request" from="WindowBox/EndPanel" to="." method="quit_level_request"]
 [connection signal="on_reset_request" from="WindowBox/EndPanel" to="." method="reset_level_request"]
 [connection signal="pressed" from="WindowBox/ScrollsBox/RepulseButton" to="WindowBox/ScrollsBox/InventoryLogic" method="repulse_use"]

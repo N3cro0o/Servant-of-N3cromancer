@@ -21,3 +21,5 @@ class_name SpawnObstacleDataHolder extends Resource
 @export var spawner_is_empty = false
 ##Obstacle requires teleportation position state
 @export var tele_state = false
+## Obstacle index in ObstacleSpawner internal array
+var spawner_index = 0
