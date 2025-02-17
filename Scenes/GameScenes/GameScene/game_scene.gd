@@ -16,12 +16,12 @@ enum state {
 #region Variables
 
 @export var bg_sprites : Array[Sprite2D]
-@export var enemy_stages : Array[EndlessEnemyStageData]
+@export var enemy_stages : Array[StageEnemyData]
 @export_category("Buttons")
 @export_range(1.0, 2.0) var button_height_scale = 1.0
 @onready var small_bubble := $MouseEntity
 @onready var big_boi :PlayerLine1 = $PlayerLine
-@onready var spawners = $Spawners
+@onready var spawner := $SpawnerV2
 @onready var debug_label := $WindowBox/DebugLabel
 @onready var hit_frame := $HitFrame
 @onready var inventory = $WindowBox/ScrollsBox/InventoryLogic
@@ -124,6 +124,8 @@ func _ready():
 	speed = big_boi.speed
 	accelerate = big_boi.return_accelerate()
 	max_speed = big_boi.return_max_speed()
+	# Spawner
+	spawner.set_obstacle_data(enemy_stages[stage])
 	# Level setup completed
 	pause_panel.visible = false
 	on_level_start.emit()
@@ -145,14 +147,6 @@ func _process(delta):
 			x.position.y += delta * 250 * actual_speed_multi
 			if x.position.y >= 3600:
 				x.position.y -= 2400 * 3 - 1
-	# Debug text
-	var d_text1 = "Solid obstacle checks:\nSpawner 1: %s\nSpawner 2: %s\nSpawner 3: %s\n\n"
-	if spawners.get_child_count() > 3:
-		debug_label.text = d_text1 % [spawners.get_child(0).can_spawn_static,
-		 spawners.get_child(1).can_spawn_static, spawners.get_child(2).can_spawn_static]
-		debug_label.text += "Player state: %s, %d\nDistance: %f, %d\nSpeed: %f m/s\nMouse pos: %s" % [state.find_key\
-		(big_boi.p_state), hp, ScM.distance, snappedf(ScM.distance, 1), speed, $MouseEntity.position]
-		debug_label.text += "\nDifficulty: %f, %d" % [difficulty, stage + 1]
 	# Paused saving
 	if !GmM.paused:
 		actual_speed_multi = speed_multi
@@ -177,12 +171,11 @@ func advance_stage():
 	difficulty = 0
 	diff_trunc_val = 2
 	accelerate /= 2
+	spawner.set_obstacle_data(enemy_stages[stage])
 	on_stage_advance.emit()
 
 func spawn_boss():
-	var rand_boss_num = randi_range(0, enemy_stages[stage].bosses.size() - 1)
-	var main_spawner = spawners.get_child(0) as SpawnerBasic
-	boss = main_spawner.spawn_boss(rand_boss_num)
+	boss = spawner.spawn_boss_logic()
 	boss.on_boss_kill.connect(advance_stage)
 
 # Spawner functions
@@ -198,8 +191,7 @@ func _add_pickup(object):
 	$Pickups.add_child(object)
 
 func activate_spawners(state_spawner : bool):
-	for spawn in spawners.get_children() as Array[SpawnerBasic]:
-		spawn.active = state_spawner
+	spawner.active = state_spawner
 
 func on_obstacle_remove(object):
 	if !lock_logic:
@@ -244,8 +236,7 @@ func on_player_death():
 	# Stop-time
 	for obs in obstacles_array:
 		obs.stop_move()
-	for spawn in spawners.get_children() as Array[SpawnerBasic]:
-		spawn.active = false
+	spawner.active = false
 	for pickup in $Pickups.get_children() as Array[PickUpBase]:
 		pickup.queue_free()
 		$Pickups.remove_child(pickup)

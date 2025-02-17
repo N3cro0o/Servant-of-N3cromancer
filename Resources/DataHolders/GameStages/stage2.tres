@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="StageEnemyData" load_steps=15 format=3 uid="uid://b8vm6g730r16k"]
+
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/spawn_obstacle_data_holder.gd" id="1_i3v5a"]
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/spawn_pickup_data_holder.gd" id="2_57jd3"]
+[ext_resource type="Resource" uid="uid://bj47i888dekbp" path="res://Scenes/Obstacles/Bosses/Boss1/boss_1.tres" id="2_mcpwu"]
+[ext_resource type="Resource" uid="uid://chynsxlq4cx8l" path="res://Scenes/Obstacles/Gravity/Obstacle1/gravity_obstacle_1.tres" id="3_0q3t6"]
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/stage_enemy_data.gd" id="3_5tqio"]
+[ext_resource type="Resource" uid="uid://wyuyky2saif6" path="res://Scenes/Obstacles/Gravity/Obstacle3 - Bullet/bullet.tres" id="4_nlsgi"]
+[ext_resource type="Resource" uid="uid://23r2kj0qc0k3" path="res://Scenes/Obstacles/Non-gravity/Obstacle3 - GravityShift/shield_static.tres" id="5_ge4n4"]
+[ext_resource type="Resource" uid="uid://cnyqvmeyqttle" path="res://Scenes/Obstacles/Gravity/Obstacle2 - Splitter/splitter.tres" id="6_3jhw5"]
+[ext_resource type="Resource" uid="uid://dvpqolnkgjja4" path="res://Scenes/Obstacles/Non-gravity/Obstacle4 - teleport/telep.tres" id="7_aohiw"]
+[ext_resource type="Resource" uid="uid://ceur701l7a75w" path="res://Scenes/Obstacles/Non-gravity/Obstacle2 - Wide/static_wide.tres" id="8_w8uqe"]
+[ext_resource type="Resource" uid="uid://dj1bcy6upyt3g" path="res://Scenes/Obstacles/Homing/Obstacle1/homing_gravity_1.tres" id="9_nkowk"]
+[ext_resource type="Resource" uid="uid://c58fbv2edq6cw" path="res://Scenes/PowerUpsAndPickUps/Repulsor/repulsor_data.tres" id="11_b7ly2"]
+[ext_resource type="Resource" uid="uid://drv2mwl03kmv4" path="res://Scenes/PowerUpsAndPickUps/Insta-shield/insta_shield.tres" id="12_itd83"]
+[ext_resource type="Resource" uid="uid://cjsyk324p42aq" path="res://Scenes/PowerUpsAndPickUps/PLN/coin_data.tres" id="13_i0j6m"]
+
+[resource]
+script = ExtResource("3_5tqio")
+spawn_points = 3
+data_1 = Array[ExtResource("1_i3v5a")]([ExtResource("3_0q3t6"), ExtResource("4_nlsgi"), ExtResource("5_ge4n4")])
+data_2 = Array[ExtResource("1_i3v5a")]([ExtResource("3_0q3t6"), ExtResource("6_3jhw5"), ExtResource("7_aohiw"), ExtResource("8_w8uqe"), ExtResource("9_nkowk")])
+data_3 = Array[ExtResource("1_i3v5a")]([ExtResource("3_0q3t6"), ExtResource("6_3jhw5"), ExtResource("4_nlsgi"), ExtResource("8_w8uqe"), ExtResource("9_nkowk")])
+data_4 = Array[ExtResource("1_i3v5a")]([])
+data_5 = Array[ExtResource("1_i3v5a")]([])
+difficulty_threshold = 10.0
+bosses = Array[ExtResource("1_i3v5a")]([ExtResource("2_mcpwu")])
+pickups = Array[ExtResource("2_57jd3")]([ExtResource("11_b7ly2"), ExtResource("12_itd83"), ExtResource("13_i0j6m")])

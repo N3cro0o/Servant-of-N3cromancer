@@ -1,12 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://dj0xd4lvpcrnd"]
+[gd_scene load_steps=2 format=3 uid="uid://dj0xd4lvpcrnd"]
 
 [ext_resource type="Script" path="res://Scenes/Obstacles/SpawnerV2/spawner_v2.gd" id="1_egqty"]
-[ext_resource type="Resource" uid="uid://b6qoduwm2l0xk" path="res://Resources/DataHolders/GameStages/stage1.tres" id="2_rxkqe"]
 
 [node name="SpawnerV2" type="Node2D"]
 script = ExtResource("1_egqty")
-active = true
-obstacle_data = ExtResource("2_rxkqe")
 
 [node name="Spawners" type="Node2D" parent="."]
 
@@ -25,11 +22,29 @@ visible = false
 visible = false
 
 [node name="1" type="Timer" parent="."]
+wait_time = 999.0
+one_shot = true
 
 [node name="2" type="Timer" parent="."]
+wait_time = 999.0
+one_shot = true
 
 [node name="3" type="Timer" parent="."]
+wait_time = 999.0
+one_shot = true
 
 [node name="4" type="Timer" parent="."]
+wait_time = 999.0
+one_shot = true
 
 [node name="5" type="Timer" parent="."]
+wait_time = 999.0
+one_shot = true
+
+[node name="Obstacles" type="Node2D" parent="."]
+
+[connection signal="timeout" from="1" to="." method="spawn_from" flags=3 binds= [0]]
+[connection signal="timeout" from="2" to="." method="spawn_from" flags=3 binds= [1]]
+[connection signal="timeout" from="3" to="." method="spawn_from" flags=3 binds= [2]]
+[connection signal="timeout" from="4" to="." method="spawn_from" flags=3 binds= [3]]
+[connection signal="timeout" from="5" to="." method="spawn_from" flags=3 binds= [4]]

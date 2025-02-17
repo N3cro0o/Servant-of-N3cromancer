@@ -9,3 +9,4 @@ const BASE_IMAGE = "res://Images/icon.svg"
 @export var falling_speed : int = 150
 @export var action_logic : Script = BASE_SCRIPT
 @export var weight : int = 1
+var spawner_index = 0

@@ -2,20 +2,20 @@
 
 [ext_resource type="PackedScene" uid="uid://cwhxijf40rcnx" path="res://Scenes/PlayerCharacter/PlayerLine/player_line.tscn" id="1_0j60h"]
 [ext_resource type="Script" path="res://Scenes/GameScenes/GameScene/game_scene.gd" id="1_hmcmp"]
-[ext_resource type="Resource" uid="uid://dnoa567f4fvv2" path="res://Resources/DataHolders/EndlessStages/stage1.tres" id="2_70m4v"]
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/stage_enemy_data.gd" id="2_3iuus"]
 [ext_resource type="PackedScene" uid="uid://bx18cpaetf7lm" path="res://Scenes/PlayerCharacter/Mouse/mouse_entity.tscn" id="2_fwa26"]
-[ext_resource type="Script" path="res://Resources/DataHolders/Script/endless_enemy_stage.gd" id="2_xoxp8"]
 [ext_resource type="Texture2D" uid="uid://cw4egb0obgrol" path="res://Images/UI/DirectionKey/1/arrow key2.png" id="3_jqbrk"]
-[ext_resource type="Resource" uid="uid://u5q1wif5552p" path="res://Resources/DataHolders/EndlessStages/stage2.tres" id="3_tdpiv"]
+[ext_resource type="Resource" uid="uid://b6qoduwm2l0xk" path="res://Resources/DataHolders/GameStages/stage1.tres" id="3_s3x3a"]
 [ext_resource type="Script" path="res://Scenes/GameScenes/GameScene/inventory_logic.gd" id="4_75syx"]
+[ext_resource type="Resource" uid="uid://b8vm6g730r16k" path="res://Resources/DataHolders/GameStages/stage2.tres" id="4_ehmxr"]
 [ext_resource type="Texture2D" uid="uid://0owx080eewsp" path="res://Images/PickUps/Scrolls/Symbols/repulsor.png" id="4_w28lu"]
 [ext_resource type="PackedScene" uid="uid://cxecydc21mmwa" path="res://Scenes/SceneKiller/killer.tscn" id="5_4g2j3"]
 [ext_resource type="PackedScene" uid="uid://b4f11y5i27dcu" path="res://Scenes/UI/MainGame/PauseScreen/pause_panel.tscn" id="5_7qvcc"]
-[ext_resource type="PackedScene" uid="uid://ccatmhjjcq6yv" path="res://Scenes/Obstacles/Spawner/obstacle_spawner.tscn" id="5_ob05u"]
 [ext_resource type="Texture2D" uid="uid://2g2u76harw2m" path="res://Images/circle_shape_black.png" id="6_natll"]
 [ext_resource type="Texture2D" uid="uid://jcx2r032ex1m" path="res://Images/PickUps/Scrolls/Symbols/Shield.png" id="8_hwywf"]
 [ext_resource type="Texture2D" uid="uid://8glmydbtnfi0" path="res://Images/UI/DirectionKey/1/arrow key1.png" id="10_7vqps"]
 [ext_resource type="Texture2D" uid="uid://gvpii7lmsrxu" path="res://Images/Player/Damage/hit_frame.png" id="12_ubvyc"]
+[ext_resource type="PackedScene" uid="uid://dj0xd4lvpcrnd" path="res://Scenes/Obstacles/SpawnerV2/spawner_v2.tscn" id="13_ri3jn"]
 [ext_resource type="Texture2D" uid="uid://b613ar7xw3mka" path="res://Images/BG/BG.png" id="13_tjaki"]
 [ext_resource type="PackedScene" uid="uid://cc0c6bo2wcejw" path="res://Scenes/UI/MainGame/GameOverScreen/end_panel.tscn" id="16_fi7fd"]
 
@@ -29,7 +29,7 @@ font_size = 24
 [node name="GameScene" type="Node2D" node_paths=PackedStringArray("bg_sprites")]
 script = ExtResource("1_hmcmp")
 bg_sprites = [NodePath("BG/BgUp"), NodePath("BG/Bg"), NodePath("BG/BgDown")]
-enemy_stages = Array[ExtResource("2_xoxp8")]([ExtResource("2_70m4v"), ExtResource("3_tdpiv")])
+enemy_stages = Array[ExtResource("2_3iuus")]([ExtResource("3_s3x3a"), ExtResource("4_ehmxr")])
 button_height_scale = 1.6
 
 [node name="WindowBox" type="Control" parent="."]
@@ -168,19 +168,10 @@ texture_normal = ExtResource("10_7vqps")
 texture_pressed = ExtResource("3_jqbrk")
 action = "key_right"
 
-[node name="Spawners" type="Node" parent="."]
-
-[node name="Spawner1" parent="Spawners" instance=ExtResource("5_ob05u")]
-position = Vector2(540, -297)
-
-[node name="Spawner2" parent="Spawners" instance=ExtResource("5_ob05u")]
-position = Vector2(240, -297)
-spawn_position = "Left"
-
-[node name="Spawner3" parent="Spawners" instance=ExtResource("5_ob05u")]
-position = Vector2(840, -297)
-spawn_position = "Right"
-left_right = true
+[node name="SpawnerV2" parent="." instance=ExtResource("13_ri3jn")]
+spawn_points = 3
+distance_between = 300.0
+spawner_offset = Vector2(540, -300)
 
 [node name="Obstacles" type="Node2D" parent="."]
 
@@ -236,9 +227,6 @@ scale = Vector2(3, 3)
 texture = ExtResource("13_tjaki")
 
 [connection signal="on_failing_level" from="." to="WindowBox/EndPanel" method="update_desc"]
-[connection signal="on_stage_advance" from="." to="Spawners/Spawner1" method="advance_to_next_stage"]
-[connection signal="on_stage_advance" from="." to="Spawners/Spawner2" method="advance_to_next_stage"]
-[connection signal="on_stage_advance" from="." to="Spawners/Spawner3" method="advance_to_next_stage"]
 [connection signal="on_game_start_request" from="WindowBox/PausePanel" to="." method="pause_game"]
 [connection signal="on_quit_request" from="WindowBox/PausePanel" to="." method="quit_level_request"]
 [connection signal="on_reset_request" from="WindowBox/PausePanel" to="." method="reset_level_request"]
@@ -246,15 +234,7 @@ texture = ExtResource("13_tjaki")
 [connection signal="on_reset_request" from="WindowBox/EndPanel" to="." method="reset_level_request"]
 [connection signal="pressed" from="WindowBox/ScrollsBox/RepulseButton" to="WindowBox/ScrollsBox/InventoryLogic" method="repulse_use"]
 [connection signal="pressed" from="WindowBox/ScrollsBox/ShieldButton" to="WindowBox/ScrollsBox/InventoryLogic" method="shield_use"]
-[connection signal="on_spawned_entity" from="Spawners/Spawner1" to="." method="_spawner1_spawn"]
-[connection signal="on_spawned_static_entity" from="Spawners/Spawner1" to="Spawners/Spawner2" method="lock_static_spawn"]
-[connection signal="on_spawned_static_entity" from="Spawners/Spawner1" to="Spawners/Spawner3" method="lock_static_spawn"]
-[connection signal="on_spawned_entity" from="Spawners/Spawner2" to="." method="_spawner1_spawn"]
-[connection signal="on_spawned_static_entity" from="Spawners/Spawner2" to="Spawners/Spawner1" method="lock_static_spawn"]
-[connection signal="on_spawned_static_entity" from="Spawners/Spawner2" to="Spawners/Spawner3" method="lock_static_spawn"]
-[connection signal="on_spawned_entity" from="Spawners/Spawner3" to="." method="_spawner1_spawn"]
-[connection signal="on_spawned_static_entity" from="Spawners/Spawner3" to="Spawners/Spawner1" method="lock_static_spawn"]
-[connection signal="on_spawned_static_entity" from="Spawners/Spawner3" to="Spawners/Spawner2" method="lock_static_spawn"]
+[connection signal="on_spawned_entity" from="SpawnerV2" to="." method="_spawner1_spawn"]
 [connection signal="on_player_death" from="PlayerLine" to="." method="on_player_death"]
 [connection signal="on_player_status_change" from="PlayerLine" to="." method="on_player_hit"]
 [connection signal="timeout" from="HitFrame/Timer" to="." method="on_hit_timer_timeout"]
