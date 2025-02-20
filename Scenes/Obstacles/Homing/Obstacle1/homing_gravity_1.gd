@@ -49,10 +49,10 @@ func _process(delta):
 		move_vector = move_vector.normalized()
 	# Find which way to rotate
 	if !lock_rotation:
-		rotation = rotate_toward(rotation, move_vector.angle() - PI/2, delta * rotation_speed)
+		rotation = rotate_toward(rotation, move_vector.angle() - PI/2, delta * rotation_speed * GmM.game_speed)
 	# Movement
 	if can_move:
-		position += velocity_vec.rotated(rotation) * delta
+		position += velocity_vec.rotated(rotation) * delta * GmM.game_speed
 
 # Scrolls functions
 func repulse(strength:int):
@@ -88,11 +88,12 @@ func on_sound_end():
 	queue_free()
 
 func on_paused(paused):
-	super.on_paused(paused)
-	if GmM.paused:
-		actual_rotation_speed = rotation_speed * GmM.paused_slowdown
-		actual_speed = speed * GmM.paused_slowdown
-	else:
-		actual_rotation_speed = rotation_speed
-		actual_speed = speed
-	velocity_vec = Vector2.UP * actual_speed
+	#super.on_paused(paused)
+	#if GmM.paused:
+		#actual_rotation_speed = rotation_speed * GmM.paused_slowdown
+		#actual_speed = speed * GmM.paused_slowdown
+	#else:
+		#actual_rotation_speed = rotation_speed
+		#actual_speed = speed
+	#velocity_vec = Vector2.UP * actual_speed
+	pass

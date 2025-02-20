@@ -30,6 +30,7 @@ func on_changing_visibility():
 # Button functions
 func on_end_bttn_press():
 	Sfx.play_sound_ui_number(0)
+	GmM.after_game_over_logic()
 	on_quit_request.emit()
 
 func on_reset_bttn_press():

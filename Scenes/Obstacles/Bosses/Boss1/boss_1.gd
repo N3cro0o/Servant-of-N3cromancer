@@ -36,11 +36,12 @@ func _physics_process(delta):
 		damage_timer -= delta
 	else:
 		damage_timer = 0
+	# If paused, timer is slowed down and cannot spawn anything
 	# Death timer
-	death_timer -= delta
+	death_timer -= delta * GmM.game_speed
 	if death_timer <= 0:
 		kill_boss()
-	if death_timer < death_timer_trunc and !kill_check:
+	if death_timer < death_timer_trunc and !kill_check and !GmM.paused:
 		death_timer_trunc -= 1.5
 		var rand_spwnr_num = randi_range(0, 2)
 		var boner = DA_BONE.instantiate()
@@ -51,5 +52,6 @@ func kill_boss():
 	if !kill_check:
 		on_boss_kill.emit()
 		speed = 1000
+		actual_speed = 1000
 		kill_check = true
 	modulate = Color(modulate, modulate.a - 0.015)

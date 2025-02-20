@@ -41,3 +41,8 @@ mouse_filter = 2
 color = Color(0.0980392, 0.0980392, 0.129412, 1)
 
 [node name="LogicNode" type="Node" parent="."]
+
+[node name="Slow-MoTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="Slow-MoTimer" to="." method="stop_slow_mo"]

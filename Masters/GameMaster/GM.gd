@@ -20,6 +20,7 @@ class_name GM extends Node
 @export var paused_slowdown := 0.02
 
 @onready var screen_black := $Control/BlackScreen
+@onready var slow_mo_timer: Timer = $"Slow-MoTimer"
 
 # Colour stuff
 var black_colour = Color.BLACK
@@ -47,12 +48,26 @@ var paused := false:
 			# Change this value to change the game speed while paused.
 			# Default = 0.05
 			game_speed = paused_slowdown
+			game_speed_interpolation_check = false
+			slow_mo_timer.paused = true
 		else:
-			game_speed = real_game_speed
+			if !real_game_speed_interpolation_check:
+				game_speed = slow_mo_game_speed
+			else:
+				game_speed = real_game_speed
+			game_speed_interpolation_check = real_game_speed_interpolation_check
+			slow_mo_timer.paused = false
 var game_speed := 1.0
+var slow_mo_game_speed := 1.0
 var real_game_speed := 1.0
+var game_speed_interpolation_check = true
+var real_game_speed_interpolation_check = true:
+	set(b):
+		real_game_speed_interpolation_check = b
+		game_speed_interpolation_check = b
 
 signal on_paused(b:bool)
+signal on_slow_mo(b:bool)
 #endregion
 
 # Basic Godot functions
@@ -63,6 +78,16 @@ func _ready():
 	black_colour = screen_black.color
 	screen_black.color = Color(black_colour, 0)
 	transition_iterat = transition_speed * 60
+
+func _physics_process(delta: float) -> void:
+	if game_speed_interpolation_check:
+		game_speed += game_speed * delta
+		slow_mo_game_speed = real_game_speed
+		# second emit if speed are the same
+		if game_speed >= real_game_speed:
+			on_slow_mo.emit(false)
+			game_speed_interpolation_check = false
+			game_speed = real_game_speed
 
 # Main game functions
 func update_line_color(color : int):
@@ -102,6 +127,19 @@ func sort_by_shop_category(a : ItemShopData, b : ItemShopData):
 	if a.category < b.category:
 		return true
 	return false
+
+# Slow-mo functions
+func start_slow_mo(time: float, force: float):
+	if (force <= 0 or force > 1) and time <= 0:
+		return
+	game_speed *= force
+	slow_mo_game_speed = game_speed
+	slow_mo_timer.start(time);
+	real_game_speed_interpolation_check = false
+	on_slow_mo.emit(true)
+
+func stop_slow_mo():
+	real_game_speed_interpolation_check = true
 
 # Save data functions
 func reset_save_data():

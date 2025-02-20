@@ -1,5 +1,5 @@
 class_name SpawnerBasicV2 extends Node2D
-# Check if boss works properly
+
 const PICKUP_PATH = "res://Scenes/PowerUpsAndPickUps/Base/pick_up_base.tscn"
 const PICKUP_BASE = preload(PICKUP_PATH)
 

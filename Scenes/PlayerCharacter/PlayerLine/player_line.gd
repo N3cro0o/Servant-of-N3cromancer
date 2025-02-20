@@ -33,7 +33,7 @@ enum state {
 		_change_last_point_pos(self, last_point_pos)
 @export var health_points := 5
 ## Used to calculate distance score
-@export var speed : float = 5.0
+@export var speed : float = 7.5
 @export_group("Audio")
 @export var streams : Array[SoundHolder] = [preload("res://SFX/moving.tres"), preload("res://SFX/slap.tres"),\
 	preload("res://SFX/skul_crack.tres")]
@@ -172,8 +172,8 @@ func _process(_delta):
 		#else:
 			#play_autoplay(streams[0], false)
 		# Game speed logic
-		# For now it's only paused => slower than normal. Add the faster logic
-		if (GmM.paused and paused_count < (1 / GmM.game_speed)):
+		# For now it's only game_speed => slower than normal. Add the faster logic
+		if (GmM.game_speed < 1.0 and paused_count < (1 / GmM.game_speed) - 1):
 			paused_count += 1
 		else:
 			# Rail Lines position
@@ -281,18 +281,20 @@ func on_body_hit(d):
 				p_state = state.SHIELD_BROKEN
 				shield_timer_reset_after_hit(3 + d1)
 			state.SHIELD_RECHARGE:
+				health_points -= d
+				if d > 0:
+					player_hit.play()
 				p_state = state.RECHARGE_HIT
 				timer.stop()
 				shield_timer_reset_after_hit(5 + d1 * 2)
-				health_points -= d
-				player_hit.play()
 			state.SHIELD_BROKEN:
+				health_points -= d * 2
+				if d > 0:
+					player_hit_super.play()
 				p_state = state.BROKEN_HIT
 				if d != 0:
 					inv = true
 					shield_timer_reset_after_hit(3.5)
-				health_points -= d * 2
-				player_hit_super.play()
 			state.RECHARGE_HIT:
 				return
 			state.BROKEN_HIT:

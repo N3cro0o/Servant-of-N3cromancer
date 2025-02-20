@@ -76,8 +76,8 @@ var difficulty := 0.0:
 				if speed > big_boi.return_max_speed():
 					speed = big_boi.return_max_speed()
 ## speed in [m/s] because metric is far superior, no thing or no one will change this
-var speed := 5.0
-var max_speed := 7.5
+var speed := 7.5
+var max_speed := 10.0
 var accelerate = 0.1
 static var speed_multi := 1.0
 static var actual_speed_multi := 1.0
@@ -102,6 +102,8 @@ func _ready():
 	hit_frame.self_modulate = Color(1,1,1,0)
 	hp = big_boi.health_points
 	hp_start = hp
+	# Speed
+	speed_multi = speed / 5
 	#region Buttons
 	var bttn_left :TouchScreenButton = $Camera2D/ButtonL
 	var bttn_right :TouchScreenButton = $Camera2D/ButtonR
@@ -144,7 +146,7 @@ func _process(delta):
 	# BG movement
 	if !bg_lock:
 		for x in bg_sprites:
-			x.position.y += delta * 250 * actual_speed_multi
+			x.position.y += delta * 250 * actual_speed_multi * GmM.game_speed
 			if x.position.y >= 3600:
 				x.position.y -= 2400 * 3 - 1
 	# Paused saving
@@ -161,6 +163,10 @@ func _notification(what):
 	# Quit game
 	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
 		pause_game()
+	if what == NOTIFICATION_APPLICATION_FOCUS_OUT:
+		pause_game()
+	if what == NOTIFICATION_APPLICATION_PAUSED:
+		pause_game()
 
 # Stages functions
 func advance_stage():
@@ -176,6 +182,7 @@ func advance_stage():
 
 func spawn_boss():
 	boss = spawner.spawn_boss_logic()
+	spawner.active = false
 	boss.on_boss_kill.connect(advance_stage)
 
 # Spawner functions
@@ -218,6 +225,8 @@ func on_player_hit(s, hp1):
 			hit_color_zeroing = false
 			hit_frame.self_modulate = Color(1,1,1,.95)
 			on_take_damage.emit()
+			if s == state.BROKEN_HIT:
+				GmM.start_slow_mo(1.5, 0.2)
 	if s == state.SHIELD_RECHARGE:
 		# ... for shield recharge
 		t.start(2)

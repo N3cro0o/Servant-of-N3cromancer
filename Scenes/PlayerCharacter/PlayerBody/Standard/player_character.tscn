@@ -10,6 +10,7 @@ size = Vector2(238, 290)
 [node name="PlayerCharacter" type="Area2D" groups=["mainbody"]]
 collision_mask = 6
 script = ExtResource("1_ihpk7")
+max_speed = 10.0
 
 [node name="SpriteSkul" type="AnimatedSprite2D" parent="."]
 z_index = 10

@@ -8,6 +8,6 @@ script = ExtResource("2_5txjc")
 name = "InstaShield"
 image_dir = "res://Images/PickUps/Scrolls/Symbols/Shield.png"
 type = 1
-falling_speed = 150
+falling_speed = 500
 action_logic = ExtResource("1_bkqwg")
 weight = 1

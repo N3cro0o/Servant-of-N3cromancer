@@ -10,7 +10,7 @@ size = Vector2(238, 290)
 [node name="PlayerCharacter" type="Area2D" groups=["mainbody"]]
 collision_mask = 6
 script = ExtResource("1_1otnj")
-max_speed = 9.0
+max_speed = 15.0
 speed_multi = 0.3
 line_points_number = 70
 distance_points = 7.0

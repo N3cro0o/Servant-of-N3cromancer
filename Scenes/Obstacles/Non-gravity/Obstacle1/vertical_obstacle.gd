@@ -25,7 +25,7 @@ func _ready():
 func _physics_process(delta):
 	var sin_var = sin(rotation + PI/2)
 	var cos_var = cos(rotation + PI/2)
-	speed_vector = Vector2(cos_var, sin_var) * actual_speed
+	speed_vector = Vector2(cos_var, sin_var) * actual_speed * GmM.game_speed
 	if can_move:
 		position += speed_vector * delta * GameScene.speed_multi
 

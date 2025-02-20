@@ -41,9 +41,14 @@ func split():
 			obs.position = position + Vector2(0, -100)
 			child_spread *= -1
 			var vel = Vector2(0, -child_speed).rotated(rotat)
-			obs.linear_velocity = vel
+			obs.unpaused_vel = vel
 			obs.player_body = PlayerLine1.instance
+			obs.grace_period = 0.2
+			obs.grace_check = true
 			# Adding to scene
-			GameScene.instance._add_obstacle(obs)
+			if GameScene.instance != null:
+				GameScene.instance._add_obstacle(obs)
+			else:
+				get_parent().add_child(obs)
 		# Deleting parent object
 		queue_free()

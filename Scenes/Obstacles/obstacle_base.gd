@@ -23,7 +23,9 @@ var velocity := Vector2.ZERO
 var lock_delete_logic := false
 var can_move := true
 var grace_check = false
+var lock_y_velocity = false
 var unpaused_vel := Vector2.ZERO
+var start_gravity
 #endregion
 
 # Basic Godot functions
@@ -38,6 +40,9 @@ func _ready():
 		grace_check = true
 		if get_node_or_null("CollisionShape2D") != null:
 			$CollisionShape2D.set_deferred("disabled", true)
+	
+	# Save gravity force for later use
+	start_gravity = gravity_scale
 
 func _physics_process(delta):
 	if grace_check:
@@ -49,13 +54,17 @@ func _physics_process(delta):
 			print_rich("[hint=%s]Grace period ended[/hint]" % name)
 		elif grace_period > 0:
 			grace_period -= delta
+	# First, update y velocity if needed, then update gravity and lastly save unpaused, unmodified velocity
+	if lock_y_velocity && !GmM.paused:
+		linear_velocity.y = unpaused_vel.y
+	gravity_black_magic()
 	# Save pre paused velocity to reuse after unpausing
-	if !GmM.paused:
+	if !GmM.paused && !lock_y_velocity:
 		unpaused_vel = linear_velocity
 
 func _notification(what):
 	# Before deletions logic
-	if what == NOTIFICATION_PREDELETE:
+	if what == NOTIFICATION_PREDELETE and GameScene.instance != null:
 		GameScene.instance.on_obstacle_remove(self)
 
 # Velocity functions
@@ -63,6 +72,7 @@ func add_start_velocity(velocity_vec:Vector2, angle:float):
 	var vec = velocity_vec.rotated(angle)
 	vec.x *= 45 * start_angle_multi
 	linear_velocity += vec
+	unpaused_vel = linear_velocity
 
 func add_start_velocity_with_grace(velocity_vec:Vector2, angle:float, grace:float):
 	grace_period = grace
@@ -76,6 +86,19 @@ func stop_move():
 	set_deferred("freeze", true)
 	set_deferred("can_move", false)
 
+# Gravity functions
+func gravity_black_magic():
+	if GmM.game_speed * start_gravity < gravity_scale && !GmM.paused:
+		lock_y_velocity = true
+		linear_velocity = unpaused_vel * GmM.game_speed
+	else:
+		lock_y_velocity = false
+	# Gravity scale update
+	if !GmM.paused:
+		gravity_scale = GmM.game_speed * start_gravity
+	else:
+		gravity_scale = GmM.paused_slowdown
+
 # On something functions
 func on_mouse_hit():
 	mouse_hit = true
@@ -86,11 +109,12 @@ func on_body_hit(b):
 
 func on_paused(paused):
 	if paused:
-		linear_velocity *= GmM.paused_slowdown / GmM.real_game_speed
-		gravity_scale = GmM.paused_slowdown
+		linear_velocity = unpaused_vel * GmM.paused_slowdown / GmM.real_game_speed
 	else:
-		linear_velocity = unpaused_vel
-		gravity_scale = GmM.real_game_speed
+		if lock_y_velocity:
+			linear_velocity = unpaused_vel * GmM.game_speed
+		else:
+			linear_velocity = unpaused_vel
 
 # Scrolls functions
 func repulse(strength:int):
