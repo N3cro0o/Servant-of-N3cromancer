@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Servant of Nekromanter"
 config/version="0.3.2"
-run/main_scene="res://Scenes/GameScenes/MainMenu/MainMenu.tscn"
+run/main_scene="res://Scenes/GameScenes/Manu/MainMenu/MainMenu.tscn"
 config/quit_on_go_back=false
 config/features=PackedStringArray("4.3", "GL Compatibility")
 run/max_fps=60

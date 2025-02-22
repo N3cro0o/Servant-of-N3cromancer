@@ -57,7 +57,7 @@ func _ready():
 	GmM.on_paused.connect(on_paused)
 	loaded = true
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	linear_velocity = Vector2.DOWN * GmM.game_speed * fall_speed
 
 # Pickup logic functions

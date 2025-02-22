@@ -96,6 +96,7 @@ func update_line_color(color : int):
 
 func change_scene(scene_to_go : int):
 	await transition_screen_in()
+	paused = false
 	after_game_over_logic(-1)
 	var scene = scene_array[scene_to_go]
 	get_tree().change_scene_to_packed(scene)

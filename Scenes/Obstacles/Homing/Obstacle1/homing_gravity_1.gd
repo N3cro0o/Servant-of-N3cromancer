@@ -87,7 +87,7 @@ func _on_bum_timer_timeout():
 func on_sound_end():
 	queue_free()
 
-func on_paused(paused):
+func on_paused(_paused):
 	#super.on_paused(paused)
 	#if GmM.paused:
 		#actual_rotation_speed = rotation_speed * GmM.paused_slowdown

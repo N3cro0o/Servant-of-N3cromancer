@@ -6,6 +6,9 @@ const PICKUP_BASE = preload(PICKUP_PATH)
 #region Variables
 @export var active = false:
 	set(b):
+		if !force_active:
+			active = false
+			return
 		if obstacle_data != null:
 			active = b
 			for timer in spawn_timer_arr:
@@ -39,6 +42,12 @@ const PICKUP_BASE = preload(PICKUP_PATH)
 	$"Spawners/1", $"Spawners/2", $"Spawners/3", $"Spawners/4", $"Spawners/5"]
 @onready var spawn_timer_arr: Array[Timer] = [$"1", $"2", $"3", $"4", $"5"]
 
+## Variable used to *force* spawner to be disabled
+var force_active := true:
+	set(active_bool):
+		force_active = active_bool
+		if !active_bool:
+			active = active_bool
 var spawn_weight: Array[int] = [0,0,0,0,0]
 var spawn_static_check: Array[int] = [0,0,0,0,0]
 var spawn_repeat_check: Array[String] = ["","","","",""]
@@ -169,6 +178,9 @@ func start_timer_rand(num: int, extra_delay: float):
 	spawn_timer_arr[num].start((spawn_delay + f) * extra_delay - diff_delay)
 
 func spawn_from(num: int):
+	# Check if active
+	if !active:
+		return
 	# connecting to the game
 	match num:
 		0:

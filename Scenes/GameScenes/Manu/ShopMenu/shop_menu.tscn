@@ -1,0 +1,207 @@
+[gd_scene load_steps=16 format=3 uid="uid://dua8n2u5i2pav"]
+
+[ext_resource type="Script" path="res://Scenes/GameScenes/Manu/ShopMenu/shop_menu.gd" id="1_vbxe0"]
+[ext_resource type="Script" path="res://Resources/RandomScripts/game_button.gd" id="2_1hui4"]
+[ext_resource type="Texture2D" uid="uid://8glmydbtnfi0" path="res://Images/UI/DirectionKey/1/arrow key1.png" id="2_81wor"]
+[ext_resource type="Texture2D" uid="uid://d2j5jhadmnc2q" path="res://Images/PickUps/PLN/pln.png" id="2_bljjt"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_vfvsw"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tgeir"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2wu72"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fuclw"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3pf81"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h57ov"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bnqmd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_25up0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5a78q"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ww1hc"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2o7rq"]
+
+[node name="ShopMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vbxe0")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 50
+
+[node name="Box" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Up" type="Control" parent="Margin/Box"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Box" type="VBoxContainer" parent="Margin/Box/Up"]
+layout_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="TextName" type="RichTextLabel" parent="Margin/Box/Up/Box"]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 86
+bbcode_enabled = true
+text = "[center]Name[/center]"
+fit_content = true
+
+[node name="Texture" type="TextureRect" parent="Margin/Box/Up/Box"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = SubResource("PlaceholderTexture2D_vfvsw")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="Down" type="Control" parent="Margin/Box"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.1
+
+[node name="BoxOuter" type="VBoxContainer" parent="Margin/Box/Down"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 50
+
+[node name="TextDesc" type="RichTextLabel" parent="Margin/Box/Down/BoxOuter"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 56
+theme_override_font_sizes/italics_font_size = 64
+bbcode_enabled = true
+text = "[center]Description[/center]"
+fit_content = true
+
+[node name="CoinsBox" type="HBoxContainer" parent="Margin/Box/Down/BoxOuter"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="TextCoins" type="RichTextLabel" parent="Margin/Box/Down/BoxOuter/CoinsBox"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/normal_font_size = 62
+text = "2137"
+fit_content = true
+autowrap_mode = 0
+
+[node name="Coin2" type="TextureRect" parent="Margin/Box/Down/BoxOuter/CoinsBox"]
+layout_mode = 2
+texture = ExtResource("2_bljjt")
+
+[node name="Box" type="VBoxContainer" parent="Margin/Box/Down/BoxOuter"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Buy" type="Button" parent="Margin/Box/Down/BoxOuter/Box"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 71
+text = "Buy"
+
+[node name="Control" type="MarginContainer" parent="Margin/Box/Down/BoxOuter/Box"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 50
+
+[node name="Buttons" type="HBoxContainer" parent="Margin/Box/Down/BoxOuter/Box/Control"]
+layout_mode = 2
+theme_override_constants/separation = 90
+alignment = 1
+
+[node name="Left" type="Button" parent="Margin/Box/Down/BoxOuter/Box/Control/Buttons" node_paths=PackedStringArray("image")]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxEmpty_tgeir")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_2wu72")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_fuclw")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_3pf81")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_h57ov")
+script = ExtResource("2_1hui4")
+image = NodePath("TextureRect")
+action = &"key_left"
+
+[node name="TextureRect" type="TextureRect" parent="Margin/Box/Down/BoxOuter/Box/Control/Buttons/Left"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(185, 109)
+texture = ExtResource("2_81wor")
+
+[node name="Right" type="Button" parent="Margin/Box/Down/BoxOuter/Box/Control/Buttons" node_paths=PackedStringArray("image")]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxEmpty_bnqmd")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_25up0")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_5a78q")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_ww1hc")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_2o7rq")
+script = ExtResource("2_1hui4")
+image = NodePath("TextureRect")
+action = &"key_right"
+
+[node name="TextureRect" type="TextureRect" parent="Margin/Box/Down/BoxOuter/Box/Control/Buttons/Right"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(-1, 1)
+pivot_offset = Vector2(185, 109)
+texture = ExtResource("2_81wor")
+
+[node name="ReturnButton" type="Button" parent="Margin/Box/Down/BoxOuter"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 71
+text = "Return to menu"
+
+[node name="LogicNode" type="Node" parent="."]
+
+[connection signal="pressed" from="Margin/Box/Down/BoxOuter/Box/Buy" to="." method="on_buy"]
+[connection signal="button_down" from="Margin/Box/Down/BoxOuter/Box/Control/Buttons/Left" to="Margin/Box/Down/BoxOuter/Box/Control/Buttons/Left" method="on_button_update"]
+[connection signal="button_up" from="Margin/Box/Down/BoxOuter/Box/Control/Buttons/Left" to="Margin/Box/Down/BoxOuter/Box/Control/Buttons/Left" method="on_button_update"]
+[connection signal="pressed" from="Margin/Box/Down/BoxOuter/Box/Control/Buttons/Left" to="." method="cycle_items" binds= [-1]]
+[connection signal="button_down" from="Margin/Box/Down/BoxOuter/Box/Control/Buttons/Right" to="Margin/Box/Down/BoxOuter/Box/Control/Buttons/Right" method="on_button_update"]
+[connection signal="button_up" from="Margin/Box/Down/BoxOuter/Box/Control/Buttons/Right" to="Margin/Box/Down/BoxOuter/Box/Control/Buttons/Right" method="on_button_update"]
+[connection signal="pressed" from="Margin/Box/Down/BoxOuter/Box/Control/Buttons/Right" to="." method="cycle_items" binds= [1]]
+[connection signal="pressed" from="Margin/Box/Down/BoxOuter/ReturnButton" to="." method="return_button_pressed"]

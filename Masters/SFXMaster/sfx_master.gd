@@ -31,6 +31,5 @@ func play_ui_sound(sound : AudioStream):
 func update_bus_volume(bus_name : String, val):
 	match bus_name.capitalize():
 		"Master":
-			SvM.update_volume_master(val)
 			AudioServer.set_bus_volume_db(master_bus, linear_to_db(val))
 			print_rich("[hint=SFX]Volume master =[/hint] %f, %f" % [val, linear_to_db(val)])
