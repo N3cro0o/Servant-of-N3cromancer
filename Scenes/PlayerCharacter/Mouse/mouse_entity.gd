@@ -17,7 +17,11 @@ var velocity_vec := Vector2.ZERO
 var velocity = 0.0
 var active := false:
 	set(b):
-		active = b
+		if !force_disactive:
+			active = b
+		else:
+			active = false
+		
 		if b:
 			if !disabled_hitbox:
 				hit_box.disabled = false
@@ -28,6 +32,11 @@ var active := false:
 			hit_box.disabled = true
 			detect_area.monitoring = false
 		queue_redraw()
+var force_disactive = false:
+	set(b):
+		force_disactive = b
+		if b:
+			active = false
 var obstacles_hit : Array[PhysicsBody2D] = []
 var frames = 0
 var max_velocity := 0.0

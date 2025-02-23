@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="StageEnemyData" load_steps=5 format=3 uid="uid://dxxmyg2erd1ms"]
+
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/spawn_obstacle_data_holder.gd" id="1_sksi5"]
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/spawn_pickup_data_holder.gd" id="2_m33e7"]
+[ext_resource type="Resource" uid="uid://chynsxlq4cx8l" path="res://Scenes/Obstacles/Gravity/Obstacle1/gravity_obstacle_1.tres" id="2_qhvw4"]
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/stage_enemy_data.gd" id="3_ycph5"]
+
+[resource]
+script = ExtResource("3_ycph5")
+spawn_points = 2
+data_1 = Array[ExtResource("1_sksi5")]([ExtResource("2_qhvw4")])
+data_2 = Array[ExtResource("1_sksi5")]([ExtResource("2_qhvw4")])
+data_3 = Array[ExtResource("1_sksi5")]([])
+data_4 = Array[ExtResource("1_sksi5")]([])
+data_5 = Array[ExtResource("1_sksi5")]([])
+difficulty_threshold = 100.0
+bosses = Array[ExtResource("1_sksi5")]([])
+pickups = Array[ExtResource("2_m33e7")]([])

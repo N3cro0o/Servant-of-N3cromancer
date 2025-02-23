@@ -20,9 +20,9 @@ enum state {
 @export var enemy_stages : Array[StageEnemyData]
 @export_category("Buttons")
 @export_range(1.0, 2.0) var button_height_scale = 1.0
-@onready var small_bubble := $MouseEntity
+@onready var small_bubble :MouseEntity1 = $MouseEntity
 @onready var big_boi :PlayerLine1 = $PlayerLine
-@onready var spawner := $SpawnerV2
+@onready var spawner: SpawnerBasicV2 = $SpawnerV2
 @onready var debug_label := $WindowBox/DebugLabel
 @onready var hit_frame := $HitFrame
 @onready var inventory = $WindowBox/ScrollsBox/InventoryLogic
@@ -193,7 +193,6 @@ func spawn_boss():
 # Spawner functions
 func _spawner1_spawn():
 	ScM.score += 1
-	print_rich("[hint=game_scene]Score = %d[/hint]" % ScM.score)
 
 func _add_obstacle(object:ObstacleGravityBase):
 	$Obstacles.add_child(object)

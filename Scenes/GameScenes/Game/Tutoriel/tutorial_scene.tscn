@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scenes/GameScenes/Game/Tutoriel/tutorial_scene.gd" id="1_17wag"]
 [ext_resource type="Script" path="res://Resources/DataHolders/Script/stage_enemy_data.gd" id="2_r8dsm"]
-[ext_resource type="Resource" uid="uid://b6qoduwm2l0xk" path="res://Resources/DataHolders/GameStages/stage1.tres" id="3_jhnjr"]
+[ext_resource type="Resource" uid="uid://dxxmyg2erd1ms" path="res://Resources/DataHolders/GameStages/tutorial.tres" id="3_6c8r7"]
 [ext_resource type="PackedScene" uid="uid://b4f11y5i27dcu" path="res://Scenes/UI/MainGame/PauseScreen/pause_panel.tscn" id="5_86t17"]
 [ext_resource type="PackedScene" uid="uid://cc0c6bo2wcejw" path="res://Scenes/UI/MainGame/GameOverScreen/end_panel.tscn" id="6_6sern"]
 [ext_resource type="Script" path="res://Scenes/GameScenes/Game/GameScene/inventory_logic.gd" id="7_ntmw5"]
@@ -29,7 +29,7 @@ font_size = 24
 [node name="TutorialScene" type="Node2D" node_paths=PackedStringArray("bg_sprites")]
 script = ExtResource("1_17wag")
 bg_sprites = [NodePath("BG/BgUp"), NodePath("BG/Bg"), NodePath("BG/BgDown")]
-enemy_stages = Array[ExtResource("2_r8dsm")]([ExtResource("3_jhnjr")])
+enemy_stages = Array[ExtResource("2_r8dsm")]([ExtResource("3_6c8r7")])
 button_height_scale = 1.6
 
 [node name="WindowBox" type="Control" parent="."]
@@ -176,6 +176,8 @@ texture_pressed = ExtResource("12_f02ej")
 action = "key_right"
 
 [node name="SpawnerV2" parent="." instance=ExtResource("13_7hx1p")]
+repeat_check = false
+pickup_chance = 0.0
 spawn_points = 3
 distance_between = 300.0
 spawner_offset = Vector2(540, -300)

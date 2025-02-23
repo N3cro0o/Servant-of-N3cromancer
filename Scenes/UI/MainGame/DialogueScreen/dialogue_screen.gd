@@ -21,6 +21,9 @@ var timer = 0
 var delay_parameters: Dictionary
 
 signal on_character_append
+## Signal emited when node prints whole TextDataV1 text string.[br]
+## Due to some characteristics and reading next pages,
+## it is also emitted when new data is loaded
 signal on_text_append_end
 #endregion
 

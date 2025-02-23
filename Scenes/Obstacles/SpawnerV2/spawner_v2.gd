@@ -17,10 +17,12 @@ const PICKUP_BASE = preload(PICKUP_PATH)
 			active = false
 			for timer in spawn_timer_arr:
 				timer.paused = true
+## Enables checking for repeating obstacles and changing for random one.
+@export var repeat_check = true
 @export_range(0, 5) var spawn_delay = 3.0
 ## Minimum weight needed for no-repeating
 @export var weight_threshold = 3
-@export_range(0.05, 0.6) var pickup_chance := 0.1
+@export_range(0.0, 0.6) var pickup_chance := 0.1
 @export_group("Spawn Points")
 @export_range(1, 5) var spawn_points: int = 1:
 	set(points):
@@ -220,7 +222,7 @@ func spawn_logic(num, data_arr):
 	assert(scene_data != null)
 	
 	# Repeat check
-	if scene_data.resource_path == spawn_repeat_check[num]:
+	if scene_data.resource_path == spawn_repeat_check[num] && repeat_check:
 		if randf() >= 0.5:
 			scene_data = get_other_non_other(data_arr, scene_data.resource_path)
 	
