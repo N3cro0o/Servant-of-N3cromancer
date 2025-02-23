@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://depbnw57vsktm"]
+[gd_scene load_steps=22 format=3 uid="uid://depbnw57vsktm"]
 
 [ext_resource type="Script" path="res://Scenes/GameScenes/Game/Tutoriel/tutorial_scene.gd" id="1_17wag"]
 [ext_resource type="Script" path="res://Resources/DataHolders/Script/stage_enemy_data.gd" id="2_r8dsm"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://0owx080eewsp" path="res://Images/PickUps/Scrolls/Symbols/repulsor.png" id="8_odvib"]
 [ext_resource type="Texture2D" uid="uid://2g2u76harw2m" path="res://Images/circle_shape_black.png" id="9_tl2wi"]
 [ext_resource type="Texture2D" uid="uid://jcx2r032ex1m" path="res://Images/PickUps/Scrolls/Symbols/Shield.png" id="10_8fmf5"]
+[ext_resource type="PackedScene" uid="uid://dgodseek33sts" path="res://Scenes/UI/MainGame/DialogueScreen/dialogue_screen.tscn" id="10_g7vbc"]
 [ext_resource type="Texture2D" uid="uid://8glmydbtnfi0" path="res://Images/UI/DirectionKey/1/arrow key1.png" id="11_vl0y0"]
 [ext_resource type="Texture2D" uid="uid://cw4egb0obgrol" path="res://Images/UI/DirectionKey/1/arrow key2.png" id="12_f02ej"]
 [ext_resource type="PackedScene" uid="uid://dj0xd4lvpcrnd" path="res://Scenes/Obstacles/SpawnerV2/spawner_v2.tscn" id="13_7hx1p"]
@@ -146,6 +147,12 @@ text = "0"
 fit_content = true
 autowrap_mode = 0
 
+[node name="Dialogue" parent="WindowBox" instance=ExtResource("10_g7vbc")]
+layout_mode = 1
+anchors_preset = -1
+anchor_bottom = 0.865
+offset_bottom = 0.999756
+
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(540, 1200)
 
@@ -234,7 +241,9 @@ texture = ExtResource("18_gus1q")
 [connection signal="on_reset_request" from="WindowBox/EndPanel" to="." method="reset_level_request"]
 [connection signal="pressed" from="WindowBox/ScrollsBox/RepulseButton" to="WindowBox/ScrollsBox/InventoryLogic" method="repulse_use"]
 [connection signal="pressed" from="WindowBox/ScrollsBox/ShieldButton" to="WindowBox/ScrollsBox/InventoryLogic" method="shield_use"]
+[connection signal="on_text_append_end" from="WindowBox/Dialogue" to="." method="on_dialogue_text_append_end"]
 [connection signal="on_spawned_entity" from="SpawnerV2" to="." method="_spawner1_spawn"]
 [connection signal="on_player_death" from="PlayerLine" to="." method="on_player_death"]
 [connection signal="on_player_status_change" from="PlayerLine" to="." method="on_player_hit"]
+[connection signal="on_position_change" from="PlayerLine" to="." method="on_line_position_changed"]
 [connection signal="timeout" from="HitFrame/Timer" to="." method="on_hit_timer_timeout"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cor3guxh347t7"]
+[gd_scene load_steps=14 format=3 uid="uid://cor3guxh347t7"]
 
 [ext_resource type="Script" path="res://Masters/GameMaster/GM.gd" id="1_cy212"]
 [ext_resource type="Script" path="res://Resources/DataHolders/Script/item_shop_data.gd" id="2_naigj"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://Resources/DataHolders/Script/player_body_holder.gd" id="6_nwhum"]
 [ext_resource type="Resource" uid="uid://dsu1xapvsjh57" path="res://Scenes/PlayerCharacter/PlayerBody/Fast/fast.tres" id="7_0ti8r"]
 [ext_resource type="PackedScene" uid="uid://do88bn15nxcbu" path="res://Scenes/GameScenes/Manu/OptionsMenu/options.tscn" id="11_ov1ce"]
+[ext_resource type="PackedScene" uid="uid://depbnw57vsktm" path="res://Scenes/GameScenes/Game/Tutoriel/tutorial_scene.tscn" id="13_e5qx1"]
 
 [node name="GM" type="Node"]
 script = ExtResource("1_cy212")
@@ -19,7 +20,7 @@ transition_speed = 0.25
 items = Array[ExtResource("2_naigj")]([ExtResource("3_kcmeh"), ExtResource("5_hiv8n"), ExtResource("4_x4cw1")])
 pickup_spawn_period = 15
 body_holder_array = Array[ExtResource("6_nwhum")]([ExtResource("6_1xkax"), ExtResource("7_0ti8r")])
-scene_array = Array[PackedScene]([ExtResource("2_v7m5h"), ExtResource("3_csgce"), ExtResource("5_ol480"), ExtResource("11_ov1ce")])
+scene_array = Array[PackedScene]([ExtResource("2_v7m5h"), ExtResource("3_csgce"), ExtResource("5_ol480"), ExtResource("11_ov1ce"), ExtResource("13_e5qx1")])
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3

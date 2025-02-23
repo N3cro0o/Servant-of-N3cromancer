@@ -1,0 +1,53 @@
+[gd_scene load_steps=4 format=3 uid="uid://dgodseek33sts"]
+
+[ext_resource type="Script" path="res://Scenes/UI/MainGame/DialogueScreen/dialogue_screen.gd" id="1_5meec"]
+[ext_resource type="FontFile" uid="uid://dyvj54mbxe5ur" path="res://Resources/Themes/Sitka.ttc" id="2_rrs2q"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ln1d0"]
+font = ExtResource("2_rrs2q")
+font_size = 64
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 0
+
+[node name="Dialogue" type="Control"]
+process_mode = 4
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5meec")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="Center" type="HBoxContainer" parent="Margin"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Margin/Center"]
+custom_minimum_size = Vector2(360, 128)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 64
+label_settings = SubResource("LabelSettings_ln1d0")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="UpdatePage" type="Timer" parent="."]
+process_mode = 3
+one_shot = true
+
+[connection signal="timeout" from="UpdatePage" to="." method="set_next_page"]

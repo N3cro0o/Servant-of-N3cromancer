@@ -86,7 +86,7 @@ var paused_count := 0
 # Signals
 signal on_player_status_change(s:state, hp:int)
 signal on_player_death
-
+signal on_position_change(pos:last_pos)
 #endregion
 
 #static func simulate_key_press(s:String): # Input just pressed simulation doesn't work for code
@@ -162,45 +162,45 @@ func _process(_delta):
 	else:
 		body.skul_sprites.self_modulate.r = lerpf(body.skul_sprites.self_modulate.r, \
 		1, _delta * 20)
+	# Angle calcs
+	var vec : Vector2 = get_point_position(count) - body.position
+	var a = vec.angle() + PI/2
+	skul_dir = a
+	#if skul_dir != 0:
+		#play_autoplay(streams[0], true)
+	#else:
+		#play_autoplay(streams[0], false)
+	# Game speed logic
+	# For now it's only game_speed => slower than normal. Add the faster logic
+	if (GmM.game_speed < 1.0 and paused_count < (1 / GmM.game_speed) - 1):
+		paused_count += 1
+	else:
+		# Rail Lines position
+		line_r.position = position
+		line_l.position = position
+		_change_last_point_pos(line_r, right_line_pos)
+		_change_last_point_pos(line_l, left_line_pos)
+		# Extra long line stuff
+		var point_vec = get_point_position(get_point_count() - 1)
+		line2.set_point_position(0, point_vec)
+		line2.set_point_position(1, Vector2(point_vec.x, point_vec.y - 2000))
+		point_vec = line_r.get_point_position(get_point_count() - 2)
+		line_r.set_point_position(count + 1, Vector2(point_vec.x, point_vec.y - 2000))
+		point_vec = line_l.get_point_position(get_point_count() - 2)
+		line_l.set_point_position(count + 1, Vector2(point_vec.x, point_vec.y - 2000))
+		# Pushing down position
+		_push_position_down_array(self)
+		_push_position_down_array(line_l)
+		_push_position_down_array(line_r)
+		# Body and changing line curve
+		target_pos = get_point_position(body.target_point) # 21th point cuz there's some buffer space 
+			#while dtaping one dir
+		offset = target_pos.x - body.position.x
+		velocity = lerp(velocity, offset / _delta, _delta)
+		body.position.x += velocity * _delta # delta cuz its smooooooooth now!
+		velocity *= 0.85 # damping
+		paused_count = 0 # Reset counter
 	if !lock_movement:
-		# Angle calcs
-		var vec : Vector2 = get_point_position(count) - body.position
-		var a = vec.angle() + PI/2
-		skul_dir = a
-		#if skul_dir != 0:
-			#play_autoplay(streams[0], true)
-		#else:
-			#play_autoplay(streams[0], false)
-		# Game speed logic
-		# For now it's only game_speed => slower than normal. Add the faster logic
-		if (GmM.game_speed < 1.0 and paused_count < (1 / GmM.game_speed) - 1):
-			paused_count += 1
-		else:
-			# Rail Lines position
-			line_r.position = position
-			line_l.position = position
-			_change_last_point_pos(line_r, right_line_pos)
-			_change_last_point_pos(line_l, left_line_pos)
-			# Extra long line stuff
-			var point_vec = get_point_position(get_point_count() - 1)
-			line2.set_point_position(0, point_vec)
-			line2.set_point_position(1, Vector2(point_vec.x, point_vec.y - 2000))
-			point_vec = line_r.get_point_position(get_point_count() - 2)
-			line_r.set_point_position(count + 1, Vector2(point_vec.x, point_vec.y - 2000))
-			point_vec = line_l.get_point_position(get_point_count() - 2)
-			line_l.set_point_position(count + 1, Vector2(point_vec.x, point_vec.y - 2000))
-			# Pushing down position
-			_push_position_down_array(self)
-			_push_position_down_array(line_l)
-			_push_position_down_array(line_r)
-			# Body and changing line curve
-			target_pos = get_point_position(body.target_point) # 21th point cuz there's some buffer space 
-				#while dtaping one dir
-			offset = target_pos.x - body.position.x
-			velocity = lerp(velocity, offset / _delta, _delta)
-			body.position.x += velocity * _delta # delta cuz its smooooooooth now!
-			velocity *= 0.85 # damping
-			paused_count = 0 # Reset counter
 		if(Input.is_action_just_pressed("key_left")):
 			pos_changer(last_pos.LEFT)
 		elif(Input.is_action_just_pressed("key_right")):
@@ -215,6 +215,7 @@ func pos_changer(move:last_pos):
 			return
 		@warning_ignore("int_as_enum_without_cast")
 		last_point_pos += move
+		on_position_change.emit(last_point_pos)
 
 func _push_position_down_array(l:Line2D):
 	for x in range(0, count):
