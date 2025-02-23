@@ -31,7 +31,8 @@ func on_play_button_press():
 	Sfx.play_sound_ui_number(0)
 
 func on_tutorial_text_button_press():
-	tutorial_panel.visible = !tutorial_panel.visible
+	#tutorial_panel.visible = !tutorial_panel.visible
+	GmM.change_scene(4)
 	Sfx.play_sound_ui_number(0)
 
 func unlock_endless():

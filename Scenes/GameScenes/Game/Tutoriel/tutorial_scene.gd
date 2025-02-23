@@ -11,8 +11,9 @@ var tutorial_stage = 0:
 		tutorial_stage = toriel
 		update_stage(toriel)
 var text_counter = 0
-## Used in checking position is stage 2 and for number of obstacles spawned in stage 3 (last)
+## Used in checking position is stage 2, for number of obstacles spawned in stage 3 (last)
 var pos_counter = 0
+## Used as distance variable in stage 3 and timer in stage 4
 var distance = 0.0
 var player_hit = false
 var bone = preload("res://Scenes/Obstacles/Gravity/Obstacle1/gravity_obstacle_1.tscn")
@@ -37,6 +38,8 @@ func _process(delta: float) -> void:
 			stage_2(delta)
 		3:
 			stage_3(delta)
+		4:
+			stage_4(delta)
 
 func _input(_event: InputEvent) -> void:
 	super._input(_event)
@@ -57,6 +60,8 @@ func update_stage(num):
 			stage_2(-1)
 		3:
 			stage_3(-1)
+		4:
+			stage_4(-1)
 
 func stage_1(delta: float):
 	if delta < 0:
@@ -114,6 +119,7 @@ func stage_3(delta: float):
 			button.visible = false
 		big_boi.lock_movement = true
 		big_boi.last_point_pos = PlayerLine1.last_pos.MIDDLE
+		pos_counter = 0
 		# Text
 		var data = DialogueScreen.TextDataV1.new()
 		var arr: Array[DialogueScreen.TextDataV1]
@@ -139,23 +145,29 @@ func stage_4(delta: float):
 		print_rich("[hint=Stage1]Stage start[/hint]")
 		# Logic
 		for button in camera_buttons:
-			button.visible = false
-		big_boi.lock_movement = true
+			button.visible = true
+		big_boi.lock_movement = false
 		big_boi.last_point_pos = PlayerLine1.last_pos.MIDDLE
+		player_hit = false
+		distance = 0
 		# Text
 		var data = DialogueScreen.TextDataV1.new()
 		var arr: Array[DialogueScreen.TextDataV1]
-		data.text = "Good job!"
+		data.text = "Good job! Before the first real escape attempt happens, you must learn one more thing."
+		data.delay_parameters = {0: 0.05, 8: 0.3, 9: 0.05}
 		arr.push_back(data)
-		
 		data = DialogueScreen.TextDataV1.new()
-		data.text = "I don't care at this point,\n I will perish no matter what!"
-		data.delay_parameters = {0: 0.05, 26: 0.5, 27: 0.05}
+		data.text = "Watch out for new obstacles. For example, fireballs rotate towards me and are impossible to dodge."
 		arr.push_back(data)
-	#dialogue.set_text("Damn Master, I need more cash to survive in this Dungeon's economy", {0:0.05, 11: 0.8, 12: 0.05})
+		data = DialogueScreen.TextDataV1.new()
+		data.text = "The only way to deal with them is to rotate them using magic. Tap and hold on one of their sides."
+		arr.push_back(data)
 		dialogue.set_text(arr)
 		return
-	
+	if text_counter == 7:
+		distance += delta
+		if distance >= 6.5:
+			GmM.change_scene(0)
 
 # Signal functions
 func on_dialogue_text_append_end():
@@ -185,7 +197,19 @@ func on_dialogue_text_append_end():
 			spawner.active = true
 			for i in enemy_stages[0].spawn_points:
 				spawner.start_timer_rand(i, 1)
-
+	if tutorial_stage == 4:
+		if text_counter == 4:
+			var object = spawner.spawn(0, ball.instantiate(), data1)
+			object.tree_exited.connect(func():
+				if !player_hit:
+					var data = DialogueScreen.TextDataV1.new()
+					var arr: Array[DialogueScreen.TextDataV1]
+					data.text = "Good work! You are ready for the real deal now!"
+					arr.push_back(data)
+					data = DialogueScreen.TextDataV1.new()
+					data.text = "Good luck and have fun! And of course, thanks for playing!"
+					arr.push_back(data)
+					dialogue.set_text(arr))
 func on_line_position_changed(pos: PlayerLine1.last_pos):
 	if tutorial_stage == 2 && text_counter == 3:
 		if pos == PlayerLine1.last_pos.RIGHT || pos == PlayerLine1.last_pos.LEFT:

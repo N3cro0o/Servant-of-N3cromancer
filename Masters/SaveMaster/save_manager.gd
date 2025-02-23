@@ -1,4 +1,6 @@
 class_name SaveManager extends Node
+# Add tutorial check!
+# and start tutorial if it's false
 #region Variables & constants
 ## This is where data is saved... duh\n
 ## Should change to the save dir, not to the file
