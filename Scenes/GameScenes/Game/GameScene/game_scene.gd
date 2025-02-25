@@ -168,10 +168,6 @@ func _notification(what):
 	# Quit game
 	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
 		pause_game()
-	if what == NOTIFICATION_APPLICATION_FOCUS_OUT:
-		pause_game()
-	if what == NOTIFICATION_APPLICATION_PAUSED:
-		pause_game()
 
 # Stages functions
 func advance_stage():
@@ -262,14 +258,7 @@ func damage_muffle():
 
 # Changing scenes logic
 func pause_game():
-	if !GmM.paused:
-		pause_panel.visible = true
-		GmM.paused = true
-	else:
-		pause_panel.visible = false
-		GmM.paused = false
-	for bttn in camera_buttons:
-		bttn.visible = !bttn.visible
+	GmM.paused = !GmM.paused
 
 func reset_level_request():
 	var volume = SvM.data["volume_master"];
@@ -285,5 +274,9 @@ func quit_level_request():
 func on_paused(paused):
 	if paused:
 		actual_speed_multi *= GmM.paused_slowdown
+		pause_panel.visible = true
 	else:
 		actual_speed_multi = speed_multi
+		pause_panel.visible = false
+	for bttn in camera_buttons:
+		bttn.visible = !bttn.visible

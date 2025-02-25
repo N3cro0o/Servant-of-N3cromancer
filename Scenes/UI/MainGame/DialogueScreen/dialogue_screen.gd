@@ -6,7 +6,7 @@ class_name DialogueScreen extends Control
 		text_to_be_filled = text
 		update_params(text)
 @export var delay_per_character: float = 0.1
-@onready var label: Label = $Margin/Center/Label
+@onready var label: Label = $Margin/Center/Margin/MarginInner/Label
 @onready var timer_node: Timer = $UpdatePage
 
 class TextDataV1:
@@ -19,6 +19,7 @@ var counter = 0
 var text_index = 0
 var timer = 0
 var delay_parameters: Dictionary
+var start_color
 
 signal on_character_append
 ## Signal emited when node prints whole TextDataV1 text string.[br]
@@ -30,12 +31,19 @@ signal on_text_append_end
 # Basic Godot functions
 func _ready() -> void:
 	label.text = ""
+	start_color = $Margin/Center/Margin/Rect.self_modulate
 	if text_to_be_filled != null || text_to_be_filled != "":
 		update_params(text_to_be_filled)
 
 func _process(delta: float) -> void:
 	if text_index < counter && timer <= 0:
 		label.text += text_to_be_filled[text_index]
+		# Start space check
+		if label.text.length() == 1 && text_to_be_filled[text_index] == ' ':
+			$Margin/Center/Margin/Rect.self_modulate = Color(1, 1, 1, 0)
+		else:
+			if label.text.length() == 2:
+				$Margin/Center/Margin/Rect.self_modulate = start_color
 		# Update string char index
 		text_index += 1
 		# Delay
@@ -77,8 +85,10 @@ func set_text(data_arr: Array[TextDataV1]):
 func set_next_page():
 	on_text_append_end.emit()
 	label.text = ""
+	$Margin/Center/Margin/Rect.self_modulate = Color(1, 1, 1, 0)
 	timer_node.stop()
 	if data_counter < text_data_array.size():
+		$Margin/Center/Margin/Rect.self_modulate = start_color
 		process_mode = PROCESS_MODE_INHERIT
 		text_to_be_filled = text_data_array[data_counter].text
 		delay_per_character = text_data_array[data_counter].delay_parameters[0]

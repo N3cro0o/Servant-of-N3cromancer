@@ -76,8 +76,13 @@ func _ready():
 		var body = load(x.body_scene_path)
 		body_array.push_back(body)
 	black_colour = screen_black.color
-	screen_black.color = Color(black_colour, 0)
+	screen_black.color = Color(black_colour, 1)
 	transition_iterat = transition_speed * 60
+	await SvM.on_load_completed
+	if !SvM.data["tutorial"]:
+		change_scene(4)
+	else:
+		transition_screen_out()
 
 func _physics_process(delta: float) -> void:
 	if game_speed_interpolation_check:
@@ -89,12 +94,21 @@ func _physics_process(delta: float) -> void:
 			game_speed_interpolation_check = false
 			game_speed = real_game_speed
 
+func _notification(what):
+	# Quit game
+	if what == NOTIFICATION_APPLICATION_FOCUS_OUT:
+		paused = true
+	if what == NOTIFICATION_APPLICATION_PAUSED:
+		paused = true
+
 # Main game functions
 func update_line_color(color : int):
 	line_color = color
 	SvM.update_line_color(color)
 
 func change_scene(scene_to_go : int):
+	if scene_to_go == 0:
+		SvM.tutorial_complete()
 	await transition_screen_in()
 	paused = false
 	after_game_over_logic(-1)
@@ -151,3 +165,5 @@ func reset_save_data():
 	line_color = 0
 	inventory_space = 0
 	SvM.save_data()
+	# Play the tutorial again
+	GmM.change_scene(4)

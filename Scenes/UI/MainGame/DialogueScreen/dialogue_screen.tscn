@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://dgodseek33sts"]
+[gd_scene load_steps=5 format=3 uid="uid://dgodseek33sts"]
 
 [ext_resource type="Script" path="res://Scenes/UI/MainGame/DialogueScreen/dialogue_screen.gd" id="1_5meec"]
+[ext_resource type="Texture2D" uid="uid://noecnnt5hxwr" path="res://Images/square_curved.png" id="2_hqes4"]
 [ext_resource type="FontFile" uid="uid://dyvj54mbxe5ur" path="res://Resources/Themes/Sitka.ttc" id="2_rrs2q"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ln1d0"]
@@ -36,7 +37,27 @@ theme_override_constants/margin_bottom = 25
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="Margin/Center"]
+[node name="Margin" type="MarginContainer" parent="Margin/Center"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="Rect" type="NinePatchRect" parent="Margin/Center/Margin"]
+self_modulate = Color(0.101961, 0.101961, 0.101961, 0.243137)
+custom_minimum_size = Vector2(1200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("2_hqes4")
+region_rect = Rect2(0, 0, 128, 128)
+
+[node name="MarginInner" type="MarginContainer" parent="Margin/Center/Margin"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 50
+
+[node name="Label" type="Label" parent="Margin/Center/Margin/MarginInner"]
 custom_minimum_size = Vector2(360, 128)
 layout_mode = 2
 size_flags_horizontal = 3

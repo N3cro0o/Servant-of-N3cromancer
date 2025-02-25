@@ -15,6 +15,9 @@ func _ready():
 	GmM.curr_scene = self
 	# Reset Score manager
 	ScM.reset_score()
+	# Save only if data is updated
+	if !SvM.check_data(SvM.SAVE_PATH):
+		SvM.save_data()
 
 func _process(_delta):
 	# Unlock endless

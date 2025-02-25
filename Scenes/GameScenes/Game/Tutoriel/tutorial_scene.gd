@@ -197,8 +197,11 @@ func on_dialogue_text_append_end():
 			spawner.active = true
 			for i in enemy_stages[0].spawn_points:
 				spawner.start_timer_rand(i, 1)
+			# player_hit used to write only one message
+			player_hit = false
 	if tutorial_stage == 4:
 		if text_counter == 4:
+			player_hit = false
 			var object = spawner.spawn(0, ball.instantiate(), data1)
 			object.tree_exited.connect(func():
 				if !player_hit:
@@ -210,6 +213,7 @@ func on_dialogue_text_append_end():
 					data.text = "Good luck and have fun! And of course, thanks for playing!"
 					arr.push_back(data)
 					dialogue.set_text(arr))
+
 func on_line_position_changed(pos: PlayerLine1.last_pos):
 	if tutorial_stage == 2 && text_counter == 3:
 		if pos == PlayerLine1.last_pos.RIGHT || pos == PlayerLine1.last_pos.LEFT:
@@ -234,6 +238,25 @@ func on_player_hit(s, hp1):
 			dialogue.set_text(arr)
 			player_hit = true
 			return
+		if text_counter == 9:
+			if !player_hit:
+				spawner.force_active = false
+				for ob in GameScene.instance.obstacles_array:
+					ob.repulse(500)
+				var data = DialogueScreen.TextDataV1.new()
+				data.text = "Almost! Try to delfect or dodge all of them next time. Here there comes! Protect me!"
+				data.delay_parameters = {0: 0.05, 6: 0.3, 7: 0.05, 71: 0.3, 72: 0.05}
+				dialogue.set_text([data])
+				text_counter = 8
+				pos_counter = 0
+				player_hit = true
+	if tutorial_stage == 4:
+		if text_counter == 4:
+			player_hit = true
+			var data = DialogueScreen.TextDataV1.new()
+			data.text = "You still need more training.\nFocus on only one side and follow it with magic."
+			dialogue.set_text([data])
+			text_counter = 3
 
 func _spawner1_spawn():
 	pos_counter += 1

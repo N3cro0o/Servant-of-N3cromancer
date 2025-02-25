@@ -6,7 +6,7 @@ class_name SaveManager extends Node
 ## Should change to the save dir, not to the file
 const SAVE_PATH = "user://czacha_zapis.json"
 
-@export var save_version = 1.1
+@export var save_version = 1.2
 
 var data = {
 	# Control version, update after every major change
@@ -18,7 +18,8 @@ var data = {
 	# Unlock nimble skull, custom Line, inventory 1
 	"unlocks_shop" : [false, false, false],
 	# Options
-	"volume_master" : 1
+	"volume_master" : 1,
+	"tutorial": false
 }
 
 #endregion
@@ -46,6 +47,8 @@ func reset_data():
 	data["line_color"] = 0
 	# Options data
 	data["volume_master"] = 1
+	data["tutorial"] = false
+	on_load_completed.emit()
 
 ## Save game data to local data
 func save_data():
@@ -64,6 +67,21 @@ func check_path(path : String):
 		return true
 	return false
 
+func check_data(path: String) -> bool:
+	if OS.is_userfs_persistent():
+		var file = FileAccess.open(SAVE_PATH, FileAccess.READ)
+		var json = file.get_as_text()
+		var data_loaded = JSON.parse_string(json)
+		file.close()
+		if data_loaded == null:
+			return false
+		for dat in data_loaded:
+			if data[dat] != data_loaded[dat]:
+				return false
+		return true
+	else:
+		return false
+
 func load_data():
 	if OS.is_userfs_persistent():
 		var file = FileAccess.open(SAVE_PATH, FileAccess.READ)
@@ -77,6 +95,7 @@ func load_data():
 			# Check version
 		if data["version"] != save_version:
 			print_rich("[hint=SaveManager]Data wrong version[/hint]")
+			
 			# Coins and highscore
 		ScM.coins_game = data["coins"]
 		ScM.highscore = data["highscore"]
@@ -100,16 +119,25 @@ func load_data():
 # Update game data functions
 func update_player_body(body_id : int):
 	data["current_skul"] = body_id
+	data["version"] = save_version
 
 func update_score(coin, score):
 	data["highscore"] = score
 	data["coins"] = coin
+	data["version"] = save_version
 
 func update_line_color(color : int):
 	data["line_color"] = color
+	data["version"] = save_version
 
 func update_upgrade_shop_bought(id : int):
 	data["unlocks_shop"][id] = true
+	data["version"] = save_version
 
 func update_volume_master(val : float):
 	data["volume_master"] = val
+	data["version"] = save_version
+
+func tutorial_complete():
+	data["tutorial"] = true
+	data["version"] = save_version
