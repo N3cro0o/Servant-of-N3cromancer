@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://cwhxijf40rcnx"]
+[gd_scene load_steps=4 format=3 uid="uid://cwhxijf40rcnx"]
 
 [ext_resource type="Script" path="res://Scenes/PlayerCharacter/PlayerLine/player_line.gd" id="1_ten86"]
+[ext_resource type="Material" uid="uid://m4gfvyumewtg" path="res://Scenes/PlayerCharacter/PlayerLine/line_destruction.tres" id="2_5g3t0"]
+[ext_resource type="Material" uid="uid://c8eaqssxmpg3n" path="res://Scenes/PlayerCharacter/PlayerLine/line_destruction_small.tres" id="2_q5ry1"]
 
 [node name="PlayerLine" type="Line2D"]
 z_index = -10
@@ -27,7 +29,7 @@ width = 6.0
 default_color = Color(1, 1, 1, 0.392157)
 
 [node name="AdditionalLine" type="Line2D" parent="."]
-points = PackedVector2Array(0, 0, 0, 0)
+points = PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0)
 
 [node name="ShieldTimer1" type="Timer" parent="."]
 one_shot = true
@@ -40,6 +42,31 @@ one_shot = true
 [node name="PlayerHit" type="AudioStreamPlayer" parent="."]
 
 [node name="PlayerHitSuper" type="AudioStreamPlayer" parent="."]
+
+[node name="PartGen1" type="GPUParticles2D" parent="."]
+position = Vector2(0, 1)
+rotation = 0.0258209
+amount = 256
+process_material = ExtResource("2_q5ry1")
+lifetime = 0.3
+
+[node name="PartGen2" type="GPUParticles2D" parent="."]
+position = Vector2(225, 0)
+amount = 512
+process_material = ExtResource("2_5g3t0")
+lifetime = 0.3
+
+[node name="PartGen3" type="GPUParticles2D" parent="."]
+position = Vector2(702, 0)
+amount = 512
+process_material = ExtResource("2_5g3t0")
+lifetime = 0.3
+
+[node name="PartGen4" type="GPUParticles2D" parent="."]
+position = Vector2(700, 2)
+amount = 512
+process_material = ExtResource("2_5g3t0")
+lifetime = 0.3
 
 [connection signal="timeout" from="ShieldTimer1" to="." method="on_shield_recharge_start"]
 [connection signal="timeout" from="ShieldTimer2" to="." method="on_shield_recharge_end"]

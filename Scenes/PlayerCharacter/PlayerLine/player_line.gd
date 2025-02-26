@@ -40,12 +40,12 @@ enum state {
 @onready var line2 := $AdditionalLine
 @onready var line_r = $HelpLines/LineR
 @onready var line_l = $HelpLines/LineL
-@onready var line_add = $AdditionalLine
 @onready var timer = $ShieldTimer1
 @onready var timer_charge = $ShieldTimer2
 @onready var player_repeat = $PlayerRepeat
 @onready var player_hit = $PlayerHit
 @onready var player_hit_super = $PlayerHitSuper
+@onready var particle_gens: Array[GPUParticles2D] = [$PartGen1, $PartGen2, $PartGen3, $PartGen4]
 
 var body : PlayerBody
 var skul_dir = 0:
@@ -114,13 +114,15 @@ func _ready():
 	default_color = color
 	line_r.default_color = Color(color, line_r.default_color.a)
 	line_l.default_color = Color(color, line_l.default_color.a)
-	line_add.default_color = color
+	line2.default_color = color
 	# Line logic
 	line_points_number = body.line_points_number
 	distance_points = body.distance_points
+	# Check if desired number of points are higher or lower than actual number
 	if line_points_number < points.size():
 		greater_line_number = false
 	var difference = 124
+	# Remove or add required number of points. Simple while loop should work just fine
 	while line_points_number != points.size():
 		if !greater_line_number:
 			remove_point(difference)
@@ -183,7 +185,9 @@ func _process(_delta):
 		# Extra long line stuff
 		var point_vec = get_point_position(get_point_count() - 1)
 		line2.set_point_position(0, point_vec)
-		line2.set_point_position(1, Vector2(point_vec.x, point_vec.y - 2000))
+		line2.set_point_position(1, Vector2(point_vec.x, point_vec.y - 300))
+		line2.set_point_position(2, Vector2(point_vec.x, point_vec.y - 1000))
+		line2.set_point_position(3, Vector2(point_vec.x, point_vec.y - 2000))
 		point_vec = line_r.get_point_position(get_point_count() - 2)
 		line_r.set_point_position(count + 1, Vector2(point_vec.x, point_vec.y - 2000))
 		point_vec = line_l.get_point_position(get_point_count() - 2)
@@ -205,6 +209,17 @@ func _process(_delta):
 			pos_changer(last_pos.LEFT)
 		elif(Input.is_action_just_pressed("key_right")):
 			pos_changer(last_pos.RIGHT)
+	# Set up particle gens
+	var half_point = points.size() * 0.5
+	particle_gens[0].position = get_point_position(half_point)
+	particle_gens[1].position = line2.get_point_position(1)
+	particle_gens[2].position = line2.get_point_position(2)
+	particle_gens[3].position = line2.get_point_position(3)
+	# Change particle_gens[0] rotation
+	var point_1 = get_point_position(half_point)
+	var point_2 = get_point_position(half_point + 5)
+	var rotation_1 = (point_2 - point_1).angle()
+	particle_gens[0].rotation = rotation_1 + PI / 2
 
 # Position functions
 func pos_changer(move:last_pos):
@@ -216,6 +231,7 @@ func pos_changer(move:last_pos):
 		@warning_ignore("int_as_enum_without_cast")
 		last_point_pos += move
 		on_position_change.emit(last_point_pos)
+		fire_particles()
 
 func _push_position_down_array(l:Line2D):
 	for x in range(0, count):
@@ -308,3 +324,10 @@ func on_game_over():
 	timer_charge.stop()
 	lock_movement = true
 	body.on_game_over()
+
+# Particle functions
+func fire_particles():
+	for _i in 0:
+		await Engine.get_main_loop().process_frame
+	for gen: GPUParticles2D in particle_gens:
+		gen.emitting = true

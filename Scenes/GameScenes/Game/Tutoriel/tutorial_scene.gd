@@ -74,12 +74,12 @@ func stage_1(delta: float):
 		# Text
 		var data = DialogueScreen.TextDataV1.new()
 		var arr: Array[DialogueScreen.TextDataV1]
-		data.text = " Damn Master, I need more cash to survive in this Dungeon's economy"
+		data.text = " Damn Master, I need more cash to survive in this Dungeon's economy."
 		data.delay_parameters = {0: 2.0, 1: 0.05, 12: 0.8, 13: 0.05}
 		arr.push_back(data)
 		
 		data = DialogueScreen.TextDataV1.new()
-		data.text = "I don't care at this point,\n I will perish no matter what!"
+		data.text = "I don't care at this point,\nI will perish no matter what!"
 		data.delay_parameters = {0: 0.05, 26: 0.5, 27: 0.05}
 		arr.push_back(data)
 	#dialogue.set_text("Damn Master, I need more cash to survive in this Dungeon's economy", {0:0.05, 11: 0.8, 12: 0.05})
@@ -98,11 +98,11 @@ func stage_2(delta: float):
 		big_boi.lock_movement = false
 		# Text
 		var data = DialogueScreen.TextDataV1.new()
-		data.text = "Use the arrows to move the beginning of the line"
+		data.text = "Use the arrows to move the beginning of the line."
 		var arr: Array[DialogueScreen.TextDataV1]
 		arr.push_back(data)
 		data = DialogueScreen.TextDataV1.new()
-		data.text = "Make me move from one side to the other few times"
+		data.text = "Make me move from one side to the other few times."
 		arr.push_back(data)
 		dialogue.set_text(arr)
 		return
@@ -127,16 +127,22 @@ func stage_3(delta: float):
 		data.delay_parameters = {0: 0.05, 5: 0.8, 6: 0.05, 50: 0.12}
 		arr.push_back(data)
 		data = DialogueScreen.TextDataV1.new()
-		data.text = "Press and hold anywhere over the arrows to use repuslion magic."
+		data.text = "You have to swipe your finger over the arrows to use repulsion magic. Do it for a couple of seconds."
+		data.delay_parameters = {0: 0.05, 68: 0.15, 69: 0.05}
 		arr.push_back(data)
 		dialogue.set_text(arr)
 		return
 	distance += small_bubble.velocity * delta
-	if distance > 10_000 && text_counter == 3:
+	if distance > 10_000 && text_counter == 4:
 		distance = 0
 		var data = DialogueScreen.TextDataV1.new()
+		var arr: Array[DialogueScreen.TextDataV1]
+		data.text = "Just pressing won't activate it, you must move your finger first."
+		arr.push_back(data)
+		data = DialogueScreen.TextDataV1.new()
 		data.text = "You can move and ROTATE obstacles while using it, keep that in mind."
 		data.delay_parameters = {0: 0.05, 17: 0.13, 23: 0.05}
+		arr.push_back(data)
 		dialogue.set_text([data])
 
 # Add stage 3 (last) fail condition
@@ -173,13 +179,13 @@ func stage_4(delta: float):
 func on_dialogue_text_append_end():
 	text_counter += 1
 	if tutorial_stage == 3:
-		if text_counter == 5:
+		if text_counter == 6:
 			var object = spawner.spawn(0, bone.instantiate(), data)
 			object.tree_exited.connect(func():
 				if !player_hit:
 					var data = DialogueScreen.TextDataV1.new()
 					var arr: Array[DialogueScreen.TextDataV1]
-					data.text = "Good work! You are a quick learner"
+					data.text = "Good work! You are a quick learner."
 					arr.push_back(data)
 					data = DialogueScreen.TextDataV1.new()
 					data.text = "Sadly, He found out about me faster than I thought."
@@ -189,7 +195,7 @@ func on_dialogue_text_append_end():
 					data.text = "Try and deflect incoming obstacles!"
 					arr.push_back(data)
 					dialogue.set_text(arr))
-		if text_counter == 9:
+		if text_counter == 10:
 			for button in camera_buttons:
 				button.visible = true
 			big_boi.lock_movement = false
@@ -222,7 +228,7 @@ func on_line_position_changed(pos: PlayerLine1.last_pos):
 func on_player_hit(s, hp1):
 	super.on_player_hit(s, hp1)
 	if tutorial_stage == 3:
-		if text_counter == 5:
+		if text_counter == 6:
 			var data = DialogueScreen.TextDataV1.new()
 			var arr: Array[DialogueScreen.TextDataV1]
 			data.text = "Watch out! Luckily Master gave every servant a protection spell."
@@ -238,13 +244,13 @@ func on_player_hit(s, hp1):
 			dialogue.set_text(arr)
 			player_hit = true
 			return
-		if text_counter == 9:
+		if text_counter == 10:
 			if !player_hit:
 				spawner.force_active = false
 				for ob in GameScene.instance.obstacles_array:
 					ob.repulse(500)
 				var data = DialogueScreen.TextDataV1.new()
-				data.text = "Almost! Try to delfect or dodge all of them next time. Here there comes! Protect me!"
+				data.text = "Almost! Try to deflect or dodge all of them next time. Here they come! Protect me!"
 				data.delay_parameters = {0: 0.05, 6: 0.3, 7: 0.05, 71: 0.3, 72: 0.05}
 				dialogue.set_text([data])
 				text_counter = 8

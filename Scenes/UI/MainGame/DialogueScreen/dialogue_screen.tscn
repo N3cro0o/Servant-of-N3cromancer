@@ -1,15 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://dgodseek33sts"]
 
 [ext_resource type="Script" path="res://Scenes/UI/MainGame/DialogueScreen/dialogue_screen.gd" id="1_5meec"]
+[ext_resource type="Theme" uid="uid://do6gg3r8fydfa" path="res://Resources/Themes/main_theme.tres" id="1_nev21"]
 [ext_resource type="Texture2D" uid="uid://noecnnt5hxwr" path="res://Images/square_curved.png" id="2_hqes4"]
-[ext_resource type="FontFile" uid="uid://dyvj54mbxe5ur" path="res://Resources/Themes/Sitka.ttc" id="2_rrs2q"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_ln1d0"]
-font = ExtResource("2_rrs2q")
-font_size = 64
-outline_size = 5
-outline_color = Color(0, 0, 0, 1)
-shadow_size = 0
+[ext_resource type="LabelSettings" uid="uid://cpvffqlsdfh4v" path="res://Resources/Themes/dialogue_screen_label_settings.tres" id="4_63gfl"]
 
 [node name="Dialogue" type="Control"]
 process_mode = 4
@@ -19,6 +13,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_nev21")
 script = ExtResource("1_5meec")
 
 [node name="Margin" type="MarginContainer" parent="."]
@@ -52,17 +47,17 @@ region_rect = Rect2(0, 0, 128, 128)
 
 [node name="MarginInner" type="MarginContainer" parent="Margin/Center/Margin"]
 layout_mode = 2
-theme_override_constants/margin_left = 10
+theme_override_constants/margin_left = 25
 theme_override_constants/margin_top = 50
-theme_override_constants/margin_right = 10
+theme_override_constants/margin_right = 25
 theme_override_constants/margin_bottom = 50
 
 [node name="Label" type="Label" parent="Margin/Center/Margin/MarginInner"]
-custom_minimum_size = Vector2(360, 128)
+custom_minimum_size = Vector2(1000, 128)
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 64
-label_settings = SubResource("LabelSettings_ln1d0")
+label_settings = ExtResource("4_63gfl")
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
