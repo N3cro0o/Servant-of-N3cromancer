@@ -10,6 +10,7 @@ static var instance : MouseEntity1
 @export var mouse_color := Color.GREEN
 @onready var detect_area := $Area2D
 @onready var hit_box := $CollisionShape2D
+@onready var particles: GPUParticles2D = $GPUParticles2D
 var actual_mouse_color := mouse_color
 var pos:Vector2 # mouse pos
 var last_position : Vector2 # last frame pos
@@ -31,6 +32,7 @@ var active := false:
 		else:
 			hit_box.disabled = true
 			detect_area.monitoring = false
+		particles.emitting = active
 		queue_redraw()
 var force_disactive = false:
 	set(b):
@@ -84,10 +86,12 @@ func _physics_process(delta):
 			obj.rotate(delta * direct_vec * 5)
 			# Timer
 			obj.timer += delta
+	# Particle speed factor
+	particles.speed_scale = GmM.game_speed
 
-func _draw():
-	if active:
-		draw_circle(Vector2.ZERO,radius,actual_mouse_color)
+#func _draw():
+	#if active:
+		#draw_circle(Vector2.ZERO,radius,actual_mouse_color)
 
 func _input(event):
 	if event is InputEventScreenDrag:

@@ -24,8 +24,8 @@ class_name GM extends Node
 
 # Colour stuff
 var black_colour = Color.BLACK
-var line_color_array = [Color("ffffff", 0.1), Color("ed0e4c", 0.1), Color("3b0ae5", 0.1), Color("1ec622", 0.1),
-	Color("ff53c5", 0.1), Color("cda000", 0.1)]
+var line_color_array = [Color("ffffff"), Color("ed0e4c"), Color("3b0ae5"), Color("1ec622"),
+	Color("ff53c5"), Color("cda000")]
 
 # Game data 
 var body_array : Array[PackedScene]

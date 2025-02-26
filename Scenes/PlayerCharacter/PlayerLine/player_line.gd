@@ -26,10 +26,14 @@ enum state {
 		if x == last_pos.MIDDLE:
 			left_line_pos = last_pos.LEFT
 			right_line_pos = last_pos.RIGHT
+			line_l.visible = true
+			line_r.visible = true
 		elif x == last_pos.LEFT:
 			right_line_pos = last_pos.MIDDLE
+			line_l.visible = false
 		else:
 			left_line_pos = last_pos.MIDDLE
+			line_r.visible = false
 		_change_last_point_pos(self, last_point_pos)
 @export var health_points := 5
 ## Used to calculate distance score
@@ -45,7 +49,8 @@ enum state {
 @onready var player_repeat = $PlayerRepeat
 @onready var player_hit = $PlayerHit
 @onready var player_hit_super = $PlayerHitSuper
-@onready var particle_gens: Array[GPUParticles2D] = [$PartGen1, $PartGen2, $PartGen3, $PartGen4]
+@onready var particle_gens: Array[GPUParticles2D] = [$PartGen11,\
+	$PartGen12, $PartGen13, $PartGen2, $PartGen3, $PartGen4]
 
 var body : PlayerBody
 var skul_dir = 0:
@@ -111,10 +116,12 @@ func _ready():
 	player_hit_super.volume_db = streams[2].volume
 	# Update line colors
 	var color = GmM.line_color_array[GmM.line_color]
-	default_color = color
+	#default_color = color
 	line_r.default_color = Color(color, line_r.default_color.a)
 	line_l.default_color = Color(color, line_l.default_color.a)
-	line2.default_color = color
+	#line2.default_color = color
+	for gen in particle_gens:
+		gen.modulate = color
 	# Line logic
 	line_points_number = body.line_points_number
 	distance_points = body.distance_points
@@ -210,16 +217,21 @@ func _process(_delta):
 		elif(Input.is_action_just_pressed("key_right")):
 			pos_changer(last_pos.RIGHT)
 	# Set up particle gens
-	var half_point = points.size() * 0.5
-	particle_gens[0].position = get_point_position(half_point)
-	particle_gens[1].position = line2.get_point_position(1)
-	particle_gens[2].position = line2.get_point_position(2)
-	particle_gens[3].position = line2.get_point_position(3)
-	# Change particle_gens[0] rotation
-	var point_1 = get_point_position(half_point)
-	var point_2 = get_point_position(half_point + 5)
-	var rotation_1 = (point_2 - point_1).angle()
-	particle_gens[0].rotation = rotation_1 + PI / 2
+	var half_point = points.size() * 0.25
+	# First three gens
+	for i in 3:
+		particle_gens[i].position = get_point_position(half_point * (i + 1))
+		# Change particle_gens[0] rotation
+		var point_1 = get_point_position(half_point * (i + 1))
+		var point_2 = get_point_position(half_point * (i + 1) + 5)
+		var rotation_1 = (point_2 - point_1).angle()
+		particle_gens[i].rotation = rotation_1 + (PI / 2)
+	particle_gens[3].position = line2.get_point_position(1)
+	particle_gens[4].position = line2.get_point_position(2)
+	particle_gens[5].position = line2.get_point_position(3)
+	# All particles properties
+	for gens in particle_gens:
+		gens.speed_scale = GmM.game_speed
 
 # Position functions
 func pos_changer(move:last_pos):

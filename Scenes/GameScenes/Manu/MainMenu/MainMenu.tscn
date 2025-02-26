@@ -155,7 +155,7 @@ theme = ExtResource("2_ximrp")
 theme_override_constants/outline_size = 0
 theme_override_font_sizes/font_size = 80
 action_mode = 0
-text = "Rethink the plan"
+text = "Replay tutorial"
 alignment = 0
 
 [node name="ShopButton" type="Button" parent="MenuPanel2/MenuPositions"]
@@ -183,7 +183,7 @@ theme = ExtResource("2_ximrp")
 theme_override_constants/outline_size = 0
 theme_override_font_sizes/font_size = 80
 action_mode = 0
-text = "Return to your duties"
+text = "Quit the game"
 alignment = 0
 
 [node name="TutorialPanel" type="MarginContainer" parent="MenuPanel2"]
@@ -252,5 +252,5 @@ text = "Return to menu"
 [connection signal="pressed" from="MenuPanel2/MenuPositions/ShopButton" to="." method="on_shop_button_press"]
 [connection signal="pressed" from="MenuPanel2/MenuPositions/OptionsButton" to="." method="on_options_button_press"]
 [connection signal="pressed" from="MenuPanel2/MenuPositions/QuitButton" to="." method="on_quit_button_press"]
-[connection signal="pressed" from="MenuPanel2/TutorialPanel/MarginContainer/Button" to="." method="on_tutorial_text_button_press"]
 [connection signal="pressed" from="MenuPanel2/TutorialPanel/MarginContainer/Button" to="." method="unlock_endless"]
+[connection signal="pressed" from="MenuPanel2/TutorialPanel/MarginContainer/Button" to="." method="on_tutorial_text_button_press"]
