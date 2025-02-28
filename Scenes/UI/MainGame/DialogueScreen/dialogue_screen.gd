@@ -13,6 +13,7 @@ class TextDataV1:
 	var text: String = ""
 	var delay_parameters: Dictionary = {0: 0.05}
 
+var forced_skip = false
 var text_data_array: Array[TextDataV1]
 var data_counter = 0
 var counter = 0
@@ -65,10 +66,11 @@ func update_delay():
 			break
 
 func update_text():
-	timer_node.start(1.5)
-	data_counter += 1
-	process_mode = PROCESS_MODE_DISABLED
-	text_index = 0
+	if !forced_skip:
+		timer_node.start(1.5)
+		data_counter += 1
+		process_mode = PROCESS_MODE_DISABLED
+		text_index = 0
 
 func update_params(text: String):
 	timer = 0
@@ -97,3 +99,6 @@ func set_next_page():
 # System/Controll functions
 func on_paused(paused):
 	timer_node.paused = paused
+
+func on_force():
+	pass

@@ -31,6 +31,7 @@ var line_color_array = [Color("ffffff"), Color("ed0e4c"), Color("3b0ae5"), Color
 var body_array : Array[PackedScene]
 var curr_scene : Node
 var transition_iterat = 0
+var window_fix: float
 
 # Save Data
 var endless_unlock = true
@@ -93,6 +94,8 @@ func _physics_process(delta: float) -> void:
 			on_slow_mo.emit(false)
 			game_speed_interpolation_check = false
 			game_speed = real_game_speed
+	# Uber Duper Mega Zajebisty fix
+	window_fix = float(get_viewport().get_visible_rect().size.x - 1080) / 2.0
 
 func _notification(what):
 	# Quit game

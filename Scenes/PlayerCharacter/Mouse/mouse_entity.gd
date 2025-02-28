@@ -12,7 +12,9 @@ static var instance : MouseEntity1
 @onready var hit_box := $CollisionShape2D
 @onready var particles: GPUParticles2D = $GPUParticles2D
 var actual_mouse_color := mouse_color
-var pos:Vector2 # mouse pos
+var pos:Vector2: # mouse pos
+	set(vec):
+		pos = Vector2(vec.x - GmM.window_fix, vec.y)
 var last_position : Vector2 # last frame pos
 var velocity_vec := Vector2.ZERO
 var velocity = 0.0
@@ -32,7 +34,7 @@ var active := false:
 		else:
 			hit_box.disabled = true
 			detect_area.monitoring = false
-		particles.emitting = active
+		toggle_particles()
 		queue_redraw()
 var force_disactive = false:
 	set(b):
@@ -133,3 +135,8 @@ func on_paused(paused):
 		set_collision_layer_value(1,true)
 		set_collision_mask_value(2,true)
 		actual_mouse_color = mouse_color
+
+# Particles functions
+func toggle_particles():
+	await Engine.get_main_loop().process_frame
+	particles.emitting = active

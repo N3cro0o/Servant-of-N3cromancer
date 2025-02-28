@@ -26,7 +26,7 @@ enum state {
 @onready var debug_label := $WindowBox/DebugLabel
 @onready var hit_frame := $HitFrame
 @onready var inventory = $WindowBox/ScrollsBox/InventoryLogic
-@onready var pause_panel: Control = $WindowBox/PausePanel
+@onready var pause_panel: PauseScreen = $WindowBox/PausePanel
 @onready var camera_buttons : Array[TouchScreenButton] = [$Camera2D/ButtonL, $Camera2D/ButtonR]
 
 # Player vars
@@ -275,6 +275,7 @@ func on_paused(paused):
 	if paused:
 		actual_speed_multi *= GmM.paused_slowdown
 		pause_panel.visible = true
+		pause_panel.body_label.text = "[center]The game is paused![/center]\n\nScore: %sm." % ScM.distance
 	else:
 		actual_speed_multi = speed_multi
 		pause_panel.visible = false

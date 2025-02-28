@@ -1,6 +1,7 @@
-extends Control
+class_name PauseScreen extends Control
 
 #region Variables
+@onready var body_label: RichTextLabel = $MarginContainer/VBoxContainer/MainBody/VBoxContainer/RichTextLabel
 
 @onready var color_items: ColorRect = $MarginContainer/VBoxContainer/Items/ColorRect
 @onready var color_main: ColorRect = $MarginContainer/VBoxContainer/MainBody/ColorRect

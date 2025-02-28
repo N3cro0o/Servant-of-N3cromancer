@@ -14,6 +14,8 @@ class_name PlayerBody extends Area2D
 @onready var skul_sprites = $SpriteSkul
 @onready var shield_sprite = $Shield
 @onready var shield_color = shield_sprite.modulate
+@onready var shield_broke_gen: GPUParticles2D = $Particles/ParticleShieldBroke
+@onready var shield_recharge_gen: GPUParticles2D = $Particles/ParticleShieldRecharge
 
 var modulate_shield_color_check = true
 var target_point = 0
@@ -52,6 +54,10 @@ func _on_hitbox_activation(body):
 		if body.damage >= 0:
 			var d = body.damage
 			body.body_hit = true
+			var dir_vec: Vector2 = body.global_position - global_position
+			print(shield_sprite.modulate)
+			if shield_sprite.modulate.a > 0.0 && body.damage > 0:
+				emit_particle_shield_broke(dir_vec.angle())
 			on_hit.emit(d)
 
 func on_pickbox_activation(body):
@@ -65,6 +71,13 @@ func reset_shield_color():
 
 func return_shield_color():
 	modulate_shield_color_check = true
+
+# Particle functions
+func emit_particle_shield_broke(angle: float):
+	shield_broke_gen.rotation = angle
+	shield_broke_gen.modulate = Color(1,1,1, shield_sprite.modulate.a / shield_color.a)
+	await Engine.get_main_loop().process_frame
+	shield_broke_gen.emitting = true
 
 # Others
 func on_game_over():

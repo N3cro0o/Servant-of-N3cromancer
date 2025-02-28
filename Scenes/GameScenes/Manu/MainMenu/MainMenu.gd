@@ -22,6 +22,9 @@ func _ready():
 func _process(_delta):
 	# Unlock endless
 	play_button.disabled = !GmM.endless_unlock
+	# Funny debug thing
+	#$MenuPanel2/MenuPositions/QuitButton.text = str(get_window().size)
+	#$MenuPanel2/MenuPositions/OptionsButton.text = str(get_viewport().size)
 
 func _notification(what):
 	# Quit game

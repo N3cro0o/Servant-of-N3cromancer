@@ -127,13 +127,13 @@ func stage_3(delta: float):
 		data.delay_parameters = {0: 0.05, 5: 0.8, 6: 0.05, 50: 0.12}
 		arr.push_back(data)
 		data = DialogueScreen.TextDataV1.new()
-		data.text = "You have to swipe your finger over the arrows to use repulsion magic. Do it for a couple of seconds."
+		data.text = "You have to swipe your finger over the arrows to use repulsion magic.\nDo it for a couple of seconds."
 		data.delay_parameters = {0: 0.05, 68: 0.15, 69: 0.05}
 		arr.push_back(data)
 		dialogue.set_text(arr)
 		return
 	distance += small_bubble.velocity * delta
-	if distance > 10_000 && text_counter == 4:
+	if distance > 10_000 && text_counter == 3:
 		distance = 0
 		var data = DialogueScreen.TextDataV1.new()
 		var arr: Array[DialogueScreen.TextDataV1]
@@ -179,7 +179,7 @@ func stage_4(delta: float):
 func on_dialogue_text_append_end():
 	text_counter += 1
 	if tutorial_stage == 3:
-		if text_counter == 6:
+		if text_counter == 5:
 			var object = spawner.spawn(0, bone.instantiate(), data)
 			object.tree_exited.connect(func():
 				if !player_hit:
@@ -195,7 +195,7 @@ func on_dialogue_text_append_end():
 					data.text = "Try and deflect incoming obstacles!"
 					arr.push_back(data)
 					dialogue.set_text(arr))
-		if text_counter == 10:
+		if text_counter == 9:
 			for button in camera_buttons:
 				button.visible = true
 			big_boi.lock_movement = false
@@ -228,7 +228,7 @@ func on_line_position_changed(pos: PlayerLine1.last_pos):
 func on_player_hit(s, hp1):
 	super.on_player_hit(s, hp1)
 	if tutorial_stage == 3:
-		if text_counter == 6:
+		if text_counter == 5:
 			var data = DialogueScreen.TextDataV1.new()
 			var arr: Array[DialogueScreen.TextDataV1]
 			data.text = "Watch out! Luckily Master gave every servant a protection spell."
@@ -244,7 +244,7 @@ func on_player_hit(s, hp1):
 			dialogue.set_text(arr)
 			player_hit = true
 			return
-		if text_counter == 10:
+		if text_counter == 9:
 			if !player_hit:
 				spawner.force_active = false
 				for ob in GameScene.instance.obstacles_array:

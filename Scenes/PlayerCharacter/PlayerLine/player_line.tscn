@@ -30,7 +30,7 @@ width = 6.0
 default_color = Color(1, 1, 1, 0.196078)
 
 [node name="AdditionalLine" type="Line2D" parent="."]
-points = PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0)
+points = PackedVector2Array(0, 0, 0, 0, 0, 0)
 default_color = Color(1, 1, 1, 0)
 
 [node name="ShieldTimer1" type="Timer" parent="."]
@@ -64,20 +64,8 @@ process_material = ExtResource("2_q5ry1")
 lifetime = 0.3
 
 [node name="PartGen2" type="GPUParticles2D" parent="."]
-position = Vector2(225, 0)
-amount = 512
-process_material = ExtResource("2_5g3t0")
-lifetime = 0.3
-
-[node name="PartGen3" type="GPUParticles2D" parent="."]
-position = Vector2(702, 0)
-amount = 512
-process_material = ExtResource("2_5g3t0")
-lifetime = 0.3
-
-[node name="PartGen4" type="GPUParticles2D" parent="."]
-position = Vector2(700, 2)
-amount = 512
+position = Vector2(378, 48)
+amount = 1024
 process_material = ExtResource("2_5g3t0")
 lifetime = 0.3
 

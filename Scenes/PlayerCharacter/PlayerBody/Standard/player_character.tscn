@@ -1,11 +1,59 @@
-[gd_scene load_steps=5 format=3 uid="uid://dcu2kdtm2wqvc"]
+[gd_scene load_steps=15 format=3 uid="uid://dcu2kdtm2wqvc"]
 
 [ext_resource type="Script" path="res://Scenes/PlayerCharacter/PlayerBody/player_character.gd" id="1_ihpk7"]
 [ext_resource type="SpriteFrames" uid="uid://bx60qqwq21bbg" path="res://Scenes/PlayerCharacter/PlayerBody/Standard/skul_frames.tres" id="2_i27fa"]
 [ext_resource type="SpriteFrames" uid="uid://ctoh0yx4fq34t" path="res://Scenes/PlayerCharacter/PlayerBody/Standard/shield_frames.tres" id="3_uivbc"]
+[ext_resource type="Material" uid="uid://cknrvfwnj4cqh" path="res://Scenes/PlayerCharacter/PlayerBody/shield_broken_particles.tres" id="4_jutyj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s35b8"]
 size = Vector2(238, 290)
+
+[sub_resource type="Curve" id="Curve_p123u"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.38326, 0.318681), 1.24725, 1.24725, 0, 0, Vector2(0.612335, 0.89011), 0.0, 0.0, 0, 0, Vector2(0.718062, 0.120879), 0.0, 0.0, 0, 0, Vector2(0.863436, 0.901099), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 6
+
+[sub_resource type="CurveTexture" id="CurveTexture_3yvv4"]
+curve = SubResource("Curve_p123u")
+
+[sub_resource type="Gradient" id="Gradient_vct5w"]
+offsets = PackedFloat32Array(0, 0.497487, 0.994975)
+colors = PackedColorArray(0.156863, 0.803922, 1, 1, 0.279809, 0.348747, 1, 1, 0.211765, 0.854902, 0.960784, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_b4x28"]
+gradient = SubResource("Gradient_vct5w")
+
+[sub_resource type="Curve" id="Curve_5g2bi"]
+_data = [Vector2(0.735683, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.428571), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_j6plg"]
+curve = SubResource("Curve_5g2bi")
+
+[sub_resource type="Curve" id="Curve_q5xo3"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.290749, 0.615385), 0.0, 0.0, 0, 0, Vector2(0.660793, 0.483516), 0.0, 0.0, 0, 0, Vector2(1, 0.78022), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_r4l0f"]
+curve = SubResource("Curve_q5xo3")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_n733q"]
+particle_flag_disable_z = true
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 500.0
+emission_ring_inner_radius = 400.0
+inherit_velocity_ratio = 0.8
+spread = 0.0
+radial_velocity_min = -500.0
+radial_velocity_max = -400.0
+radial_velocity_curve = SubResource("CurveTexture_j6plg")
+gravity = Vector3(0, 0, 0)
+scale_min = 20.0
+scale_max = 20.0
+scale_curve = SubResource("CurveTexture_r4l0f")
+color_ramp = SubResource("GradientTexture1D_b4x28")
+alpha_curve = SubResource("CurveTexture_3yvv4")
 
 [node name="PlayerCharacter" type="Area2D" groups=["mainbody"]]
 collision_mask = 6
@@ -33,6 +81,24 @@ collision_mask = 16
 
 [node name="PickupCollisionRect" type="CollisionShape2D" parent="PickBox"]
 shape = SubResource("RectangleShape2D_s35b8")
+
+[node name="Particles" type="Node2D" parent="."]
+
+[node name="ParticleShieldBroke" type="GPUParticles2D" parent="Particles"]
+z_index = 1
+emitting = false
+amount = 128
+process_material = ExtResource("4_jutyj")
+one_shot = true
+explosiveness = 1.0
+randomness = 0.1
+fixed_fps = 60
+
+[node name="ParticleShieldRecharge" type="GPUParticles2D" parent="Particles"]
+emitting = false
+amount = 48
+process_material = SubResource("ParticleProcessMaterial_n733q")
+explosiveness = 0.2
 
 [connection signal="body_entered" from="." to="." method="_on_hitbox_activation"]
 [connection signal="body_entered" from="PickBox" to="." method="on_pickbox_activation"]

@@ -1,8 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://cg8j6bp4mente"]
+[gd_scene load_steps=7 format=3 uid="uid://cg8j6bp4mente"]
 
 [ext_resource type="Script" path="res://Scenes/PlayerCharacter/PlayerBody/player_character.gd" id="1_1otnj"]
 [ext_resource type="SpriteFrames" uid="uid://bx60qqwq21bbg" path="res://Scenes/PlayerCharacter/PlayerBody/Standard/skul_frames.tres" id="2_30mqb"]
 [ext_resource type="SpriteFrames" uid="uid://ctoh0yx4fq34t" path="res://Scenes/PlayerCharacter/PlayerBody/Standard/shield_frames.tres" id="3_cikh6"]
+[ext_resource type="Material" uid="uid://cknrvfwnj4cqh" path="res://Scenes/PlayerCharacter/PlayerBody/shield_broken_particles.tres" id="4_bl4w0"]
+[ext_resource type="Material" uid="uid://cp1lrd5ngyp1l" path="res://Scenes/PlayerCharacter/PlayerBody/shield_recharge_particles.tres" id="5_2hmin"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s35b8"]
 size = Vector2(238, 290)
@@ -39,6 +41,26 @@ collision_mask = 16
 
 [node name="PickupCollisionRect" type="CollisionShape2D" parent="PickBox"]
 shape = SubResource("RectangleShape2D_s35b8")
+
+[node name="Particles" type="Node2D" parent="."]
+
+[node name="ParticleShieldBroke" type="GPUParticles2D" parent="Particles"]
+self_modulate = Color(1, 1, 0.615686, 1)
+z_index = 1
+emitting = false
+amount = 128
+process_material = ExtResource("4_bl4w0")
+one_shot = true
+explosiveness = 1.0
+randomness = 0.1
+fixed_fps = 60
+
+[node name="ParticleShieldRecharge" type="GPUParticles2D" parent="Particles"]
+self_modulate = Color(1, 1, 0.615686, 1)
+emitting = false
+amount = 48
+process_material = ExtResource("5_2hmin")
+explosiveness = 0.2
 
 [connection signal="body_entered" from="." to="." method="_on_hitbox_activation"]
 [connection signal="body_entered" from="PickBox" to="." method="on_pickbox_activation"]

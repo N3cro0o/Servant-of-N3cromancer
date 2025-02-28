@@ -63,6 +63,7 @@ func update_customisattion_body_data():
 	body_texture.modulate = data.body_color
 	GmM.current_body = active_body
 
+# THE SHIT BROKE. YOU CAN ACCESS INDEXES HIGHER THAN THEY CAN BE!!!!!!!!!!
 func change_body_object(num : int):
 	var start_body = active_body
 	active_body += num

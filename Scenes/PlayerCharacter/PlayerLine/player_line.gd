@@ -50,7 +50,7 @@ enum state {
 @onready var player_hit = $PlayerHit
 @onready var player_hit_super = $PlayerHitSuper
 @onready var particle_gens: Array[GPUParticles2D] = [$PartGen11,\
-	$PartGen12, $PartGen13, $PartGen2, $PartGen3, $PartGen4]
+	$PartGen12, $PartGen13, $PartGen2]
 
 var body : PlayerBody
 var skul_dir = 0:
@@ -192,9 +192,8 @@ func _process(_delta):
 		# Extra long line stuff
 		var point_vec = get_point_position(get_point_count() - 1)
 		line2.set_point_position(0, point_vec)
-		line2.set_point_position(1, Vector2(point_vec.x, point_vec.y - 300))
-		line2.set_point_position(2, Vector2(point_vec.x, point_vec.y - 1000))
-		line2.set_point_position(3, Vector2(point_vec.x, point_vec.y - 2000))
+		line2.set_point_position(1, Vector2(point_vec.x, point_vec.y - 970))
+		line2.set_point_position(2, Vector2(point_vec.x, point_vec.y - 3000))
 		point_vec = line_r.get_point_position(get_point_count() - 2)
 		line_r.set_point_position(count + 1, Vector2(point_vec.x, point_vec.y - 2000))
 		point_vec = line_l.get_point_position(get_point_count() - 2)
@@ -227,8 +226,6 @@ func _process(_delta):
 		var rotation_1 = (point_2 - point_1).angle()
 		particle_gens[i].rotation = rotation_1 + (PI / 2)
 	particle_gens[3].position = line2.get_point_position(1)
-	particle_gens[4].position = line2.get_point_position(2)
-	particle_gens[5].position = line2.get_point_position(3)
 	# All particles properties
 	for gens in particle_gens:
 		gens.speed_scale = GmM.game_speed
@@ -287,6 +284,7 @@ func return_max_speed():
 # Shield functions
 func on_shield_recharge_end():
 	print_rich("[hint=PlayerLine]Shield recharged[/hint]")
+	body.shield_recharge_gen.emitting = false
 	p_state = state.NORMAL
 
 func on_shield_recharge_start():
@@ -294,6 +292,7 @@ func on_shield_recharge_start():
 	inv = false
 	p_state = state.SHIELD_RECHARGE
 	timer_charge.start(3.5)
+	body.shield_recharge_gen.emitting = true
 	body.return_shield_color()
 
 func shield_timer_reset_after_hit(time:float):
