@@ -57,6 +57,7 @@ func _ready():
 	last_position = position
 	actual_mouse_color = mouse_color
 	GmM.on_paused.connect(on_paused)
+	particles.amount_ratio = SvM.return_particle_amount()
 
 func _physics_process(delta):
 	# Frame counter

@@ -12,6 +12,7 @@ extends Control
 @onready var line_color_grid = $Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line/Box/Margin/Grid
 # Options
 @onready var master_slider = $Margin/VBox/Main/Options/Margin/VBox/SoundSlider/MasterSlider
+@onready var particle_slider: HSlider = $Margin/VBox/Main/Options/Margin/VBox/Graphics/ParticleSlider
 @onready var version_label: Label = $Margin/VBox/Main/Options/Margin/VBox/Label
 
 var active_tab = 0
@@ -91,3 +92,8 @@ func on_game_data_reset():
 func change_master_bus_volume(num):
 	Sfx.update_bus_volume("master", num)
 	SvM.update_volume_master(num)
+
+func change_particle_amount(num):
+	# Add different percent text
+	particle_slider.tooltip_text = str(num)
+	SvM.update_particles_amount(num)

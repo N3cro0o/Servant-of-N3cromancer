@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bx18cpaetf7lm"]
+[gd_scene load_steps=13 format=3 uid="uid://bx18cpaetf7lm"]
 
 [ext_resource type="Script" path="res://Scenes/PlayerCharacter/Mouse/mouse_entity.gd" id="1_k1hii"]
 
@@ -28,22 +28,33 @@ point_count = 3
 [sub_resource type="CurveTexture" id="CurveTexture_lmq5e"]
 curve = SubResource("Curve_wckie")
 
+[sub_resource type="Curve" id="Curve_lwn4h"]
+_data = [Vector2(0, 0.054945), 0.0, 5.92445, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_tdbqo"]
+curve = SubResource("Curve_lwn4h")
+
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_hd4vl"]
 particle_flag_disable_z = true
 emission_shape = 6
 emission_ring_axis = Vector3(0, 0, 1)
 emission_ring_height = 1.0
-emission_ring_radius = 50.0
+emission_ring_radius = 67.0
 emission_ring_inner_radius = 10.0
+inherit_velocity_ratio = 1.0
 direction = Vector3(0, 0, 0)
 spread = 180.0
-initial_velocity_min = 50.0
-initial_velocity_max = 70.0
+initial_velocity_min = 10.0
+initial_velocity_max = 10.0
+radial_velocity_min = 40.0
+radial_velocity_max = 125.0
 gravity = Vector3(0, 0, 0)
-radial_accel_min = -100.0
-radial_accel_max = 50.0
-tangential_accel_min = 50.0
-tangential_accel_max = 100.0
+radial_accel_min = -300.0
+radial_accel_max = -300.0
+tangential_accel_min = -2.23517e-06
+tangential_accel_max = 500.0
+tangential_accel_curve = SubResource("CurveTexture_tdbqo")
 damping_max = 20.0
 scale_min = 3.0
 scale_max = 3.0

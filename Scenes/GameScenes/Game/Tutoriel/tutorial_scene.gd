@@ -43,6 +43,10 @@ func _process(delta: float) -> void:
 
 func _input(_event: InputEvent) -> void:
 	super._input(_event)
+	
+	if _event is InputEventScreenTouch && _event.is_pressed() && !GmM.paused:
+		dialogue.on_force()
+	
 	if Input.is_key_pressed(KEY_CTRL):
 		player_hit = false
 		if Input.is_key_pressed(KEY_6):
@@ -172,7 +176,7 @@ func stage_4(delta: float):
 		return
 	if text_counter == 7:
 		distance += delta
-		if distance >= 6.5:
+		if distance >= 2.0:
 			GmM.change_scene(0)
 
 # Signal functions
@@ -275,3 +279,5 @@ func _spawner1_spawn():
 func on_paused(paused):
 	super.on_paused(paused)
 	dialogue.on_paused(paused)
+	pause_panel.body_label.text = "[center]The game is paused!\nCurrent stage / out of:\n%s / %s" \
+		% [tutorial_stage, 4]

@@ -10,6 +10,11 @@ var frame = 0
 #endregion
 
 # Basic Godot functions
+func _ready() -> void:
+	super._ready()
+	$ShiftParticles.amount_ratio = SvM.return_particle_amount()
+	$ShiftParticles2.amount_ratio = SvM.return_particle_amount()
+
 func _process(_delta):
 	frame += 1
 	if frame < 6:

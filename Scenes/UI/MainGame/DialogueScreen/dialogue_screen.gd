@@ -66,11 +66,10 @@ func update_delay():
 			break
 
 func update_text():
-	if !forced_skip:
-		timer_node.start(1.5)
-		data_counter += 1
-		process_mode = PROCESS_MODE_DISABLED
-		text_index = 0
+	timer_node.start(1.5)
+	data_counter += 1
+	process_mode = PROCESS_MODE_DISABLED
+	text_index = 0
 
 func update_params(text: String):
 	timer = 0
@@ -86,6 +85,7 @@ func set_text(data_arr: Array[TextDataV1]):
 
 func set_next_page():
 	on_text_append_end.emit()
+	forced_skip = false
 	label.text = ""
 	$Margin/Center/Margin/Rect.self_modulate = Color(1, 1, 1, 0)
 	timer_node.stop()
@@ -101,4 +101,14 @@ func on_paused(paused):
 	timer_node.paused = paused
 
 func on_force():
-	pass
+	if data_counter >= text_data_array.size():
+		return
+	if !forced_skip:
+		text_index = counter
+		label.text = text_to_be_filled
+		$Margin/Center/Margin/Rect.self_modulate = start_color
+		update_text()
+		forced_skip = true
+	else:
+		timer_node.stop()
+		set_next_page()

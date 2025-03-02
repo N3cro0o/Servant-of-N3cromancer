@@ -18,6 +18,7 @@ func _ready():
 	# Save only if data is updated
 	if !SvM.check_data(SvM.SAVE_PATH):
 		SvM.save_data()
+	$"GPUParticles2D-1".amount_ratio = SvM.return_particle_amount()
 
 func _process(_delta):
 	# Unlock endless

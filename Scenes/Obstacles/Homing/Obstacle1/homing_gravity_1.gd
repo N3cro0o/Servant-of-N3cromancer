@@ -33,6 +33,8 @@ func _ready():
 	player.volume_db = sound.volume
 	actual_rotation_speed = rotation_speed; actual_speed = speed
 	velocity_vec = Vector2.UP * actual_speed
+	# Particle
+	$GPUParticles2D.amount_ratio = SvM.return_particle_amount()
 
 func _process(delta):
 	# Override lock rotation to true

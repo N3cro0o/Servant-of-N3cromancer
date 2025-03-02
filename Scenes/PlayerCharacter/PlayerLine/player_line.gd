@@ -122,6 +122,7 @@ func _ready():
 	#line2.default_color = color
 	for gen in particle_gens:
 		gen.modulate = color
+		gen.amount_ratio = SvM.return_particle_amount()
 	# Line logic
 	line_points_number = body.line_points_number
 	distance_points = body.distance_points

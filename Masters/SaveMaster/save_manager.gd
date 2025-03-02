@@ -19,6 +19,7 @@ var data = {
 	"unlocks_shop" : [false, false, false],
 	# Options
 	"volume_master" : 1,
+	"particles": 1.0,
 	"tutorial": false
 }
 
@@ -47,6 +48,7 @@ func reset_data():
 	data["line_color"] = 0
 	# Options data
 	data["volume_master"] = 1
+	data["particles"] = 1.0
 	data["tutorial"] = false
 	on_load_completed.emit()
 
@@ -138,6 +140,14 @@ func update_volume_master(val : float):
 	data["volume_master"] = val
 	data["version"] = save_version
 
+func update_particles_amount(val: float):
+	data["particles"] = val
+	data["version"] = save_version
+
 func tutorial_complete():
 	data["tutorial"] = true
 	data["version"] = save_version
+
+# Return functions
+func return_particle_amount() -> float:
+	return data["particles"]
