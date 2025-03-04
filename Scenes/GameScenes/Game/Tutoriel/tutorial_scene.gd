@@ -44,15 +44,16 @@ func _process(delta: float) -> void:
 func _input(_event: InputEvent) -> void:
 	super._input(_event)
 	
-	if _event is InputEventScreenTouch && _event.is_pressed() && !GmM.paused:
-		dialogue.on_force()
-	
 	if Input.is_key_pressed(KEY_CTRL):
 		player_hit = false
 		if Input.is_key_pressed(KEY_6):
 			tutorial_stage += 1
 		if Input.is_key_pressed(KEY_5):
 			tutorial_stage -= 1
+
+func _click_catcher_input(_event: InputEvent) -> void:
+	if _event is InputEventScreenTouch && _event.is_pressed() && !GmM.paused:
+		dialogue.on_force()
 
 # Stage functions
 func update_stage(num):

@@ -37,7 +37,7 @@ func _ready():
 func _process(delta):
 	if modulate_shield_color_check:
 		var c : Color = shield_sprite.modulate
-		c = c.lerp(shield_color, delta)
+		c = c.lerp(shield_color, delta * GmM.game_speed)
 		shield_sprite.modulate = c
 	skul_sprites.frame = abs(skul_dir)
 	shield_sprite.frame = skul_sprites.frame
@@ -47,6 +47,8 @@ func _process(delta):
 	else:
 		skul_sprites.scale.x = 2
 		shield_sprite.scale.x = 2.05
+	# Projectile recharge speed
+	shield_recharge_gen.speed_scale = GmM.game_speed
 
 # Hitbox functions
 func _on_hitbox_activation(body):
@@ -55,7 +57,6 @@ func _on_hitbox_activation(body):
 			var d = body.damage
 			body.body_hit = true
 			var dir_vec: Vector2 = body.global_position - global_position
-			print(shield_sprite.modulate)
 			if shield_sprite.modulate.a > 0.0 && body.damage > 0:
 				emit_particle_shield_broke(dir_vec.angle())
 			on_hit.emit(d)

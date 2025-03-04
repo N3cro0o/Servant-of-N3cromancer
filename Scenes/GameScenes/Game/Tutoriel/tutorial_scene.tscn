@@ -153,6 +153,32 @@ anchors_preset = -1
 anchor_bottom = 0.865
 offset_bottom = 0.999756
 
+[node name="MarginContainer" type="MarginContainer" parent="WindowBox"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 700
+theme_override_constants/margin_bottom = 950
+
+[node name="ClickCatcher" type="Control" parent="WindowBox/MarginContainer"]
+layout_mode = 2
+mouse_filter = 1
+
+[node name="ColorRect" type="ColorRect" parent="WindowBox/MarginContainer/ClickCatcher"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0.152941)
+
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(540, 1200)
 
@@ -244,6 +270,7 @@ texture = ExtResource("18_gus1q")
 [connection signal="pressed" from="WindowBox/ScrollsBox/RepulseButton" to="WindowBox/ScrollsBox/InventoryLogic" method="repulse_use"]
 [connection signal="pressed" from="WindowBox/ScrollsBox/ShieldButton" to="WindowBox/ScrollsBox/InventoryLogic" method="shield_use"]
 [connection signal="on_text_append_end" from="WindowBox/Dialogue" to="." method="on_dialogue_text_append_end"]
+[connection signal="gui_input" from="WindowBox/MarginContainer/ClickCatcher" to="." method="_click_catcher_input"]
 [connection signal="on_spawned_entity" from="SpawnerV2" to="." method="_spawner1_spawn"]
 [connection signal="on_player_death" from="PlayerLine" to="." method="on_player_death"]
 [connection signal="on_player_status_change" from="PlayerLine" to="." method="on_player_hit"]
