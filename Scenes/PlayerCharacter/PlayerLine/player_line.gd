@@ -149,6 +149,12 @@ func _ready():
 		line_r.set_point_position(x, Vector2(500, -x * distance_points))
 		line_l.set_point_position(x, Vector2(-500, -x * distance_points))
 		_i += 2 * PI / count
+	# Web check
+	if GmM.web_development:
+		default_color = Color(default_color, 0.33)
+		line2.default_color = default_color
+		for gen in particle_gens:
+			gen.emitting = false
 
 func _process(_delta):
 	# Debug inv
@@ -285,7 +291,8 @@ func return_max_speed():
 # Shield functions
 func on_shield_recharge_end():
 	print_rich("[hint=PlayerLine]Shield recharged[/hint]")
-	body.shield_recharge_gen.emitting = false
+	if !GmM.web_development:
+		body.shield_recharge_gen.emitting = false
 	p_state = state.NORMAL
 
 func on_shield_recharge_start():
@@ -293,7 +300,8 @@ func on_shield_recharge_start():
 	inv = false
 	p_state = state.SHIELD_RECHARGE
 	timer_charge.start(3.5)
-	body.shield_recharge_gen.emitting = true
+	if !GmM.web_development:
+		body.shield_recharge_gen.emitting = true
 	body.return_shield_color()
 
 func shield_timer_reset_after_hit(time:float):
@@ -339,7 +347,8 @@ func on_game_over():
 
 # Particle functions
 func fire_particles():
-	for _i in 0:
-		await Engine.get_main_loop().process_frame
-	for gen: GPUParticles2D in particle_gens:
-		gen.emitting = true
+	pass
+	#for _i in 0:
+		#await Engine.get_main_loop().process_frame
+	#for gen: GPUParticles2D in particle_gens:
+		#gen.emitting = true

@@ -66,7 +66,7 @@ alpha_curve = SubResource("CurveTexture_p5yf3")
 collision_mask = 2
 script = ExtResource("1_k1hii")
 radius = 35.0
-mouse_color = Color(0, 1, 0, 0.0392157)
+mouse_color = Color(0.329412, 1, 1, 0.435294)
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_mask = 6

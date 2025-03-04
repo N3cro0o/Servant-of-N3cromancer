@@ -92,9 +92,9 @@ func _physics_process(delta):
 	# Particle speed factor
 	particles.speed_scale = GmM.game_speed
 
-#func _draw():
-	#if active:
-		#draw_circle(Vector2.ZERO,radius,actual_mouse_color)
+func _draw():
+	if active && GmM.web_development:
+		draw_circle(Vector2.ZERO,radius,actual_mouse_color)
 
 func _input(event):
 	if event is InputEventScreenDrag:
@@ -140,4 +140,7 @@ func on_paused(paused):
 # Particles functions
 func toggle_particles():
 	await Engine.get_main_loop().process_frame
-	particles.emitting = active
+	if !GmM.web_development:
+		particles.emitting = active
+	else:
+		particles.emitting = false

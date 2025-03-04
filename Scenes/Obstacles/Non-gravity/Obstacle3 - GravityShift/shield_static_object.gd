@@ -12,8 +12,12 @@ var frame = 0
 # Basic Godot functions
 func _ready() -> void:
 	super._ready()
-	$ShiftParticles.amount_ratio = SvM.return_particle_amount()
-	$ShiftParticles2.amount_ratio = SvM.return_particle_amount()
+	if !GmM.web_development:
+		$ShiftParticles.amount_ratio = SvM.return_particle_amount()
+		$ShiftParticles2.amount_ratio = SvM.return_particle_amount()
+	else:
+		$ShiftParticles.emitting = false
+		$ShiftParticles2.emitting = false
 
 func _process(_delta):
 	frame += 1

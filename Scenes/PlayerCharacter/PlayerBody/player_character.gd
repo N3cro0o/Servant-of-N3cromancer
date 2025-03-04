@@ -75,6 +75,8 @@ func return_shield_color():
 
 # Particle functions
 func emit_particle_shield_broke(angle: float):
+	if GmM.web_development:
+		return
 	shield_broke_gen.rotation = angle
 	shield_broke_gen.modulate = Color(1,1,1, shield_sprite.modulate.a / shield_color.a)
 	await Engine.get_main_loop().process_frame

@@ -280,4 +280,4 @@ func on_paused(paused):
 		actual_speed_multi = speed_multi
 		pause_panel.visible = false
 	for bttn in camera_buttons:
-		bttn.visible = !bttn.visible
+		bttn.visible = !GmM.paused

@@ -8,6 +8,8 @@ class_name GM extends Node
 @export var items : Array[ItemShopData]
 
 @export_category("Game")
+## Remember to tick this on while exporting on HTML5, moron[br][b]I know you will forget
+@export var web_development = false
 ## NOT CHANCE[br]
 ## Variable used to calculate frequency of pickups, shows mean objects required to spawn a pickup
 @export var pickup_spawn_period = 5

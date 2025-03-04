@@ -34,7 +34,10 @@ func _ready():
 	actual_rotation_speed = rotation_speed; actual_speed = speed
 	velocity_vec = Vector2.UP * actual_speed
 	# Particle
-	$GPUParticles2D.amount_ratio = SvM.return_particle_amount()
+	if !GmM.web_development:
+		$GPUParticles2D.amount_ratio = SvM.return_particle_amount()
+	else:
+		$GPUParticles2D.emitting = false
 
 func _process(delta):
 	# Override lock rotation to true
