@@ -1,9 +1,11 @@
-[gd_scene load_steps=19 format=3 uid="uid://do88bn15nxcbu"]
+[gd_scene load_steps=21 format=3 uid="uid://do88bn15nxcbu"]
 
 [ext_resource type="Script" path="res://Scenes/GameScenes/Manu/OptionsMenu/options.gd" id="1_dibnq"]
 [ext_resource type="Theme" uid="uid://do6gg3r8fydfa" path="res://Resources/Themes/main_theme.tres" id="1_i7ifc"]
 [ext_resource type="Script" path="res://Resources/RandomScripts/game_button.gd" id="2_dtl4u"]
 [ext_resource type="Texture2D" uid="uid://8glmydbtnfi0" path="res://Images/UI/DirectionKey/1/arrow key1.png" id="3_rrsx8"]
+[ext_resource type="Texture2D" uid="uid://33lao13rogp1" path="res://Images/Menu/Credits/itch.logo.png" id="5_l6pu5"]
+[ext_resource type="Texture2D" uid="uid://b4iv2tsyrl17g" path="res://Images/Menu/Credits/twitter-x-seeklogo1.png" id="6_ilpl1"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i3u2l"]
 
@@ -381,18 +383,43 @@ fit_content = true
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 min_value = 0.5
-max_value = 1.2
+max_value = 1.0
 step = 0.1
-value = 1.0
+value = 0.8
 scrollable = false
-tick_count = 8
+tick_count = 6
 ticks_on_borders = true
 
-[node name="Credits" type="HBoxContainer" parent="Margin/VBox/Main/Options/Margin/VBox"]
+[node name="MarginCredits" type="MarginContainer" parent="Margin/VBox/Main/Options/Margin/VBox"]
 layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
 
-[node name="TextureButton" type="TextureButton" parent="Margin/VBox/Main/Options/Margin/VBox/Credits"]
+[node name="Credits" type="HBoxContainer" parent="Margin/VBox/Main/Options/Margin/VBox/MarginCredits"]
+custom_minimum_size = Vector2(0, 160)
 layout_mode = 2
+theme_override_constants/separation = 15
+alignment = 1
+
+[node name="Itch" type="Button" parent="Margin/VBox/Main/Options/Margin/VBox/MarginCredits/Credits"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/icon_normal_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_pressed_color = Color(0.709804, 0.952941, 1, 0.870588)
+theme_override_colors/icon_disabled_color = Color(0.564962, 0.564962, 0.564962, 0.509804)
+icon = ExtResource("5_l6pu5")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Twitter" type="Button" parent="Margin/VBox/Main/Options/Margin/VBox/MarginCredits/Credits"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/icon_normal_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_pressed_color = Color(0.709804, 0.952941, 1, 0.870588)
+theme_override_colors/icon_disabled_color = Color(0.564962, 0.564962, 0.564962, 0.509804)
+icon = ExtResource("6_ilpl1")
+icon_alignment = 1
+expand_icon = true
 
 [node name="ResetData" type="Button" parent="Margin/VBox/Main/Options/Margin/VBox"]
 layout_mode = 2
@@ -449,6 +476,8 @@ text = "Return to menu"
 [connection signal="pressed" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line/Box/Margin/Grid/YellowColor" to="." method="player_line_color_change" binds= [5]]
 [connection signal="value_changed" from="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/MasterSlider" to="." method="change_master_bus_volume"]
 [connection signal="value_changed" from="Margin/VBox/Main/Options/Margin/VBox/Graphics/ParticleSlider" to="." method="change_particle_amount"]
+[connection signal="pressed" from="Margin/VBox/Main/Options/Margin/VBox/MarginCredits/Credits/Itch" to="." method="itch_button_credits"]
+[connection signal="pressed" from="Margin/VBox/Main/Options/Margin/VBox/MarginCredits/Credits/Twitter" to="." method="twitter_button_credits"]
 [connection signal="pressed" from="Margin/VBox/Main/Options/Margin/VBox/ResetData" to="." method="on_game_data_reset"]
 [connection signal="tab_changed" from="Margin/VBox/Tab/TabBar" to="." method="on_change_tab"]
 [connection signal="pressed" from="Margin/VBox/ReturnButotn" to="." method="return_button_pressed"]

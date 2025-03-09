@@ -19,7 +19,7 @@ var data = {
 	"unlocks_shop" : [false, false, false],
 	# Options
 	"volume_master" : 1,
-	"particles": 1.0,
+	"particles": 0.8,
 	"tutorial": false
 }
 
@@ -48,7 +48,7 @@ func reset_data():
 	data["line_color"] = 0
 	# Options data
 	data["volume_master"] = 1
-	data["particles"] = 1.0
+	data["particles"] = 0.8
 	data["tutorial"] = false
 	on_load_completed.emit()
 

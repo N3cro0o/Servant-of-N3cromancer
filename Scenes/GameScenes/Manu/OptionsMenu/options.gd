@@ -31,6 +31,7 @@ func _ready():
 		var panel = button.get_child(0) as ColorRect
 		panel.color = GmM.line_color_array[i]
 	master_slider.value = SvM.data["volume_master"]
+	particle_slider.value = SvM.return_particle_amount()
 	# Unlocks
 	set_unlockable_panels()
 	update_customisattion_body_data()
@@ -97,3 +98,10 @@ func change_particle_amount(num):
 	# Add different percent text
 	particle_slider.tooltip_text = str(num)
 	SvM.update_particles_amount(num)
+
+# Credits buttons
+func itch_button_credits():
+	OS.shell_open("https://n3cro0odev.itch.io")
+
+func twitter_button_credits():
+	OS.shell_open("https://x.com/N3cro0oDev")
