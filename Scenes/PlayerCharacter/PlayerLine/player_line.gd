@@ -292,7 +292,7 @@ func return_max_speed():
 func on_shield_recharge_end():
 	print_rich("[hint=PlayerLine]Shield recharged[/hint]")
 	if !GmM.web_development:
-		body.shield_recharge_gen.emitting = false
+		body.shield_recharge_gen.modulate = Color(body.shield_recharge_gen.modulate, 0)
 	p_state = state.NORMAL
 
 func on_shield_recharge_start():
@@ -301,7 +301,7 @@ func on_shield_recharge_start():
 	p_state = state.SHIELD_RECHARGE
 	timer_charge.start(3.5)
 	if !GmM.web_development:
-		body.shield_recharge_gen.emitting = true
+		body.shield_recharge_gen.modulate = Color(body.shield_recharge_gen.modulate, 1)
 	body.return_shield_color()
 
 func shield_timer_reset_after_hit(time:float):

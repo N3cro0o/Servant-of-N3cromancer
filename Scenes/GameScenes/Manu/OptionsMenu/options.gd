@@ -12,8 +12,9 @@ extends Control
 @onready var line_color_grid = $Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line/Box/Margin/Grid
 # Options
 @onready var master_slider = $Margin/VBox/Main/Options/Margin/VBox/SoundSlider/MasterSlider
-@onready var particle_slider: HSlider = $Margin/VBox/Main/Options/Margin/VBox/Graphics/ParticleSlider
+@onready var particle_slider: HSlider = $Margin/VBox/Main/Options/Margin/VBox/Graphics/Particle/ParticleSlider
 @onready var version_label: Label = $Margin/VBox/Main/Options/Margin/VBox/Label
+@onready var debug_label_button: CheckButton = $Margin/VBox/Main/Options/Margin/VBox/Graphics/DebugLabelButton
 
 var active_tab = 0
 var active_body = 0
@@ -32,6 +33,7 @@ func _ready():
 		panel.color = GmM.line_color_array[i]
 	master_slider.value = SvM.data["volume_master"]
 	particle_slider.value = SvM.return_particle_amount()
+	debug_label_button.button_pressed = GmM.debug_label_visible
 	# Unlocks
 	set_unlockable_panels()
 	update_customisattion_body_data()
@@ -69,14 +71,12 @@ func update_customisattion_body_data():
 func change_body_object(num : int):
 	var start_body = active_body
 	active_body += num
-	while !GmM.body_holder_array[active_body].body_unlocked:
-		active_body += num
-		if active_body >= GmM.body_array.size():
-			active_body = 0
-		elif active_body < 0:
-			active_body = GmM.body_array.size() - 1
-		if active_body == start_body:
-			break
+	if active_body >= GmM.body_array.size():
+		active_body = 0
+	elif active_body < 0:
+		active_body = GmM.body_array.size() - 1
+	if !GmM.body_holder_array[active_body].body_unlocked:
+		active_body = start_body
 	SvM.update_player_body(active_body)
 	update_customisattion_body_data()
 	Sfx.play_sound_ui_number(0)
@@ -98,6 +98,9 @@ func change_particle_amount(num):
 	# Add different percent text
 	particle_slider.tooltip_text = str(num)
 	SvM.update_particles_amount(num)
+
+func debug_label_toggle(b):
+	GmM.debug_label_visible = b
 
 # Credits buttons
 func itch_button_credits():

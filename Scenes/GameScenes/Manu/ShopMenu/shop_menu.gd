@@ -30,6 +30,7 @@ func _ready():
 		return
 	change_current_item(0)
 
+
 func _process(_delta):
 	text_coins.text = "%d" % ScM.coins_game
 

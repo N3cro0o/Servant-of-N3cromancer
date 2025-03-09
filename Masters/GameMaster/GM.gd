@@ -34,6 +34,7 @@ var body_array : Array[PackedScene]
 var curr_scene : Node
 var transition_iterat = 0
 var window_fix: float
+var debug_label_visible = false
 
 # Save Data
 var endless_unlock = true

@@ -33,7 +33,11 @@ func _ready():
 	print_rich("[hint=%s]Target point = [/hint]" % name, target_point)
 	MouseEntity1.instance.disabled_hitbox = no_mouse_object_hitbox
 	MouseEntity1.instance.push_strength = mouse_push_strength
-	
+	shield_broke_gen.amount_ratio = SvM.return_particle_amount()
+	shield_recharge_gen.amount_ratio = SvM.return_particle_amount()
+	shield_recharge_gen.modulate = Color(shield_recharge_gen.modulate,0)
+	shield_recharge_gen.emitting = true
+
 func _process(delta):
 	if modulate_shield_color_check:
 		var c : Color = shield_sprite.modulate

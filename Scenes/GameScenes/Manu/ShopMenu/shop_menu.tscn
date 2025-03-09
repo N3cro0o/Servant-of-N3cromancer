@@ -7,25 +7,25 @@
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_vfvsw"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tgeir"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h57ov"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3pf81"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2wu72"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fuclw"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3pf81"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tgeir"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h57ov"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2o7rq"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bnqmd"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ww1hc"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_25up0"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5a78q"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ww1hc"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2o7rq"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bnqmd"]
 
 [node name="ShopMenu" type="Control"]
 layout_mode = 3
@@ -72,6 +72,7 @@ text = "[center]Name[/center]"
 fit_content = true
 
 [node name="Texture" type="TextureRect" parent="Margin/Box/Up/Box"]
+texture_filter = 1
 layout_mode = 2
 size_flags_vertical = 3
 texture = SubResource("PlaceholderTexture2D_vfvsw")
@@ -95,8 +96,8 @@ theme_override_constants/separation = 50
 [node name="TextDesc" type="RichTextLabel" parent="Margin/Box/Down/BoxOuter"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_font_sizes/normal_font_size = 56
 theme_override_font_sizes/italics_font_size = 64
+theme_override_font_sizes/normal_font_size = 56
 bbcode_enabled = true
 text = "[center]Description[/center]"
 fit_content = true
@@ -146,11 +147,11 @@ alignment = 1
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/normal = SubResource("StyleBoxEmpty_tgeir")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_h57ov")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_3pf81")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_2wu72")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_fuclw")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_3pf81")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_h57ov")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_tgeir")
 script = ExtResource("2_1hui4")
 image = NodePath("TextureRect")
 action = &"key_left"
@@ -169,11 +170,11 @@ texture = ExtResource("2_81wor")
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/normal = SubResource("StyleBoxEmpty_bnqmd")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_2o7rq")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_ww1hc")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_25up0")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_5a78q")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_ww1hc")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_2o7rq")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_bnqmd")
 script = ExtResource("2_1hui4")
 image = NodePath("TextureRect")
 action = &"key_right"

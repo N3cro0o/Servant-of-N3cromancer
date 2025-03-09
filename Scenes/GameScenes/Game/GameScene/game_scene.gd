@@ -101,6 +101,7 @@ func _ready():
 	GmM.curr_scene = self
 	# Connect to GmM
 	GmM.on_paused.connect(on_paused)
+	debug_label.visible = GmM.debug_label_visible
 	# Hp stuff
 	hit_frame.self_modulate = Color(1,1,1,0)
 	hp = big_boi.health_points
@@ -135,7 +136,6 @@ func _ready():
 	pause_panel.visible = false
 	on_level_start.emit()
 	print_rich("Level ready!")
-	#spawner.force_active = false
 
 func _physics_process(delta):
 	fpsp = delta
@@ -159,6 +159,10 @@ func _process(delta):
 		actual_speed_multi = speed_multi
 	# And lastly, hp diference
 	hp_last = hp
+	
+	# Don't forget 'bout 'Debug label'
+	debug_label.text = "FPS: %d\nFPSP: %d\nMouse_pos: x %d; y %d" \
+		% [Engine.get_frames_per_second(), fpsp, small_bubble.position.x, small_bubble.position.y]
 
 func _input(_event):
 	if Input.is_action_just_pressed("ui_cancel"):

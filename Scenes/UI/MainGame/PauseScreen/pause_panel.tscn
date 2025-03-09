@@ -150,6 +150,41 @@ grow_horizontal = 2
 grow_vertical = 2
 columns = 2
 
+[node name="PauseMargin" type="MarginContainer" parent="MarginContainer/VBoxContainer/Buttons/ButtonContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="PauseButton" type="Button" parent="MarginContainer/VBoxContainer/Buttons/ButtonContainer/PauseMargin"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("4_j314y")
+theme_override_font_sizes/font_size = 64
+text = "Return to the game"
+autowrap_mode = 2
+
+[node name="PlaceholderMargin" type="MarginContainer" parent="MarginContainer/VBoxContainer/Buttons/ButtonContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="ReturnButton" type="Button" parent="MarginContainer/VBoxContainer/Buttons/ButtonContainer/PlaceholderMargin"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("4_j314y")
+theme_override_font_sizes/font_size = 64
+text = "Reset"
+autowrap_mode = 2
+
 [node name="MenuMargin" type="MarginContainer" parent="MarginContainer/VBoxContainer/Buttons/ButtonContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -184,42 +219,7 @@ theme_override_font_sizes/font_size = 64
 text = "Reset"
 autowrap_mode = 2
 
-[node name="PlaceholderMargin" type="MarginContainer" parent="MarginContainer/VBoxContainer/Buttons/ButtonContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/margin_left = 30
-theme_override_constants/margin_top = 30
-theme_override_constants/margin_right = 30
-theme_override_constants/margin_bottom = 30
-
-[node name="ReturnButton" type="Button" parent="MarginContainer/VBoxContainer/Buttons/ButtonContainer/PlaceholderMargin"]
-visible = false
-layout_mode = 2
-size_flags_horizontal = 3
-theme = ExtResource("4_j314y")
-theme_override_font_sizes/font_size = 64
-text = "Reset"
-autowrap_mode = 2
-
-[node name="PauseMargin" type="MarginContainer" parent="MarginContainer/VBoxContainer/Buttons/ButtonContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/margin_left = 30
-theme_override_constants/margin_top = 30
-theme_override_constants/margin_right = 30
-theme_override_constants/margin_bottom = 30
-
-[node name="PauseButton" type="Button" parent="MarginContainer/VBoxContainer/Buttons/ButtonContainer/PauseMargin"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme = ExtResource("4_j314y")
-theme_override_font_sizes/font_size = 64
-text = "Return to the game"
-autowrap_mode = 2
-
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Buttons/ButtonContainer/PauseMargin/PauseButton" to="." method="on_pause_bttn_press"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Buttons/ButtonContainer/PlaceholderMargin/ReturnButton" to="." method="on_reset_bttn_press"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Buttons/ButtonContainer/MenuMargin/MenuButton" to="." method="on_end_bttn_press"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Buttons/ButtonContainer/ReturnMargin/ReturnButton" to="." method="on_reset_bttn_press"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Buttons/ButtonContainer/PlaceholderMargin/ReturnButton" to="." method="on_reset_bttn_press"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/Buttons/ButtonContainer/PauseMargin/PauseButton" to="." method="on_pause_bttn_press"]
