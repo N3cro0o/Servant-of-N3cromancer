@@ -37,6 +37,8 @@ func _ready():
 	# Unlocks
 	set_unlockable_panels()
 	update_customisattion_body_data()
+	if GmM.web_development:
+		$Margin/VBox/Main/Options/Margin/VBox/WebAd.visible = true
 
 func _notification(what):
 	# Return to Main Menu

@@ -72,6 +72,7 @@ func _ready():
 		# Wait for level inicialization
 		await GameScene.instance.on_level_start
 	GmM.on_paused.connect(on_paused)
+	GmM.on_slow_mo.connect(on_game_slow_mo)
 	update_spawners()
 
 func _physics_process(_delta: float):
@@ -183,7 +184,7 @@ func spawn_from(num: int):
 	# Check if active
 	if !active:
 		return
-	# connecting to the game
+	# Connecting to the game
 	match num:
 		0:
 			spawn_logic(num, obstacle_data.data_1)
@@ -200,8 +201,14 @@ func spawn_from(num: int):
 	if pickup_spawn_check.count(false) >= 3:
 		for p in pickup_spawn_check:
 			p = true
-	print_rich("Spawner timer: %s" % num)
 	start_timer_rand(num, 1)
+	# Add small delay to others
+	for timer_index in obstacle_data.spawn_points:
+		var timer = spawn_timer_arr[timer_index]
+		if timer.time_left < 0.33:
+			var t = timer.time_left
+			timer.start(0.2)
+	pass
 
 func spawn_logic(num, data_arr):
 	var cur_weight = 0
@@ -345,3 +352,8 @@ func spawn_pickup(num):
 # Paused functions
 func on_paused(paused):
 	active = !paused
+
+func on_game_slow_mo(b: bool):
+	if b:
+		for ind in obstacle_data.spawn_points:
+			spawn_timer_arr[ind].start(1.5)

@@ -20,6 +20,9 @@ class_name PlayerBody extends Area2D
 var modulate_shield_color_check = true
 var target_point = 0
 var skul_dir = 0
+## Stores last collided obstacle.[br]CAN BE NULL!!!!!
+var last_obstacle_hit: ObstacleGravityBase
+var last_obstacle_offset
 
 #endregion
 #region Signals
@@ -35,8 +38,6 @@ func _ready():
 	MouseEntity1.instance.push_strength = mouse_push_strength
 	shield_broke_gen.amount_ratio = SvM.return_particle_amount()
 	shield_recharge_gen.amount_ratio = SvM.return_particle_amount()
-	shield_recharge_gen.modulate = Color(shield_recharge_gen.modulate,0)
-	shield_recharge_gen.emitting = true
 
 func _process(delta):
 	if modulate_shield_color_check:
@@ -59,6 +60,8 @@ func _on_hitbox_activation(body):
 	if body is ObstacleGravityBase:
 		if body.damage >= 0:
 			var d = body.damage
+			last_obstacle_hit = body
+			last_obstacle_offset = body.global_position - global_position
 			body.body_hit = true
 			var dir_vec: Vector2 = body.global_position - global_position
 			if shield_sprite.modulate.a > 0.0 && body.damage > 0:

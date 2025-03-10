@@ -18,8 +18,8 @@ var distance = 0.0
 var player_hit = false
 var bone = preload("res://Scenes/Obstacles/Gravity/Obstacle1/gravity_obstacle_1.tscn")
 var ball = preload("res://Scenes/Obstacles/Homing/Obstacle1/homing_gravity_1.tscn")
-var data = preload("res://Scenes/Obstacles/Gravity/Obstacle1/gravity_obstacle_1.tres")
-var data1 = preload("res://Scenes/Obstacles/Homing/Obstacle1/homing_gravity_1.tres")
+var data_bone = preload("res://Scenes/Obstacles/Gravity/Obstacle1/gravity_obstacle_1.tres")
+var data_ball = preload("res://Scenes/Obstacles/Homing/Obstacle1/homing_gravity_1.tres")
 #endregion
 
 # Basic Godot functions
@@ -185,7 +185,7 @@ func on_dialogue_text_append_end():
 	text_counter += 1
 	if tutorial_stage == 3:
 		if text_counter == 5:
-			var object = spawner.spawn(0, bone.instantiate(), data)
+			var object = spawner.spawn(0, bone.instantiate(), data_bone)
 			object.tree_exited.connect(func():
 				if !player_hit:
 					var data = DialogueScreen.TextDataV1.new()
@@ -213,7 +213,7 @@ func on_dialogue_text_append_end():
 	if tutorial_stage == 4:
 		if text_counter == 4:
 			player_hit = false
-			var object = spawner.spawn(0, ball.instantiate(), data1)
+			var object = spawner.spawn(0, ball.instantiate(), data_ball)
 			object.tree_exited.connect(func():
 				if !player_hit:
 					var data = DialogueScreen.TextDataV1.new()

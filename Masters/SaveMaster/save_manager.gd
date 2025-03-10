@@ -69,7 +69,7 @@ func check_path(path : String):
 		return true
 	return false
 
-func check_data(path: String) -> bool:
+func check_data(_path: String) -> bool:
 	if OS.is_userfs_persistent():
 		var file = FileAccess.open(SAVE_PATH, FileAccess.READ)
 		var json = file.get_as_text()

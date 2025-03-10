@@ -86,6 +86,8 @@ var velocity := 0.0
 var inv_check = false
 var lock_movement = false
 var greater_line_number = true
+## Speed value used while moving skul body on the GameOverScreen
+var death_speed := 0.5
 # Paused variables
 var paused_count := 0
 # Signals
@@ -292,7 +294,7 @@ func return_max_speed():
 func on_shield_recharge_end():
 	print_rich("[hint=PlayerLine]Shield recharged[/hint]")
 	if !GmM.web_development:
-		body.shield_recharge_gen.modulate = Color(body.shield_recharge_gen.modulate, 0)
+		body.shield_recharge_gen.emitting = false
 	p_state = state.NORMAL
 
 func on_shield_recharge_start():
@@ -301,7 +303,7 @@ func on_shield_recharge_start():
 	p_state = state.SHIELD_RECHARGE
 	timer_charge.start(3.5)
 	if !GmM.web_development:
-		body.shield_recharge_gen.modulate = Color(body.shield_recharge_gen.modulate, 1)
+		body.shield_recharge_gen.emitting = true
 	body.return_shield_color()
 
 func shield_timer_reset_after_hit(time:float):

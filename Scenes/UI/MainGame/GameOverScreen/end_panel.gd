@@ -6,11 +6,13 @@ const descritpion_score : String = "New Hi Score! %d\nCoins: %d\nDistance: %d m"
 #region Variables
 
 @export_range(0, 25) var time = 10.0
+@export_range(0, 1.5) var modulate_time: float = 0.5
 @onready var name_label = $Margin/Box/Upper/YouDiedBruhLabel
-@onready var desc_label = $Margin/Box/Middle/DescriptionLabel
+@onready var desc_label = $Margin/Box/Middle/VB/DescriptionLabel
 @onready var reset_button : Button = $Margin/Box/Bottom/VBoxContainer/ResetButton
 
 var timer = 0
+var modulate_timer: float = 0
 var lock_timer: bool = false
 
 #endregion
@@ -32,6 +34,11 @@ func _process(delta):
 		else:
 			timer = 0
 			reset_button.text = "RESET"
+		# Modulate
+		modulate_timer += delta * (1 / modulate_time)
+		if modulate_timer > 1:
+			modulate_timer = 1
+		modulate = Color(modulate, modulate_timer)
 	else:
 		lock_timer = false
 
@@ -52,6 +59,7 @@ func update_desc():
 	else:
 		desc_label.text = descritpion % arr
 	visible = true
+	modulate = Color(modulate, 0)
 	SvM.save_data()
 
 func hold_timer_gui_input(_event):

@@ -22,13 +22,13 @@ func reset_score():
 func finalize_level_score():
 	var s : int = 0
 	s = int(distance / 50)
-	highscore += s
+	score += s
 	coins_game += coins
 	if highscore < score:
 		highscore = score
 		on_new_highscore.emit()
 	SvM.update_score(coins_game, highscore)
-	score = 0
+	distance = 0
 	coins = 0
 
 # Coin funtions

@@ -143,13 +143,22 @@ func _physics_process(delta):
 	fpsp = delta
 	if !lock_logic:
 		ScM.distance += speed * delta
+	if p_state == state.DED:
+		for bttn in camera_buttons:
+			bttn.visible = false
+		pause_panel.visible = false
+		# Death movement
+		big_boi.body.position.y = lerpf(big_boi.body.position.y, -150.0, delta * big_boi.death_speed)
+		var hit_obstacle = big_boi.body.last_obstacle_hit
+		if hit_obstacle != null:
+			hit_obstacle.global_position = big_boi.body.global_position + big_boi.body.last_obstacle_offset
 
 func _process(delta):
 	fps = delta
 	# Hit panel hiding
 	if hit_color_zeroing:
 		var c : Color = hit_frame.self_modulate
-		c = c.lerp(Color(1,1,1,(hp_start - hp) * .05), delta * 5)
+		c = c.lerp(Color(1, 1, 1, (hp_start - hp) * .05), delta * 5)
 		hit_frame.self_modulate = c
 	# BG movement
 	if !bg_lock:
@@ -168,7 +177,7 @@ func _process(delta):
 		% [Engine.get_frames_per_second(), fpsp, small_bubble.position.x, small_bubble.position.y]
 
 func _input(_event):
-	if Input.is_action_just_pressed("ui_cancel"):
+	if Input.is_action_just_pressed("ui_cancel") && !lock_logic:
 		pause_game()
 
 func _notification(what):
@@ -256,6 +265,9 @@ func on_player_death():
 	# Stop spawning
 	spawner.force_active = false
 	# Stop-time
+		# Line 
+	big_boi.set_deferred("process_mode", Node.PROCESS_MODE_DISABLED)
+		# Obstacles
 	for obs in obstacles_array:
 		if obs == null:
 			continue
@@ -264,6 +276,12 @@ func on_player_death():
 	for pickup in $Pickups.get_children() as Array[PickUpBase]:
 		pickup.queue_free()
 		$Pickups.remove_child(pickup)
+	# Visuals YAY
+	big_boi.body.modulate = Color(0.75, 0.75, 0.75, 0.5)
+	big_boi.body.z_index = 50
+	if big_boi.body.last_obstacle_hit != null:
+		big_boi.body.last_obstacle_hit.modulate = Color(1, 1, 1, 0.75)
+		big_boi.body.last_obstacle_hit.z_index = 49
 
 func damage_muffle():
 	var volume = SvM.data["volume_master"];
@@ -288,7 +306,7 @@ func on_paused(paused):
 	if paused:
 		actual_speed_multi *= GmM.paused_slowdown
 		pause_panel.visible = true
-		pause_panel.body_label.text = "[center]The game is paused!\n\nScore: %sm." % round(ScM.distance)
+		pause_panel.body_label.text = "[center]The game is paused!\nDistance: %sm." % round(ScM.distance)
 	else:
 		actual_speed_multi = speed_multi
 		pause_panel.visible = false
