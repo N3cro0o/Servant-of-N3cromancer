@@ -32,9 +32,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 25
+theme_override_constants/margin_top = 75
 theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 25
+theme_override_constants/margin_bottom = 75
 
 [node name="Box" type="VBoxContainer" parent="Margin"]
 layout_mode = 2
@@ -43,13 +43,14 @@ theme_override_constants/separation = 25
 [node name="Upper" type="MarginContainer" parent="Margin/Box"]
 layout_mode = 2
 size_flags_vertical = 3
+size_flags_stretch_ratio = 0.8
 
 [node name="YouDiedBruhLabel" type="RichTextLabel" parent="Margin/Box/Upper"]
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_font_sizes/normal_font_size = 180
 bbcode_enabled = true
-text = "[center]You failed to escape"
+text = "[center]You failed!"
 fit_content = true
 
 [node name="Middle" type="MarginContainer" parent="Margin/Box"]
@@ -58,6 +59,7 @@ size_flags_vertical = 3
 
 [node name="DescriptionLabel" type="RichTextLabel" parent="Margin/Box/Middle"]
 layout_mode = 2
+size_flags_vertical = 4
 theme_override_font_sizes/normal_font_size = 64
 text = "Papaj"
 fit_content = true
@@ -65,24 +67,14 @@ fit_content = true
 [node name="Bottom" type="MarginContainer" parent="Margin/Box"]
 layout_mode = 2
 size_flags_vertical = 3
+size_flags_stretch_ratio = 0.3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Margin/Box/Bottom"]
-layout_mode = 2
-theme_override_constants/separation = 35
-alignment = 1
-
-[node name="ResetTimerLabel" type="RichTextLabel" parent="Margin/Box/Bottom/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/normal_font_size = 64
-bbcode_enabled = true
-text = "Emm"
-fit_content = true
-
-[node name="ResetButton" type="Button" parent="Margin/Box/Bottom/VBoxContainer"]
+[node name="VBoxContainer" type="GridContainer" parent="Margin/Box/Bottom"]
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_font_sizes/font_size = 74
-text = "RESET"
+size_flags_vertical = 4
+theme_override_constants/h_separation = 200
+columns = 2
 
 [node name="EndButton" type="Button" parent="Margin/Box/Bottom/VBoxContainer"]
 layout_mode = 2
@@ -90,5 +82,12 @@ size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 74
 text = "QUIT"
 
-[connection signal="pressed" from="Margin/Box/Bottom/VBoxContainer/ResetButton" to="." method="on_reset_bttn_press"]
+[node name="ResetButton" type="Button" parent="Margin/Box/Bottom/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 74
+text = "RESET"
+
+[connection signal="gui_input" from="." to="." method="hold_timer_gui_input"]
 [connection signal="pressed" from="Margin/Box/Bottom/VBoxContainer/EndButton" to="." method="on_end_bttn_press"]
+[connection signal="pressed" from="Margin/Box/Bottom/VBoxContainer/ResetButton" to="." method="on_reset_bttn_press"]

@@ -44,7 +44,7 @@ const PICKUP_BASE = preload(PICKUP_PATH)
 	$"Spawners/1", $"Spawners/2", $"Spawners/3", $"Spawners/4", $"Spawners/5"]
 @onready var spawn_timer_arr: Array[Timer] = [$"1", $"2", $"3", $"4", $"5"]
 
-## Variable used to *force* spawner to be disabled
+## Variable used to *force* spawner to be disabled. True is normal value
 var force_active := true:
 	set(active_bool):
 		force_active = active_bool

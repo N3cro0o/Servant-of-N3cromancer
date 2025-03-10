@@ -2,6 +2,8 @@
 class_name GameScene extends Node2D
 static var instance : GameScene
 
+# Stop PauseMenu when dead, force paused when dead, add grace period for skull
+
 #region Enums
 
 enum state {
@@ -139,7 +141,8 @@ func _ready():
 
 func _physics_process(delta):
 	fpsp = delta
-	ScM.distance += speed * delta
+	if !lock_logic:
+		ScM.distance += speed * delta
 
 func _process(delta):
 	fps = delta
@@ -242,14 +245,20 @@ func on_hit_timer_timeout():
 	hit_color_zeroing = true
 
 func on_player_death():
+	if lock_logic:
+		return
 	print_rich("[hint=GameScene]Game Over![/hint]")
 	p_state = state.DED
 	lock_logic = true
 	bg_lock = true
 	on_failing_level.emit()
 	GmM.after_game_over_logic(0)
+	# Stop spawning
+	spawner.force_active = false
 	# Stop-time
 	for obs in obstacles_array:
+		if obs == null:
+			continue
 		obs.stop_move()
 	spawner.active = false
 	for pickup in $Pickups.get_children() as Array[PickUpBase]:
