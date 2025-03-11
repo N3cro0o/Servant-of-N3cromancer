@@ -60,8 +60,9 @@ func _on_hitbox_activation(body):
 	if body is ObstacleGravityBase:
 		if body.damage >= 0:
 			var d = body.damage
-			last_obstacle_hit = body
-			last_obstacle_offset = body.global_position - global_position
+			if GameScene.instance != null && GameScene.instance.p_state != -3:
+				last_obstacle_hit = body
+				last_obstacle_offset = body.global_position - global_position
 			body.body_hit = true
 			var dir_vec: Vector2 = body.global_position - global_position
 			if shield_sprite.modulate.a > 0.0 && body.damage > 0:

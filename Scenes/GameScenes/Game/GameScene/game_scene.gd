@@ -54,6 +54,8 @@ var bg_lock := false
 var lock_diff = false
 var stage = 0
 var boss
+var death_movement = false
+var death_timer = 0.0
 
 # Button vars
 var margin_side = 75
@@ -144,14 +146,16 @@ func _physics_process(delta):
 	if !lock_logic:
 		ScM.distance += speed * delta
 	if p_state == state.DED:
+		death_timer += delta
 		for bttn in camera_buttons:
 			bttn.visible = false
 		pause_panel.visible = false
 		# Death movement
-		big_boi.body.position.y = lerpf(big_boi.body.position.y, -150.0, delta * big_boi.death_speed)
-		var hit_obstacle = big_boi.body.last_obstacle_hit
-		if hit_obstacle != null:
-			hit_obstacle.global_position = big_boi.body.global_position + big_boi.body.last_obstacle_offset
+		if death_movement && death_timer > 1.5:
+			big_boi.body.position.y = lerpf(big_boi.body.position.y, -150.0, delta * big_boi.death_speed)
+			var hit_obstacle = big_boi.body.last_obstacle_hit
+			if hit_obstacle != null:
+				hit_obstacle.global_position = big_boi.body.global_position + big_boi.body.last_obstacle_offset
 
 func _process(delta):
 	fps = delta
@@ -257,6 +261,7 @@ func on_player_death():
 	if lock_logic:
 		return
 	print_rich("[hint=GameScene]Game Over![/hint]")
+	death_movement = true
 	p_state = state.DED
 	lock_logic = true
 	bg_lock = true
