@@ -1,12 +1,23 @@
-[gd_scene load_steps=6 format=3 uid="uid://dydoshehcpuh2"]
+[gd_scene load_steps=11 format=3 uid="uid://dydoshehcpuh2"]
 
-[ext_resource type="Script" path="res://Scenes/Obstacles/Non-gravity/Obstacle1/vertical_obstacle.gd" id="1_afigr"]
+[ext_resource type="Script" path="res://Scenes/Obstacles/Non-gravity/Obstacle1/vertical_obstacle_new.gd" id="1_0caor"]
 [ext_resource type="Resource" uid="uid://bal5m5yrck2w" path="res://Scenes/Obstacles/Non-gravity/Obstacle1/vertical_obstacle_1.tres" id="2_a45ct"]
-[ext_resource type="Texture2D" uid="uid://2g2u76harw2m" path="res://Images/circle_shape_black.png" id="3_rwlss"]
-[ext_resource type="Texture2D" uid="uid://bc7l7rnsljjrt" path="res://Images/Obstacles/Wall/1/Static wall.png" id="3_yaxk1"]
+[ext_resource type="Texture2D" uid="uid://cynesng6h84n7" path="res://Images/Obstacles/Wall/2/new_explodo_rock1.png" id="3_5d0hg"]
+[ext_resource type="Texture2D" uid="uid://bjpxlmf42rk0q" path="res://Images/Obstacles/Wall/2/new_explodo_rock2.png" id="4_su8qo"]
+[ext_resource type="Texture2D" uid="uid://cep2dtxht28ga" path="res://Images/Obstacles/Wall/2/new_explodo_rock3.png" id="5_hiobs"]
+[ext_resource type="Texture2D" uid="uid://2g2u76harw2m" path="res://Images/circle_shape_black.png" id="6_itwug"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ttfsv"]
+radius = 25.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_w58p1"]
+radius = 25.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_r4sox"]
+radius = 25.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hctr1"]
-size = Vector2(182, 124)
+size = Vector2(214, 163)
 
 [node name="VerticalObstacle" type="RigidBody2D"]
 collision_layer = 4
@@ -15,28 +26,90 @@ gravity_scale = 0.0
 can_sleep = false
 lock_rotation = true
 freeze = true
-script = ExtResource("1_afigr")
+script = ExtResource("1_0caor")
 spawn_data = ExtResource("2_a45ct")
 
-[node name="SpriteShadow" type="Sprite2D" parent="."]
-modulate = Color(1, 1, 1, 0.75)
-z_index = -11
-position = Vector2(0, 62)
-scale = Vector2(1.3125, 0.34375)
-texture = ExtResource("3_rwlss")
-
-[node name="SpriteBG" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 0, 0.364706)
+[node name="BodyR" type="RigidBody2D" parent="."]
 z_index = -1
-position = Vector2(0, -2)
-scale = Vector2(1.03125, 1.03125)
-texture = ExtResource("3_yaxk1")
+position = Vector2(-55, 16)
+collision_layer = 0
+collision_mask = 0
+gravity_scale = 0.0
+angular_damp = 55.0
 
-[node name="SpriteMain" type="Sprite2D" parent="."]
+[node name="SpriteR" type="Sprite2D" parent="BodyR"]
+rotation = -1.5708
+texture = ExtResource("3_5d0hg")
+
+[node name="SpriteRS" type="Sprite2D" parent="BodyR"]
+modulate = Color(0.227, 0.227, 0.227, 0.362)
 z_index = -1
-texture = ExtResource("3_yaxk1")
+rotation = -1.5708
+scale = Vector2(1.05, 1.05)
+texture = ExtResource("3_5d0hg")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BodyR"]
 visible = false
-position = Vector2(0, 2)
+shape = SubResource("CircleShape2D_ttfsv")
+
+[node name="BodyL" type="RigidBody2D" parent="."]
+position = Vector2(57, 15)
+collision_layer = 0
+collision_mask = 0
+gravity_scale = 0.0
+angular_damp = 55.0
+
+[node name="SpriteL" type="Sprite2D" parent="BodyL"]
+texture = ExtResource("4_su8qo")
+
+[node name="SpriteLS" type="Sprite2D" parent="BodyL"]
+modulate = Color(0.227, 0.227, 0.227, 0.362)
+z_index = -1
+scale = Vector2(1.05, 1.05)
+texture = ExtResource("4_su8qo")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BodyL"]
+visible = false
+shape = SubResource("CircleShape2D_w58p1")
+
+[node name="BodyM" type="RigidBody2D" parent="."]
+z_index = 1
+position = Vector2(4, -30)
+collision_layer = 0
+collision_mask = 0
+gravity_scale = 0.0
+angular_damp = 55.0
+
+[node name="SpriteMain" type="Sprite2D" parent="BodyM"]
+texture = ExtResource("5_hiobs")
+
+[node name="SpriteMainS" type="Sprite2D" parent="BodyM"]
+modulate = Color(0.227, 0.227, 0.227, 0.362)
+z_index = -1
+scale = Vector2(1.05, 1.05)
+texture = ExtResource("5_hiobs")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BodyM"]
+visible = false
+shape = SubResource("CircleShape2D_r4sox")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0, 5.5)
 shape = SubResource("RectangleShape2D_hctr1")
+
+[node name="SpriteShadow" type="Sprite2D" parent="."]
+modulate = Color(0.525, 0.525, 0.525, 0.703)
+z_index = -2
+position = Vector2(11, 67)
+scale = Vector2(1.60938, 0.328125)
+texture = ExtResource("6_itwug")
+
+[node name="BumTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Modulate_timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="BumTimer" to="." method="_on_bum_timer_timeout"]
+[connection signal="timeout" from="Modulate_timer" to="." method="_on_modulate_timer_timeout"]

@@ -33,7 +33,7 @@ enemy_stages = Array[ExtResource("2_3iuus")]([ExtResource("3_s3x3a"), ExtResourc
 button_height_scale = 1.6
 
 [node name="WindowBox" type="Control" parent="."]
-z_index = 20
+z_index = 101
 layout_mode = 3
 anchors_preset = 0
 offset_right = 1080.0
@@ -151,7 +151,7 @@ position = Vector2(540, 1200)
 
 [node name="ButtonL" type="TouchScreenButton" parent="Camera2D"]
 self_modulate = Color(1, 1, 1, 0.745098)
-z_index = 1
+z_index = 100
 position = Vector2(-505, 876)
 scale = Vector2(1.75, 1.75)
 texture_normal = ExtResource("10_7vqps")
@@ -160,7 +160,7 @@ action = "key_left"
 
 [node name="ButtonR" type="TouchScreenButton" parent="Camera2D"]
 self_modulate = Color(1, 1, 1, 0.745098)
-z_index = 1
+z_index = 100
 position = Vector2(504, 1137)
 rotation = 3.14159
 scale = Vector2(1.87109, 2.14063)
@@ -178,9 +178,11 @@ spawner_offset = Vector2(540, -300)
 [node name="Pickups" type="Node2D" parent="."]
 
 [node name="PlayerLine" parent="." instance=ExtResource("1_0j60h")]
+z_index = 20
 position = Vector2(540, 1920)
 
 [node name="MouseEntity" parent="." instance=ExtResource("2_fwa26")]
+z_index = 30
 position = Vector2(540, 1557)
 
 [node name="Killers" type="Node" parent="."]

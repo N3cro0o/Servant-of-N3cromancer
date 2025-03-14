@@ -284,6 +284,10 @@ func spawn(num, object: ObstacleGravityBase, data: SpawnObstacleDataHolder):
 	else:
 		$Obstacles.add_child(object)
 	# Basic stuff
+	if data.type == 1:
+		object.z_index = -5
+	else:
+		object.z_index = 0
 	object.position = spawn_points_arr[num].position
 	object.add_start_velocity(Vector2(0,-20) * GmM.game_speed, spawn_points_arr[num].rotation)
 	object.player_body = PlayerLine1.instance
@@ -348,6 +352,7 @@ func spawn_pickup(num):
 	scene_pickup.position = spawn_points_arr[num].position
 	# Set pickup props
 	scene_pickup.spawn_data = pickup_data
+	scene_pickup.z_index = 5
 
 # Paused functions
 func on_paused(paused):
