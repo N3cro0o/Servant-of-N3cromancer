@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cor3guxh347t7"]
+[gd_scene load_steps=28 format=3 uid="uid://cor3guxh347t7"]
 
 [ext_resource type="Script" path="res://Masters/GameMaster/GM.gd" id="1_cy212"]
 [ext_resource type="Script" path="res://Resources/DataHolders/Script/item_shop_data.gd" id="2_naigj"]
@@ -13,6 +13,20 @@
 [ext_resource type="Resource" uid="uid://dsu1xapvsjh57" path="res://Scenes/PlayerCharacter/PlayerBody/Fast/fast.tres" id="7_0ti8r"]
 [ext_resource type="PackedScene" uid="uid://do88bn15nxcbu" path="res://Scenes/GameScenes/Manu/OptionsMenu/options.tscn" id="11_ov1ce"]
 [ext_resource type="PackedScene" uid="uid://depbnw57vsktm" path="res://Scenes/GameScenes/Game/Tutoriel/tutorial_scene.tscn" id="13_e5qx1"]
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/spawn_obstacle_data_holder.gd" id="14_wcyi1"]
+[ext_resource type="Resource" uid="uid://bj47i888dekbp" path="res://Scenes/Obstacles/Bosses/Boss1/boss_1.tres" id="15_86kr1"]
+[ext_resource type="Resource" uid="uid://chynsxlq4cx8l" path="res://Scenes/Obstacles/Gravity/Obstacle1/gravity_obstacle_1.tres" id="16_lkf3c"]
+[ext_resource type="Resource" uid="uid://cnyqvmeyqttle" path="res://Scenes/Obstacles/Gravity/Obstacle2 - Splitter/splitter.tres" id="17_smc45"]
+[ext_resource type="Resource" uid="uid://wyuyky2saif6" path="res://Scenes/Obstacles/Gravity/Obstacle3 - Bullet/bullet.tres" id="18_jqsjv"]
+[ext_resource type="Resource" uid="uid://dj1bcy6upyt3g" path="res://Scenes/Obstacles/Homing/Obstacle1/homing_gravity_1.tres" id="19_hh81k"]
+[ext_resource type="Resource" uid="uid://bal5m5yrck2w" path="res://Scenes/Obstacles/Non-gravity/Obstacle1/vertical_obstacle_1.tres" id="20_iftiu"]
+[ext_resource type="Resource" uid="uid://ceur701l7a75w" path="res://Scenes/Obstacles/Non-gravity/Obstacle2 - Wide/static_wide.tres" id="21_064ua"]
+[ext_resource type="Resource" uid="uid://23r2kj0qc0k3" path="res://Scenes/Obstacles/Non-gravity/Obstacle3 - GravityShift/shield_static.tres" id="22_wjns0"]
+[ext_resource type="Resource" uid="uid://dvpqolnkgjja4" path="res://Scenes/Obstacles/Non-gravity/Obstacle4 - teleport/telep.tres" id="23_4sc7t"]
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/spawn_pickup_data_holder.gd" id="24_hgcpr"]
+[ext_resource type="Resource" uid="uid://drv2mwl03kmv4" path="res://Scenes/PowerUpsAndPickUps/Insta-shield/insta_shield.tres" id="25_cglwb"]
+[ext_resource type="Resource" uid="uid://cjsyk324p42aq" path="res://Scenes/PowerUpsAndPickUps/PLN/coin_data.tres" id="26_0lw38"]
+[ext_resource type="Resource" uid="uid://c58fbv2edq6cw" path="res://Scenes/PowerUpsAndPickUps/Repulsor/repulsor_data.tres" id="27_nijcf"]
 
 [node name="GM" type="Node"]
 script = ExtResource("1_cy212")
@@ -21,6 +35,8 @@ items = Array[ExtResource("2_naigj")]([ExtResource("3_kcmeh"), ExtResource("5_hi
 pickup_spawn_period = 15
 body_holder_array = Array[ExtResource("6_nwhum")]([ExtResource("6_1xkax"), ExtResource("7_0ti8r")])
 scene_array = Array[PackedScene]([ExtResource("2_v7m5h"), ExtResource("3_csgce"), ExtResource("5_ol480"), ExtResource("11_ov1ce"), ExtResource("13_e5qx1")])
+obstacle_arr = Array[ExtResource("14_wcyi1")]([ExtResource("15_86kr1"), ExtResource("16_lkf3c"), ExtResource("17_smc45"), ExtResource("18_jqsjv"), ExtResource("19_hh81k"), ExtResource("20_iftiu"), ExtResource("21_064ua"), ExtResource("22_wjns0"), ExtResource("23_4sc7t")])
+pickup_arr = Array[ExtResource("24_hgcpr")]([ExtResource("25_cglwb"), ExtResource("26_0lw38"), ExtResource("27_nijcf")])
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3

@@ -34,6 +34,7 @@ enum pickup_type_enum
 				bg_sprite.visible = true
 				sprite.scale = Vector2(0.825, 0.825)
 				sprite.position = Vector2(-5, 15)
+@export var pickup_id: int
 @export_range(1, 1000) var weight := 1
 @onready var coll_shape := $CollisionShape2D
 @onready var sprite : Sprite2D = $MainSprite
@@ -46,7 +47,7 @@ var collision_radius :float:
 	set(i):
 		collision_radius = i
 		coll_shape.shape.radius = i
-		
+
 #endregion
 
 # Basic Godot functions
@@ -64,6 +65,8 @@ func _physics_process(_delta: float) -> void:
 func update_parms():
 	if !loaded:
 		return
+	# ID
+	pickup_id = spawn_data.pickup_id
 	# Strings & enums
 	name = spawn_data.name
 	type = spawn_data.type
@@ -78,6 +81,7 @@ func update_parms():
 func on_hit_activate():
 	print_rich(debug_string % [name, "Picked Up!"])
 	action._do_action()
+	TsM.pickup_listener(pickup_id)
 	queue_free()
 
 # Paused functions

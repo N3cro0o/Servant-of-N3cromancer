@@ -4,8 +4,9 @@ class_name SaveManager extends Node
 #region Variables & constants
 ## This is where data is saved... duh\n
 ## Should change to the save dir, not to the file
-const SAVE_PATH = "user://czacha_zapis.json"
-
+const SAVE_DATA_PATH = "user://czacha_zapis.json"
+const SAVE_RESOURCE_PATH = "user://resources/"
+const SAVE_TASKS_PATH = "tasks/%d.tres"
 @export var save_version = 1.2
 
 var data = {
@@ -32,10 +33,12 @@ signal on_load_completed
 #endregion
 
 func _ready():
-	if check_path(SAVE_PATH):
+	if check_path(SAVE_DATA_PATH):
 		load_data()
 	else:
 		reset_data()
+	# Create task directory
+	DirAccess.make_dir_recursive_absolute(SAVE_RESOURCE_PATH + "tasks")
 
 # Save system functions
 func reset_data():
@@ -55,7 +58,7 @@ func reset_data():
 ## Save game data to local data
 func save_data():
 	if OS.is_userfs_persistent():
-		var file = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
+		var file = FileAccess.open(SAVE_DATA_PATH, FileAccess.WRITE)
 		var json = JSON.stringify(data,"   \t")
 		file.store_string(json)
 		file.close()
@@ -71,7 +74,7 @@ func check_path(path : String):
 
 func check_data(_path: String) -> bool:
 	if OS.is_userfs_persistent():
-		var file = FileAccess.open(SAVE_PATH, FileAccess.READ)
+		var file = FileAccess.open(SAVE_DATA_PATH, FileAccess.READ)
 		var json = file.get_as_text()
 		var data_loaded = JSON.parse_string(json)
 		file.close()
@@ -86,7 +89,7 @@ func check_data(_path: String) -> bool:
 
 func load_data():
 	if OS.is_userfs_persistent():
-		var file = FileAccess.open(SAVE_PATH, FileAccess.READ)
+		var file = FileAccess.open(SAVE_DATA_PATH, FileAccess.READ)
 		var json = file.get_as_text()
 		var data_loaded = JSON.parse_string(json)
 		file.close()
@@ -117,6 +120,17 @@ func load_data():
 			# Volume master
 		Sfx.update_bus_volume("master", data["volume_master"])
 	on_load_completed.emit()
+
+# Save resources functions
+func check_task(id: int) -> bool:
+	return ResourceLoader.exists(SAVE_RESOURCE_PATH + SAVE_TASKS_PATH % id, "TaskHolder")
+
+func save_task(res: Resource, id: int):
+	ResourceSaver.save(res, SAVE_RESOURCE_PATH + SAVE_TASKS_PATH % id)
+
+func load_task(id: int) -> TaskHolder:
+	var task = ResourceLoader.load(SAVE_RESOURCE_PATH + SAVE_TASKS_PATH % id, "TaskHolder")
+	return task
 
 # Update game data functions
 func update_player_body(body_id : int):

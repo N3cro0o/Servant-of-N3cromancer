@@ -51,6 +51,7 @@ lock_rotation = true
 freeze = true
 script = ExtResource("1_6p4po")
 speed = 200.0
+obstacle_id = 7
 spawn_data = ExtResource("2_kqvbx")
 damage = 0
 

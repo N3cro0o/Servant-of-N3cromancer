@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource("1_v51qt")
+obstacle_id = 204
 scene_directory = "res://Scenes/Obstacles/Non-gravity/Obstacle4 - teleport/teleporter.tscn"
 type = 1
 weight = 3

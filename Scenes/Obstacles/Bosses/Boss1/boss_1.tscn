@@ -18,6 +18,7 @@ freeze = true
 freeze_mode = 1
 script = ExtResource("1_5pmoh")
 speed = 25.0
+obstacle_id = -1
 damage = -1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

@@ -16,7 +16,7 @@ func _ready():
 	# Reset Score manager
 	ScM.reset_score()
 	# Save only if data is updated
-	if !SvM.check_data(SvM.SAVE_PATH):
+	if !SvM.check_data(SvM.SAVE_DATA_PATH):
 		SvM.save_data()
 	if !GmM.web_development:
 		$"GPUParticles2D-1".amount_ratio = SvM.return_particle_amount()

@@ -13,9 +13,11 @@ class_name GM extends Node
 ## NOT CHANCE[br]
 ## Variable used to calculate frequency of pickups, shows mean objects required to spawn a pickup
 @export var pickup_spawn_period = 5
+@export_group("GameDataArrays")
 @export var body_holder_array : Array[PlayerBodyHolder]
 @export var scene_array : Array[PackedScene]
-
+@export var obstacle_arr: Array[SpawnObstacleDataHolder]
+@export var pickup_arr: Array[SpawnPickupDataHolder]
 @export_group("Pause")
 ## Change this value to change the game speed while paused[br]
 ## Default = 0.05
@@ -83,6 +85,7 @@ func _ready():
 	screen_black.color = Color(black_colour, 1)
 	transition_iterat = transition_speed * 60
 	await SvM.on_load_completed
+	TsM.setup()
 	if !SvM.data["tutorial"]:
 		change_scene(4)
 	else:

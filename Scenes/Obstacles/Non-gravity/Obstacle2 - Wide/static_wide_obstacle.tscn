@@ -11,6 +11,7 @@ can_sleep = false
 lock_rotation = true
 freeze = true
 script = ExtResource("1_lk0ac")
+obstacle_id = 6
 spawn_data = ExtResource("2_o2llh")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]

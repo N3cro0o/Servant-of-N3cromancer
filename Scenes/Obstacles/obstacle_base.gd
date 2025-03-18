@@ -12,6 +12,8 @@ const debug_string = "[hint=%s]%s[/hint]"
 @export var can_lock_rotation = false
 @export_range(0, 5) var grace_period = 0.0
 @onready var last_position = position
+##Obstacle ID. [code]ID[/code] = 0 is recognised as unnasigned
+var obstacle_id: int
 ## Variable saved during initialisation in ObstacleSpawner
 var player_body : PlayerLine1
 var timer := 0.0
@@ -63,8 +65,9 @@ func _physics_process(delta):
 		unpaused_vel = linear_velocity
 
 func _notification(what):
-	# Before deletions logic
+	# Before deletion logic
 	if what == NOTIFICATION_PREDELETE and GameScene.instance != null:
+		TsM.obstacle_listener(obstacle_id)
 		GameScene.instance.on_obstacle_remove(self)
 
 # Velocity functions

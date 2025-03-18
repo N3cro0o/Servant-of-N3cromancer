@@ -2,6 +2,8 @@ class_name SpawnObstacleDataHolder extends Resource
 
 # Variables
 @export_category("Base")
+##Obstacle ID. [code]ID[/code] = 0 is recognised as unnasigned
+@export var obstacle_id: int
 ##Engine absolute path to desired scene to initialize
 @export var scene_directory := ""
 

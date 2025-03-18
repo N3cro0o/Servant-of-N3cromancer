@@ -288,6 +288,7 @@ func spawn(num, object: ObstacleGravityBase, data: SpawnObstacleDataHolder):
 		object.z_index = -5
 	else:
 		object.z_index = 0
+	object.obstacle_id = data.obstacle_id
 	object.position = spawn_points_arr[num].position
 	object.add_start_velocity(Vector2(0,-20) * GmM.game_speed, spawn_points_arr[num].rotation)
 	object.player_body = PlayerLine1.instance
