@@ -64,7 +64,7 @@ func task_desc() -> String:
 			var name: String
 			for pick in GmM.pickup_arr:
 				if pick.pickup_id == x:
-					name = "%s %s" % [pick.name, str(pick.type)]
+					name = "%s %s" % [pick.name, PickUpBase.pickup_type_enum.find_key(pick.type)]
 			return "Find and collect %s pickup %d/%d times" % [name, y_progress, y]
 		_:
 			return ""

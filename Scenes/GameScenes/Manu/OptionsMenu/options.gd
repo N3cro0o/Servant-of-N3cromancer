@@ -15,6 +15,12 @@ extends Control
 @onready var particle_slider: HSlider = $Margin/VBox/Main/Options/Margin/VBox/Graphics/Particle/ParticleSlider
 @onready var version_label: Label = $Margin/VBox/Main/Options/Margin/VBox/Label
 @onready var debug_label_button: CheckButton = $Margin/VBox/Main/Options/Margin/VBox/Graphics/DebugLabelButton
+# Tasks
+@onready var task_grid: TaskGrid = $Margin/VBox/Main/Tasks/Margin/V/Box/TaskGrid
+@onready var task_label: Label = $Margin/VBox/Main/Tasks/Margin/V/Options/Completed
+@onready var text_task1: Label = $Margin/VBox/Main/Tasks/Margin/V/Options/Text1
+@onready var text_task2: Label = $Margin/VBox/Main/Tasks/Margin/V/Options/Text2
+@onready var text_task3: Label = $Margin/VBox/Main/Tasks/Margin/V/Options/Text3
 
 var active_tab = 0
 var active_body = 0
@@ -34,6 +40,35 @@ func _ready():
 	master_slider.value = SvM.data["volume_master"]
 	particle_slider.value = SvM.return_particle_amount()
 	debug_label_button.button_pressed = GmM.debug_label_visible
+	task_grid.update_data()
+	update_task_label()
+	if TsM.task_arr.size() >= 1:
+		text_task1.text = "Task 1. %s" % [TsM.task_arr[0].task_name()]
+		$Margin/VBox/Main/Tasks/Margin/V/Options/Buttons1/Skip.pressed.\
+			connect(func(): TsM.skip_task(TsM.task_arr[0]); task_grid.update_data(); update_task_label())
+		$Margin/VBox/Main/Tasks/Margin/V/Options/Buttons1/Reroll.pressed.\
+			connect(func(): TsM.reroll_task(TsM.task_arr[0]); task_grid.update_data(); update_task_label())
+	else:
+		text_task1.text = ""
+		$Margin/VBox/Main/Tasks/Margin/V/Options/Buttons1.visible = false
+	if TsM.task_arr.size() >= 2:
+		text_task2.text = "Task 2. %s" % [TsM.task_arr[1].task_name()]
+		$Margin/VBox/Main/Tasks/Margin/V/Options/Buttons2/Skip.pressed.\
+			connect(func(): TsM.skip_task(TsM.task_arr[1]); task_grid.update_data(); update_task_label())
+		$Margin/VBox/Main/Tasks/Margin/V/Options/Buttons2/Reroll.pressed.\
+			connect(func(): TsM.reroll_task(TsM.task_arr[1]); task_grid.update_data(); update_task_label())
+	else:
+		text_task2.text = ""
+		$Margin/VBox/Main/Tasks/Margin/V/Options/Buttons2.visible = false
+	if TsM.task_arr.size() >= 3:
+		text_task3.text = "Task 3. %s" % [TsM.task_arr[2].task_name()]
+		$Margin/VBox/Main/Tasks/Margin/V/Options/Buttons3/Skip.pressed.\
+			connect(func(): TsM.skip_task(TsM.task_arr[2]); task_grid.update_data(); update_task_label())
+		$Margin/VBox/Main/Tasks/Margin/V/Options/Buttons3/Reroll.pressed.\
+			connect(func(): TsM.reroll_task(TsM.task_arr[2]); task_grid.update_data(); update_task_label())
+	else:
+		text_task3.text = ""
+		$Margin/VBox/Main/Tasks/Margin/V/Options/Buttons3.visible = false
 	# Unlocks
 	set_unlockable_panels()
 	update_customisattion_body_data()
@@ -103,6 +138,11 @@ func change_particle_amount(num):
 
 func debug_label_toggle(b):
 	GmM.debug_label_visible = b
+
+# UI functions
+func update_task_label():
+	task_label.text = "Tasks completed: %d\nTasks skipped: %d" % [SvM.return_tasks_completed(),\
+		SvM.return_tasks_skipped()]
 
 # Credits buttons
 func itch_button_credits():

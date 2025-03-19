@@ -1,10 +1,11 @@
-[gd_scene load_steps=24 format=3 uid="uid://do88bn15nxcbu"]
+[gd_scene load_steps=25 format=3 uid="uid://do88bn15nxcbu"]
 
 [ext_resource type="Script" path="res://Scenes/GameScenes/Manu/OptionsMenu/options.gd" id="1_dibnq"]
 [ext_resource type="Theme" uid="uid://do6gg3r8fydfa" path="res://Resources/Themes/main_theme.tres" id="1_i7ifc"]
 [ext_resource type="Script" path="res://Resources/RandomScripts/game_button.gd" id="2_dtl4u"]
 [ext_resource type="Texture2D" uid="uid://8glmydbtnfi0" path="res://Images/UI/DirectionKey/1/arrow key1.png" id="3_rrsx8"]
 [ext_resource type="Texture2D" uid="uid://b613ar7xw3mka" path="res://Images/BG/BG.png" id="3_vwox8"]
+[ext_resource type="PackedScene" uid="uid://y2q4kerc0f8g" path="res://Scenes/UI/TaskGrid/task_grid.tscn" id="4_2xjqw"]
 [ext_resource type="Texture2D" uid="uid://33lao13rogp1" path="res://Images/Menu/Credits/itch.logo.png" id="5_l6pu5"]
 [ext_resource type="LabelSettings" uid="uid://mp2p7an3rv7" path="res://Resources/Themes/LabelSettings/option_settings.tres" id="5_wuwyj"]
 [ext_resource type="Texture2D" uid="uid://b4iv2tsyrl17g" path="res://Images/Menu/Credits/twitter-x-seeklogo1.png" id="6_ilpl1"]
@@ -40,6 +41,8 @@ expand_margin_bottom = 2.0
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tcx73"]
 content_margin_left = 10.0
 texture = ExtResource("9_q2qlw")
+expand_margin_left = 10.0
+expand_margin_right = 10.0
 modulate_color = Color(0.729412, 0.431373, 0.956863, 0.129412)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ldjlp"]
@@ -93,15 +96,138 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 8.0
 theme_override_styles/panel = SubResource("StyleBoxEmpty_i3u2l")
 tab_alignment = 1
-current_tab = 1
+current_tab = 0
 tabs_visible = false
 use_hidden_tabs_for_min_size = true
 tab_focus_mode = 0
 
+[node name="Tasks" type="Control" parent="Margin/VBox/Main"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="Margin" type="MarginContainer" parent="Margin/VBox/Main/Tasks"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="V" type="VBoxContainer" parent="Margin/VBox/Main/Tasks/Margin"]
+layout_mode = 2
+alignment = 1
+
+[node name="Box" type="Control" parent="Margin/VBox/Main/Tasks/Margin/V"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TaskGrid" parent="Margin/VBox/Main/Tasks/Margin/V/Box" instance=ExtResource("4_2xjqw")]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -66.5
+offset_bottom = 66.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Options" type="VBoxContainer" parent="Margin/VBox/Main/Tasks/Margin/V"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+theme_override_constants/separation = 50
+
+[node name="Completed" type="Label" parent="Margin/VBox/Main/Tasks/Margin/V/Options"]
+layout_mode = 2
+text = "Tak
+Nie"
+label_settings = ExtResource("5_wuwyj")
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="Margin/VBox/Main/Tasks/Margin/V/Options"]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="Gap" type="Control" parent="Margin/VBox/Main/Tasks/Margin/V/Options"]
+visible = false
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="Text1" type="Label" parent="Margin/VBox/Main/Tasks/Margin/V/Options"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+horizontal_alignment = 1
+
+[node name="Buttons1" type="HBoxContainer" parent="Margin/VBox/Main/Tasks/Margin/V/Options"]
+layout_mode = 2
+
+[node name="Skip" type="Button" parent="Margin/VBox/Main/Tasks/Margin/V/Options/Buttons1"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 84
+text = "Skip"
+
+[node name="Reroll" type="Button" parent="Margin/VBox/Main/Tasks/Margin/V/Options/Buttons1"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 84
+text = "Reroll"
+
+[node name="Gap2" type="Control" parent="Margin/VBox/Main/Tasks/Margin/V/Options"]
+visible = false
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="Text2" type="Label" parent="Margin/VBox/Main/Tasks/Margin/V/Options"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+horizontal_alignment = 1
+
+[node name="Buttons2" type="HBoxContainer" parent="Margin/VBox/Main/Tasks/Margin/V/Options"]
+layout_mode = 2
+
+[node name="Skip" type="Button" parent="Margin/VBox/Main/Tasks/Margin/V/Options/Buttons2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 84
+text = "Skip"
+
+[node name="Reroll" type="Button" parent="Margin/VBox/Main/Tasks/Margin/V/Options/Buttons2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 84
+text = "Reroll"
+
+[node name="Gap3" type="Control" parent="Margin/VBox/Main/Tasks/Margin/V/Options"]
+visible = false
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="Text3" type="Label" parent="Margin/VBox/Main/Tasks/Margin/V/Options"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+horizontal_alignment = 1
+
+[node name="Buttons3" type="HBoxContainer" parent="Margin/VBox/Main/Tasks/Margin/V/Options"]
+layout_mode = 2
+
+[node name="Skip" type="Button" parent="Margin/VBox/Main/Tasks/Margin/V/Options/Buttons3"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 84
+text = "Skip"
+
+[node name="Reroll" type="Button" parent="Margin/VBox/Main/Tasks/Margin/V/Options/Buttons3"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 84
+text = "Reroll"
+
 [node name="PlayerCustomization" type="Control" parent="Margin/VBox/Main"]
 visible = false
 layout_mode = 2
-metadata/_tab_index = 0
+metadata/_tab_index = 1
 
 [node name="Margin" type="MarginContainer" parent="Margin/VBox/Main/PlayerCustomization"]
 layout_mode = 1
@@ -343,8 +469,9 @@ grow_vertical = 2
 mouse_filter = 1
 
 [node name="Options" type="Control" parent="Margin/VBox/Main"]
+visible = false
 layout_mode = 2
-metadata/_tab_index = 1
+metadata/_tab_index = 2
 
 [node name="Margin" type="MarginContainer" parent="Margin/VBox/Main/Options"]
 layout_mode = 1
@@ -497,9 +624,10 @@ text = "Version"
 [node name="Tab" type="MarginContainer" parent="Margin/VBox"]
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 0.8
-theme_override_constants/margin_left = 50
-theme_override_constants/margin_right = 50
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 20
 
 [node name="TabBar" type="TabBar" parent="Margin/VBox/Tab"]
 layout_mode = 2
@@ -516,9 +644,10 @@ current_tab = 0
 tab_alignment = 1
 scrolling_enabled = false
 scroll_to_selected = false
-tab_count = 2
-tab_0/title = "  Customization  "
-tab_1/title = "  Options  "
+tab_count = 3
+tab_0/title = "Tasks"
+tab_1/title = "  Skulls  "
+tab_2/title = "  Options  "
 
 [node name="ReturnButotn" type="Button" parent="Margin/VBox"]
 layout_mode = 2

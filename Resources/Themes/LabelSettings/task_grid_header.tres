@@ -5,6 +5,5 @@
 [resource]
 font = ExtResource("1_xgsrt")
 font_size = 48
-outline_size = 3
-outline_color = Color(0.262932, 0.262932, 0.262932, 1)
-shadow_size = 0
+outline_size = 5
+outline_color = Color(0.103744, 0.103744, 0.103744, 1)

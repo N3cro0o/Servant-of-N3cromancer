@@ -6,6 +6,7 @@
 script = ExtResource("1_pdnnl")
 obstacle_id = 201
 scene_directory = "res://Scenes/Obstacles/Non-gravity/Obstacle1/vertical_obstacle.tscn"
+name = "Rocks"
 type = 1
 weight = 6
 flip = false

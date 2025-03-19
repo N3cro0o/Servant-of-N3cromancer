@@ -5,13 +5,13 @@ class_name TaskGrid extends GridContainer
 
 @onready var task_1: MarginContainer = $Task1
 @onready var nine_1: NinePatchRect = $Task1/NinePatchRect
-@onready var task1_labels: Array[Label] = [$Task1/Task1Container/Head, $Task1/Task1Container/Body]
+@onready var task1_labels: Array[Label] = [$Task1/Margin/Task1Container/Head, $Task1/Margin/Task1Container/Body]
 @onready var task_2: MarginContainer = $Task2
 @onready var nine_2: NinePatchRect = $Task2/NinePatchRect
-@onready var task2_labels: Array[Label] = [$Task2/Task2Container/Head, $Task2/Task2Container/Body]
+@onready var task2_labels: Array[Label] = [$Task2/Margin/Task2Container/Head, $Task2/Margin/Task2Container/Body]
 @onready var task_3: MarginContainer = $Task3
 @onready var nine_3: NinePatchRect = $Task3/NinePatchRect
-@onready var task3_labels: Array[Label] = [$Task3/Task3Container/Head, $Task3/Task3Container/Body]
+@onready var task3_labels: Array[Label] = [$Task3/Margin/Task3Container/Head, $Task3/Margin/Task3Container/Body]
 
 func update_data():
 	# Task 1

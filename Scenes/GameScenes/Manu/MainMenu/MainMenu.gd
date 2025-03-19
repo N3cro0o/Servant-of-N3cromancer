@@ -19,7 +19,7 @@ func _ready():
 	if !SvM.check_data(SvM.SAVE_DATA_PATH):
 		SvM.save_data()
 	# Get new tasks
-	TsM.fill()
+	TsM.add_one()
 	if !GmM.web_development:
 		$"GPUParticles2D-1".amount_ratio = SvM.return_particle_amount()
 	else:

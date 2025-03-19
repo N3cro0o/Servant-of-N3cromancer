@@ -117,7 +117,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 15
+theme_override_constants/separation = 60
 alignment = 1
 
 [node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer/MainBody/VBoxContainer"]
@@ -130,6 +130,7 @@ autowrap_mode = 2
 
 [node name="TaskGrid" parent="MarginContainer/VBoxContainer/MainBody/VBoxContainer" instance=ExtResource("7_1wppf")]
 layout_mode = 2
+columns = 1
 
 [node name="Buttons" type="Control" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2

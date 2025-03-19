@@ -6,6 +6,7 @@
 script = ExtResource("1_p5b5c")
 obstacle_id = 202
 scene_directory = "res://Scenes/Obstacles/Non-gravity/Obstacle2 - Wide/static_wide_obstacle.tscn"
+name = "Wall Spike"
 type = 1
 weight = 2
 flip = true

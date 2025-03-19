@@ -6,6 +6,7 @@
 script = ExtResource("1_khyam")
 obstacle_id = 2
 scene_directory = "res://Scenes/Obstacles/Gravity/Obstacle2 - Splitter/splitter.tscn"
+name = "Splitter"
 type = 0
 weight = 3
 flip = false

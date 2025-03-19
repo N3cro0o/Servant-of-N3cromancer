@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://noecnnt5hxwr" path="res://Images/square_curved.png" id="2_qeywp"]
 
 [node name="TaskGrid" type="GridContainer"]
-custom_minimum_size = Vector2(0, 250)
+custom_minimum_size = Vector2(0, 350)
 columns = 3
 script = ExtResource("1_wwh08")
 
@@ -16,7 +16,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 5
+theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
 [node name="NinePatchRect" type="NinePatchRect" parent="Task1"]
@@ -25,11 +25,18 @@ texture_filter = 1
 layout_mode = 2
 texture = ExtResource("2_qeywp")
 
-[node name="Task1Container" type="VBoxContainer" parent="Task1"]
+[node name="Margin" type="MarginContainer" parent="Task1"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="Task1Container" type="VBoxContainer" parent="Task1/Margin"]
 layout_mode = 2
 alignment = 1
 
-[node name="Head" type="Label" parent="Task1/Task1Container"]
+[node name="Head" type="Label" parent="Task1/Margin/Task1Container"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_vertical = 6
@@ -39,7 +46,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="Body" type="Label" parent="Task1/Task1Container"]
+[node name="Body" type="Label" parent="Task1/Margin/Task1Container"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_vertical = 6
@@ -48,13 +55,13 @@ text = "Longer Text
 label_settings = ExtResource("2_dnilo")
 horizontal_alignment = 1
 vertical_alignment = 1
-autowrap_mode = 2
+autowrap_mode = 3
 
 [node name="Task3" type="MarginContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/margin_left = 5
+theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
@@ -65,11 +72,18 @@ texture_filter = 1
 layout_mode = 2
 texture = ExtResource("2_qeywp")
 
-[node name="Task3Container" type="VBoxContainer" parent="Task3"]
+[node name="Margin" type="MarginContainer" parent="Task3"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="Task3Container" type="VBoxContainer" parent="Task3/Margin"]
 layout_mode = 2
 alignment = 1
 
-[node name="Head" type="Label" parent="Task3/Task3Container"]
+[node name="Head" type="Label" parent="Task3/Margin/Task3Container"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_vertical = 6
@@ -79,7 +93,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="Body" type="Label" parent="Task3/Task3Container"]
+[node name="Body" type="Label" parent="Task3/Margin/Task3Container"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_vertical = 6
@@ -88,15 +102,15 @@ text = "Longer Text
 label_settings = ExtResource("2_dnilo")
 horizontal_alignment = 1
 vertical_alignment = 1
-autowrap_mode = 2
+autowrap_mode = 3
 
 [node name="Task2" type="MarginContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/margin_left = 5
+theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 5
+theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
 [node name="NinePatchRect" type="NinePatchRect" parent="Task2"]
@@ -105,11 +119,18 @@ texture_filter = 1
 layout_mode = 2
 texture = ExtResource("2_qeywp")
 
-[node name="Task2Container" type="VBoxContainer" parent="Task2"]
+[node name="Margin" type="MarginContainer" parent="Task2"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="Task2Container" type="VBoxContainer" parent="Task2/Margin"]
 layout_mode = 2
 alignment = 1
 
-[node name="Head" type="Label" parent="Task2/Task2Container"]
+[node name="Head" type="Label" parent="Task2/Margin/Task2Container"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_vertical = 6
@@ -119,7 +140,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="Body" type="Label" parent="Task2/Task2Container"]
+[node name="Body" type="Label" parent="Task2/Margin/Task2Container"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_vertical = 6
@@ -128,4 +149,4 @@ text = "Longer Text
 label_settings = ExtResource("2_dnilo")
 horizontal_alignment = 1
 vertical_alignment = 1
-autowrap_mode = 2
+autowrap_mode = 3

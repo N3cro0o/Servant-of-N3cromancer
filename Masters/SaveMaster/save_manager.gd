@@ -15,6 +15,7 @@ var data = {
 	"highscore" : 0,
 	"coins" : 0,
 	"tasks_completed": 0,
+	"tasks_skipped": 0,
 	"current_skul" : 0,
 	"line_color" : 0,
 	# Unlock nimble skull, custom Line, inventory 1
@@ -47,6 +48,7 @@ func reset_data():
 	data["highscore"] = 0
 	data["coins"] = 0
 	data["tasks_completed"] = 0
+	data["tasks_skipped"] = 0
 	data["current_skul"] = 0
 	for i in GmM.items.size():
 		data["unlocks_shop"][i] = false
@@ -172,9 +174,20 @@ func update_tasks_completed(num: int):
 	GmM.update_max_tasks()
 	data["version"] = save_version
 
+func update_tasks_skipped(num: int):
+	data["tasks_skipped"] = num
+	GmM.update_max_tasks()
+	data["version"] = save_version
+
 # Return functions
 func return_particle_amount() -> float:
 	return data["particles"]
 
+func return_tasks_all() -> int:
+	return return_tasks_completed() + return_tasks_skipped()
+
 func return_tasks_completed() -> int:
 	return data["tasks_completed"]
+
+func return_tasks_skipped() -> int:
+	return data["tasks_skipped"]

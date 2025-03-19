@@ -170,13 +170,13 @@ func stop_slow_mo():
 
 # Save data functions
 func update_max_tasks():
-	TsM.max_tasks = min(max_tasks, SvM.return_tasks_completed() / 5 + 1)
+	TsM.max_tasks = min(max_tasks, SvM.return_tasks_all() / 5 + 1)
 
 func reset_save_data():
 	SvM.reset_data()
 	endless_unlock = true
 	line_customization_unlock = false
-	current_body = 0
+	current_body = 0 
 	line_color = 0
 	inventory_space = 0
 	SvM.save_data()

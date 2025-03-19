@@ -6,6 +6,7 @@
 script = ExtResource("1_3gjvb")
 obstacle_id = 3
 scene_directory = "res://Scenes/Obstacles/Gravity/Obstacle3 - Bullet/bullet.tscn"
+name = "Dart"
 type = 0
 weight = 4
 flip = false

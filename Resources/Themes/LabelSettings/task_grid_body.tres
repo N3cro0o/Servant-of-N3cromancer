@@ -4,7 +4,7 @@
 
 [resource]
 font = ExtResource("1_qd0mt")
-font_size = 30
-outline_size = 3
-outline_color = Color(0.262932, 0.262932, 0.262932, 1)
+font_size = 36
+outline_size = 5
+outline_color = Color(0.101961, 0.101961, 0.101961, 0.337255)
 shadow_size = 0

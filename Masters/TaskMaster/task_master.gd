@@ -18,7 +18,7 @@ func setup():
 			if !t.completed:
 				task_arr.push_back(t)
 	if task_arr.size() < max_tasks:
-		generate_new_task()
+		add_new_task_to_array()
 	index_tasks()
 	save_tasks()
 
@@ -79,12 +79,28 @@ func complete_task(task: TaskHolder):
 	ScM.coins_game += randi_range(10,20)
 	SvM.update_tasks_completed(SvM.return_tasks_completed() + 1)
 
-func fill():
-	while task_arr.size() < max_tasks:
-		generate_new_task()
+func skip_task(task: TaskHolder):
+	task.completed = true
+	SvM.save_task(task, task.id)
+	task_arr.erase(task)
+	SvM.update_tasks_skipped(SvM.return_tasks_skipped() + 1)
+	add_one()
+
+func reroll_task(task: TaskHolder):
+	task_arr[task.id] = create_new_task()
 	index_tasks()
 
-func generate_new_task():
+func add_one():
+	if task_arr.size() < max_tasks:
+		add_new_task_to_array()
+	index_tasks()
+
+func fill():
+	while task_arr.size() < max_tasks:
+		add_new_task_to_array()
+	index_tasks()
+
+func create_new_task() -> TaskHolder:
 	var new_task = TaskHolder.new()
 	new_task.type = randi_range(0, new_task.quest_type.size() - 1) # -1 because it's inclusive
 	match new_task.type:
@@ -104,7 +120,10 @@ func generate_new_task():
 			var data: SpawnPickupDataHolder = GmM.pickup_arr.pick_random()
 			new_task.x = data.pickup_id
 			new_task.y = randi_range(10, 30)
-	task_arr.push_back(new_task)
+	return new_task
+
+func add_new_task_to_array():
+		task_arr.push_back(create_new_task())
 
 func obstacle_listener(id: int):
 	for task in task_arr:
