@@ -12,3 +12,5 @@ const BASE_IMAGE = "res://Images/icon.svg"
 @export var action_logic : Script = BASE_SCRIPT
 @export var weight : int = 1
 var spawner_index = 0
+
+#https://pl.wikipedia.org/wiki/Ort_(moneta)

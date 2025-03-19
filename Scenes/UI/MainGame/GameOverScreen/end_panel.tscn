@@ -82,10 +82,9 @@ theme_override_font_sizes/normal_font_size = 64
 text = "Papaj"
 fit_content = true
 
-[node name="PushBufor" type="Control" parent="Margin/Box/Middle/VB"]
-custom_minimum_size = Vector2(0, 200)
+[node name="Control" type="Control" parent="Margin/Box/Middle/VB"]
+custom_minimum_size = Vector2(0, 300)
 layout_mode = 2
-mouse_filter = 2
 
 [node name="Bottom" type="MarginContainer" parent="Margin/Box"]
 layout_mode = 2

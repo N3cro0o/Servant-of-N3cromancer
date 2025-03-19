@@ -206,7 +206,7 @@ func spawn_from(num: int):
 	for timer_index in obstacle_data.spawn_points:
 		var timer = spawn_timer_arr[timer_index]
 		if timer.time_left < 0.33:
-			var t = timer.time_left
+			var _t = timer.time_left
 			timer.start(0.2)
 	pass
 

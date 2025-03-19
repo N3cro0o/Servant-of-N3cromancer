@@ -56,6 +56,7 @@ var stage = 0
 var boss
 var death_movement = false
 var death_timer = 0.0
+var game_time = 0.0
 
 # Button vars
 var margin_side = 75
@@ -142,7 +143,10 @@ func _ready():
 	print_rich("Level ready!")
 
 func _physics_process(delta):
+	# Meta game stuff
 	fpsp = delta
+	game_time += delta * GmM.game_speed
+	# Normal game stuff
 	if !lock_logic:
 		ScM.distance += speed * delta
 	if p_state == state.DED:
@@ -261,6 +265,7 @@ func on_player_death():
 	if lock_logic:
 		return
 	print_rich("[hint=GameScene]Game Over![/hint]")
+	TsM.time_listener(floor(game_time))
 	death_movement = true
 	p_state = state.DED
 	lock_logic = true

@@ -13,6 +13,7 @@ class_name GM extends Node
 ## NOT CHANCE[br]
 ## Variable used to calculate frequency of pickups, shows mean objects required to spawn a pickup
 @export var pickup_spawn_period = 5
+@export var max_tasks = 3
 @export_group("GameDataArrays")
 @export var body_holder_array : Array[PlayerBodyHolder]
 @export var scene_array : Array[PackedScene]
@@ -84,7 +85,10 @@ func _ready():
 	black_colour = screen_black.color
 	screen_black.color = Color(black_colour, 1)
 	transition_iterat = transition_speed * 60
+	# Uber Duper Mega Zajebisty fix
+	window_fix = float(get_viewport().get_visible_rect().size.x - 1080) / 2.0
 	await SvM.on_load_completed
+	update_max_tasks()
 	TsM.setup()
 	if !SvM.data["tutorial"]:
 		change_scene(4)
@@ -100,8 +104,6 @@ func _physics_process(delta: float) -> void:
 			on_slow_mo.emit(false)
 			game_speed_interpolation_check = false
 			game_speed = real_game_speed
-	# Uber Duper Mega Zajebisty fix
-	window_fix = float(get_viewport().get_visible_rect().size.x - 1080) / 2.0
 
 func _notification(what):
 	# Quit game
@@ -145,6 +147,7 @@ func after_game_over_logic(num := 0):
 			ScM.finalize_level_score()
 		-1:
 			ScM.reset_score()
+	TsM.validate_tasks()
 
 # Shop functions
 func sort_by_shop_category(a : ItemShopData, b : ItemShopData):
@@ -166,6 +169,9 @@ func stop_slow_mo():
 	real_game_speed_interpolation_check = true
 
 # Save data functions
+func update_max_tasks():
+	TsM.max_tasks = min(max_tasks, SvM.return_tasks_completed() / 5 + 1)
+
 func reset_save_data():
 	SvM.reset_data()
 	endless_unlock = true

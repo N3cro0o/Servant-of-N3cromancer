@@ -1,12 +1,15 @@
 class_name PauseScreen extends Control
 
 #region Variables
-@onready var body_label: RichTextLabel = $MarginContainer/VBoxContainer/MainBody/VBoxContainer/RichTextLabel
 
+# Items
 @onready var color_items: ColorRect = $MarginContainer/VBoxContainer/Items/ColorRect
 @onready var color_main: ColorRect = $MarginContainer/VBoxContainer/MainBody/ColorRect
 @onready var color_buttons: ColorRect = $MarginContainer/VBoxContainer/Buttons/ColorRect
 @onready var coins_pause_item: PauseItem = $MarginContainer/VBoxContainer/Items/ItemsContainer/Coins
+# Body
+@onready var body_label: RichTextLabel = $MarginContainer/VBoxContainer/MainBody/VBoxContainer/RichTextLabel
+@onready var task_grid: TaskGrid = $MarginContainer/VBoxContainer/MainBody/VBoxContainer/TaskGrid
 
 #endregion
 
@@ -27,6 +30,7 @@ func _ready():
 
 func on_changing_visibility():
 	coins_pause_item.set_value("%d(%d)" % [ScM.coins_game, ScM.coins_game + ScM.coins])
+	task_grid.update_data()
 
 # Button functions
 func on_end_bttn_press():

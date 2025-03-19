@@ -5,9 +5,10 @@
 
 [resource]
 script = ExtResource("2_spw87")
-name = "Polski złoty"
-image_dir = "res://Images/PickUps/PLN/pln.png"
+name = "Ort"
+pickup_id = 0
 type = 0
+image_dir = "res://Images/PickUps/PLN/pln.png"
 falling_speed = 300
 action_logic = ExtResource("1_2j4vm")
 weight = 8

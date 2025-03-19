@@ -6,7 +6,8 @@ class_name SpawnObstacleDataHolder extends Resource
 @export var obstacle_id: int
 ##Engine absolute path to desired scene to initialize
 @export var scene_directory := ""
-
+##Display name of obstacle. Manly used for tasks ???and bestiary???
+@export var name: String
 ##Select type of the obstacle
 @export_enum("Gravity", "Static", "Homing", "Other", "Boss") var type:int
 

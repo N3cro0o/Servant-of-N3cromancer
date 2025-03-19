@@ -1,0 +1,131 @@
+[gd_scene load_steps=5 format=3 uid="uid://y2q4kerc0f8g"]
+
+[ext_resource type="Script" path="res://Scenes/UI/TaskGrid/task_grid.gd" id="1_wwh08"]
+[ext_resource type="LabelSettings" uid="uid://ckq3xc83ivh7v" path="res://Resources/Themes/LabelSettings/task_grid_header.tres" id="1_y8h7f"]
+[ext_resource type="LabelSettings" uid="uid://dva78tdysb0po" path="res://Resources/Themes/LabelSettings/task_grid_body.tres" id="2_dnilo"]
+[ext_resource type="Texture2D" uid="uid://noecnnt5hxwr" path="res://Images/square_curved.png" id="2_qeywp"]
+
+[node name="TaskGrid" type="GridContainer"]
+custom_minimum_size = Vector2(0, 250)
+columns = 3
+script = ExtResource("1_wwh08")
+
+[node name="Task1" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 10
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Task1"]
+modulate = Color(1, 1, 0.607843, 0.0509804)
+texture_filter = 1
+layout_mode = 2
+texture = ExtResource("2_qeywp")
+
+[node name="Task1Container" type="VBoxContainer" parent="Task1"]
+layout_mode = 2
+alignment = 1
+
+[node name="Head" type="Label" parent="Task1/Task1Container"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_vertical = 6
+text = "Text"
+label_settings = ExtResource("1_y8h7f")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Body" type="Label" parent="Task1/Task1Container"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_vertical = 6
+text = "Longer Text
+"
+label_settings = ExtResource("2_dnilo")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Task3" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Task3"]
+modulate = Color(1, 1, 0.607843, 0.0509804)
+texture_filter = 1
+layout_mode = 2
+texture = ExtResource("2_qeywp")
+
+[node name="Task3Container" type="VBoxContainer" parent="Task3"]
+layout_mode = 2
+alignment = 1
+
+[node name="Head" type="Label" parent="Task3/Task3Container"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_vertical = 6
+text = "Text"
+label_settings = ExtResource("1_y8h7f")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Body" type="Label" parent="Task3/Task3Container"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_vertical = 6
+text = "Longer Text
+"
+label_settings = ExtResource("2_dnilo")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Task2" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 10
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Task2"]
+modulate = Color(1, 1, 0.607843, 0.0509804)
+texture_filter = 1
+layout_mode = 2
+texture = ExtResource("2_qeywp")
+
+[node name="Task2Container" type="VBoxContainer" parent="Task2"]
+layout_mode = 2
+alignment = 1
+
+[node name="Head" type="Label" parent="Task2/Task2Container"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_vertical = 6
+text = "Text"
+label_settings = ExtResource("1_y8h7f")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Body" type="Label" parent="Task2/Task2Container"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_vertical = 6
+text = "Longer Text
+"
+label_settings = ExtResource("2_dnilo")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2

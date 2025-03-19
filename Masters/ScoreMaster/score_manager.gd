@@ -27,6 +27,8 @@ func finalize_level_score():
 	if highscore < score:
 		highscore = score
 		on_new_highscore.emit()
+	# Finish tasks
+	TsM.after_level_listener(score, distance)
 	SvM.update_score(coins_game, highscore)
 	distance = 0
 	coins = 0

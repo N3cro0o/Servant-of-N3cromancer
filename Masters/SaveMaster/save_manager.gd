@@ -7,13 +7,14 @@ class_name SaveManager extends Node
 const SAVE_DATA_PATH = "user://czacha_zapis.json"
 const SAVE_RESOURCE_PATH = "user://resources/"
 const SAVE_TASKS_PATH = "tasks/%d.tres"
-@export var save_version = 1.2
+@export var save_version = 0.3
 
 var data = {
 	# Control version, update after every major change
 	"version" : 0,
 	"highscore" : 0,
 	"coins" : 0,
+	"tasks_completed": 0,
 	"current_skul" : 0,
 	"line_color" : 0,
 	# Unlock nimble skull, custom Line, inventory 1
@@ -45,6 +46,7 @@ func reset_data():
 	data["version"] = save_version
 	data["highscore"] = 0
 	data["coins"] = 0
+	data["tasks_completed"] = 0
 	data["current_skul"] = 0
 	for i in GmM.items.size():
 		data["unlocks_shop"][i] = false
@@ -75,6 +77,8 @@ func check_path(path : String):
 func check_data(_path: String) -> bool:
 	if OS.is_userfs_persistent():
 		var file = FileAccess.open(SAVE_DATA_PATH, FileAccess.READ)
+		if file == null:
+			return false
 		var json = file.get_as_text()
 		var data_loaded = JSON.parse_string(json)
 		file.close()
@@ -129,7 +133,8 @@ func save_task(res: Resource, id: int):
 	ResourceSaver.save(res, SAVE_RESOURCE_PATH + SAVE_TASKS_PATH % id)
 
 func load_task(id: int) -> TaskHolder:
-	var task = ResourceLoader.load(SAVE_RESOURCE_PATH + SAVE_TASKS_PATH % id, "TaskHolder")
+	var task:TaskHolder = ResourceLoader.load(SAVE_RESOURCE_PATH + SAVE_TASKS_PATH % id, "TaskHolder")
+	task.id = id
 	return task
 
 # Update game data functions
@@ -162,6 +167,14 @@ func tutorial_complete():
 	data["tutorial"] = true
 	data["version"] = save_version
 
+func update_tasks_completed(num: int):
+	data["tasks_completed"] = num
+	GmM.update_max_tasks()
+	data["version"] = save_version
+
 # Return functions
 func return_particle_amount() -> float:
 	return data["particles"]
+
+func return_tasks_completed() -> int:
+	return data["tasks_completed"]

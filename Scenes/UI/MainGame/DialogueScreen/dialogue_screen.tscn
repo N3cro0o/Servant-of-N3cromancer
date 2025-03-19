@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Scenes/UI/MainGame/DialogueScreen/dialogue_screen.gd" id="1_5meec"]
 [ext_resource type="Theme" uid="uid://do6gg3r8fydfa" path="res://Resources/Themes/main_theme.tres" id="1_nev21"]
 [ext_resource type="Texture2D" uid="uid://noecnnt5hxwr" path="res://Images/square_curved.png" id="2_hqes4"]
-[ext_resource type="LabelSettings" uid="uid://cpvffqlsdfh4v" path="res://Resources/Themes/dialogue_screen_label_settings.tres" id="4_63gfl"]
+[ext_resource type="LabelSettings" uid="uid://cpvffqlsdfh4v" path="res://Resources/Themes/LabelSettings/dialogue_screen_label_settings.tres" id="4_63gfl"]
 
 [node name="Dialogue" type="Control"]
 process_mode = 4
