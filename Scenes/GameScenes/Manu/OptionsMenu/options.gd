@@ -2,6 +2,9 @@ extends Control
 
 #region Variables
 
+@export var skip_cost = 20
+@export var skip_add = 10
+
 @onready var main := $Margin/VBox/Main
 # Body part
 @onready var body = $Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body
@@ -24,7 +27,9 @@ extends Control
 
 var active_tab = 0
 var active_body = 0
-
+var bttn: Button
+var skip_tween_g: Tween
+var skip_tween_b: Tween
 #endregion
 
 # Basic Godot functions
@@ -45,27 +50,27 @@ func _ready():
 	if TsM.task_arr.size() >= 1:
 		text_task1.text = "Task 1. %s" % [TsM.task_arr[0].task_name()]
 		$Margin/VBox/Main/Tasks/Margin/V/Options/Buttons1/Skip.pressed.\
-			connect(func(): TsM.skip_task(TsM.task_arr[0]); task_grid.update_data(); update_task_label())
+			connect(skip_task.bind(0))
 		$Margin/VBox/Main/Tasks/Margin/V/Options/Buttons1/Reroll.pressed.\
-			connect(func(): TsM.reroll_task(TsM.task_arr[0]); task_grid.update_data(); update_task_label())
+			connect(reroll_task.bind(0))
 	else:
 		text_task1.text = ""
 		$Margin/VBox/Main/Tasks/Margin/V/Options/Buttons1.visible = false
 	if TsM.task_arr.size() >= 2:
 		text_task2.text = "Task 2. %s" % [TsM.task_arr[1].task_name()]
 		$Margin/VBox/Main/Tasks/Margin/V/Options/Buttons2/Skip.pressed.\
-			connect(func(): TsM.skip_task(TsM.task_arr[1]); task_grid.update_data(); update_task_label())
+			connect(skip_task.bind(1))
 		$Margin/VBox/Main/Tasks/Margin/V/Options/Buttons2/Reroll.pressed.\
-			connect(func(): TsM.reroll_task(TsM.task_arr[1]); task_grid.update_data(); update_task_label())
+			connect(reroll_task.bind(1))
 	else:
 		text_task2.text = ""
 		$Margin/VBox/Main/Tasks/Margin/V/Options/Buttons2.visible = false
 	if TsM.task_arr.size() >= 3:
 		text_task3.text = "Task 3. %s" % [TsM.task_arr[2].task_name()]
 		$Margin/VBox/Main/Tasks/Margin/V/Options/Buttons3/Skip.pressed.\
-			connect(func(): TsM.skip_task(TsM.task_arr[2]); task_grid.update_data(); update_task_label())
+			connect(skip_task.bind(2))
 		$Margin/VBox/Main/Tasks/Margin/V/Options/Buttons3/Reroll.pressed.\
-			connect(func(): TsM.reroll_task(TsM.task_arr[2]); task_grid.update_data(); update_task_label())
+			connect(reroll_task.bind(2))
 	else:
 		text_task3.text = ""
 		$Margin/VBox/Main/Tasks/Margin/V/Options/Buttons3.visible = false
@@ -79,6 +84,56 @@ func _notification(what):
 	# Return to Main Menu
 	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
 		return_button_pressed()
+
+# Control functions
+func skip_task(id: int):
+	if ScM.coins_game >= skip_cost + skip_add * SvM.return_tasks_skipped():
+		ScM.coins_game -= skip_cost + skip_add * SvM.return_tasks_skipped()
+		TsM.skip_task(TsM.task_arr[id])
+		task_grid.update_data()
+		update_task_label()
+	else:
+		if skip_tween_g != null:
+			skip_tween_g.kill()
+		if skip_tween_b != null:
+			skip_tween_b.kill()
+		if bttn != null:
+			bttn.modulate = Color.WHITE
+		match id:
+			0:
+				tween_refuse($Margin/VBox/Main/Tasks/Margin/V/Options/Buttons1/Skip)
+			1:
+				tween_refuse($Margin/VBox/Main/Tasks/Margin/V/Options/Buttons2/Skip)
+			2:
+				tween_refuse($Margin/VBox/Main/Tasks/Margin/V/Options/Buttons3/Skip)
+
+func reroll_task(id: int):
+	if !TsM.task_arr[id].rerolled:
+		TsM.reroll_task(TsM.task_arr[id])
+		task_grid.update_data() 
+		update_task_label()
+	else:
+		if skip_tween_g != null:
+			skip_tween_g.kill()
+		if skip_tween_b != null:
+			skip_tween_b.kill()
+		if bttn != null:
+			bttn.modulate = Color.WHITE
+		match id:
+			0:
+				tween_refuse($Margin/VBox/Main/Tasks/Margin/V/Options/Buttons1/Reroll)
+			1:
+				tween_refuse($Margin/VBox/Main/Tasks/Margin/V/Options/Buttons2/Reroll)
+			2:
+				tween_refuse($Margin/VBox/Main/Tasks/Margin/V/Options/Buttons3/Reroll)
+
+func tween_refuse(button: Button):
+	bttn = button
+	bttn.modulate = Color(1,0,0)
+	skip_tween_g = get_tree().create_tween()
+	skip_tween_g.tween_property(bttn, "modulate:g", 1, 0.5)
+	skip_tween_b = get_tree().create_tween()
+	skip_tween_b.tween_property(bttn, "modulate:b", 1, 0.45)
 
 # Traversing functions
 func return_button_pressed():

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="MusicHolder" load_steps=3 format=3 uid="uid://c5pnpq5t84gkq"]
+
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/music_holder.gd" id="1_1lh76"]
+[ext_resource type="AudioStream" uid="uid://dm63ucj2eyat2" path="res://SFX/Music/casino-next-door-246003_1.wav" id="2_e4vh2"]
+
+[resource]
+script = ExtResource("1_1lh76")
+loop = true
+loop_points = Array[Vector2]([Vector2(7.03, 34.15)])
+which_loop = 0
+start_from_start = false
+name = "music_game_1"
+stream = ExtResource("2_e4vh2")
+volume = 0.0
+autoplay = false
+bus = "Music"

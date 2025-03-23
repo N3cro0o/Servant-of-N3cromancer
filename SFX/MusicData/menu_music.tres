@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="MusicHolder" load_steps=3 format=3 uid="uid://5pbb4dfsmtr5"]
+
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/music_holder.gd" id="1_fivip"]
+[ext_resource type="AudioStream" uid="uid://cmdnp6o1bevjn" path="res://SFX/Music/dark, slow ambient.mp3" id="2_75rsg"]
+
+[resource]
+script = ExtResource("1_fivip")
+loop = true
+loop_points = Array[Vector2]([Vector2(21.1, 65.433)])
+which_loop = 0
+start_from_start = true
+name = "main_theme_v1"
+stream = ExtResource("2_75rsg")
+volume = 0.0
+autoplay = false
+bus = "Music"

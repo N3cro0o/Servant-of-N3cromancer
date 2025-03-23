@@ -20,8 +20,11 @@ enum state {
 
 @export var bg_sprites : Array[Sprite2D]
 @export var enemy_stages : Array[StageEnemyData]
-@export_category("Buttons")
+@export_group("Buttons")
 @export_range(1.0, 2.0) var button_height_scale = 1.0
+@export_group("Music")
+@export var stream: MusicHolder
+@export var play_music = true
 @onready var small_bubble :MouseEntity1 = $MouseEntity
 @onready var big_boi :PlayerLine1 = $PlayerLine
 @onready var spawner: SpawnerBasicV2 = $SpawnerV2
@@ -137,6 +140,9 @@ func _ready():
 	max_speed = big_boi.return_max_speed()
 	# Spawner
 	spawner.set_obstacle_data(enemy_stages[stage])
+	# Music
+	if play_music:
+		Sfx.play(stream, Sfx.SoundEnum.Music)
 	# Level setup completed
 	pause_panel.visible = false
 	on_level_start.emit()
@@ -265,6 +271,8 @@ func on_player_death():
 	if lock_logic:
 		return
 	print_rich("[hint=GameScene]Game Over![/hint]")
+	Sfx.music.stop()
+	Sfx.update_bus_volume("music", SvM.data["volume_music"])
 	TsM.time_listener(floor(game_time))
 	death_movement = true
 	p_state = state.DED
@@ -294,8 +302,8 @@ func on_player_death():
 		big_boi.body.last_obstacle_hit.z_index = 149
 
 func damage_muffle():
-	var volume = SvM.data["volume_master"];
-	Sfx.update_bus_volume("master", volume * 0.75)
+	var volume = SvM.data["volume_music"];
+	Sfx.update_bus_volume("music", volume * 0.50)
 
 # Changing scenes logic
 func pause_game():
@@ -304,11 +312,13 @@ func pause_game():
 func reset_level_request():
 	var volume = SvM.data["volume_master"];
 	Sfx.update_bus_volume("master", volume)
+	Sfx.update_bus_volume("music", SvM.data["volume_music"])
 	GmM.after_game_over_logic()
 	get_tree().call_deferred("reload_current_scene")
 
 func quit_level_request():
 	var volume = SvM.data["volume_master"];
+	Sfx.update_bus_volume("music", SvM.data["volume_music"])
 	Sfx.update_bus_volume("master", volume)
 	GmM.change_scene(0)
 

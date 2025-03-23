@@ -25,6 +25,7 @@ func _ready():
 	else:
 		$"GPUParticles2D-1".clip_children = CLIP_CHILDREN_DISABLED
 		$"GPUParticles2D-1".emitting = false
+	Sfx.play_music(0)
 
 func _process(_delta):
 	# Unlock endless

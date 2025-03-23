@@ -13,6 +13,7 @@ enum quest_type
 ## Current [b]resource[/b] type
 @export var type: quest_type = quest_type.Score
 @export var completed: bool = false
+@export var rerolled: bool = false
 # Task variables
 ##First variable:
 ##[br][code]quest_type.Destroy[/code]: Enemy ID

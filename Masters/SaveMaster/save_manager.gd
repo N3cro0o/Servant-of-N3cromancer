@@ -22,6 +22,7 @@ var data = {
 	"unlocks_shop" : [false, false, false],
 	# Options
 	"volume_master" : 1,
+	"volume_music": 1,
 	"particles": 0.8,
 	"tutorial": false
 }

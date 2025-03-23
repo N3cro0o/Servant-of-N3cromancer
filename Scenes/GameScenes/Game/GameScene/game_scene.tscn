@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://vypfdtx3st2g"]
+[gd_scene load_steps=23 format=3 uid="uid://vypfdtx3st2g"]
 
 [ext_resource type="PackedScene" uid="uid://cwhxijf40rcnx" path="res://Scenes/PlayerCharacter/PlayerLine/player_line.tscn" id="1_0j60h"]
 [ext_resource type="Script" path="res://Scenes/GameScenes/Game/GameScene/game_scene.gd" id="1_hmcmp"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://0owx080eewsp" path="res://Images/PickUps/Scrolls/Symbols/repulsor.png" id="4_w28lu"]
 [ext_resource type="PackedScene" uid="uid://cxecydc21mmwa" path="res://Scenes/SceneKiller/killer.tscn" id="5_4g2j3"]
 [ext_resource type="PackedScene" uid="uid://b4f11y5i27dcu" path="res://Scenes/UI/MainGame/PauseScreen/pause_panel.tscn" id="5_7qvcc"]
+[ext_resource type="Resource" uid="uid://c5pnpq5t84gkq" path="res://SFX/MusicData/main_game.tres" id="5_us5x7"]
 [ext_resource type="Texture2D" uid="uid://2g2u76harw2m" path="res://Images/circle_shape_black.png" id="6_natll"]
 [ext_resource type="Texture2D" uid="uid://jcx2r032ex1m" path="res://Images/PickUps/Scrolls/Symbols/Shield.png" id="8_hwywf"]
 [ext_resource type="Texture2D" uid="uid://8glmydbtnfi0" path="res://Images/UI/DirectionKey/1/arrow key1.png" id="10_7vqps"]
@@ -31,6 +32,7 @@ script = ExtResource("1_hmcmp")
 bg_sprites = [NodePath("BG/BgUp"), NodePath("BG/Bg"), NodePath("BG/BgDown")]
 enemy_stages = Array[ExtResource("2_3iuus")]([ExtResource("3_s3x3a"), ExtResource("4_ehmxr")])
 button_height_scale = 1.6
+stream = ExtResource("5_us5x7")
 
 [node name="WindowBox" type="Control" parent="."]
 z_index = 101

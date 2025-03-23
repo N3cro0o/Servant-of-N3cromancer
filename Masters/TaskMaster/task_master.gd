@@ -26,6 +26,11 @@ func save_tasks():
 	for i in task_arr.size():
 		SvM.save_task(task_arr[i], i)
 
+func reset():
+	task_arr.clear()
+	max_tasks = 1
+	setup()
+
 # Tasks functions
 func index_tasks():
 	for i in task_arr.size():
@@ -87,7 +92,9 @@ func skip_task(task: TaskHolder):
 	add_one()
 
 func reroll_task(task: TaskHolder):
-	task_arr[task.id] = create_new_task()
+	var task_new = create_new_task()
+	task_new.rerolled = true
+	task_arr[task.id] = task_new
 	index_tasks()
 
 func add_one():

@@ -39,8 +39,9 @@ enum state {
 ## Used to calculate distance score
 @export var speed : float = 7.5
 @export_group("Audio")
-@export var streams : Array[SoundHolder] = [preload("res://SFX/moving.tres"), preload("res://SFX/slap.tres"),\
-	preload("res://SFX/skul_crack.tres")]
+@export var streams : Array[SoundHolder] = [preload("res://SFX/SoundsData/moving.tres"),
+	preload("res://SFX/SoundsData/slap.tres"),
+	preload("res://SFX/SoundsData/skul_crack.tres")]
 @onready var line2 := $AdditionalLine
 @onready var line_r = $HelpLines/LineR
 @onready var line_l = $HelpLines/LineL

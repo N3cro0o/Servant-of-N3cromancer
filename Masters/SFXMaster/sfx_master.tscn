@@ -1,13 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://cijs2v2gsge12"]
+[gd_scene load_steps=6 format=3 uid="uid://cijs2v2gsge12"]
 
 [ext_resource type="Script" path="res://Masters/SFXMaster/sfx_master.gd" id="1_cgl1j"]
-[ext_resource type="AudioStream" uid="uid://dbmaauablawwo" path="res://SFX/manu_sound.wav" id="2_bayem"]
-[ext_resource type="Resource" uid="uid://rkg2t0qwaxwj" path="res://SFX/menu.tres" id="2_ho663"]
+[ext_resource type="AudioStream" uid="uid://dbmaauablawwo" path="res://SFX/Sounds/manu_sound.wav" id="2_bayem"]
+[ext_resource type="Resource" uid="uid://rkg2t0qwaxwj" path="res://SFX/SoundsData/menu.tres" id="2_ho663"]
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/sound_holder.gd" id="2_yvogf"]
+[ext_resource type="Resource" uid="uid://5pbb4dfsmtr5" path="res://SFX/MusicData/menu_music.tres" id="4_rlx0i"]
 
 [node name="SFXMaster" type="Node"]
 script = ExtResource("1_cgl1j")
-sounds_ui = Array[Resource("res://Resources/DataHolders/Script/sound_holder.gd")]([ExtResource("2_ho663")])
+sounds_ui = Array[ExtResource("2_yvogf")]([ExtResource("2_ho663")])
+music_ui = Array[ExtResource("2_yvogf")]([ExtResource("4_rlx0i")])
 
 [node name="PlayerUI" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_bayem")
 volume_db = -10.0
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+bus = &"Music"

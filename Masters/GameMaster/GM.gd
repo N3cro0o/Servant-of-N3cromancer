@@ -49,6 +49,7 @@ var inventory_space = 0
 # Game time stuff. For example a variable responisble for pausing game
 var paused := false:
 	set(value):
+		var volume = SvM.data["volume_music"];
 		paused = value
 		on_paused.emit(paused)
 		if (paused):
@@ -57,6 +58,7 @@ var paused := false:
 			game_speed = paused_slowdown
 			game_speed_interpolation_check = false
 			slow_mo_timer.paused = true
+			Sfx.update_bus_volume("Music", volume * 0.01)
 		else:
 			if !real_game_speed_interpolation_check:
 				game_speed = slow_mo_game_speed
@@ -64,6 +66,7 @@ var paused := false:
 				game_speed = real_game_speed
 			game_speed_interpolation_check = real_game_speed_interpolation_check
 			slow_mo_timer.paused = false
+			Sfx.update_bus_volume("Music", volume)
 var game_speed := 1.0
 var slow_mo_game_speed := 1.0
 var real_game_speed := 1.0

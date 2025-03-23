@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://cp2kpjr8jpyly"]
 
 [ext_resource type="Script" path="res://Scenes/Obstacles/Homing/Obstacle1/homing_gravity_1.gd" id="1_usq0s"]
-[ext_resource type="Resource" uid="uid://c0tmj3hb0bc1c" path="res://SFX/vine_boom.tres" id="2_scnqi"]
+[ext_resource type="Resource" uid="uid://c0tmj3hb0bc1c" path="res://SFX/SoundsData/vine_boom.tres" id="2_scnqi"]
 [ext_resource type="SpriteFrames" uid="uid://07x7gvbt0nhl" path="res://Scenes/Obstacles/Homing/Obstacle1/fireball_homing1.tres" id="3_2jswe"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ia8g6"]
