@@ -9,4 +9,4 @@ name = "player_hit_super"
 stream = ExtResource("2_pplx2")
 volume = -5.0
 autoplay = false
-bus = "Master"
+bus = "Obstacles"

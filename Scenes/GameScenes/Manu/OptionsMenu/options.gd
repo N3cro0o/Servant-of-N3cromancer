@@ -15,6 +15,9 @@ extends Control
 @onready var line_color_grid = $Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line/Box/Margin/Grid
 # Options
 @onready var master_slider = $Margin/VBox/Main/Options/Margin/VBox/SoundSlider/MasterSlider
+@onready var music_slider: HSlider = $Margin/VBox/Main/Options/Margin/VBox/SoundSlider/MusicSlider
+@onready var obstacle_slider: HSlider = $Margin/VBox/Main/Options/Margin/VBox/SoundSlider/ObstacleSlider
+@onready var ui_slider: HSlider = $Margin/VBox/Main/Options/Margin/VBox/SoundSlider/UISlider
 @onready var particle_slider: HSlider = $Margin/VBox/Main/Options/Margin/VBox/Graphics/Particle/ParticleSlider
 @onready var version_label: Label = $Margin/VBox/Main/Options/Margin/VBox/Label
 @onready var debug_label_button: CheckButton = $Margin/VBox/Main/Options/Margin/VBox/Graphics/DebugLabelButton
@@ -30,6 +33,7 @@ var active_body = 0
 var bttn: Button
 var skip_tween_g: Tween
 var skip_tween_b: Tween
+var lock_sliders = false
 #endregion
 
 # Basic Godot functions
@@ -42,7 +46,12 @@ func _ready():
 			button.button_pressed = true
 		var panel = button.get_child(0) as ColorRect
 		panel.color = GmM.line_color_array[i]
+	lock_sliders = true
 	master_slider.value = SvM.data["volume_master"]
+	music_slider.value = SvM.data["volume_music"]
+	obstacle_slider.value = SvM.data["volume_obstacle"]
+	ui_slider.value = SvM.data["volume_ui"]
+	lock_sliders = false
 	particle_slider.value = SvM.return_particle_amount()
 	debug_label_button.button_pressed = GmM.debug_label_visible
 	task_grid.update_data()
@@ -84,6 +93,10 @@ func _notification(what):
 	# Return to Main Menu
 	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
 		return_button_pressed()
+	if what == NOTIFICATION_FOCUS_ENTER:
+		GmM.paused = false
+	if what == NOTIFICATION_APPLICATION_FOCUS_IN:
+		GmM.paused = false
 
 # Control functions
 func skip_task(id: int):
@@ -183,9 +196,29 @@ func on_game_data_reset():
 	Sfx.play_sound_ui_number(0)
 
 func change_master_bus_volume(num):
+	if lock_sliders:
+		return
 	Sfx.update_bus_volume("master", num)
 	SvM.update_volume_master(num)
 
+func change_music_bus_volume(num):
+	if lock_sliders:
+		return
+	Sfx.update_bus_volume("music", num)
+	SvM.update_volume_music(num)
+
+func change_obstacle_bus_volume(num):
+	if lock_sliders:
+		return
+	Sfx.update_bus_volume("obstacle", num)
+	SvM.update_volume_obstacle(num)
+
+func change_ui_bus_volume(num):
+	if lock_sliders:
+		return
+	Sfx.update_bus_volume("UI", num)
+	SvM.update_volume_ui(num)
+	
 func change_particle_amount(num):
 	# Add different percent text
 	particle_slider.tooltip_text = str(num)

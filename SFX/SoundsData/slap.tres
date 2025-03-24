@@ -9,4 +9,4 @@ name = "player_hit"
 stream = ExtResource("2_6vth3")
 volume = 0.0
 autoplay = false
-bus = "Master"
+bus = "Obstacles"

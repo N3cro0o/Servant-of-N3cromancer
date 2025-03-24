@@ -25,6 +25,7 @@ func _ready():
 	else:
 		$"GPUParticles2D-1".clip_children = CLIP_CHILDREN_DISABLED
 		$"GPUParticles2D-1".emitting = false
+	await get_tree().process_frame
 	Sfx.play_music(0)
 
 func _process(_delta):
@@ -38,6 +39,10 @@ func _notification(what):
 	# Quit game
 	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
 		quit_game()
+	if what == NOTIFICATION_FOCUS_ENTER:
+		GmM.paused = false
+	if what == NOTIFICATION_APPLICATION_FOCUS_IN:
+		GmM.paused = false
 
 # Buttons functions
 func on_play_button_press():

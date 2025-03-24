@@ -21,8 +21,10 @@ var data = {
 	# Unlock nimble skull, custom Line, inventory 1
 	"unlocks_shop" : [false, false, false],
 	# Options
-	"volume_master" : 1,
-	"volume_music": 1,
+	"volume_master" : 1.0,
+	"volume_music": 1.0,
+	"volume_obstacle": 1.0,
+	"volume_ui": 1.0,
 	"particles": 0.8,
 	"tutorial": false
 }
@@ -55,7 +57,10 @@ func reset_data():
 		data["unlocks_shop"][i] = false
 	data["line_color"] = 0
 	# Options data
-	data["volume_master"] = 1
+	data["volume_master"] = 1.0
+	data["volume_music"] = 1.0
+	data["volume_obstacle"] = 1.0
+	data["volume_ui"] = 1.0
 	data["particles"] = 0.8
 	data["tutorial"] = false
 	on_load_completed.emit()
@@ -123,9 +128,16 @@ func load_data():
 			# Current skul body
 		GmM.current_body = data["current_skul"]
 		print_rich("[hint=SaveManager]Data loaded[/hint]\n%s\n\n" % upgrade_names)
+		await get_tree().process_frame
 		# Load options data
 			# Volume master
 		Sfx.update_bus_volume("master", data["volume_master"])
+			# Volume music
+		Sfx.update_bus_volume("music", data["volume_music"])
+			# Volume obstacle
+		Sfx.update_bus_volume("obstacle", data["volume_obstacle"])
+			# Volume UI
+		Sfx.update_bus_volume("UI", data["volume_ui"])
 	on_load_completed.emit()
 
 # Save resources functions
@@ -160,6 +172,18 @@ func update_upgrade_shop_bought(id : int):
 
 func update_volume_master(val : float):
 	data["volume_master"] = val
+	data["version"] = save_version
+
+func update_volume_music(val : float):
+	data["volume_music"] = val
+	data["version"] = save_version
+
+func update_volume_obstacle(val : float):
+	data["volume_obstacle"] = val
+	data["version"] = save_version
+	
+func update_volume_ui(val : float):
+	data["volume_ui"] = val
 	data["version"] = save_version
 
 func update_particles_amount(val: float):

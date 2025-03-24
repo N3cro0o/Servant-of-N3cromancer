@@ -47,7 +47,6 @@ func task_name() -> String:
 	return name
 
 func task_desc() -> String:
-	var desc: String 
 	match type:
 		quest_type.Destroy:
 			var name: String

@@ -9,4 +9,4 @@ name = "ui_sound"
 stream = ExtResource("2_317m0")
 volume = 0.0
 autoplay = false
-bus = "Master"
+bus = "UI"

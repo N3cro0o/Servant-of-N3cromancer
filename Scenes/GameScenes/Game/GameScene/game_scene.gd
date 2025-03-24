@@ -156,6 +156,7 @@ func _physics_process(delta):
 	if !lock_logic:
 		ScM.distance += speed * delta
 	if p_state == state.DED:
+		Sfx.update_bus_volume("music", SvM.data["volume_music"] * 0.1)
 		death_timer += delta
 		for bttn in camera_buttons:
 			bttn.visible = false
@@ -271,9 +272,8 @@ func on_player_death():
 	if lock_logic:
 		return
 	print_rich("[hint=GameScene]Game Over![/hint]")
-	Sfx.music.stop()
-	Sfx.update_bus_volume("music", SvM.data["volume_music"])
 	TsM.time_listener(floor(game_time))
+	Sfx.music.pitch_scale = 0.7
 	death_movement = true
 	p_state = state.DED
 	lock_logic = true
@@ -313,6 +313,7 @@ func reset_level_request():
 	var volume = SvM.data["volume_master"];
 	Sfx.update_bus_volume("master", volume)
 	Sfx.update_bus_volume("music", SvM.data["volume_music"])
+	Sfx.music.pitch_scale = 1.0
 	GmM.after_game_over_logic()
 	get_tree().call_deferred("reload_current_scene")
 
@@ -320,6 +321,7 @@ func quit_level_request():
 	var volume = SvM.data["volume_master"];
 	Sfx.update_bus_volume("music", SvM.data["volume_music"])
 	Sfx.update_bus_volume("master", volume)
+	Sfx.music.pitch_scale = 1.0
 	GmM.change_scene(0)
 
 func on_paused(paused):

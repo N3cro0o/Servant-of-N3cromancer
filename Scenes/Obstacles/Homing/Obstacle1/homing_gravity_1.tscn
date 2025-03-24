@@ -77,6 +77,7 @@ randomness = 0.2
 fixed_fps = 24
 
 [node name="Player" type="AudioStreamPlayer" parent="."]
+bus = &"Obstacles"
 
 [connection signal="timeout" from="BumTimer" to="." method="_on_bum_timer_timeout"]
 [connection signal="finished" from="Player" to="." method="on_sound_end"]

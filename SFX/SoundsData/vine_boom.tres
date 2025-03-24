@@ -9,4 +9,4 @@ name = "fireball_boom"
 stream = ExtResource("2_hgifu")
 volume = -5.0
 autoplay = false
-bus = "Master"
+bus = "Obstacles"

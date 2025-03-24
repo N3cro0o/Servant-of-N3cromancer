@@ -9,4 +9,4 @@ name = "player_move"
 stream = ExtResource("2_juqqy")
 volume = -15.0
 autoplay = false
-bus = "Master"
+bus = "Obstacles"

@@ -504,7 +504,7 @@ alignment = 1
 [node name="ParticleLabel" type="RichTextLabel" parent="Margin/VBox/Main/Options/Margin/VBox/Graphics/Particle"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/default_color = Color(0.788235, 0.788235, 0.788235, 1)
+theme_override_colors/default_color = Color(0.903598, 0.903598, 0.903598, 1)
 text = "Particles"
 fit_content = true
 
@@ -522,6 +522,7 @@ ticks_on_borders = true
 
 [node name="DebugLabelButton" type="CheckButton" parent="Margin/VBox/Main/Options/Margin/VBox/Graphics"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.901961, 0.901961, 0.901961, 1)
 text = "Debug label"
 
 [node name="HSeparator" type="HSeparator" parent="Margin/VBox/Main/Options/Margin/VBox"]
@@ -540,7 +541,7 @@ theme_override_constants/separation = 15
 
 [node name="MasterLabel" type="RichTextLabel" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider"]
 layout_mode = 2
-theme_override_colors/default_color = Color(0.788235, 0.788235, 0.788235, 1)
+theme_override_colors/default_color = Color(0.903598, 0.903598, 0.903598, 1)
 text = "Master"
 fit_content = true
 
@@ -552,16 +553,46 @@ step = 0.01
 value = 1.0
 scrollable = false
 
-[node name="MusicSlider" type="RichTextLabel" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider"]
-visible = false
+[node name="MusicLabel" type="RichTextLabel" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider"]
 layout_mode = 2
-text = "Music - not implemented"
+theme_override_colors/default_color = Color(0.788235, 0.788235, 0.788235, 1)
+text = "Music"
 fit_content = true
 
-[node name="MusicSlider2" type="HSlider" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider"]
-visible = false
+[node name="MusicSlider" type="HSlider" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider"]
+custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
-editable = false
+max_value = 1.2
+step = 0.01
+value = 1.0
+scrollable = false
+
+[node name="ObstacleLabel" type="RichTextLabel" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider"]
+layout_mode = 2
+theme_override_colors/default_color = Color(0.788235, 0.788235, 0.788235, 1)
+text = "Obstacles"
+fit_content = true
+
+[node name="ObstacleSlider" type="HSlider" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+max_value = 1.2
+step = 0.01
+value = 1.0
+scrollable = false
+
+[node name="UILabel" type="RichTextLabel" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider"]
+layout_mode = 2
+theme_override_colors/default_color = Color(0.788235, 0.788235, 0.788235, 1)
+text = "Interface"
+fit_content = true
+
+[node name="UISlider" type="HSlider" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+max_value = 1.2
+step = 0.01
+value = 1.0
 scrollable = false
 
 [node name="MarginCredits" type="MarginContainer" parent="Margin/VBox/Main/Options/Margin/VBox"]
@@ -670,6 +701,9 @@ text = "Return to menu"
 [connection signal="value_changed" from="Margin/VBox/Main/Options/Margin/VBox/Graphics/Particle/ParticleSlider" to="." method="change_particle_amount"]
 [connection signal="toggled" from="Margin/VBox/Main/Options/Margin/VBox/Graphics/DebugLabelButton" to="." method="debug_label_toggle"]
 [connection signal="value_changed" from="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/MasterSlider" to="." method="change_master_bus_volume"]
+[connection signal="value_changed" from="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/MusicSlider" to="." method="change_music_bus_volume"]
+[connection signal="value_changed" from="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/ObstacleSlider" to="." method="change_obstacle_bus_volume"]
+[connection signal="value_changed" from="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/UISlider" to="." method="change_ui_bus_volume"]
 [connection signal="pressed" from="Margin/VBox/Main/Options/Margin/VBox/MarginCredits/Credits/Itch" to="." method="itch_button_credits"]
 [connection signal="pressed" from="Margin/VBox/Main/Options/Margin/VBox/MarginCredits/Credits/Twitter" to="." method="twitter_button_credits"]
 [connection signal="pressed" from="Margin/VBox/Main/Options/Margin/VBox/ResetData" to="." method="on_game_data_reset"]

@@ -14,6 +14,10 @@ music_ui = Array[ExtResource("2_yvogf")]([ExtResource("4_rlx0i")])
 [node name="PlayerUI" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_bayem")
 volume_db = -10.0
+bus = &"UI"
+
+[node name="Other" type="AudioStreamPlayer" parent="."]
+bus = &"Obstacles"
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 bus = &"Music"

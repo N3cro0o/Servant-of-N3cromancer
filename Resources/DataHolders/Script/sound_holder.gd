@@ -4,4 +4,4 @@ class_name SoundHolder extends Resource
 @export var stream : AudioStream
 @export var volume : float
 @export var autoplay : bool
-@export var bus : String = "Master"
+@export_enum("Master", "Music", "Obstacles", "UI") var bus : String = "Master"

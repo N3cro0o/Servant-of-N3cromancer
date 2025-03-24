@@ -30,7 +30,6 @@ func _ready():
 		return
 	change_current_item(0)
 
-
 func _process(_delta):
 	text_coins.text = "%d" % ScM.coins_game
 
@@ -38,6 +37,10 @@ func _notification(what):
 	# Return to Main Menu
 	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
 		return_button_pressed()
+	if what == NOTIFICATION_FOCUS_ENTER:
+		GmM.paused = false
+	if what == NOTIFICATION_APPLICATION_FOCUS_IN:
+		GmM.paused = false
 
 # Navigation functions
 func cycle_items(num : int):

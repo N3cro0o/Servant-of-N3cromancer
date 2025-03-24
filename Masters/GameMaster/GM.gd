@@ -49,6 +49,8 @@ var inventory_space = 0
 # Game time stuff. For example a variable responisble for pausing game
 var paused := false:
 	set(value):
+		if !is_node_ready():
+			return
 		var volume = SvM.data["volume_music"];
 		paused = value
 		on_paused.emit(paused)
