@@ -24,16 +24,20 @@ var active := false:
 			active = b
 		else:
 			active = false
+			$Circle.visible = false
 		
-		if b:
+		if active:
 			if !disabled_hitbox:
 				hit_box.disabled = false
 			else:
 				hit_box.disabled = true
 			detect_area.monitoring = true
+			if GmM.web_development:
+				$Circle.visible = true
 		else:
 			hit_box.disabled = true
 			detect_area.monitoring = false
+			$Circle.visible = false
 		toggle_particles()
 		queue_redraw()
 var force_disactive = false:
@@ -45,6 +49,8 @@ var obstacles_hit : Array[PhysicsBody2D] = []
 var frames = 0
 var max_velocity := 0.0
 
+var web_rand_array = [0, 0, -2, -1, 1, -1, 2, 0, 2, -2, 0, 1, -1, 2, -2, 1, -2, 2, 0, -2, -1]
+var web_rand_index = 0
 #endregion
 
 # Basic Godot methods
@@ -58,6 +64,8 @@ func _ready():
 	actual_mouse_color = mouse_color
 	GmM.on_paused.connect(on_paused)
 	particles.amount_ratio = SvM.return_particle_amount()
+	if GmM.web_development:
+		$Circle.modulate = actual_mouse_color
 
 func _physics_process(delta):
 	# Frame counter
@@ -91,10 +99,16 @@ func _physics_process(delta):
 			obj.timer += delta
 	# Particle speed factor
 	particles.speed_scale = GmM.game_speed
-
-func _draw():
-	if active && GmM.web_development:
-		draw_circle(Vector2.ZERO,radius,actual_mouse_color)
+	# WEB SPIIIIIIIIN
+	if GmM.web_development:
+		$Circle.position.x = web_rand_array[web_rand_index]
+		web_rand_index += 2
+		while web_rand_index >= web_rand_array.size():
+			web_rand_index -= web_rand_array.size()
+		$Circle.position.y = web_rand_array[web_rand_index]
+		web_rand_index *= 3
+		while web_rand_index >= web_rand_array.size():
+			web_rand_index -= web_rand_array.size()
 
 func _input(event):
 	if event is InputEventScreenDrag:

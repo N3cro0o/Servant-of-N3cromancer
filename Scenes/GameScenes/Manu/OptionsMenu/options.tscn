@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://do88bn15nxcbu"]
+[gd_scene load_steps=27 format=3 uid="uid://do88bn15nxcbu"]
 
 [ext_resource type="Script" path="res://Scenes/GameScenes/Manu/OptionsMenu/options.gd" id="1_dibnq"]
 [ext_resource type="Theme" uid="uid://do6gg3r8fydfa" path="res://Resources/Themes/main_theme.tres" id="1_i7ifc"]
@@ -9,6 +9,8 @@
 [ext_resource type="Texture2D" uid="uid://33lao13rogp1" path="res://Images/Menu/Credits/itch.logo.png" id="5_l6pu5"]
 [ext_resource type="LabelSettings" uid="uid://mp2p7an3rv7" path="res://Resources/Themes/LabelSettings/option_settings.tres" id="5_wuwyj"]
 [ext_resource type="Texture2D" uid="uid://b4iv2tsyrl17g" path="res://Images/Menu/Credits/twitter-x-seeklogo1.png" id="6_ilpl1"]
+[ext_resource type="Texture2D" uid="uid://cx3vt8d84cvy" path="res://Images/UI/check0.png" id="8_whuue"]
+[ext_resource type="Texture2D" uid="uid://bgwtctw2ys55v" path="res://Images/UI/check1.png" id="9_bdasq"]
 [ext_resource type="Texture2D" uid="uid://noecnnt5hxwr" path="res://Images/square_curved.png" id="9_q2qlw"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i3u2l"]
@@ -96,12 +98,13 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 8.0
 theme_override_styles/panel = SubResource("StyleBoxEmpty_i3u2l")
 tab_alignment = 1
-current_tab = 0
+current_tab = 2
 tabs_visible = false
 use_hidden_tabs_for_min_size = true
 tab_focus_mode = 0
 
 [node name="Tasks" type="Control" parent="Margin/VBox/Main"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -469,7 +472,6 @@ grow_vertical = 2
 mouse_filter = 1
 
 [node name="Options" type="Control" parent="Margin/VBox/Main"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 
@@ -545,13 +547,30 @@ theme_override_colors/default_color = Color(0.903598, 0.903598, 0.903598, 1)
 text = "Master"
 fit_content = true
 
-[node name="MasterSlider" type="HSlider" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider"]
+[node name="Master" type="HBoxContainer" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MasterSlider" type="HSlider" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/Master"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 10.0
 max_value = 1.2
 step = 0.01
 value = 1.0
 scrollable = false
+
+[node name="Mute" type="TextureButton" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/Master"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+toggle_mode = true
+button_pressed = true
+texture_normal = ExtResource("8_whuue")
+texture_pressed = ExtResource("9_bdasq")
+ignore_texture_size = true
+stretch_mode = 5
 
 [node name="MusicLabel" type="RichTextLabel" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider"]
 layout_mode = 2
@@ -559,13 +578,30 @@ theme_override_colors/default_color = Color(0.788235, 0.788235, 0.788235, 1)
 text = "Music"
 fit_content = true
 
-[node name="MusicSlider" type="HSlider" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider"]
+[node name="Music" type="HBoxContainer" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MusicSlider" type="HSlider" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/Music"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 10.0
 max_value = 1.2
 step = 0.01
 value = 1.0
 scrollable = false
+
+[node name="Mute" type="TextureButton" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/Music"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+toggle_mode = true
+button_pressed = true
+texture_normal = ExtResource("8_whuue")
+texture_pressed = ExtResource("9_bdasq")
+ignore_texture_size = true
+stretch_mode = 5
 
 [node name="ObstacleLabel" type="RichTextLabel" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider"]
 layout_mode = 2
@@ -573,13 +609,30 @@ theme_override_colors/default_color = Color(0.788235, 0.788235, 0.788235, 1)
 text = "Obstacles"
 fit_content = true
 
-[node name="ObstacleSlider" type="HSlider" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider"]
+[node name="Obstacles" type="HBoxContainer" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ObstacleSlider" type="HSlider" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/Obstacles"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 10.0
 max_value = 1.2
 step = 0.01
 value = 1.0
 scrollable = false
+
+[node name="Mute" type="TextureButton" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/Obstacles"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+toggle_mode = true
+button_pressed = true
+texture_normal = ExtResource("8_whuue")
+texture_pressed = ExtResource("9_bdasq")
+ignore_texture_size = true
+stretch_mode = 5
 
 [node name="UILabel" type="RichTextLabel" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider"]
 layout_mode = 2
@@ -587,13 +640,30 @@ theme_override_colors/default_color = Color(0.788235, 0.788235, 0.788235, 1)
 text = "Interface"
 fit_content = true
 
-[node name="UISlider" type="HSlider" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider"]
+[node name="UI" type="HBoxContainer" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="UISlider" type="HSlider" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/UI"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 10.0
 max_value = 1.2
 step = 0.01
 value = 1.0
 scrollable = false
+
+[node name="Mute" type="TextureButton" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/UI"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+toggle_mode = true
+button_pressed = true
+texture_normal = ExtResource("8_whuue")
+texture_pressed = ExtResource("9_bdasq")
+ignore_texture_size = true
+stretch_mode = 5
 
 [node name="MarginCredits" type="MarginContainer" parent="Margin/VBox/Main/Options/Margin/VBox"]
 layout_mode = 2
@@ -700,10 +770,14 @@ text = "Return to menu"
 [connection signal="pressed" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line/Box/Margin/Grid/YellowColor" to="." method="player_line_color_change" binds= [5]]
 [connection signal="value_changed" from="Margin/VBox/Main/Options/Margin/VBox/Graphics/Particle/ParticleSlider" to="." method="change_particle_amount"]
 [connection signal="toggled" from="Margin/VBox/Main/Options/Margin/VBox/Graphics/DebugLabelButton" to="." method="debug_label_toggle"]
-[connection signal="value_changed" from="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/MasterSlider" to="." method="change_master_bus_volume"]
-[connection signal="value_changed" from="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/MusicSlider" to="." method="change_music_bus_volume"]
-[connection signal="value_changed" from="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/ObstacleSlider" to="." method="change_obstacle_bus_volume"]
-[connection signal="value_changed" from="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/UISlider" to="." method="change_ui_bus_volume"]
+[connection signal="value_changed" from="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/Master/MasterSlider" to="." method="change_master_bus_volume"]
+[connection signal="toggled" from="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/Master/Mute" to="." method="disable_audio_slider" binds= [0]]
+[connection signal="value_changed" from="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/Music/MusicSlider" to="." method="change_music_bus_volume"]
+[connection signal="toggled" from="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/Music/Mute" to="." method="disable_audio_slider" binds= [1]]
+[connection signal="value_changed" from="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/Obstacles/ObstacleSlider" to="." method="change_obstacle_bus_volume"]
+[connection signal="toggled" from="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/Obstacles/Mute" to="." method="disable_audio_slider" binds= [2]]
+[connection signal="value_changed" from="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/UI/UISlider" to="." method="change_ui_bus_volume"]
+[connection signal="toggled" from="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/UI/Mute" to="." method="disable_audio_slider" binds= [3]]
 [connection signal="pressed" from="Margin/VBox/Main/Options/Margin/VBox/MarginCredits/Credits/Itch" to="." method="itch_button_credits"]
 [connection signal="pressed" from="Margin/VBox/Main/Options/Margin/VBox/MarginCredits/Credits/Twitter" to="." method="twitter_button_credits"]
 [connection signal="pressed" from="Margin/VBox/Main/Options/Margin/VBox/ResetData" to="." method="on_game_data_reset"]

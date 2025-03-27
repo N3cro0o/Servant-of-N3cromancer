@@ -22,9 +22,13 @@ var data = {
 	"unlocks_shop" : [false, false, false],
 	# Options
 	"volume_master" : 1.0,
+	"master_muted": false,
 	"volume_music": 1.0,
+	"music_muted": false,
 	"volume_obstacle": 1.0,
+	"obstacle_muted": false,
 	"volume_ui": 1.0,
+	"ui_muted": false,
 	"particles": 0.8,
 	"tutorial": false
 }
@@ -58,9 +62,13 @@ func reset_data():
 	data["line_color"] = 0
 	# Options data
 	data["volume_master"] = 1.0
+	data["master_muted"] = false
 	data["volume_music"] = 1.0
+	data["music_muted"] = false
 	data["volume_obstacle"] = 1.0
+	data["obstacle_muted"] = false
 	data["volume_ui"] = 1.0
+	data["ui_muted"] = false
 	data["particles"] = 0.8
 	data["tutorial"] = false
 	on_load_completed.emit()
@@ -138,6 +146,11 @@ func load_data():
 		Sfx.update_bus_volume("obstacle", data["volume_obstacle"])
 			# Volume UI
 		Sfx.update_bus_volume("UI", data["volume_ui"])
+			# Mute buses
+		Sfx.set_bus_muted("master", data["master_muted"])
+		Sfx.set_bus_muted("music", data["music_muted"])
+		Sfx.set_bus_muted("obstacle", data["obstacle_muted"])
+		Sfx.set_bus_muted("ui", data["ui_muted"])
 	on_load_completed.emit()
 
 # Save resources functions
@@ -174,16 +187,32 @@ func update_volume_master(val : float):
 	data["volume_master"] = val
 	data["version"] = save_version
 
+func mute_volume_master(val : bool):
+	data["master_muted"] = val
+	data["version"] = save_version
+
 func update_volume_music(val : float):
 	data["volume_music"] = val
 	data["version"] = save_version
 
+func mute_volume_music(val : bool):
+	data["music_muted"] = val
+	data["version"] = save_version
+	
 func update_volume_obstacle(val : float):
 	data["volume_obstacle"] = val
 	data["version"] = save_version
-	
+
+func mute_volume_obstacle(val : bool):
+	data["obstacle_muted"] = val
+	data["version"] = save_version
+
 func update_volume_ui(val : float):
 	data["volume_ui"] = val
+	data["version"] = save_version
+
+func mute_volume_ui(val : bool):
+	data["ui_muted"] = val
 	data["version"] = save_version
 
 func update_particles_amount(val: float):

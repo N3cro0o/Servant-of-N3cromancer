@@ -75,3 +75,15 @@ func update_bus_volume(bus_name : String, val):
 			AudioServer.set_bus_volume_db(obstacle_bus, linear_to_db(val))
 		"Ui":
 			AudioServer.set_bus_volume_db(ui_bus, linear_to_db(val))
+
+func set_bus_muted(bus_name: String, val: bool):
+	print(bus_name, ' ', val)
+	match bus_name.capitalize():
+		"Master":
+			AudioServer.set_bus_mute(master_bus, val)
+		"Music":
+			AudioServer.set_bus_mute(music_bus, val)
+		"Obstacle":
+			AudioServer.set_bus_mute(obstacle_bus, val)
+		"Ui":
+			AudioServer.set_bus_mute(ui_bus, val)

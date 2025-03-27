@@ -27,13 +27,17 @@ enum state {
 			left_line_pos = last_pos.LEFT
 			right_line_pos = last_pos.RIGHT
 			line_l.visible = true
+			line_l_long.visible = true
 			line_r.visible = true
+			line_r_long.visible = true
 		elif x == last_pos.LEFT:
 			right_line_pos = last_pos.MIDDLE
 			line_l.visible = false
+			line_l_long.visible = false
 		else:
 			left_line_pos = last_pos.MIDDLE
 			line_r.visible = false
+			line_r_long.visible = false
 		_change_last_point_pos(self, last_point_pos)
 @export var health_points := 5
 ## Used to calculate distance score
@@ -44,7 +48,9 @@ enum state {
 	preload("res://SFX/SoundsData/skul_crack.tres")]
 @onready var line2 := $AdditionalLine
 @onready var line_r = $HelpLines/LineR
+@onready var line_r_long = $HelpLines/LineRLong
 @onready var line_l = $HelpLines/LineL
+@onready var line_l_long = $HelpLines/LineLLong
 @onready var timer = $ShieldTimer1
 @onready var timer_charge = $ShieldTimer2
 @onready var player_repeat = $PlayerRepeat
@@ -152,12 +158,18 @@ func _ready():
 		line_r.set_point_position(x, Vector2(500, -x * distance_points))
 		line_l.set_point_position(x, Vector2(-500, -x * distance_points))
 		_i += 2 * PI / count
+	for x in 5:
+		line_r_long.set_point_position(x, Vector2(500, -400 * x))
+		line_l_long.set_point_position(x, Vector2(-500, -400 * x))
 	# Web check
 	if GmM.web_development:
-		default_color = Color(default_color, 0.33)
+		default_color = Color(default_color, 1)
 		line2.default_color = default_color
 		for gen in particle_gens:
 			gen.emitting = false
+	else:
+		gradient = null
+		line2.gradient = null
 
 func _process(_delta):
 	# Debug inv
@@ -196,18 +208,27 @@ func _process(_delta):
 	else:
 		# Rail Lines position
 		line_r.position = position
+		line_r_long.position = position
 		line_l.position = position
+		line_l_long.position = position
 		_change_last_point_pos(line_r, right_line_pos)
 		_change_last_point_pos(line_l, left_line_pos)
+		# Set Long Lines
+		var pos_vec = line_l.get_point_position(count)
+		line_l_long.set_point_position(0, pos_vec)
+		for x in range(1, 5):
+			var y = line_l_long.get_point_position(x)
+			line_l_long.set_point_position(x, Vector2(pos_vec.x, pos_vec.y - 400 * x))
+		pos_vec = line_r.get_point_position(count)
+		line_r_long.set_point_position(0, pos_vec)
+		for x in range(1, 5):
+			var y = line_r_long.get_point_position(x)
+			line_r_long.set_point_position(x, Vector2(pos_vec.x, pos_vec.y - 400 * x))
 		# Extra long line stuff
 		var point_vec = get_point_position(get_point_count() - 1)
 		line2.set_point_position(0, point_vec)
 		line2.set_point_position(1, Vector2(point_vec.x, point_vec.y - 970))
 		line2.set_point_position(2, Vector2(point_vec.x, point_vec.y - 3000))
-		point_vec = line_r.get_point_position(get_point_count() - 2)
-		line_r.set_point_position(count + 1, Vector2(point_vec.x, point_vec.y - 2000))
-		point_vec = line_l.get_point_position(get_point_count() - 2)
-		line_l.set_point_position(count + 1, Vector2(point_vec.x, point_vec.y - 2000))
 		# Pushing down position
 		_push_position_down_array(self)
 		_push_position_down_array(line_l)

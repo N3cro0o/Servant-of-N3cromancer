@@ -147,6 +147,7 @@ func _ready():
 	pause_panel.visible = false
 	on_level_start.emit()
 	print_rich("Level ready!")
+	#spawner.force_active = false
 
 func _physics_process(delta):
 	# Meta game stuff

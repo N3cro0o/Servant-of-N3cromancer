@@ -14,13 +14,19 @@ extends Control
 @onready var line = $Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line
 @onready var line_color_grid = $Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line/Box/Margin/Grid
 # Options
-@onready var master_slider = $Margin/VBox/Main/Options/Margin/VBox/SoundSlider/MasterSlider
-@onready var music_slider: HSlider = $Margin/VBox/Main/Options/Margin/VBox/SoundSlider/MusicSlider
-@onready var obstacle_slider: HSlider = $Margin/VBox/Main/Options/Margin/VBox/SoundSlider/ObstacleSlider
-@onready var ui_slider: HSlider = $Margin/VBox/Main/Options/Margin/VBox/SoundSlider/UISlider
+@onready var master_slider = $Margin/VBox/Main/Options/Margin/VBox/SoundSlider/Master/MasterSlider
+@onready var music_slider: HSlider = $Margin/VBox/Main/Options/Margin/VBox/SoundSlider/Music/MusicSlider
+@onready var obstacle_slider: HSlider = $Margin/VBox/Main/Options/Margin/VBox/SoundSlider/Obstacles/ObstacleSlider
+@onready var ui_slider: HSlider = $Margin/VBox/Main/Options/Margin/VBox/SoundSlider/UI/UISlider
 @onready var particle_slider: HSlider = $Margin/VBox/Main/Options/Margin/VBox/Graphics/Particle/ParticleSlider
 @onready var version_label: Label = $Margin/VBox/Main/Options/Margin/VBox/Label
 @onready var debug_label_button: CheckButton = $Margin/VBox/Main/Options/Margin/VBox/Graphics/DebugLabelButton
+# Mute
+@onready var mute_master: TextureButton = $Margin/VBox/Main/Options/Margin/VBox/SoundSlider/Master/Mute
+@onready var mute_music: TextureButton = $Margin/VBox/Main/Options/Margin/VBox/SoundSlider/Music/Mute
+@onready var mute_obstacle: TextureButton = $Margin/VBox/Main/Options/Margin/VBox/SoundSlider/Obstacles/Mute
+@onready var mute_ui: TextureButton = $Margin/VBox/Main/Options/Margin/VBox/SoundSlider/UI/Mute
+
 # Tasks
 @onready var task_grid: TaskGrid = $Margin/VBox/Main/Tasks/Margin/V/Box/TaskGrid
 @onready var task_label: Label = $Margin/VBox/Main/Tasks/Margin/V/Options/Completed
@@ -48,9 +54,13 @@ func _ready():
 		panel.color = GmM.line_color_array[i]
 	lock_sliders = true
 	master_slider.value = SvM.data["volume_master"]
+	mute_master.button_pressed = !SvM.data["master_muted"]
 	music_slider.value = SvM.data["volume_music"]
+	mute_music.button_pressed = !SvM.data["music_muted"]
 	obstacle_slider.value = SvM.data["volume_obstacle"]
+	mute_obstacle.button_pressed = !SvM.data["obstacle_muted"]
 	ui_slider.value = SvM.data["volume_ui"]
+	mute_ui.button_pressed = !SvM.data["ui_muted"]
 	lock_sliders = false
 	particle_slider.value = SvM.return_particle_amount()
 	debug_label_button.button_pressed = GmM.debug_label_visible
@@ -195,6 +205,41 @@ func on_game_data_reset():
 	set_unlockable_panels()
 	Sfx.play_sound_ui_number(0)
 
+func disable_audio_slider(b: bool, num: int):
+	b = !b
+	match num:
+		0:
+			master_slider.editable = b
+			Sfx.set_bus_muted("master", b)
+			SvM.mute_volume_master(b)
+			if b:
+				master_slider.modulate = Color("CCCCCCAA")
+			else:
+				master_slider.modulate = Color("FFFFFFFF")
+		1:
+			music_slider.editable = b
+			Sfx.set_bus_muted("music", b)
+			SvM.mute_volume_music(b)
+			if b:
+				music_slider.modulate = Color("CCCCCCAA")
+			else:
+				music_slider.modulate = Color("FFFFFFFF")
+		2:
+			obstacle_slider.editable = b
+			Sfx.set_bus_muted("obstacle", b)
+			SvM.mute_volume_obstacle(b)
+			if b:
+				obstacle_slider.modulate = Color("CCCCCCAA")
+			else:
+				obstacle_slider.modulate = Color("FFFFFFFF")
+		3:
+			ui_slider.editable = b
+			Sfx.set_bus_muted("ui", b)
+			SvM.mute_volume_ui(b)
+			if b:
+				ui_slider.modulate = Color("CCCCCCAA")
+			else:
+				ui_slider.modulate = Color("FFFFFFFF")
 func change_master_bus_volume(num):
 	if lock_sliders:
 		return
@@ -234,7 +279,7 @@ func update_task_label():
 
 # Credits buttons
 func itch_button_credits():
-	OS.shell_open("https://n3cro0odev.itch.io")
+	OS.shell_open("https://n3cro0odev.itch.io/servant-of-nekromanter")
 
 func twitter_button_credits():
 	OS.shell_open("https://x.com/N3cro0oDev")

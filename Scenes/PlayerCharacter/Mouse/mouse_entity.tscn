@@ -1,6 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://bx18cpaetf7lm"]
+[gd_scene load_steps=14 format=3 uid="uid://bx18cpaetf7lm"]
 
 [ext_resource type="Script" path="res://Scenes/PlayerCharacter/Mouse/mouse_entity.gd" id="1_k1hii"]
+[ext_resource type="Texture2D" uid="uid://cvwg5tkmgj4l8" path="res://Images/radial_gradient_white.png" id="2_55nrb"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pw3sr"]
 radius = 65.0
@@ -87,6 +88,11 @@ process_material = SubResource("ParticleProcessMaterial_hd4vl")
 lifetime = 0.2
 randomness = 0.1
 fixed_fps = 60
+
+[node name="Circle" type="Sprite2D" parent="."]
+visible = false
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("2_55nrb")
 
 [connection signal="body_entered" from="Area2D" to="." method="game_object_give_velocity"]
 [connection signal="body_exited" from="Area2D" to="." method="game_object_give_velocity_on_exit"]
