@@ -71,7 +71,15 @@ func reset_data():
 	data["ui_muted"] = false
 	data["particles"] = 0.8
 	data["tutorial"] = false
+	setup_options()
 	on_load_completed.emit()
+
+func reset_tasks():
+	# Instead of deleting, we can mark them as COMPLETED!!! Works the same
+	for i in 3:
+		var task = TsM.create_new_task()
+		task.completed = true
+		ResourceSaver.save(task, SAVE_RESOURCE_PATH + SAVE_TASKS_PATH % i)
 
 ## Save game data to local data
 func save_data():
@@ -138,20 +146,23 @@ func load_data():
 		print_rich("[hint=SaveManager]Data loaded[/hint]\n%s\n\n" % upgrade_names)
 		await get_tree().process_frame
 		# Load options data
-			# Volume master
-		Sfx.update_bus_volume("master", data["volume_master"])
-			# Volume music
-		Sfx.update_bus_volume("music", data["volume_music"])
-			# Volume obstacle
-		Sfx.update_bus_volume("obstacle", data["volume_obstacle"])
-			# Volume UI
-		Sfx.update_bus_volume("UI", data["volume_ui"])
-			# Mute buses
-		Sfx.set_bus_muted("master", data["master_muted"])
-		Sfx.set_bus_muted("music", data["music_muted"])
-		Sfx.set_bus_muted("obstacle", data["obstacle_muted"])
-		Sfx.set_bus_muted("ui", data["ui_muted"])
+		setup_options()
 	on_load_completed.emit()
+
+func setup_options():
+	# Volume master
+	Sfx.update_bus_volume("master", data["volume_master"])
+		# Volume music
+	Sfx.update_bus_volume("music", data["volume_music"])
+		# Volume obstacle
+	Sfx.update_bus_volume("obstacle", data["volume_obstacle"])
+		# Volume UI
+	Sfx.update_bus_volume("UI", data["volume_ui"])
+		# Mute buses
+	Sfx.set_bus_muted("master", data["master_muted"])
+	Sfx.set_bus_muted("music", data["music_muted"])
+	Sfx.set_bus_muted("obstacle", data["obstacle_muted"])
+	Sfx.set_bus_muted("ui", data["ui_muted"])
 
 # Save resources functions
 func check_task(id: int) -> bool:
@@ -245,3 +256,12 @@ func return_tasks_completed() -> int:
 
 func return_tasks_skipped() -> int:
 	return data["tasks_skipped"]
+
+# Logs
+func read_logs(past = 0) -> String:
+	var file = FileAccess.open("user://logs/godot.log", FileAccess.READ)
+	var json: String
+	if file != null:
+		json = file.get_as_text()
+		file.close()
+	return json

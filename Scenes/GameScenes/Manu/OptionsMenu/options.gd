@@ -40,6 +40,11 @@ var bttn: Button
 var skip_tween_g: Tween
 var skip_tween_b: Tween
 var lock_sliders = false
+var color_skip = Color("ffc7b9")
+var color_reroll = Color("cfddb1")
+
+# Secrets
+var secret_buffer: Array[int]
 #endregion
 
 # Basic Godot functions
@@ -102,6 +107,9 @@ func _ready():
 func _notification(what):
 	# Return to Main Menu
 	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
+		if $Logs.visible:
+			$Logs.visible = false
+			return
 		return_button_pressed()
 	if what == NOTIFICATION_FOCUS_ENTER:
 		GmM.paused = false
@@ -173,6 +181,7 @@ func on_change_tab(num : int):
 	main.set_current_tab(num)
 	active_tab = num
 	main.queue_redraw()
+	update_buffer(num)
 
 # Customisation functions
 func update_customisattion_body_data():
@@ -209,7 +218,7 @@ func disable_audio_slider(b: bool, num: int):
 	b = !b
 	match num:
 		0:
-			master_slider.editable = b
+			master_slider.editable = !b
 			Sfx.set_bus_muted("master", b)
 			SvM.mute_volume_master(b)
 			if b:
@@ -217,7 +226,7 @@ func disable_audio_slider(b: bool, num: int):
 			else:
 				master_slider.modulate = Color("FFFFFFFF")
 		1:
-			music_slider.editable = b
+			music_slider.editable = !b
 			Sfx.set_bus_muted("music", b)
 			SvM.mute_volume_music(b)
 			if b:
@@ -225,7 +234,7 @@ func disable_audio_slider(b: bool, num: int):
 			else:
 				music_slider.modulate = Color("FFFFFFFF")
 		2:
-			obstacle_slider.editable = b
+			obstacle_slider.editable = !b
 			Sfx.set_bus_muted("obstacle", b)
 			SvM.mute_volume_obstacle(b)
 			if b:
@@ -233,7 +242,7 @@ func disable_audio_slider(b: bool, num: int):
 			else:
 				obstacle_slider.modulate = Color("FFFFFFFF")
 		3:
-			ui_slider.editable = b
+			ui_slider.editable = !b
 			Sfx.set_bus_muted("ui", b)
 			SvM.mute_volume_ui(b)
 			if b:
@@ -283,3 +292,26 @@ func itch_button_credits():
 
 func twitter_button_credits():
 	OS.shell_open("https://x.com/N3cro0oDev")
+
+# Secret functions
+func update_buffer(num: int):
+	secret_buffer.push_front(num)
+	if secret_buffer.size() > 8:
+		secret_buffer.pop_back()
+	secret_codes()
+
+func secret_codes():
+	# Codes from go [last press, second to last, [...], first press]
+	if secret_buffer == [1, 2, 0, 2, 0, 2, 0, 2]:
+		print("Web mode: ", !GmM.web_development)
+		Sfx.play_sound_ui_number(1)
+		GmM.web_development = !GmM.web_development
+		secret_buffer.clear()
+	if secret_buffer == [0,1,0,1,0,1,0,1]:
+		var text := SvM.read_logs()
+		if text.is_empty():
+			return
+		$Logs/Scroll/LogLabel.text = SvM.read_logs()
+		$Logs.visible = true
+		Sfx.play_sound_ui_number(1)
+		secret_buffer.clear()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://do88bn15nxcbu"]
+[gd_scene load_steps=30 format=3 uid="uid://do88bn15nxcbu"]
 
 [ext_resource type="Script" path="res://Scenes/GameScenes/Manu/OptionsMenu/options.gd" id="1_dibnq"]
 [ext_resource type="Theme" uid="uid://do6gg3r8fydfa" path="res://Resources/Themes/main_theme.tres" id="1_i7ifc"]
@@ -6,14 +6,25 @@
 [ext_resource type="Texture2D" uid="uid://8glmydbtnfi0" path="res://Images/UI/DirectionKey/1/arrow key1.png" id="3_rrsx8"]
 [ext_resource type="Texture2D" uid="uid://b613ar7xw3mka" path="res://Images/BG/BG.png" id="3_vwox8"]
 [ext_resource type="PackedScene" uid="uid://y2q4kerc0f8g" path="res://Scenes/UI/TaskGrid/task_grid.tscn" id="4_2xjqw"]
+[ext_resource type="FontFile" uid="uid://dyvj54mbxe5ur" path="res://Resources/Themes/Sitka.ttc" id="5_471wu"]
 [ext_resource type="Texture2D" uid="uid://33lao13rogp1" path="res://Images/Menu/Credits/itch.logo.png" id="5_l6pu5"]
 [ext_resource type="LabelSettings" uid="uid://mp2p7an3rv7" path="res://Resources/Themes/LabelSettings/option_settings.tres" id="5_wuwyj"]
 [ext_resource type="Texture2D" uid="uid://b4iv2tsyrl17g" path="res://Images/Menu/Credits/twitter-x-seeklogo1.png" id="6_ilpl1"]
 [ext_resource type="Texture2D" uid="uid://cx3vt8d84cvy" path="res://Images/UI/check0.png" id="8_whuue"]
 [ext_resource type="Texture2D" uid="uid://bgwtctw2ys55v" path="res://Images/UI/check1.png" id="9_bdasq"]
 [ext_resource type="Texture2D" uid="uid://noecnnt5hxwr" path="res://Images/square_curved.png" id="9_q2qlw"]
+[ext_resource type="FontVariation" uid="uid://4eas1nxpss4t" path="res://Resources/Themes/new_font_variation.tres" id="14_sgelq"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i3u2l"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_fyiyg"]
+font = ExtResource("5_471wu")
+font_size = 74
+font_color = Color(0.554994, 0.827767, 0.916099, 1)
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
+shadow_color = Color(0, 0, 0, 0.203922)
+shadow_offset = Vector2(15, 5)
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_tui5s"]
 
@@ -98,13 +109,12 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 8.0
 theme_override_styles/panel = SubResource("StyleBoxEmpty_i3u2l")
 tab_alignment = 1
-current_tab = 2
+current_tab = 0
 tabs_visible = false
 use_hidden_tabs_for_min_size = true
 tab_focus_mode = 0
 
 [node name="Tasks" type="Control" parent="Margin/VBox/Main"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -145,7 +155,7 @@ theme_override_constants/separation = 50
 layout_mode = 2
 text = "Tak
 Nie"
-label_settings = ExtResource("5_wuwyj")
+label_settings = SubResource("LabelSettings_fyiyg")
 horizontal_alignment = 1
 
 [node name="HSeparator" type="HSeparator" parent="Margin/VBox/Main/Tasks/Margin/V/Options"]
@@ -168,12 +178,22 @@ layout_mode = 2
 [node name="Skip" type="Button" parent="Margin/VBox/Main/Tasks/Margin/V/Options/Buttons1"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_hover_pressed_color = Color(1, 0.780392, 0.72549, 1)
+theme_override_colors/font_hover_color = Color(1, 0.780392, 0.72549, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.658692, 0.575091, 1)
+theme_override_colors/font_focus_color = Color(1, 0.780392, 0.72549, 1)
+theme_override_colors/font_color = Color(1, 0.78074, 0.724432, 1)
 theme_override_font_sizes/font_size = 84
 text = "Skip"
 
 [node name="Reroll" type="Button" parent="Margin/VBox/Main/Tasks/Margin/V/Options/Buttons1"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_hover_pressed_color = Color(0.811765, 0.866667, 0.694118, 1)
+theme_override_colors/font_hover_color = Color(0.811765, 0.866667, 0.694118, 1)
+theme_override_colors/font_pressed_color = Color(0.725977, 0.791202, 0.579774, 1)
+theme_override_colors/font_focus_color = Color(0.811765, 0.866667, 0.694118, 1)
+theme_override_colors/font_color = Color(0.81202, 0.866686, 0.695121, 1)
 theme_override_font_sizes/font_size = 84
 text = "Reroll"
 
@@ -193,12 +213,22 @@ layout_mode = 2
 [node name="Skip" type="Button" parent="Margin/VBox/Main/Tasks/Margin/V/Options/Buttons2"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_hover_pressed_color = Color(1, 0.780392, 0.72549, 1)
+theme_override_colors/font_hover_color = Color(1, 0.780392, 0.72549, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.658692, 0.575091, 1)
+theme_override_colors/font_focus_color = Color(1, 0.780392, 0.72549, 1)
+theme_override_colors/font_color = Color(1, 0.780392, 0.72549, 1)
 theme_override_font_sizes/font_size = 84
 text = "Skip"
 
 [node name="Reroll" type="Button" parent="Margin/VBox/Main/Tasks/Margin/V/Options/Buttons2"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_hover_pressed_color = Color(0.811765, 0.866667, 0.694118, 1)
+theme_override_colors/font_hover_color = Color(0.811765, 0.866667, 0.694118, 1)
+theme_override_colors/font_pressed_color = Color(0.725977, 0.791202, 0.579774, 1)
+theme_override_colors/font_focus_color = Color(0.811765, 0.866667, 0.694118, 1)
+theme_override_colors/font_color = Color(0.811765, 0.866667, 0.694118, 1)
 theme_override_font_sizes/font_size = 84
 text = "Reroll"
 
@@ -218,12 +248,22 @@ layout_mode = 2
 [node name="Skip" type="Button" parent="Margin/VBox/Main/Tasks/Margin/V/Options/Buttons3"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_hover_pressed_color = Color(1, 0.780392, 0.72549, 1)
+theme_override_colors/font_hover_color = Color(1, 0.780392, 0.72549, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.658692, 0.575091, 1)
+theme_override_colors/font_focus_color = Color(1, 0.780392, 0.72549, 1)
+theme_override_colors/font_color = Color(1, 0.780392, 0.72549, 1)
 theme_override_font_sizes/font_size = 84
 text = "Skip"
 
 [node name="Reroll" type="Button" parent="Margin/VBox/Main/Tasks/Margin/V/Options/Buttons3"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_hover_pressed_color = Color(0.811765, 0.866667, 0.694118, 1)
+theme_override_colors/font_hover_color = Color(0.811765, 0.866667, 0.694118, 1)
+theme_override_colors/font_pressed_color = Color(0.725977, 0.791202, 0.579774, 1)
+theme_override_colors/font_focus_color = Color(0.811765, 0.866667, 0.694118, 1)
+theme_override_colors/font_color = Color(0.811765, 0.866667, 0.694118, 1)
 theme_override_font_sizes/font_size = 84
 text = "Reroll"
 
@@ -472,6 +512,7 @@ grow_vertical = 2
 mouse_filter = 1
 
 [node name="Options" type="Control" parent="Margin/VBox/Main"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 
@@ -755,6 +796,33 @@ layout_mode = 2
 size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 80
 text = "Return to menu"
+
+[node name="Logs" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Scroll" type="ScrollContainer" parent="Logs"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LogLabel" type="RichTextLabel" parent="Logs/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 1
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
+theme_override_fonts/normal_font = ExtResource("14_sgelq")
+theme_override_font_sizes/normal_font_size = 26
 
 [connection signal="button_down" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Left" to="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Left" method="on_button_update"]
 [connection signal="button_up" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Left" to="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Left" method="on_button_update"]

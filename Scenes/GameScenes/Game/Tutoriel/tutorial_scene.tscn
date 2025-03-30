@@ -1,8 +1,9 @@
-[gd_scene load_steps=22 format=3 uid="uid://depbnw57vsktm"]
+[gd_scene load_steps=23 format=3 uid="uid://depbnw57vsktm"]
 
 [ext_resource type="Script" path="res://Scenes/GameScenes/Game/Tutoriel/tutorial_scene.gd" id="1_17wag"]
 [ext_resource type="Script" path="res://Resources/DataHolders/Script/stage_enemy_data.gd" id="2_r8dsm"]
 [ext_resource type="Resource" uid="uid://dxxmyg2erd1ms" path="res://Resources/DataHolders/GameStages/tutorial.tres" id="3_6c8r7"]
+[ext_resource type="Resource" uid="uid://c5pnpq5t84gkq" path="res://SFX/MusicData/main_game.tres" id="4_iocke"]
 [ext_resource type="PackedScene" uid="uid://b4f11y5i27dcu" path="res://Scenes/UI/MainGame/PauseScreen/pause_panel.tscn" id="5_86t17"]
 [ext_resource type="PackedScene" uid="uid://cc0c6bo2wcejw" path="res://Scenes/UI/MainGame/GameOverScreen/end_panel.tscn" id="6_6sern"]
 [ext_resource type="Script" path="res://Scenes/GameScenes/Game/GameScene/inventory_logic.gd" id="7_ntmw5"]
@@ -31,6 +32,7 @@ script = ExtResource("1_17wag")
 bg_sprites = [NodePath("BG/BgUp"), NodePath("BG/Bg"), NodePath("BG/BgDown")]
 enemy_stages = Array[ExtResource("2_r8dsm")]([ExtResource("3_6c8r7")])
 button_height_scale = 1.6
+stream = ExtResource("4_iocke")
 
 [node name="WindowBox" type="Control" parent="."]
 z_index = 20

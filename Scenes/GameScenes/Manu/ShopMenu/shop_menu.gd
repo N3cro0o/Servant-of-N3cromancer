@@ -4,14 +4,14 @@ extends Control
 
 @onready var logic = $LogicNode
 # Outputs
-@onready var text_name = $Margin/Box/Up/Box/TextName
+@onready var text_name = $Margin/Box/Down/DownMargin/BoxOuter/NewTextName
 @onready var texture = $Margin/Box/Up/Box/Texture
-@onready var text_desc = $Margin/Box/Down/BoxOuter/TextDesc
-@onready var text_coins = $Margin/Box/Down/BoxOuter/CoinsBox/TextCoins
+@onready var text_desc = $Margin/Box/Down/DownMargin/BoxOuter/TextDesc
+@onready var text_coins = $Margin/Box/Up/Box/CoinsBox/TextCoins
 # Inputs
-@onready var buy = $Margin/Box/Down/BoxOuter/Box/Buy
-@onready var left = $Margin/Box/Down/BoxOuter/Box/Control/Buttons/Left
-@onready var right = $Margin/Box/Down/BoxOuter/Box/Control/Buttons/Right
+@onready var buy = $Margin/Box/Down/DownMargin/BoxOuter/Box/Buy
+@onready var left = $Margin/Box/Down/DownMargin/BoxOuter/Box/Control/Buttons/Left
+@onready var right = $Margin/Box/Down/DownMargin/BoxOuter/Box/Control/Buttons/Right
 
 var items_array : Array[ItemShopData]
 var current_item_index = 0
@@ -61,16 +61,20 @@ func change_current_item(num : int):
 	current_item_index = num
 	item = items_array[num]
 	cost = item.cost
-	text_name.text = "[center]%s[/center]" % [item.name]
-	text_desc.text = "[center]%s[/center]" % item.desc
+	text_name.text = item.name
+	text_desc.text = item.desc
 	texture.texture = item.image
 	if item.bought:
 		texture.self_modulate = Color(1, 0.498, 0.494, 0.9)
+		buy.modulate = Color("CFCFCF", 0.8)
 		buy.text = "Bought"
 	else:
 		texture.self_modulate = Color(1, 1, 1, 1)
 		buy.text = "Cost: %d" % cost
+		buy.modulate = Color("FFFFFF", 1.0)
 	logic.set_script(item.resource_script)
+	await get_tree().process_frame
+	buy_button_start_pos = buy.position
 
 # Buy logic functions
 func on_buy():
@@ -85,7 +89,7 @@ func on_buy():
 			change_current_item(current_item_index)
 		else:
 			print_rich(ItemShopData.debug_text1 % [item.name, Time.get_time_dict_from_system()])
-			shake_buy_button()
+			shake_buy_button2()
 	Sfx.play_sound_ui_number(0)
 
 func shake_buy_button():
@@ -104,4 +108,21 @@ func shake_buy_button():
 		buy.position = lerp(buy.position, buy_button_start_pos, 0.05)
 		await Engine.get_main_loop().process_frame
 	buy.position = buy_button_start_pos
+	shake_check = false
+
+func shake_buy_button2():
+	shake_check = true
+	buy.modulate = Color.ORANGE_RED
+	if buy_button_start_pos == Vector2.ZERO:
+		buy_button_start_pos = buy.position
+	var tween = get_tree().create_tween().tween_property(buy, "position:x",buy_button_start_pos.x + 35, 0.2).\
+		set_trans(Tween.TRANS_EXPO)
+	await tween.finished
+	tween = get_tree().create_tween().tween_property(buy, "position:x", buy_button_start_pos.x - 50, 0.2).\
+		set_trans(Tween.TRANS_LINEAR)
+	await tween.finished
+	get_tree().create_tween().tween_property(buy, "modulate",Color.WHITE, 0.25)
+	tween = get_tree().create_tween().tween_property(buy, "position:x", buy_button_start_pos.x, 0.25).\
+		set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_OUT)
+	await tween.finished
 	shake_check = false

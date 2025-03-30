@@ -125,6 +125,7 @@ func update_line_color(color : int):
 func change_scene(scene_to_go : int):
 	if scene_to_go == 0:
 		SvM.tutorial_complete()
+		TsM.fill()
 	await transition_screen_in()
 	paused = false
 	after_game_over_logic(-1)
@@ -185,5 +186,8 @@ func reset_save_data():
 	line_color = 0
 	inventory_space = 0
 	SvM.save_data()
+	SvM.reset_tasks()
+	# Tasks
+	TsM.reset()
 	# Play the tutorial again
 	GmM.change_scene(4)
