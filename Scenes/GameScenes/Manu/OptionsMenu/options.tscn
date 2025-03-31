@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://do88bn15nxcbu"]
+[gd_scene load_steps=34 format=3 uid="uid://do88bn15nxcbu"]
 
 [ext_resource type="Script" path="res://Scenes/GameScenes/Manu/OptionsMenu/options.gd" id="1_dibnq"]
 [ext_resource type="Theme" uid="uid://do6gg3r8fydfa" path="res://Resources/Themes/main_theme.tres" id="1_i7ifc"]
@@ -10,6 +10,8 @@
 [ext_resource type="Texture2D" uid="uid://33lao13rogp1" path="res://Images/Menu/Credits/itch.logo.png" id="5_l6pu5"]
 [ext_resource type="LabelSettings" uid="uid://mp2p7an3rv7" path="res://Resources/Themes/LabelSettings/option_settings.tres" id="5_wuwyj"]
 [ext_resource type="Texture2D" uid="uid://b4iv2tsyrl17g" path="res://Images/Menu/Credits/twitter-x-seeklogo1.png" id="6_ilpl1"]
+[ext_resource type="Script" path="res://Resources/RandomScripts/game_button2.gd" id="8_ck40c"]
+[ext_resource type="Texture2D" uid="uid://ddiksuw4ojdq7" path="res://Images/UI/DirectionKey/2/new arrow keys.png" id="8_u3suh"]
 [ext_resource type="Texture2D" uid="uid://cx3vt8d84cvy" path="res://Images/UI/check0.png" id="8_whuue"]
 [ext_resource type="Texture2D" uid="uid://bgwtctw2ys55v" path="res://Images/UI/check1.png" id="9_bdasq"]
 [ext_resource type="Texture2D" uid="uid://noecnnt5hxwr" path="res://Images/square_curved.png" id="9_q2qlw"]
@@ -29,6 +31,14 @@ shadow_offset = Vector2(15, 5)
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_tui5s"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_d3uhj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fcpoo"]
+atlas = ExtResource("8_u3suh")
+region = Rect2(0, 128, 256, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ntv7j"]
+atlas = ExtResource("8_u3suh")
+region = Rect2(0, 0, 256, 128)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iojhu"]
 
@@ -109,12 +119,13 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 8.0
 theme_override_styles/panel = SubResource("StyleBoxEmpty_i3u2l")
 tab_alignment = 1
-current_tab = 0
+current_tab = 1
 tabs_visible = false
 use_hidden_tabs_for_min_size = true
 tab_focus_mode = 0
 
 [node name="Tasks" type="Control" parent="Margin/VBox/Main"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -268,7 +279,6 @@ theme_override_font_sizes/font_size = 84
 text = "Reroll"
 
 [node name="PlayerCustomization" type="Control" parent="Margin/VBox/Main"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
@@ -330,6 +340,7 @@ theme_override_constants/separation = 50
 alignment = 1
 
 [node name="Left" type="Button" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box" node_paths=PackedStringArray("image")]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/focus = SubResource("StyleBoxEmpty_d3uhj")
@@ -338,11 +349,13 @@ image = NodePath("TextureRect")
 
 [node name="TextureRect" type="TextureRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Left"]
 layout_mode = 0
-offset_right = 256.0
-offset_bottom = 128.0
+offset_right = 940.0
+offset_bottom = 260.0
+pivot_offset = Vector2(470, 130)
 texture = ExtResource("3_rrsx8")
 
 [node name="Right" type="Button" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box" node_paths=PackedStringArray("image")]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/focus = SubResource("StyleBoxEmpty_d3uhj")
@@ -351,10 +364,64 @@ image = NodePath("TextureRect")
 
 [node name="TextureRect" type="TextureRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Right"]
 layout_mode = 0
-offset_right = 256.0
-offset_bottom = 128.0
+offset_right = 445.0
+offset_bottom = 260.0
 rotation = 3.14159
+pivot_offset = Vector2(222.5, 130)
 texture = ExtResource("3_rrsx8")
+
+[node name="Left2" type="Button" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box" node_paths=PackedStringArray("image", "click_image")]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/focus = SubResource("StyleBoxEmpty_d3uhj")
+script = ExtResource("8_ck40c")
+image = NodePath("TextureRect")
+click_image = NodePath("TextureRect2")
+
+[node name="TextureRect2" type="TextureRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Left2"]
+visible = false
+modulate = Color(1, 1, 1, 0.196078)
+texture_filter = 1
+layout_mode = 0
+offset_right = 445.0
+offset_bottom = 260.0
+pivot_offset = Vector2(222.5, 130)
+texture = SubResource("AtlasTexture_fcpoo")
+
+[node name="TextureRect" type="TextureRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Left2"]
+texture_filter = 1
+layout_mode = 0
+offset_right = 445.0
+offset_bottom = 260.0
+pivot_offset = Vector2(222.5, 130)
+texture = SubResource("AtlasTexture_ntv7j")
+
+[node name="Right2" type="Button" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box" node_paths=PackedStringArray("image", "click_image")]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/focus = SubResource("StyleBoxEmpty_d3uhj")
+script = ExtResource("8_ck40c")
+image = NodePath("TextureRect")
+click_image = NodePath("TextureRect2")
+
+[node name="TextureRect2" type="TextureRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Right2"]
+visible = false
+modulate = Color(1, 1, 1, 0.196078)
+texture_filter = 1
+offset_right = 445.0
+offset_bottom = 260.0
+rotation = 3.14159
+pivot_offset = Vector2(222.5, 130)
+texture = SubResource("AtlasTexture_fcpoo")
+
+[node name="TextureRect" type="TextureRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Right2"]
+texture_filter = 1
+layout_mode = 0
+offset_right = 445.0
+offset_bottom = 260.0
+rotation = 3.14159
+pivot_offset = Vector2(222.5, 130)
+texture = SubResource("AtlasTexture_ntv7j")
 
 [node name="Line" type="ColorRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox"]
 layout_mode = 2
@@ -830,6 +897,14 @@ theme_override_font_sizes/normal_font_size = 26
 [connection signal="button_down" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Right" to="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Right" method="on_button_update"]
 [connection signal="button_up" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Right" to="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Right" method="on_button_update"]
 [connection signal="pressed" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Right" to="." method="change_body_object" binds= [1]]
+[connection signal="button_down" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Left2" to="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Left2" method="on_button_update"]
+[connection signal="button_up" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Left2" to="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Left2" method="on_button_update"]
+[connection signal="pressed" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Left2" to="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Left2" method="on_button_pressed"]
+[connection signal="pressed" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Left2" to="." method="change_body_object" binds= [-1]]
+[connection signal="button_down" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Right2" to="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Right2" method="on_button_update"]
+[connection signal="button_up" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Right2" to="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Right2" method="on_button_update"]
+[connection signal="pressed" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Right2" to="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Right2" method="on_button_pressed"]
+[connection signal="pressed" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Right2" to="." method="change_body_object" binds= [1]]
 [connection signal="pressed" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line/Box/Margin/Grid/BasicColor" to="." method="player_line_color_change" binds= [0]]
 [connection signal="pressed" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line/Box/Margin/Grid/RedColor" to="." method="player_line_color_change" binds= [1]]
 [connection signal="pressed" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line/Box/Margin/Grid/BlueColor" to="." method="player_line_color_change" binds= [2]]

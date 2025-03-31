@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://depbnw57vsktm"]
+[gd_scene load_steps=24 format=3 uid="uid://depbnw57vsktm"]
 
 [ext_resource type="Script" path="res://Scenes/GameScenes/Game/Tutoriel/tutorial_scene.gd" id="1_17wag"]
 [ext_resource type="Script" path="res://Resources/DataHolders/Script/stage_enemy_data.gd" id="2_r8dsm"]
@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://cw4egb0obgrol" path="res://Images/UI/DirectionKey/1/arrow key2.png" id="12_f02ej"]
 [ext_resource type="PackedScene" uid="uid://dj0xd4lvpcrnd" path="res://Scenes/Obstacles/SpawnerV2/spawner_v2.tscn" id="13_7hx1p"]
 [ext_resource type="PackedScene" uid="uid://cwhxijf40rcnx" path="res://Scenes/PlayerCharacter/PlayerLine/player_line.tscn" id="14_6ubya"]
+[ext_resource type="Shape2D" uid="uid://c3hrcfy1n4wnh" path="res://Scenes/UI/MainGame/MoveButtons/button_shape_rect.tres" id="14_ytexe"]
 [ext_resource type="PackedScene" uid="uid://bx18cpaetf7lm" path="res://Scenes/PlayerCharacter/Mouse/mouse_entity.tscn" id="15_w05re"]
 [ext_resource type="PackedScene" uid="uid://cxecydc21mmwa" path="res://Scenes/SceneKiller/killer.tscn" id="16_3otaq"]
 [ext_resource type="Texture2D" uid="uid://gvpii7lmsrxu" path="res://Images/Player/Damage/hit_frame.png" id="17_ey8sr"]
@@ -35,11 +36,12 @@ button_height_scale = 1.6
 stream = ExtResource("4_iocke")
 
 [node name="WindowBox" type="Control" parent="."]
-z_index = 20
+z_index = 101
 layout_mode = 3
 anchors_preset = 0
 offset_right = 1080.0
 offset_bottom = 2400.0
+mouse_filter = 1
 
 [node name="DebugLabel" type="Label" parent="WindowBox"]
 visible = false
@@ -186,6 +188,7 @@ color = Color(1, 1, 1, 0.152941)
 position = Vector2(540, 1200)
 
 [node name="ButtonL" type="TouchScreenButton" parent="Camera2D"]
+visible = false
 self_modulate = Color(1, 1, 1, 0.745098)
 z_index = 1
 position = Vector2(-505, 876)
@@ -195,6 +198,7 @@ texture_pressed = ExtResource("12_f02ej")
 action = "key_left"
 
 [node name="ButtonR" type="TouchScreenButton" parent="Camera2D"]
+visible = false
 self_modulate = Color(1, 1, 1, 0.745098)
 z_index = 1
 position = Vector2(504, 1137)
@@ -203,6 +207,23 @@ scale = Vector2(1.87109, 2.14063)
 texture_normal = ExtResource("11_vl0y0")
 texture_pressed = ExtResource("12_f02ej")
 action = "key_right"
+
+[node name="NewButtons" type="Node2D" parent="Camera2D"]
+z_index = 100
+
+[node name="ButtonLeft" type="TouchScreenButton" parent="Camera2D/NewButtons"]
+position = Vector2(-270, 987)
+shape = ExtResource("14_ytexe")
+
+[node name="CenterLeft" type="Node2D" parent="Camera2D/NewButtons"]
+position = Vector2(-540, 1200)
+
+[node name="ButtonRight" type="TouchScreenButton" parent="Camera2D/NewButtons"]
+position = Vector2(270, 987)
+shape = ExtResource("14_ytexe")
+
+[node name="CenterRight" type="Node2D" parent="Camera2D/NewButtons"]
+position = Vector2(540, 1200)
 
 [node name="SpawnerV2" parent="." instance=ExtResource("13_7hx1p")]
 repeat_check = false
@@ -216,9 +237,11 @@ spawner_offset = Vector2(540, -300)
 [node name="Pickups" type="Node2D" parent="."]
 
 [node name="PlayerLine" parent="." instance=ExtResource("14_6ubya")]
+z_index = 20
 position = Vector2(540, 1920)
 
 [node name="MouseEntity" parent="." instance=ExtResource("15_w05re")]
+z_index = 30
 position = Vector2(540, 1557)
 
 [node name="Killers" type="Node" parent="."]
@@ -274,6 +297,8 @@ texture = ExtResource("18_gus1q")
 [connection signal="pressed" from="WindowBox/ScrollsBox/ShieldButton" to="WindowBox/ScrollsBox/InventoryLogic" method="shield_use"]
 [connection signal="on_text_append_end" from="WindowBox/Dialogue" to="." method="on_dialogue_text_append_end"]
 [connection signal="gui_input" from="WindowBox/MarginContainer/ClickCatcher" to="." method="_click_catcher_input"]
+[connection signal="pressed" from="Camera2D/NewButtons/ButtonLeft" to="." method="move_button_left"]
+[connection signal="pressed" from="Camera2D/NewButtons/ButtonRight" to="." method="move_button_right"]
 [connection signal="on_spawned_entity" from="SpawnerV2" to="." method="_spawner1_spawn"]
 [connection signal="on_player_death" from="PlayerLine" to="." method="on_player_death"]
 [connection signal="on_player_status_change" from="PlayerLine" to="." method="on_player_hit"]

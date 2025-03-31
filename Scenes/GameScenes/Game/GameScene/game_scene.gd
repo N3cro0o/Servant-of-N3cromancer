@@ -65,6 +65,12 @@ var game_time = 0.0
 var margin_side = 75
 var margin_between = 20
 var margin_bottom = 100
+var lock_buttons = false
+var left_radius = 0; var right_radius = 0
+var left_color = Color.BLUE; var right_color = Color.RED
+var tw_left_rad: Tween; var tw_left_col: Tween
+var tw_right_rad: Tween; var tw_right_col: Tween
+var max_radius = 900
 
 # Difficulty vars
 var diff_trunc_val = 1
@@ -159,8 +165,8 @@ func _physics_process(delta):
 	if p_state == state.DED:
 		Sfx.update_bus_volume("music", SvM.data["volume_music"] * 0.1)
 		death_timer += delta
-		for bttn in camera_buttons:
-			bttn.visible = false
+		#for bttn in camera_buttons:
+			#bttn.visible = false
 		pause_panel.visible = false
 		# Death movement
 		if death_movement && death_timer > 1.5:
@@ -171,6 +177,7 @@ func _physics_process(delta):
 
 func _process(delta):
 	fps = delta
+	queue_redraw()
 	# Hit panel hiding
 	if hit_color_zeroing:
 		var c : Color = hit_frame.self_modulate
@@ -200,6 +207,53 @@ func _notification(what):
 	# Quit game
 	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
 		pause_game()
+
+func _draw() -> void:
+	draw_circle($Camera2D/NewButtons/CenterLeft.global_position, left_radius, left_color)
+	draw_circle($Camera2D/NewButtons/CenterRight.global_position, right_radius, right_color)
+
+# Move buttons functions
+func move_button_left():
+	if !GmM.paused && !lock_logic && !lock_buttons:
+		var move_event = InputEventAction.new()
+		move_event.action = "key_left"
+		move_event.pressed = true
+		Input.parse_input_event(move_event)
+		left_radius = 0
+		left_color = Color(Color.BLUE, 0.3)
+		if tw_left_rad != null:
+			tw_left_rad.kill()
+		if tw_left_col != null:
+			tw_left_col.kill()
+		tw_left_rad = get_tree().create_tween()
+		tw_left_rad.tween_property(self,"left_radius", max_radius, 0.6).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
+		tw_left_col = get_tree().create_tween()
+		tw_left_col.tween_property(self,"left_color:a", 0, 0.35)
+		move_event = InputEventAction.new()
+		move_event.action = "key_left"
+		move_event.pressed = false
+		Input.parse_input_event(move_event)
+
+func move_button_right():
+	if !GmM.paused && !lock_logic && !lock_buttons:
+		var move_event = InputEventAction.new()
+		move_event.action = "key_right"
+		move_event.pressed = true
+		Input.parse_input_event(move_event)
+		right_radius = 0
+		right_color = Color(Color.RED, 0.3)
+		if tw_right_rad != null:
+			tw_right_rad.kill()
+		if tw_right_col != null:
+			tw_right_col.kill()
+		tw_right_rad = get_tree().create_tween()
+		tw_right_rad.tween_property(self,"right_radius", max_radius, 0.6).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
+		tw_right_col = get_tree().create_tween()
+		tw_right_col.tween_property(self,"right_color:a", 0, 0.35)
+		move_event = InputEventAction.new()
+		move_event.action = "key_right"
+		move_event.pressed = false
+		Input.parse_input_event(move_event)
 
 # Stages functions
 func advance_stage():
@@ -333,5 +387,9 @@ func on_paused(paused):
 	else:
 		actual_speed_multi = speed_multi
 		pause_panel.visible = false
-	for bttn in camera_buttons:
-		bttn.visible = !GmM.paused
+	#for bttn in camera_buttons:
+		#bttn.visible = !GmM.paused
+
+# Debug functions
+func debug_button_print():
+	print("Dziala")

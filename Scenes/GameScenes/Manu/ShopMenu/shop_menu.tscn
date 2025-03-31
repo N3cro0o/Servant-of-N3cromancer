@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://dua8n2u5i2pav"]
+[gd_scene load_steps=25 format=3 uid="uid://dua8n2u5i2pav"]
 
 [ext_resource type="Theme" uid="uid://do6gg3r8fydfa" path="res://Resources/Themes/main_theme.tres" id="1_i30es"]
 [ext_resource type="Script" path="res://Scenes/GameScenes/Manu/ShopMenu/shop_menu.gd" id="1_vbxe0"]
@@ -8,6 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://d2j5jhadmnc2q" path="res://Images/PickUps/PLN/pln.png" id="2_bljjt"]
 [ext_resource type="Texture2D" uid="uid://noecnnt5hxwr" path="res://Images/square_curved.png" id="3_ntfu8"]
 [ext_resource type="LabelSettings" uid="uid://cuaepcdh7yiv3" path="res://Resources/Themes/LabelSettings/shop_title.tres" id="4_ogay8"]
+[ext_resource type="Script" path="res://Resources/RandomScripts/game_button2.gd" id="9_kjqrh"]
+[ext_resource type="Texture2D" uid="uid://ddiksuw4ojdq7" path="res://Images/UI/DirectionKey/2/new arrow keys.png" id="10_cr6dy"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_vfvsw"]
 
@@ -30,6 +32,16 @@
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5a78q"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bnqmd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mkmko"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b82t5"]
+atlas = ExtResource("10_cr6dy")
+region = Rect2(0, 128, 256, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mdj8c"]
+atlas = ExtResource("10_cr6dy")
+region = Rect2(0, 0, 256, 128)
 
 [node name="ShopMenu" type="Control"]
 layout_mode = 3
@@ -249,6 +261,7 @@ theme_override_constants/separation = 90
 alignment = 1
 
 [node name="Left" type="Button" parent="Margin/Box/Down/DownMargin/BoxOuter/Box/Control/Buttons" node_paths=PackedStringArray("image")]
+visible = false
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -266,12 +279,14 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -53.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(175, 102)
+pivot_offset = Vector2(101.5, 102)
 texture = ExtResource("2_81wor")
 
 [node name="Right" type="Button" parent="Margin/Box/Down/DownMargin/BoxOuter/Box/Control/Buttons" node_paths=PackedStringArray("image")]
+visible = false
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -289,11 +304,65 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -26.5
+offset_right = 26.5
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(-1, 1)
-pivot_offset = Vector2(175, 102)
+pivot_offset = Vector2(101.5, 102)
 texture = ExtResource("2_81wor")
+
+[node name="Left2" type="Button" parent="Margin/Box/Down/DownMargin/BoxOuter/Box/Control/Buttons" node_paths=PackedStringArray("image", "click_image")]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/focus = SubResource("StyleBoxEmpty_mkmko")
+script = ExtResource("9_kjqrh")
+image = NodePath("TextureRect")
+click_image = NodePath("TextureRect2")
+
+[node name="TextureRect2" type="TextureRect" parent="Margin/Box/Down/DownMargin/BoxOuter/Box/Control/Buttons/Left2"]
+visible = false
+modulate = Color(1, 1, 1, 0.196078)
+texture_filter = 1
+offset_right = 350.0
+offset_bottom = 204.0
+pivot_offset = Vector2(175, 102)
+texture = SubResource("AtlasTexture_b82t5")
+
+[node name="TextureRect" type="TextureRect" parent="Margin/Box/Down/DownMargin/BoxOuter/Box/Control/Buttons/Left2"]
+texture_filter = 1
+layout_mode = 0
+offset_right = 350.0
+offset_bottom = 204.0
+pivot_offset = Vector2(175, 102)
+texture = SubResource("AtlasTexture_mdj8c")
+
+[node name="Right2" type="Button" parent="Margin/Box/Down/DownMargin/BoxOuter/Box/Control/Buttons" node_paths=PackedStringArray("image", "click_image")]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/focus = SubResource("StyleBoxEmpty_mkmko")
+script = ExtResource("9_kjqrh")
+image = NodePath("TextureRect")
+click_image = NodePath("TextureRect2")
+
+[node name="TextureRect2" type="TextureRect" parent="Margin/Box/Down/DownMargin/BoxOuter/Box/Control/Buttons/Right2"]
+visible = false
+modulate = Color(1, 1, 1, 0.196078)
+texture_filter = 1
+offset_right = 350.0
+offset_bottom = 204.0
+rotation = 3.14159
+pivot_offset = Vector2(175, 102)
+texture = SubResource("AtlasTexture_b82t5")
+
+[node name="TextureRect" type="TextureRect" parent="Margin/Box/Down/DownMargin/BoxOuter/Box/Control/Buttons/Right2"]
+texture_filter = 1
+layout_mode = 0
+offset_right = 350.0
+offset_bottom = 204.0
+rotation = 3.14159
+pivot_offset = Vector2(175, 102)
+texture = SubResource("AtlasTexture_mdj8c")
 
 [node name="ReturnButton" type="Button" parent="Margin/Box/Down/DownMargin/BoxOuter"]
 layout_mode = 2
@@ -310,4 +379,12 @@ text = "Return to menu"
 [connection signal="button_down" from="Margin/Box/Down/DownMargin/BoxOuter/Box/Control/Buttons/Right" to="Margin/Box/Down/DownMargin/BoxOuter/Box/Control/Buttons/Right" method="on_button_update"]
 [connection signal="button_up" from="Margin/Box/Down/DownMargin/BoxOuter/Box/Control/Buttons/Right" to="Margin/Box/Down/DownMargin/BoxOuter/Box/Control/Buttons/Right" method="on_button_update"]
 [connection signal="pressed" from="Margin/Box/Down/DownMargin/BoxOuter/Box/Control/Buttons/Right" to="." method="cycle_items" binds= [1]]
+[connection signal="button_down" from="Margin/Box/Down/DownMargin/BoxOuter/Box/Control/Buttons/Left2" to="Margin/Box/Down/DownMargin/BoxOuter/Box/Control/Buttons/Left2" method="on_button_update"]
+[connection signal="button_up" from="Margin/Box/Down/DownMargin/BoxOuter/Box/Control/Buttons/Left2" to="Margin/Box/Down/DownMargin/BoxOuter/Box/Control/Buttons/Left2" method="on_button_update"]
+[connection signal="pressed" from="Margin/Box/Down/DownMargin/BoxOuter/Box/Control/Buttons/Left2" to="Margin/Box/Down/DownMargin/BoxOuter/Box/Control/Buttons/Left2" method="on_button_pressed"]
+[connection signal="pressed" from="Margin/Box/Down/DownMargin/BoxOuter/Box/Control/Buttons/Left2" to="." method="cycle_items" binds= [-1]]
+[connection signal="button_down" from="Margin/Box/Down/DownMargin/BoxOuter/Box/Control/Buttons/Right2" to="Margin/Box/Down/DownMargin/BoxOuter/Box/Control/Buttons/Right2" method="on_button_update"]
+[connection signal="button_up" from="Margin/Box/Down/DownMargin/BoxOuter/Box/Control/Buttons/Right2" to="Margin/Box/Down/DownMargin/BoxOuter/Box/Control/Buttons/Right2" method="on_button_update"]
+[connection signal="pressed" from="Margin/Box/Down/DownMargin/BoxOuter/Box/Control/Buttons/Right2" to="Margin/Box/Down/DownMargin/BoxOuter/Box/Control/Buttons/Right2" method="on_button_pressed"]
+[connection signal="pressed" from="Margin/Box/Down/DownMargin/BoxOuter/Box/Control/Buttons/Right2" to="." method="cycle_items" binds= [1]]
 [connection signal="pressed" from="Margin/Box/Down/DownMargin/BoxOuter/ReturnButton" to="." method="return_button_pressed"]

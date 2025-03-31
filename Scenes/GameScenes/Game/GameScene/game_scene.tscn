@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://vypfdtx3st2g"]
+[gd_scene load_steps=24 format=3 uid="uid://vypfdtx3st2g"]
 
 [ext_resource type="PackedScene" uid="uid://cwhxijf40rcnx" path="res://Scenes/PlayerCharacter/PlayerLine/player_line.tscn" id="1_0j60h"]
 [ext_resource type="Script" path="res://Scenes/GameScenes/Game/GameScene/game_scene.gd" id="1_hmcmp"]
@@ -18,6 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://gvpii7lmsrxu" path="res://Images/Player/Damage/hit_frame.png" id="12_ubvyc"]
 [ext_resource type="PackedScene" uid="uid://dj0xd4lvpcrnd" path="res://Scenes/Obstacles/SpawnerV2/spawner_v2.tscn" id="13_ri3jn"]
 [ext_resource type="Texture2D" uid="uid://b613ar7xw3mka" path="res://Images/BG/BG.png" id="13_tjaki"]
+[ext_resource type="Shape2D" uid="uid://c3hrcfy1n4wnh" path="res://Scenes/UI/MainGame/MoveButtons/button_shape_rect.tres" id="14_ejbbi"]
 [ext_resource type="PackedScene" uid="uid://cc0c6bo2wcejw" path="res://Scenes/UI/MainGame/GameOverScreen/end_panel.tscn" id="16_fi7fd"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_yrvdb"]
@@ -152,6 +153,7 @@ autowrap_mode = 0
 position = Vector2(540, 1200)
 
 [node name="ButtonL" type="TouchScreenButton" parent="Camera2D"]
+visible = false
 self_modulate = Color(1, 1, 1, 0.745098)
 z_index = 100
 position = Vector2(-505, 876)
@@ -161,6 +163,7 @@ texture_pressed = ExtResource("3_jqbrk")
 action = "key_left"
 
 [node name="ButtonR" type="TouchScreenButton" parent="Camera2D"]
+visible = false
 self_modulate = Color(1, 1, 1, 0.745098)
 z_index = 100
 position = Vector2(504, 1137)
@@ -169,6 +172,23 @@ scale = Vector2(1.87109, 2.14063)
 texture_normal = ExtResource("10_7vqps")
 texture_pressed = ExtResource("3_jqbrk")
 action = "key_right"
+
+[node name="NewButtons" type="Node2D" parent="Camera2D"]
+z_index = 100
+
+[node name="ButtonLeft" type="TouchScreenButton" parent="Camera2D/NewButtons"]
+position = Vector2(-270, 988)
+shape = ExtResource("14_ejbbi")
+
+[node name="CenterLeft" type="Node2D" parent="Camera2D/NewButtons"]
+position = Vector2(-540, 1200)
+
+[node name="ButtonRight" type="TouchScreenButton" parent="Camera2D/NewButtons"]
+position = Vector2(270, 988)
+shape = ExtResource("14_ejbbi")
+
+[node name="CenterRight" type="Node2D" parent="Camera2D/NewButtons"]
+position = Vector2(540, 1200)
 
 [node name="SpawnerV2" parent="." instance=ExtResource("13_ri3jn")]
 spawn_points = 3
@@ -238,6 +258,8 @@ texture = ExtResource("13_tjaki")
 [connection signal="on_reset_request" from="WindowBox/EndPanel" to="." method="reset_level_request"]
 [connection signal="pressed" from="WindowBox/ScrollsBox/RepulseButton" to="WindowBox/ScrollsBox/InventoryLogic" method="repulse_use"]
 [connection signal="pressed" from="WindowBox/ScrollsBox/ShieldButton" to="WindowBox/ScrollsBox/InventoryLogic" method="shield_use"]
+[connection signal="pressed" from="Camera2D/NewButtons/ButtonLeft" to="." method="move_button_left"]
+[connection signal="pressed" from="Camera2D/NewButtons/ButtonRight" to="." method="move_button_right"]
 [connection signal="on_spawned_entity" from="SpawnerV2" to="." method="_spawner1_spawn"]
 [connection signal="on_player_death" from="PlayerLine" to="." method="on_player_death"]
 [connection signal="on_player_status_change" from="PlayerLine" to="." method="on_player_hit"]

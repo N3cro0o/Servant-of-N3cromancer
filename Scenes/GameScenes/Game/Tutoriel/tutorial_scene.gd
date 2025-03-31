@@ -72,8 +72,9 @@ func stage_1(delta: float):
 	if delta < 0:
 		print_rich("[hint=Stage1]Stage start[/hint]")
 		# Logic
-		for button in camera_buttons:
-			button.visible = false
+		lock_buttons = true
+		#for button in camera_buttons:
+			#button.visible = false
 		big_boi.lock_movement = true
 		small_bubble.force_disactive = true
 		# Text
@@ -98,16 +99,17 @@ func stage_2(delta: float):
 	if delta < 0:
 		print_rich("[hint=Stage2]Stage start[/hint]")
 		# Logic
-		for button in camera_buttons:
-			button.visible = true
+		lock_buttons = false
+		#for button in camera_buttons:
+			#button.visible = true
 		big_boi.lock_movement = false
 		# Text
 		var data = DialogueScreen.TextDataV1.new()
-		data.text = "Use the arrows to move the beginning of the line."
+		data.text = "Click the bottom left and right sides of the sceen to move the ending of the Main Line."
 		var arr: Array[DialogueScreen.TextDataV1]
 		arr.push_back(data)
 		data = DialogueScreen.TextDataV1.new()
-		data.text = "Make me move from one side to the other few times."
+		data.text = "Make me move from one side to the other few times to proceed."
 		arr.push_back(data)
 		dialogue.set_text(arr)
 		return
@@ -120,8 +122,9 @@ func stage_3(delta: float):
 		print_rich("[hint=Stage3]Stage start[/hint]")
 		# Logic
 		small_bubble.force_disactive = false
-		for button in camera_buttons:
-			button.visible = false
+		lock_buttons = true
+		#for button in camera_buttons:
+			#button.visible = false
 		big_boi.lock_movement = true
 		big_boi.last_point_pos = PlayerLine1.last_pos.MIDDLE
 		pos_counter = 0
@@ -132,7 +135,8 @@ func stage_3(delta: float):
 		data.delay_parameters = {0: 0.05, 5: 0.8, 6: 0.05, 50: 0.12}
 		arr.push_back(data)
 		data = DialogueScreen.TextDataV1.new()
-		data.text = "You have to swipe your finger over the arrows to use repulsion magic.\nDo it for a couple of seconds."
+		data.text = "You have to swipe your finger over the arrows to use repulsion magic.\nYou must swipe the screen," + \
+			" not just hold your finger!"
 		data.delay_parameters = {0: 0.05, 68: 0.15, 69: 0.05}
 		arr.push_back(data)
 		dialogue.set_text(arr)
@@ -155,8 +159,9 @@ func stage_4(delta: float):
 	if delta < 0:
 		print_rich("[hint=Stage1]Stage start[/hint]")
 		# Logic
-		for button in camera_buttons:
-			button.visible = true
+		lock_buttons = false
+		#for button in camera_buttons:
+			#button.visible = true
 		big_boi.lock_movement = false
 		big_boi.last_point_pos = PlayerLine1.last_pos.MIDDLE
 		player_hit = false
@@ -201,8 +206,9 @@ func on_dialogue_text_append_end():
 					arr.push_back(data)
 					dialogue.set_text(arr))
 		if text_counter == 9:
-			for button in camera_buttons:
-				button.visible = true
+			lock_buttons = false
+			#for button in camera_buttons:
+				#button.visible = true
 			big_boi.lock_movement = false
 			spawner.force_active = true
 			spawner.active = true
