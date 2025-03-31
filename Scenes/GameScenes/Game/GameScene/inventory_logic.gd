@@ -54,7 +54,7 @@ func hide_button(bttn_num : int):
 
 # Scroll buttons logic functions
 func repulse_add():
-	if repulsions < GmM.inventory_space:
+	if scrolls_all() < GmM.inventory_space && repulsions < GmM.inventory_space_single:
 		repulsions += 1
 		show_button(0)
 		return true
@@ -68,7 +68,7 @@ func repulse_use():
 		ob.repulse(500)
 
 func shield_add():
-	if shields < GmM.inventory_space:
+	if scrolls_all() < GmM.inventory_space && shields < GmM.inventory_space_single:
 		shields += 1
 		show_button(1)
 		return true
@@ -81,3 +81,6 @@ func shield_use():
 	var b = PlayerLine1.instance.body as PlayerBody
 	b.return_shield_color()
 	PlayerLine1.instance.p_state = PlayerLine1.instance.state.NORMAL
+
+func scrolls_all() -> int:
+	return repulsions + shields

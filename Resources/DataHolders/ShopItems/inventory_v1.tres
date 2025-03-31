@@ -12,3 +12,4 @@ desc = "Turns out that random scrolls you find can be stored inside this bag mad
 category = 1
 resource_script = "scroll_storag_upgrade"
 variable1 = 1.0
+variable2 = 1.0

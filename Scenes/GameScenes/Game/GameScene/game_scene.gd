@@ -66,11 +66,12 @@ var margin_side = 75
 var margin_between = 20
 var margin_bottom = 100
 var lock_buttons = false
+var left_pos = Vector2.ZERO; var right_pos = Vector2.ZERO
 var left_radius = 0; var right_radius = 0
 var left_color = Color.BLUE; var right_color = Color.RED
 var tw_left_rad: Tween; var tw_left_col: Tween
 var tw_right_rad: Tween; var tw_right_col: Tween
-var max_radius = 900
+var max_radius = 700
 
 # Difficulty vars
 var diff_trunc_val = 1
@@ -172,7 +173,7 @@ func _physics_process(delta):
 		if death_movement && death_timer > 1.5:
 			big_boi.body.position.y = lerpf(big_boi.body.position.y, -150.0, delta * big_boi.death_speed)
 			var hit_obstacle = big_boi.body.last_obstacle_hit
-			if hit_obstacle != null:
+			if hit_obstacle != null:	
 				hit_obstacle.global_position = big_boi.body.global_position + big_boi.body.last_obstacle_offset
 
 func _process(delta):
@@ -209,8 +210,9 @@ func _notification(what):
 		pause_game()
 
 func _draw() -> void:
-	draw_circle($Camera2D/NewButtons/CenterLeft.global_position, left_radius, left_color)
-	draw_circle($Camera2D/NewButtons/CenterRight.global_position, right_radius, right_color)
+	#draw_circle($Camera2D/NewButtons/CenterLeft.global_position, left_radius, left_color)
+	draw_circle(left_pos, left_radius, left_color)
+	draw_circle(right_pos, right_radius, right_color)
 
 # Move buttons functions
 func move_button_left():
@@ -219,8 +221,9 @@ func move_button_left():
 		move_event.action = "key_left"
 		move_event.pressed = true
 		Input.parse_input_event(move_event)
+		left_pos = small_bubble.pos
 		left_radius = 0
-		left_color = Color(Color.BLUE, 0.3)
+		left_color = Color(Color.BLUE, 0.15)
 		if tw_left_rad != null:
 			tw_left_rad.kill()
 		if tw_left_col != null:
@@ -240,8 +243,9 @@ func move_button_right():
 		move_event.action = "key_right"
 		move_event.pressed = true
 		Input.parse_input_event(move_event)
+		right_pos = small_bubble.pos
 		right_radius = 0
-		right_color = Color(Color.RED, 0.3)
+		right_color = Color(Color.RED, 0.15)
 		if tw_right_rad != null:
 			tw_right_rad.kill()
 		if tw_right_col != null:

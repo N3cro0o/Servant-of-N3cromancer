@@ -238,7 +238,7 @@ spawner_offset = Vector2(540, -300)
 
 [node name="PlayerLine" parent="." instance=ExtResource("14_6ubya")]
 z_index = 20
-position = Vector2(540, 1920)
+position = Vector2(540, 2020)
 
 [node name="MouseEntity" parent="." instance=ExtResource("15_w05re")]
 z_index = 30

@@ -20,6 +20,7 @@ enum category_shop {
 @export_enum("king_nothing", "endless_unlock", "light_skul_unlock",\
 	"scroll_storag_upgrade", "custom_line") var resource_script = "king_nothing"
 @export var variable1 = 0.0
+@export var variable2 = 0.0
 var bought = false
 
 func on_buy():
@@ -37,7 +38,7 @@ func light_skul_unlock():
 	GmM.body_holder_array[variable1].body_unlocked = true
 
 func scroll_storag_upgrade():
-	GmM.inventory_space += variable1
-
+	GmM.inventory_space += int(variable1)
+	GmM.inventory_space_single += int(variable2)
 func custom_line():
 	GmM.line_customization_unlock = true

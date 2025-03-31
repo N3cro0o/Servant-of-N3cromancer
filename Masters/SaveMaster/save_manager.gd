@@ -258,7 +258,7 @@ func return_tasks_skipped() -> int:
 	return data["tasks_skipped"]
 
 # Logs
-func read_logs(past = 0) -> String:
+func read_logs(_past = 0) -> String:
 	var file = FileAccess.open("user://logs/godot.log", FileAccess.READ)
 	var json: String
 	if file != null:

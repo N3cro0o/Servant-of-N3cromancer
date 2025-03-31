@@ -45,6 +45,7 @@ var line_customization_unlock = false
 var current_body = 0
 var line_color = 0
 var inventory_space = 0
+var inventory_space_single = 0
 
 # Game time stuff. For example a variable responisble for pausing game
 var paused := false:
@@ -176,6 +177,7 @@ func stop_slow_mo():
 
 # Save data functions
 func update_max_tasks():
+	@warning_ignore("integer_division")
 	TsM.max_tasks = min(max_tasks, SvM.return_tasks_all() / 5 + 1)
 
 func reset_save_data():
@@ -185,6 +187,7 @@ func reset_save_data():
 	current_body = 0 
 	line_color = 0
 	inventory_space = 0
+	inventory_space_single = 0
 	SvM.save_data()
 	SvM.reset_tasks()
 	# Tasks

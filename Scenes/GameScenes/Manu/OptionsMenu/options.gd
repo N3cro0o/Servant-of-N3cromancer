@@ -8,7 +8,7 @@ extends Control
 @onready var main := $Margin/VBox/Main
 # Body part
 @onready var body = $Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body
-@onready var body_label = $Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/RichTextLabel
+@onready var body_label = $Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/RichTextLabel
 @onready var body_texture = $Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Texture
 # Line part
 @onready var line = $Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line
@@ -186,7 +186,7 @@ func on_change_tab(num : int):
 # Customisation functions
 func update_customisattion_body_data():
 	var data = GmM.body_holder_array[active_body]
-	body_label.text = data.body_name + " Skul"
+	body_label.text = "[center]%s[/center]" % [data.body_name + " Skul"]
 	body_texture.texture = data.body_image
 	body_texture.modulate = data.body_color
 	GmM.current_body = active_body

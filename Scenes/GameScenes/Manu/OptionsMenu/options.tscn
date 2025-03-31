@@ -119,13 +119,12 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 8.0
 theme_override_styles/panel = SubResource("StyleBoxEmpty_i3u2l")
 tab_alignment = 1
-current_tab = 1
+current_tab = 0
 tabs_visible = false
 use_hidden_tabs_for_min_size = true
 tab_focus_mode = 0
 
 [node name="Tasks" type="Control" parent="Margin/VBox/Main"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -279,6 +278,7 @@ theme_override_font_sizes/font_size = 84
 text = "Reroll"
 
 [node name="PlayerCustomization" type="Control" parent="Margin/VBox/Main"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
@@ -309,14 +309,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 35
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box"]
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_font_sizes/normal_font_size = 64
-text = "Skul body"
-fit_content = true
-autowrap_mode = 0
-
 [node name="Texture" type="TextureRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box"]
 texture_filter = 1
 layout_mode = 2
@@ -336,7 +328,7 @@ theme_override_constants/margin_bottom = 40
 [node name="Box" type="HBoxContainer" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 50
+theme_override_constants/separation = 20
 alignment = 1
 
 [node name="Left" type="Button" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box" node_paths=PackedStringArray("image")]
@@ -349,9 +341,8 @@ image = NodePath("TextureRect")
 
 [node name="TextureRect" type="TextureRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Left"]
 layout_mode = 0
-offset_right = 940.0
-offset_bottom = 260.0
-pivot_offset = Vector2(470, 130)
+offset_right = 256.0
+offset_bottom = 128.0
 texture = ExtResource("3_rrsx8")
 
 [node name="Right" type="Button" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box" node_paths=PackedStringArray("image")]
@@ -364,15 +355,15 @@ image = NodePath("TextureRect")
 
 [node name="TextureRect" type="TextureRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Right"]
 layout_mode = 0
-offset_right = 445.0
-offset_bottom = 260.0
+offset_right = 256.0
+offset_bottom = 128.0
 rotation = 3.14159
-pivot_offset = Vector2(222.5, 130)
 texture = ExtResource("3_rrsx8")
 
 [node name="Left2" type="Button" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box" node_paths=PackedStringArray("image", "click_image")]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.75
 theme_override_styles/focus = SubResource("StyleBoxEmpty_d3uhj")
 script = ExtResource("8_ck40c")
 image = NodePath("TextureRect")
@@ -383,22 +374,35 @@ visible = false
 modulate = Color(1, 1, 1, 0.196078)
 texture_filter = 1
 layout_mode = 0
-offset_right = 445.0
-offset_bottom = 260.0
-pivot_offset = Vector2(222.5, 130)
+offset_right = 270.0
+offset_bottom = 288.0
+pivot_offset = Vector2(135, 144)
 texture = SubResource("AtlasTexture_fcpoo")
+stretch_mode = 5
 
 [node name="TextureRect" type="TextureRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Left2"]
 texture_filter = 1
 layout_mode = 0
-offset_right = 445.0
-offset_bottom = 260.0
-pivot_offset = Vector2(222.5, 130)
+offset_right = 270.0
+offset_bottom = 288.0
+pivot_offset = Vector2(135, 144)
 texture = SubResource("AtlasTexture_ntv7j")
+stretch_mode = 5
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_font_sizes/normal_font_size = 64
+bbcode_enabled = true
+text = "Skul body"
+fit_content = true
+autowrap_mode = 2
 
 [node name="Right2" type="Button" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box" node_paths=PackedStringArray("image", "click_image")]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.75
 theme_override_styles/focus = SubResource("StyleBoxEmpty_d3uhj")
 script = ExtResource("8_ck40c")
 image = NodePath("TextureRect")
@@ -408,20 +412,24 @@ click_image = NodePath("TextureRect2")
 visible = false
 modulate = Color(1, 1, 1, 0.196078)
 texture_filter = 1
-offset_right = 445.0
-offset_bottom = 260.0
+layout_mode = 0
+offset_right = 270.0
+offset_bottom = 288.0
 rotation = 3.14159
-pivot_offset = Vector2(222.5, 130)
+pivot_offset = Vector2(135, 144)
 texture = SubResource("AtlasTexture_fcpoo")
+stretch_mode = 5
 
 [node name="TextureRect" type="TextureRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Right2"]
 texture_filter = 1
+custom_minimum_size = Vector2(288, 288)
 layout_mode = 0
-offset_right = 445.0
-offset_bottom = 260.0
+offset_right = 288.0
+offset_bottom = 288.0
 rotation = 3.14159
-pivot_offset = Vector2(222.5, 130)
+pivot_offset = Vector2(135, 144)
 texture = SubResource("AtlasTexture_ntv7j")
+stretch_mode = 5
 
 [node name="Line" type="ColorRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox"]
 layout_mode = 2

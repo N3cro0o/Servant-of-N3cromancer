@@ -279,10 +279,12 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -53.0
+offset_left = -154.5
+offset_top = -64.0
+offset_right = 101.5
+offset_bottom = 64.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(101.5, 102)
 texture = ExtResource("2_81wor")
 
 [node name="Right" type="Button" parent="Margin/Box/Down/DownMargin/BoxOuter/Box/Control/Buttons" node_paths=PackedStringArray("image")]
@@ -304,12 +306,13 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -26.5
-offset_right = 26.5
+offset_left = -128.0
+offset_top = -64.0
+offset_right = 128.0
+offset_bottom = 64.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(-1, 1)
-pivot_offset = Vector2(101.5, 102)
 texture = ExtResource("2_81wor")
 
 [node name="Left2" type="Button" parent="Margin/Box/Down/DownMargin/BoxOuter/Box/Control/Buttons" node_paths=PackedStringArray("image", "click_image")]
@@ -324,6 +327,7 @@ click_image = NodePath("TextureRect2")
 visible = false
 modulate = Color(1, 1, 1, 0.196078)
 texture_filter = 1
+layout_mode = 0
 offset_right = 350.0
 offset_bottom = 204.0
 pivot_offset = Vector2(175, 102)
@@ -349,6 +353,7 @@ click_image = NodePath("TextureRect2")
 visible = false
 modulate = Color(1, 1, 1, 0.196078)
 texture_filter = 1
+layout_mode = 0
 offset_right = 350.0
 offset_bottom = 204.0
 rotation = 3.14159
@@ -356,6 +361,7 @@ pivot_offset = Vector2(175, 102)
 texture = SubResource("AtlasTexture_b82t5")
 
 [node name="TextureRect" type="TextureRect" parent="Margin/Box/Down/DownMargin/BoxOuter/Box/Control/Buttons/Right2"]
+modulate = Color(0.813062, 0.855462, 0.924269, 1)
 texture_filter = 1
 layout_mode = 0
 offset_right = 350.0

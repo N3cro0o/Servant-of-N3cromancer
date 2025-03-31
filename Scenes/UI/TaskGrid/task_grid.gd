@@ -16,7 +16,7 @@ class_name TaskGrid extends GridContainer
 func update_data():
 	# Task 1
 	if TsM.task_arr.size() >= 1:
-		task1_labels[0].text = TsM.task_arr[0].task_name()
+		task1_labels[0].text = "1. " + TsM.task_arr[0].task_name()
 		task1_labels[1].text = TsM.task_arr[0].task_desc()
 		if TsM.validate_task(0):
 			nine_1.modulate = finish_color
@@ -27,7 +27,7 @@ func update_data():
 		task_1.visible = false
 	# Task 2
 	if TsM.task_arr.size() >= 2:
-		task2_labels[0].text = TsM.task_arr[1].task_name()
+		task2_labels[0].text = "2. " + TsM.task_arr[1].task_name()
 		task2_labels[1].text = TsM.task_arr[1].task_desc()
 		if TsM.validate_task(1):
 			nine_2.modulate = finish_color
@@ -38,7 +38,7 @@ func update_data():
 		task_2.visible = false
 	# Task 3
 	if TsM.task_arr.size() >= 3:
-		task3_labels[0].text = TsM.task_arr[2].task_name()
+		task3_labels[0].text = "3. " + TsM.task_arr[2].task_name()
 		task3_labels[1].text = TsM.task_arr[2].task_desc()
 		if TsM.validate_task(2):
 			nine_3.modulate = finish_color

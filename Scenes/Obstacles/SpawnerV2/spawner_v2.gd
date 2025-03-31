@@ -109,6 +109,7 @@ func update_position():
 			if offset > 0:
 				offset = -offset
 			else:
+				@warning_ignore("integer_division")
 				offset = half_offset + distance_between * (i / 2 + 1)
 	else:
 		offset = 0
@@ -117,6 +118,7 @@ func update_position():
 			if offset > 0:
 				offset = -offset
 			else:
+				@warning_ignore("integer_division")
 				offset = distance_between * (i / 2 + 1)
 
 # Spawning functions
