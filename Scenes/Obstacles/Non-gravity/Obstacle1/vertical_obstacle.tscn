@@ -27,7 +27,6 @@ can_sleep = false
 lock_rotation = true
 freeze = true
 script = ExtResource("1_0caor")
-obstacle_id = 4
 spawn_data = ExtResource("2_a45ct")
 
 [node name="BodyR" type="RigidBody2D" parent="."]

@@ -3,9 +3,9 @@
 [ext_resource type="Theme" uid="uid://do6gg3r8fydfa" path="res://Resources/Themes/main_theme.tres" id="1_i30es"]
 [ext_resource type="Script" path="res://Scenes/GameScenes/Manu/ShopMenu/shop_menu.gd" id="1_vbxe0"]
 [ext_resource type="Script" path="res://Resources/RandomScripts/game_button.gd" id="2_1hui4"]
-[ext_resource type="Texture2D" uid="uid://b613ar7xw3mka" path="res://Images/BG/BG.png" id="2_05uqx"]
 [ext_resource type="Texture2D" uid="uid://8glmydbtnfi0" path="res://Images/UI/DirectionKey/1/arrow key1.png" id="2_81wor"]
 [ext_resource type="Texture2D" uid="uid://d2j5jhadmnc2q" path="res://Images/PickUps/PLN/pln.png" id="2_bljjt"]
+[ext_resource type="Texture2D" uid="uid://cvvfrq5jik5g" path="res://Images/BG/BG_shop.png" id="3_g20eo"]
 [ext_resource type="Texture2D" uid="uid://noecnnt5hxwr" path="res://Images/square_curved.png" id="3_ntfu8"]
 [ext_resource type="LabelSettings" uid="uid://cuaepcdh7yiv3" path="res://Resources/Themes/LabelSettings/shop_title.tres" id="4_ogay8"]
 [ext_resource type="Script" path="res://Resources/RandomScripts/game_button2.gd" id="9_kjqrh"]
@@ -61,11 +61,13 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -300.0
-offset_right = 300.0
+offset_left = -439.0
+offset_top = -83.0
+offset_right = 439.0
+offset_bottom = 88.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_05uqx")
+texture = ExtResource("3_g20eo")
 expand_mode = 3
 stretch_mode = 5
 
@@ -83,7 +85,7 @@ theme_override_constants/margin_bottom = 50
 
 [node name="Box" type="VBoxContainer" parent="Margin"]
 layout_mode = 2
-theme_override_constants/separation = 15
+theme_override_constants/separation = 30
 
 [node name="Up" type="Control" parent="Margin/Box"]
 layout_mode = 2
@@ -329,16 +331,16 @@ modulate = Color(1, 1, 1, 0.196078)
 texture_filter = 1
 layout_mode = 0
 offset_right = 350.0
-offset_bottom = 204.0
-pivot_offset = Vector2(175, 102)
+offset_bottom = 201.0
+pivot_offset = Vector2(175, 100.5)
 texture = SubResource("AtlasTexture_b82t5")
 
 [node name="TextureRect" type="TextureRect" parent="Margin/Box/Down/DownMargin/BoxOuter/Box/Control/Buttons/Left2"]
 texture_filter = 1
 layout_mode = 0
 offset_right = 350.0
-offset_bottom = 204.0
-pivot_offset = Vector2(175, 102)
+offset_bottom = 201.0
+pivot_offset = Vector2(175, 100.5)
 texture = SubResource("AtlasTexture_mdj8c")
 
 [node name="Right2" type="Button" parent="Margin/Box/Down/DownMargin/BoxOuter/Box/Control/Buttons" node_paths=PackedStringArray("image", "click_image")]
@@ -355,9 +357,9 @@ modulate = Color(1, 1, 1, 0.196078)
 texture_filter = 1
 layout_mode = 0
 offset_right = 350.0
-offset_bottom = 204.0
+offset_bottom = 201.0
 rotation = 3.14159
-pivot_offset = Vector2(175, 102)
+pivot_offset = Vector2(175, 100.5)
 texture = SubResource("AtlasTexture_b82t5")
 
 [node name="TextureRect" type="TextureRect" parent="Margin/Box/Down/DownMargin/BoxOuter/Box/Control/Buttons/Right2"]
@@ -365,9 +367,9 @@ modulate = Color(0.813062, 0.855462, 0.924269, 1)
 texture_filter = 1
 layout_mode = 0
 offset_right = 350.0
-offset_bottom = 204.0
+offset_bottom = 201.0
 rotation = 3.14159
-pivot_offset = Vector2(175, 102)
+pivot_offset = Vector2(175, 100.5)
 texture = SubResource("AtlasTexture_mdj8c")
 
 [node name="ReturnButton" type="Button" parent="Margin/Box/Down/DownMargin/BoxOuter"]

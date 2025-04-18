@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="SpawnObstacleDataHolder" load_steps=2 format=3 uid="uid://dud6wei5eeyu8"]
+
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/spawn_obstacle_data_holder.gd" id="1_hf1p6"]
+
+[resource]
+script = ExtResource("1_hf1p6")
+obstacle_id = 205
+scene_directory = "res://Scenes/Obstacles/Non-gravity/Obstacle5/boss2_przydupas.tscn"
+name = "Boss 2 obstacle"
+type = 1
+weight = 1
+flip = false
+can_lock_rotation = false
+spawner_is_empty = false
+tele_state = false

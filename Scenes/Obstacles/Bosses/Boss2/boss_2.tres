@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="SpawnObstacleDataHolder" load_steps=2 format=3 uid="uid://b7od61beouxop"]
+
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/spawn_obstacle_data_holder.gd" id="1_lktm2"]
+
+[resource]
+script = ExtResource("1_lktm2")
+obstacle_id = -2
+scene_directory = "res://Scenes/Obstacles/Bosses/Boss2/boss_2.tscn"
+name = "krp. Strzal"
+type = 4
+weight = 1
+flip = false
+can_lock_rotation = false
+spawner_is_empty = false
+tele_state = false
