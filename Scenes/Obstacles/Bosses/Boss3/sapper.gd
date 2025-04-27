@@ -3,16 +3,16 @@ class_name ObstacleStaticBoss2 extends ObstacleNonverticalBase
 #region Variables
 @export_range(0.0, 10.0) var attack_threshold = 6.0
 @export_range(0.0, 60.0) var attack_time = 40.0
+@export var eyes: Array[PackedScene]
 @export var obstacle_data: StageEnemyData
 @export var move_x:Curve
 @export var move_y:Curve
 @onready var sprite_offset: Node2D = $TargetsSprites
 @onready var sprites_arr: Array[Sprite2D] = [$TargetsSprites/Target1, $TargetsSprites/Target2,\
 	$TargetsSprites/Target3]
-@onready var eye_arr: Array[Sprite2D] = [$TargetsSprites/BossBody/Eye1,\
-		$TargetsSprites/BossBody/Eye2, $TargetsSprites/BossBody/Eye3]
 @onready var attack_sprite: Sprite2D = $TargetsSprites/BossBody/AttackSprite
 
+var eye_arr: Array[SapperEye]
 var player_cur_pos: PlayerLine1.last_pos
 var line_times := [0.0, 0.0, 0.0]
 var attack_sprite_move_lock = false
@@ -26,6 +26,15 @@ signal on_boss_kill
 func _ready() -> void:
 	sprite_offset.modulate.a = 0.0
 	super._ready()
+	# Eyes
+	var eyesockets: Array[Node2D] = [$TargetsSprites/BossBody/Eye1Pos, $TargetsSprites/BossBody/Eye2Pos,
+			$TargetsSprites/BossBody/Eye3Pos]
+	for socket in eyesockets:
+		var scene: SapperEye = eyes.pick_random().instantiate()
+		socket.add_child(scene)
+		eye_arr.push_back(scene)
+		socket.scale *= 2
+	# Connect with the rest of the GameScene
 	if GameScene.instance != null:
 		GameScene.instance.spawner.set_obstacle_data(obstacle_data)
 	if PlayerLine1.instance != null:
@@ -73,6 +82,10 @@ func _process(delta):
 	line_inter += delta / 3 * GmM.game_speed
 	if line_inter >= 1:
 		line_inter = 0
+	# Eye move
+	for eye in eye_arr:
+		if PlayerLine1.instance != null:
+			eye.look_at_object(PlayerLine1.instance.body)
 
 # Attack functions
 func do_attack():

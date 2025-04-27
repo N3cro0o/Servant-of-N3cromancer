@@ -1,10 +1,12 @@
-[gd_scene load_steps=13 format=3 uid="uid://dn8k1hm4o1rdl"]
+[gd_scene load_steps=15 format=3 uid="uid://dn8k1hm4o1rdl"]
 
 [ext_resource type="Script" path="res://Scenes/Obstacles/Bosses/Boss3/sapper.gd" id="1_h776i"]
 [ext_resource type="Resource" uid="uid://dbegmip07q8gp" path="res://Scenes/Obstacles/Bosses/Boss3/boss_spawns.tres" id="2_8bnck"]
-[ext_resource type="Texture2D" uid="uid://b11h83jdg31y7" path="res://Images/icon.svg" id="2_u7b3m"]
+[ext_resource type="PackedScene" uid="uid://cfaqpf6pwv27" path="res://Scenes/Obstacles/Bosses/Boss3/Eyes/eye1.tscn" id="2_10t3x"]
+[ext_resource type="PackedScene" uid="uid://bi3qkbgdm87u7" path="res://Scenes/Obstacles/Bosses/Boss3/Eyes/eye2.tscn" id="3_38lky"]
 [ext_resource type="Texture2D" uid="uid://ntssueoy6akh" path="res://Images/Obstacles/Boss3/Target/boss3_target.png" id="3_yonxp"]
 [ext_resource type="Texture2D" uid="uid://doodsewg862hr" path="res://Images/Obstacles/Boss3/Target/boss3_target_shadow.png" id="4_7gbgb"]
+[ext_resource type="PackedScene" uid="uid://dwmcfluugkaco" path="res://Scenes/Obstacles/Bosses/Boss3/Eyes/eye3.tscn" id="4_re34q"]
 [ext_resource type="Shader" path="res://Resources/Shaders/group_outline.gdshader" id="5_025tf"]
 [ext_resource type="Texture2D" uid="uid://ckbh64jrfnohx" path="res://Images/Obstacles/Boss3/sapper.png" id="5_vvrv1"]
 [ext_resource type="Texture2D" uid="uid://b4n2q7vhx2an8" path="res://Images/Obstacles/Boss3/sapper_attack.png" id="6_sas7l"]
@@ -25,7 +27,7 @@ radius = 0.01
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xmt3h"]
 shader = ExtResource("5_025tf")
 shader_parameter/outline_color = Color(0, 0, 0, 1)
-shader_parameter/width = 5.0
+shader_parameter/width = 4.0
 
 [node name="Sapper" type="RigidBody2D"]
 gravity_scale = 0.0
@@ -33,6 +35,7 @@ can_sleep = false
 lock_rotation = true
 freeze = true
 script = ExtResource("1_h776i")
+eyes = Array[PackedScene]([ExtResource("2_10t3x"), ExtResource("3_38lky"), ExtResource("4_re34q")])
 obstacle_data = ExtResource("2_8bnck")
 move_x = SubResource("Curve_qfbuw")
 move_y = SubResource("Curve_bngc0")
@@ -95,20 +98,15 @@ texture = ExtResource("6_sas7l")
 
 [node name="RyjBG" type="Sprite2D" parent="TargetsSprites/BossBody"]
 modulate = Color(0.834614, 0.834614, 0.834614, 1)
-position = Vector2(0, 368)
-scale = Vector2(4, 4)
+position = Vector2(0, 313)
+scale = Vector2(2.59375, 2.59375)
 texture = ExtResource("5_vvrv1")
 
-[node name="Eye1" type="Sprite2D" parent="TargetsSprites/BossBody"]
+[node name="Eye1Pos" type="Node2D" parent="TargetsSprites/BossBody"]
 position = Vector2(-300, 275)
-texture = ExtResource("2_u7b3m")
 
-[node name="Eye2" type="Sprite2D" parent="TargetsSprites/BossBody"]
-texture_filter = 1
+[node name="Eye2Pos" type="Node2D" parent="TargetsSprites/BossBody"]
 position = Vector2(0, 275)
-texture = ExtResource("2_u7b3m")
 
-[node name="Eye3" type="Sprite2D" parent="TargetsSprites/BossBody"]
-texture_filter = 1
+[node name="Eye3Pos" type="Node2D" parent="TargetsSprites/BossBody"]
 position = Vector2(300, 275)
-texture = ExtResource("2_u7b3m")
