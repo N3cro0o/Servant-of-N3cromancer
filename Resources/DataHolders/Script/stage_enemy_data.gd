@@ -33,8 +33,21 @@ class_name StageEnemyData extends Resource
 			data_5 = arr
 		else:
 			data_5 = []
-@export_group("")
+@export_group("Config")
+@export var ignore_static = false
+@export var ignore_repeating = false
 ## Difficulty needed to advance to the boss spawn
-@export_range(0, 100) var difficulty_threshold := 10.0
+@export_range(-1, 100) var difficulty_threshold := 10.0
+## Picking other non-static obstacle after getting static obstacle multiple times in a row
+@export_range(0, 1) var static_skip_chance :float = 0.35
+@export_range(1, 5) var spawn_delay_min :float = 3:
+	set(d):
+		if d <= spawn_delay_max:
+			spawn_delay_min = d
+@export_range(2, 6) var spawn_delay_max :float = 3:
+	set(d):
+		if d >= spawn_delay_min:
+			spawn_delay_max = d
+@export_group("Other")
 @export var bosses : Array[SpawnObstacleDataHolder]
 @export var pickups : Array[SpawnPickupDataHolder]

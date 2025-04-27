@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://Resources/DataHolders/Script/spawn_obstacle_data_holder.gd" id="1_jlhqb"]
 [ext_resource type="Resource" uid="uid://chynsxlq4cx8l" path="res://Scenes/Obstacles/Gravity/Obstacle1/gravity_obstacle_1.tres" id="2_0n4wt"]
-[ext_resource type="Resource" uid="uid://b7od61beouxop" path="res://Scenes/Obstacles/Bosses/Boss2/boss_2.tres" id="2_a3hvf"]
 [ext_resource type="Script" path="res://Resources/DataHolders/Script/spawn_pickup_data_holder.gd" id="2_b6h58"]
+[ext_resource type="Resource" uid="uid://bj47i888dekbp" path="res://Scenes/Obstacles/Bosses/Boss1/boss_1.tres" id="2_j54hm"]
 [ext_resource type="Resource" uid="uid://bal5m5yrck2w" path="res://Scenes/Obstacles/Non-gravity/Obstacle1/vertical_obstacle_1.tres" id="3_d5cbn"]
 [ext_resource type="Resource" uid="uid://23r2kj0qc0k3" path="res://Scenes/Obstacles/Non-gravity/Obstacle3 - GravityShift/shield_static.tres" id="3_q3q6x"]
 [ext_resource type="Script" path="res://Resources/DataHolders/Script/stage_enemy_data.gd" id="3_riegr"]
@@ -21,6 +21,11 @@ data_2 = Array[ExtResource("1_jlhqb")]([ExtResource("3_d5cbn"), ExtResource("2_0
 data_3 = Array[ExtResource("1_jlhqb")]([ExtResource("3_d5cbn"), ExtResource("2_0n4wt"), ExtResource("7_hie50")])
 data_4 = Array[ExtResource("1_jlhqb")]([])
 data_5 = Array[ExtResource("1_jlhqb")]([])
+ignore_static = null
+ignore_repeating = null
 difficulty_threshold = 10.0
-bosses = Array[ExtResource("1_jlhqb")]([ExtResource("2_a3hvf")])
+static_skip_chance = 0.35
+spawn_delay_min = 3.0
+spawn_delay_max = 3.0
+bosses = Array[ExtResource("1_jlhqb")]([ExtResource("2_j54hm")])
 pickups = Array[ExtResource("2_b6h58")]([ExtResource("9_38fi8"), ExtResource("10_wu42i"), ExtResource("11_ucw12")])

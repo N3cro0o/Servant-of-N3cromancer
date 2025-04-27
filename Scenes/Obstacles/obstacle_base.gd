@@ -110,6 +110,9 @@ func on_mouse_hit():
 func on_body_hit(b):
 	body_hit = b
 
+func set_modulate_new(new_color: Color):
+	modulate = new_color
+
 func on_paused(paused):
 	if paused:
 		linear_velocity = unpaused_vel * GmM.paused_slowdown / GmM.real_game_speed

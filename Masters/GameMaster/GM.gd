@@ -149,6 +149,8 @@ func transition_screen_out():
 
 func after_game_over_logic(num := 0):
 	GmM.paused = false
+	GmM.stop_slow_mo()
+	GmM.game_speed = GmM.real_game_speed
 	match num:
 		0:
 			ScM.finalize_level_score()

@@ -59,21 +59,24 @@ func _process(delta):
 func _on_hitbox_activation(body):
 	if body is ObstacleGravityBase:
 		if body.damage >= 0:
-			var d = body.damage
 			if GameScene.instance != null && GameScene.instance.p_state != -3:
 				last_obstacle_hit = body
 				last_obstacle_offset = body.global_position - global_position
 			body.body_hit = true
 			var dir_vec: Vector2 = body.global_position - global_position
-			if shield_sprite.modulate.a > 0.0 && body.damage > 0:
-				emit_particle_shield_broke(dir_vec.angle())
-			on_hit.emit(d)
+			do_damage(body.damage, dir_vec)
 
 func on_pickbox_activation(body):
 	if body is PickUpBase:
 		body.on_hit_activate()
 
-# Shield functions
+# Damage & shield functions
+func do_damage(damage:int, damage_vec: Vector2 = Vector2.UP):
+	if damage >= 0:
+			if shield_sprite.modulate.a > 0.0 && damage > 0:
+				emit_particle_shield_broke(damage_vec.angle())
+			on_hit.emit(damage)
+
 func reset_shield_color():
 	modulate_shield_color_check = false
 	shield_sprite.modulate = Color(shield_color, 0)

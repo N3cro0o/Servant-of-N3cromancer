@@ -291,6 +291,9 @@ func _change_last_point_pos(l:Line2D, line_pos:last_pos):
 func return_body_position():
 	return body.position + position
 
+func return_body_global_position():
+	return body.global_position
+
 # Sound functions
 func play_autoplay(stream : SoundHolder, play : bool):
 	if play:
@@ -339,6 +342,8 @@ func on_body_hit(d):
 	if !inv:
 		match p_state:
 			state.NORMAL:
+				if d >= 2:
+					health_points -= (d - 1)  
 				p_state = state.SHIELD_BROKEN
 				shield_timer_reset_after_hit(3 + d1)
 			state.SHIELD_RECHARGE:

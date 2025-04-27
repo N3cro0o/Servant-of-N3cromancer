@@ -173,7 +173,7 @@ func _physics_process(delta):
 		if death_movement && death_timer > 1.5:
 			big_boi.body.position.y = lerpf(big_boi.body.position.y, -150.0, delta * big_boi.death_speed)
 			var hit_obstacle = big_boi.body.last_obstacle_hit
-			if hit_obstacle != null:	
+			if hit_obstacle != null:
 				hit_obstacle.global_position = big_boi.body.global_position + big_boi.body.last_obstacle_offset
 
 func _process(delta):
@@ -197,12 +197,16 @@ func _process(delta):
 	hp_last = hp
 	
 	# Don't forget 'bout 'Debug label'
-	debug_label.text = "FPS: %d\nFPSP: %d\nMouse_pos: x %d; y %d" \
-		% [Engine.get_frames_per_second(), fpsp, small_bubble.position.x, small_bubble.position.y]
+	debug_label.text = "FPS: %d\nFPSP: %d\nMouse_pos: x %d; y %d\nDiff: %f" \
+		% [Engine.get_frames_per_second(), fpsp, small_bubble.position.x, small_bubble.position.y,\
+		difficulty]
 
-func _input(_event):
+func _input(_event: InputEvent):
 	if Input.is_action_just_pressed("ui_cancel") && !lock_logic:
 		pause_game()
+	if Input.is_action_just_pressed("debug_key_increase"):
+		difficulty += 2.0
+
 
 func _notification(what):
 	# Quit game
@@ -272,8 +276,8 @@ func advance_stage():
 	on_stage_advance.emit()
 
 func spawn_boss():
-	boss = spawner.spawn_boss_logic()
 	spawner.active = false
+	boss = spawner.spawn_boss_logic()
 	boss.on_boss_kill.connect(advance_stage)
 
 # Spawner functions
@@ -287,8 +291,9 @@ func _add_obstacle(object:ObstacleGravityBase):
 func _add_pickup(object):
 	$Pickups.add_child(object)
 
-func activate_spawners(state_spawner : bool):
+func activate_spawners(state_spawner : bool, force_disable := false):
 	spawner.active = state_spawner
+	spawner.force_active = !force_disable
 
 func on_obstacle_remove(object):
 	if !lock_logic:

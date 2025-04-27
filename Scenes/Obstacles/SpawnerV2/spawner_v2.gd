@@ -19,7 +19,6 @@ const PICKUP_BASE = preload(PICKUP_PATH)
 				timer.paused = true
 ## Enables checking for repeating obstacles and changing for random one.
 @export var repeat_check = true
-@export_range(0, 5) var spawn_delay = 3.0
 ## Minimum weight needed for no-repeating
 @export var weight_threshold = 3
 @export_range(0.0, 0.6) var pickup_chance := 0.1
@@ -86,6 +85,7 @@ func _physics_process(_delta: float):
 func set_obstacle_data(data: StageEnemyData):
 	obstacle_data = data
 	spawn_points = data.spawn_points
+	force_active = true
 	active = true
 	update_packed_scenes()
 	for i in spawn_points:
@@ -179,8 +179,10 @@ func start_timer_rand(num: int, extra_delay: float):
 	var diff_delay = 0
 	if GameScene.instance != null:
 		diff_delay = GameScene.instance.difficulty / 20
-	var f = randf_range(-spawn_delay * 0.1_2137, spawn_delay * 0.1_2137)
-	spawn_timer_arr[num].start((spawn_delay + f) * extra_delay - diff_delay)
+	var mix_delay = obstacle_data.spawn_delay_min
+	var max_delay = obstacle_data.spawn_delay_max
+	var f = randf_range(mix_delay, max_delay)
+	spawn_timer_arr[num].start(f * extra_delay - diff_delay)
 
 func spawn_from(num: int):
 	# Check if active
@@ -233,6 +235,7 @@ func spawn_logic(num, data_arr):
 	# Repeat check
 	if scene_data.resource_path == spawn_repeat_check[num] && repeat_check:
 		if randf() >= 0.5:
+			if obstacle_data.ignore_repeating: spawn_repeat_check[num] = ""; return
 			scene_data = get_other_non_other(data_arr, scene_data.resource_path)
 	
 	# Check static
@@ -247,6 +250,7 @@ func spawn_logic(num, data_arr):
 					
 			1: # Check if not too chonkers
 				if scene_data.spawner_is_empty:
+					if obstacle_data.ignore_static: spawn_static_check[num] = 0; return
 					scene_data = get_other_non_static(data_arr)
 					for i in spawn_static_check.size():
 						if i < spawn_points:
@@ -255,16 +259,18 @@ func spawn_logic(num, data_arr):
 					for i in spawn_static_check.size():
 						if i < spawn_points:
 							spawn_static_check[i] = 2
-					if randf() > 0.65:
+					if randf() < 0:
+						if obstacle_data.ignore_static: spawn_static_check[num] = 0; return
 						scene_data = get_other_non_static(data_arr)
 			_:
+				if obstacle_data.ignore_static: spawn_static_check[num] = 0; return
 				scene_data = get_other_non_static(data_arr)
 	else:
 		# Decrease static check by one IF not static was found!!!
 		spawn_static_check[num] = 0
-		
+	
 	# Check weight and in case when it's too chonky, save it for later
-	if scene_data.weight >= weight_threshold:
+	if scene_data.weight >= weight_threshold && data_arr.size() > 1:
 		spawn_repeat_check[num] = scene_data.resource_path
 	# Instantiate
 	if scene_data.type == 3: # Other

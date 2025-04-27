@@ -36,7 +36,7 @@ func _ready() -> void:
 	super._ready()
 	position.y += -500
 	if GameScene.instance != null:
-		GameScene.instance.activate_spawners(false)
+		GameScene.instance.activate_spawners(false, true)
 	pick_strike()
 
 func pick_strike():
@@ -54,6 +54,9 @@ func pick_strike():
 	attacks_count = 0
 
 func strike_timeout(what: int):
+	# Paused check
+	while GmM.paused:
+		await get_tree().process_frame
 	var attack_position = 300 * what
 	attack_lines[what + 1].position.x = attack_position
 	attack_lines[what + 1].reset(current_strike.anim_time)

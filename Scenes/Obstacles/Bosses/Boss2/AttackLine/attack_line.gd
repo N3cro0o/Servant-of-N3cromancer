@@ -15,7 +15,7 @@ func _ready() -> void:
 	time_left = time_to_end
 
 func _process(delta: float) -> void:
-	if active: 
+	if active && !GmM.paused: 
 		if time_left <= 0:
 			visible = false
 			on_end_animation.emit()

@@ -22,7 +22,7 @@ signal on_boss_kill
 # Basic Godot functions
 func _ready():
 	super._ready()
-	GameScene.instance.activate_spawners(false)
+	GameScene.instance.activate_spawners(false, true)
 
 func _physics_process(delta):
 	super._physics_process(delta)
@@ -45,7 +45,8 @@ func _physics_process(delta):
 		death_timer_trunc -= 1.5
 		var rand_spwnr_num = randi_range(0, 2)
 		var boner = DA_BONE.instantiate()
-		spawners.get_child(rand_spwnr_num).spawn_something(boner, DA_BONE_DATA)
+		var c = spawners.get_child(rand_spwnr_num).spawn_something(boner, DA_BONE_DATA) as ObstacleGravityBase
+		c.z_index = -1
 
 # Death functions
 func kill_boss():
