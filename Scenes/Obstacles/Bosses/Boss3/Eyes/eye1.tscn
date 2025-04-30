@@ -1,10 +1,18 @@
-[gd_scene load_steps=3 format=3 uid="uid://cfaqpf6pwv27"]
+[gd_scene load_steps=5 format=3 uid="uid://cfaqpf6pwv27"]
 
 [ext_resource type="Texture2D" uid="uid://bv0an3fgf3mhc" path="res://Images/Obstacles/Rand/OldEyes/Eye1.png" id="1_2wlu0"]
 [ext_resource type="Script" path="res://Scenes/Obstacles/Bosses/Boss3/Eyes/eye.gd" id="2_mhycn"]
+[ext_resource type="Shader" path="res://Resources/Shaders/simple_outline.gdshader" id="2_p5la1"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6t2v3"]
+shader = ExtResource("2_p5la1")
+shader_parameter/check_corners = true
+shader_parameter/border_color = Color(0, 0, 0, 1)
+shader_parameter/width = 1.0
 
 [node name="Eye" type="Node2D"]
 script = ExtResource("2_mhycn")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_6t2v3")
 texture = ExtResource("1_2wlu0")

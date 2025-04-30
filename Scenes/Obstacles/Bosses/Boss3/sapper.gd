@@ -33,10 +33,11 @@ func _ready() -> void:
 		var scene: SapperEye = eyes.pick_random().instantiate()
 		socket.add_child(scene)
 		eye_arr.push_back(scene)
-		socket.scale *= 2
+		socket.scale *= 1.8
 	# Connect with the rest of the GameScene
 	if GameScene.instance != null:
 		GameScene.instance.spawner.set_obstacle_data(obstacle_data)
+		GameScene.instance.on_failing_level.connect(on_game_stop)
 	if PlayerLine1.instance != null:
 		PlayerLine1.instance.on_position_change.connect(on_player_move)
 		player_cur_pos = PlayerLine1.instance.last_point_pos
@@ -133,6 +134,11 @@ func on_player_move(pos: PlayerLine1.last_pos):
 	for s in eye_arr:
 		s.visible = false
 	eye_arr[pos + 1].visible = true
+
+func on_game_stop():
+	lock_timers = true
+	for t in line_times:
+		t = 0
 
 # Overrides
 func set_modulate_new(new_color: Color):

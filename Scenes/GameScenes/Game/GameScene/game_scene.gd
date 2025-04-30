@@ -362,7 +362,7 @@ func on_player_death():
 	big_boi.body.modulate = Color(0.75, 0.75, 0.75, 0.5)
 	big_boi.body.z_index = 150
 	if big_boi.body.last_obstacle_hit != null:
-		big_boi.body.last_obstacle_hit.modulate = Color(1, 1, 1, 0.75)
+		big_boi.body.last_obstacle_hit.set_modulate_new(Color(1, 1, 1, 0.75))
 		big_boi.body.last_obstacle_hit.z_index = 149
 
 func damage_muffle():
