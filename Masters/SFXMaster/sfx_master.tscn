@@ -18,6 +18,7 @@ volume_db = -10.0
 bus = &"UI"
 
 [node name="Other" type="AudioStreamPlayer" parent="."]
+max_polyphony = 5
 bus = &"Obstacles"
 
 [node name="Music" type="AudioStreamPlayer" parent="."]

@@ -47,6 +47,9 @@ var line_color = 0
 var inventory_space = 0
 var inventory_space_single = 0
 
+# Obstacles
+var ready_obstacle_arr: Array[PackedScene]
+
 # Game time stuff. For example a variable responisble for pausing game
 var paused := false:
 	set(value):
@@ -92,9 +95,12 @@ func _ready():
 	screen_black.color = Color(black_colour, 1)
 	transition_iterat = transition_speed * 60
 	# Uber Duper Mega Zajebisty fix
-	window_fix = float(get_viewport().get_visible_rect().size.x - 1080) / 2.0
+	update_window_fix()
 	await SvM.on_load_completed
 	update_max_tasks()
+	# Load obstacles and pickups... for later use
+	for data in obstacle_arr:
+		ready_obstacle_arr.push_back(load(data.scene_directory))
 	TsM.setup()
 	if !SvM.data["tutorial"]:
 		change_scene(4)
@@ -196,3 +202,16 @@ func reset_save_data():
 	TsM.reset()
 	# Play the tutorial again
 	GmM.change_scene(4)
+
+# Obstacle functions
+func return_loaded_obstacle_by_id(id: int) -> PackedScene:
+	var obs_id = 1 # Basic bow obstacle
+	for i in obstacle_arr.size():
+		if obstacle_arr[i].obstacle_id == id:
+			obs_id = i
+			break
+	return ready_obstacle_arr[obs_id]
+
+# Prefs functions
+func update_window_fix():
+	window_fix = float(get_viewport().get_visible_rect().size.x - 1080) / 2.0

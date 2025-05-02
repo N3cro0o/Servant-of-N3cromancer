@@ -71,7 +71,7 @@ var left_radius = 0; var right_radius = 0
 var left_color = Color.BLUE; var right_color = Color.RED
 var tw_left_rad: Tween; var tw_left_col: Tween
 var tw_right_rad: Tween; var tw_right_col: Tween
-var max_radius = 700
+var max_radius = 500
 
 # Difficulty vars
 var diff_trunc_val = 1
@@ -268,11 +268,16 @@ func advance_stage():
 	boss.on_boss_kill.disconnect(advance_stage)
 	if stage < enemy_stages.size() - 1:
 		stage += 1
+	# Create new thread for updating spawning data
+	var thread:= Thread.new()
+	thread.start(spawner.set_obstacle_data.call_deferred.bind(enemy_stages[stage]))
 	lock_diff = false
 	difficulty = 0
 	diff_trunc_val = 2
 	accelerate /= 2
-	spawner.set_obstacle_data(enemy_stages[stage])
+	# Await for thread to finish
+	while thread.is_alive():
+		await get_tree().process_frame
 	on_stage_advance.emit()
 
 func spawn_boss():

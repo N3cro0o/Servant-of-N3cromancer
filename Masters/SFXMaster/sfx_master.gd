@@ -43,7 +43,7 @@ func play_music(num: int):
 	play(music_ui[num], SoundEnum.Music)
 
 # Sound functions
-func play(sound : SoundHolder, what: SoundEnum = SoundEnum.Audio):
+func play(sound: SoundHolder, what: SoundEnum = SoundEnum.Audio):
 	if sound == null:
 		return
 	match what:

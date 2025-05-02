@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cw2ksajoqt1mh"]
+[gd_scene load_steps=10 format=3 uid="uid://cw2ksajoqt1mh"]
 
 [ext_resource type="Script" path="res://Scenes/Obstacles/Bosses/Boss2/boss_2.gd" id="1_wd3uu"]
 [ext_resource type="Script" path="res://Resources/DataHolders/Script/boss_2_template.gd" id="2_ld8hb"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://c5simjy2ny58e" path="res://Scenes/Obstacles/Bosses/Boss2/AttackLine/attack_line.tscn" id="4_r24rw"]
 [ext_resource type="Resource" uid="uid://0awbifguww8i" path="res://Scenes/Obstacles/Bosses/Boss2/Attacks/3.tres" id="5_habft"]
 [ext_resource type="Resource" uid="uid://bs8j8eapo8fc2" path="res://Scenes/Obstacles/Bosses/Boss2/Attacks/4.tres" id="6_pmonu"]
+[ext_resource type="Resource" uid="uid://rnae5stghthl" path="res://SFX/SoundsData/whoosh_air.tres" id="7_nqiec"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rlwa4"]
 radius = 125.0
@@ -17,6 +18,7 @@ collision_layer = 4
 freeze = true
 script = ExtResource("1_wd3uu")
 strikes_moveset = Array[ExtResource("2_ld8hb")]([ExtResource("3_a3qxa"), ExtResource("4_o3fhi"), ExtResource("5_habft"), ExtResource("6_pmonu")])
+attack_sound = ExtResource("7_nqiec")
 speed = 0.0
 
 [node name="StrikeTimerLeft" type="Timer" parent="."]

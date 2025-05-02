@@ -41,7 +41,7 @@ func _physics_process(delta):
 	death_timer -= delta * GmM.game_speed
 	if death_timer <= 0:
 		kill_boss()
-	if death_timer < death_timer_trunc and !kill_check and !GmM.paused:
+	elif death_timer < death_timer_trunc and !kill_check and !GmM.paused:
 		death_timer_trunc -= 1.5
 		var rand_spwnr_num = randi_range(0, 2)
 		var boner = DA_BONE.instantiate()
@@ -55,4 +55,4 @@ func kill_boss():
 		speed = 1000
 		actual_speed = 1000
 		kill_check = true
-	modulate = Color(modulate, modulate.a - 0.015)
+		get_tree().create_tween().tween_property(self, "modulate:a", 0, 1)

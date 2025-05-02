@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://dn8k1hm4o1rdl"]
+[gd_scene load_steps=22 format=3 uid="uid://dn8k1hm4o1rdl"]
 
 [ext_resource type="Script" path="res://Scenes/Obstacles/Bosses/Boss3/sapper.gd" id="1_h776i"]
 [ext_resource type="Resource" uid="uid://dbegmip07q8gp" path="res://Scenes/Obstacles/Bosses/Boss3/boss_spawns.tres" id="2_8bnck"]
@@ -8,7 +8,9 @@
 [ext_resource type="Texture2D" uid="uid://doodsewg862hr" path="res://Images/Obstacles/Boss3/Target/boss3_target_shadow.png" id="4_7gbgb"]
 [ext_resource type="PackedScene" uid="uid://dwmcfluugkaco" path="res://Scenes/Obstacles/Bosses/Boss3/Eyes/eye3.tscn" id="4_re34q"]
 [ext_resource type="Shader" path="res://Resources/Shaders/group_outline.gdshader" id="5_025tf"]
+[ext_resource type="Resource" uid="uid://77pksg0milnr" path="res://SFX/SoundsData/slime_in.tres" id="6_70w4h"]
 [ext_resource type="Texture2D" uid="uid://b4n2q7vhx2an8" path="res://Images/Obstacles/Boss3/sapper_attack.png" id="6_sas7l"]
+[ext_resource type="Resource" uid="uid://bi2tr6brjph50" path="res://SFX/SoundsData/slime_out.tres" id="7_2hyjy"]
 [ext_resource type="Shader" path="res://Resources/Shaders/slimy_watery.gdshader" id="10_vcc5w"]
 [ext_resource type="Texture2D" uid="uid://buers0s1jr1d" path="res://Images/Obstacles/Boss3/sapper2.png" id="11_p4bov"]
 
@@ -61,6 +63,8 @@ eyes = Array[PackedScene]([ExtResource("2_10t3x"), ExtResource("3_38lky"), ExtRe
 obstacle_data = ExtResource("2_8bnck")
 move_x = SubResource("Curve_qfbuw")
 move_y = SubResource("Curve_bngc0")
+attack_sound_in = ExtResource("6_70w4h")
+attack_sound_out = ExtResource("7_2hyjy")
 speed = 0.0
 damage = 2
 

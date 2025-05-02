@@ -82,11 +82,11 @@ func _physics_process(_delta: float):
 			point.rotation = angle - deg_to_rad(90)
 
 # Spawn point functions
-func set_obstacle_data(data: StageEnemyData):
+func set_obstacle_data(data: StageEnemyData, active_new := true, force_new := true):
 	obstacle_data = data
 	spawn_points = data.spawn_points
-	force_active = true
-	active = true
+	force_active = force_new
+	active = active_new
 	update_packed_scenes()
 	for i in spawn_points:
 		start_timer_rand(i, 1.5)
@@ -134,7 +134,6 @@ func update_packed_scenes():
 	result = _add_packed_scenes(0, obstacle_data.data_1, scene_holder, other_holder)
 	scene_holder = result[0]; other_holder = result[1]
 	result = _add_packed_scenes(1, obstacle_data.data_2, scene_holder, other_holder)
-	scene_holder = result[0]; other_holder = result[1]
 	result = _add_packed_scenes(2, obstacle_data.data_3, scene_holder, other_holder)
 	scene_holder = result[0]; other_holder = result[1]
 	result = _add_packed_scenes(3, obstacle_data.data_4, scene_holder, other_holder)
@@ -145,7 +144,7 @@ func update_packed_scenes():
 	# Boss
 	for boss in obstacle_data.bosses:
 		boss.spawner_index = boss_scenes_array.size()
-		var scene = load(boss.scene_directory)
+		var scene = GmM.return_loaded_obstacle_by_id(boss.obstacle_id)
 		boss_scenes_array.push_back(scene)
 	# Pickup
 	for pickup in obstacle_data.pickups:
@@ -158,7 +157,7 @@ func _add_packed_scenes(num: int, data_arr, scene_holder, other_holder):
 			index = other_holder.find(i.resource_path)
 			if index == -1:
 				other_holder.push_back(i.resource_path)
-				var scene = load(i.scene_directory)
+				var scene = GmM.return_loaded_obstacle_by_id(i.obstacle_id)
 				i.spawner_index = other_scenes_array.size()
 				other_scenes_array.push_back(scene)
 			else:
@@ -167,7 +166,7 @@ func _add_packed_scenes(num: int, data_arr, scene_holder, other_holder):
 			index = scene_holder.find(i.resource_path)
 			if index == -1:
 				scene_holder.push_back(i.resource_path)
-				var scene = load(i.scene_directory)
+				var scene = GmM.return_loaded_obstacle_by_id(i.obstacle_id)
 				i.spawner_index = packed_scenes_array.size()
 				packed_scenes_array.push_back(scene)
 			else:

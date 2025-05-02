@@ -7,6 +7,9 @@ class_name ObstacleStaticBoss2 extends ObstacleNonverticalBase
 @export var obstacle_data: StageEnemyData
 @export var move_x:Curve
 @export var move_y:Curve
+@export var attack_sound_in: SoundHolder
+@export var attack_sound_out: SoundHolder
+
 @onready var sprite_offset: Node2D = $TargetsSprites
 @onready var sprites_arr: Array[Sprite2D] = [$TargetsSprites/Target1, $TargetsSprites/Target2,\
 	$TargetsSprites/Target3]
@@ -99,6 +102,8 @@ func do_attack():
 	var start_pos = attack_sprite.position
 	attack_sprite.visible = true
 	attack_sprite_move_lock = true
+	# Faze in sound
+	Sfx.play(attack_sound_in)
 	# Faze in tween
 	var tween = get_tree().create_tween()
 	tween.tween_property(attack_sprite,"position:y", start_pos.y - 425, 0.2).\
@@ -113,6 +118,8 @@ func do_attack():
 		if PlayerLine1.instance.health_points <= 0: return;
 	# Small cooldown
 	await get_tree().create_timer(1.0).timeout
+	# Faze out sound
+	Sfx.play(attack_sound_out)
 	# Faze out tween
 	tween = get_tree().create_tween()
 	tween.tween_property(attack_sprite,"position:y", start_pos.y, 2.0).set_trans(Tween.TRANS_QUAD)
@@ -123,8 +130,9 @@ func do_attack():
 # DIE function
 func kill_da_hoe():
 	process_mode = ProcessMode.PROCESS_MODE_DISABLED
-	get_tree().create_tween().tween_property(self, "modulate:a", 0, 1.0).\
+	var tween = get_tree().create_tween().tween_property(self, "modulate:a", 0, 1.0).\
 		set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	await tween.finished
 	queue_free()
 
 # Signal functions

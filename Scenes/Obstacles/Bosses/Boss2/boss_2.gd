@@ -5,6 +5,7 @@ const PRZYDUPAS_DATA = preload("res://Scenes/Obstacles/Non-gravity/Obstacle5/prz
 
 @export var strikes: int = 20
 @export var strikes_moveset: Array[LineAttackData]
+@export var attack_sound: SoundHolder
 
 @onready var timer_left: Timer = $StrikeTimerLeft
 @onready var timer_middle: Timer = $StrikeTimerMiddle
@@ -68,6 +69,7 @@ func spawn_bolt(what: int):
 		if inverse_arr[what]: point = point_inver_array[what]
 		else: point = point_spawn_array[what]
 		spawner.spawn(point, BOSS_2_PRZYDUPAS.instantiate(), PRZYDUPAS_DATA)
+		Sfx.play(attack_sound)
 	attacks_count += 1
 	inverse_arr[what] = false
 
