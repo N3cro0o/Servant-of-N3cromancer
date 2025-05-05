@@ -7,7 +7,7 @@ class_name SaveManager extends Node
 const SAVE_DATA_PATH = "user://czacha_zapis.json"
 const SAVE_RESOURCE_PATH = "user://resources/"
 const SAVE_TASKS_PATH = "tasks/%d.tres"
-@export var save_version = 0.3
+@export var save_version = 0.4
 
 var data = {
 	# Control version, update after every major change
@@ -19,7 +19,7 @@ var data = {
 	"current_skul" : 0,
 	"line_color" : 0,
 	# Unlock nimble skull, custom Line, inventory 1
-	"unlocks_shop" : [false, false, false],
+	"unlocks_shop" : [false, false, false, false],
 	# Options
 	"volume_master" : 1.0,
 	"master_muted": false,
@@ -30,7 +30,10 @@ var data = {
 	"volume_ui": 1.0,
 	"ui_muted": false,
 	"particles": 0.8,
-	"tutorial": false
+	"tutorial": false,
+	"show_game_ui": false,
+	# Diffs
+	"extra_speed": 0
 }
 
 #endregion
@@ -71,6 +74,8 @@ func reset_data():
 	data["ui_muted"] = false
 	data["particles"] = 0.8
 	data["tutorial"] = false
+	data["show_game_ui"] = false
+	data["extra_speed"] = 0
 	setup_options()
 	on_load_completed.emit()
 
@@ -128,7 +133,12 @@ func load_data():
 			# Check version
 		if data["version"] != save_version:
 			print_rich("[hint=SaveManager]Data wrong version[/hint]")
-			
+			# Will change for better logic later... hopefully
+			reset_data()
+			await get_tree().process_frame
+			setup_options()
+			on_load_completed.emit()
+			return
 			# Coins and highscore
 		ScM.coins_game = data["coins"]
 		ScM.highscore = data["highscore"]
@@ -143,6 +153,10 @@ func load_data():
 		GmM.line_color = data["line_color"]
 			# Current skul body
 		GmM.current_body = data["current_skul"]
+			# HUD
+		GmM.show_game_ui = data["show_game_ui"]
+			# Speed
+		GmM.extra_speed_level = data["extra_speed"]
 		print_rich("[hint=SaveManager]Data loaded[/hint]\n%s\n\n" % upgrade_names)
 		await get_tree().process_frame
 		# Load options data
@@ -177,6 +191,10 @@ func load_task(id: int) -> TaskHolder:
 	return task
 
 # Update game data functions
+func update_show_hud(b: bool):
+	data["show_game_ui"] = b
+	data["version"] = save_version
+
 func update_player_body(body_id : int):
 	data["current_skul"] = body_id
 	data["version"] = save_version
@@ -242,6 +260,10 @@ func update_tasks_completed(num: int):
 func update_tasks_skipped(num: int):
 	data["tasks_skipped"] = num
 	GmM.update_max_tasks()
+	data["version"] = save_version
+
+func update_extra_speed(val):
+	data["extra_speed"] = val
 	data["version"] = save_version
 
 # Return functions

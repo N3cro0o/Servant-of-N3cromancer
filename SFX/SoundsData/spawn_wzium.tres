@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="SoundHolder" load_steps=3 format=3 uid="uid://cl86nm3oktpl1"]
+
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/sound_holder.gd" id="1_vfmhj"]
+[ext_resource type="AudioStream" uid="uid://o1wrxtvfb6o8" path="res://SFX/Sounds/speedy_wzium.wav" id="2_14m4r"]
+
+[resource]
+script = ExtResource("1_vfmhj")
+name = "spawn_sound1"
+stream = ExtResource("2_14m4r")
+volume = -20.0
+autoplay = false
+bus = "Obstacles"

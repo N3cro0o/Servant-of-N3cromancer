@@ -7,25 +7,26 @@ extends Control
 
 @onready var main := $Margin/VBox/Main
 # Body part
-@onready var body = $Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body
-@onready var body_label = $Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/RichTextLabel
-@onready var body_texture = $Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Texture
+@onready var body = $Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body
+@onready var body_label = $Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box/Buttons/Box/RichTextLabel
+@onready var body_texture = $Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box/Texture
 # Line part
-@onready var line = $Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line
-@onready var line_color_grid = $Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line/Box/Margin/Grid
+@onready var line = $Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Line
+@onready var line_color_grid = $Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Line/Box/Margin/Grid
 # Options
-@onready var master_slider = $Margin/VBox/Main/Options/Margin/VBox/SoundSlider/Master/MasterSlider
-@onready var music_slider: HSlider = $Margin/VBox/Main/Options/Margin/VBox/SoundSlider/Music/MusicSlider
-@onready var obstacle_slider: HSlider = $Margin/VBox/Main/Options/Margin/VBox/SoundSlider/Obstacles/ObstacleSlider
-@onready var ui_slider: HSlider = $Margin/VBox/Main/Options/Margin/VBox/SoundSlider/UI/UISlider
-@onready var particle_slider: HSlider = $Margin/VBox/Main/Options/Margin/VBox/Graphics/Particle/ParticleSlider
-@onready var version_label: Label = $Margin/VBox/Main/Options/Margin/VBox/Label
-@onready var debug_label_button: CheckButton = $Margin/VBox/Main/Options/Margin/VBox/Graphics/DebugLabelButton
+@onready var master_slider = $Margin/VBox/Main/Options/Margin/ScrollBox/VBox/SoundSlider/Master/MasterSlider
+@onready var music_slider: HSlider = $Margin/VBox/Main/Options/Margin/ScrollBox/VBox/SoundSlider/Music/MusicSlider
+@onready var obstacle_slider: HSlider = $Margin/VBox/Main/Options/Margin/ScrollBox/VBox/SoundSlider/Obstacles/ObstacleSlider
+@onready var ui_slider: HSlider = $Margin/VBox/Main/Options/Margin/ScrollBox/VBox/SoundSlider/UI/UISlider
+@onready var particle_slider: HSlider = $Margin/VBox/Main/Options/Margin/ScrollBox/VBox/Graphics/Particle/ParticleSlider
+@onready var version_label: Label = $Margin/VBox/Main/Options/Margin/ScrollBox/VBox/Label
+@onready var debug_label_button: CheckButton = $Margin/VBox/Main/Options/Margin/ScrollBox/VBox/VBoxContainer/DebugLabelButton
+@onready var hud_button: CheckButton = $Margin/VBox/Main/Options/Margin/ScrollBox/VBox/VBoxContainer/PermHUDButton
 # Mute
-@onready var mute_master: TextureButton = $Margin/VBox/Main/Options/Margin/VBox/SoundSlider/Master/Mute
-@onready var mute_music: TextureButton = $Margin/VBox/Main/Options/Margin/VBox/SoundSlider/Music/Mute
-@onready var mute_obstacle: TextureButton = $Margin/VBox/Main/Options/Margin/VBox/SoundSlider/Obstacles/Mute
-@onready var mute_ui: TextureButton = $Margin/VBox/Main/Options/Margin/VBox/SoundSlider/UI/Mute
+@onready var mute_master: TextureButton = $Margin/VBox/Main/Options/Margin/ScrollBox/VBox/SoundSlider/Master/Mute
+@onready var mute_music: TextureButton = $Margin/VBox/Main/Options/Margin/ScrollBox/VBox/SoundSlider/Music/Mute
+@onready var mute_obstacle: TextureButton = $Margin/VBox/Main/Options/Margin/ScrollBox/VBox/SoundSlider/Obstacles/Mute
+@onready var mute_ui: TextureButton = $Margin/VBox/Main/Options/Margin/ScrollBox/VBox/SoundSlider/UI/Mute
 
 # Tasks
 @onready var task_grid: TaskGrid = $Margin/VBox/Main/Tasks/Margin/V/Box/TaskGrid
@@ -33,6 +34,10 @@ extends Control
 @onready var text_task1: Label = $Margin/VBox/Main/Tasks/Margin/V/Options/Text1
 @onready var text_task2: Label = $Margin/VBox/Main/Tasks/Margin/V/Options/Text2
 @onready var text_task3: Label = $Margin/VBox/Main/Tasks/Margin/V/Options/Text3
+
+# Difficulties
+@onready var speed_box: VBoxContainer = $Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Diff/Speed
+@onready var speed_slider: HSlider = $Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Diff/Speed/SpeedSlider
 
 var active_tab = 0
 var active_body = 0
@@ -69,6 +74,13 @@ func _ready():
 	lock_sliders = false
 	particle_slider.value = SvM.return_particle_amount()
 	debug_label_button.button_pressed = GmM.debug_label_visible
+	hud_button.button_pressed = GmM.show_game_ui
+#region Difficulties
+	# Speed
+	speed_slider.max_value = GmM.max_extra_speed_level
+	speed_slider.value = GmM.extra_speed_level
+	if speed_slider.max_value == 0: speed_box.visible = false
+#endregion
 	task_grid.update_data()
 	update_task_label()
 	if TsM.task_arr.size() >= 1:
@@ -281,10 +293,18 @@ func change_particle_amount(num):
 func debug_label_toggle(b):
 	GmM.debug_label_visible = b
 
+func show_game_ui(b):
+	GmM.show_game_ui = b
+	SvM.update_show_hud(b)
+
 # UI functions
 func update_task_label():
 	task_label.text = "Tasks completed: %d\nTasks skipped: %d" % [SvM.return_tasks_completed(),\
 		SvM.return_tasks_skipped()]
+
+# Diff functions
+func udate_max_speed(val: float):
+	GmM.extra_speed_level = val
 
 # Credits buttons
 func itch_button_credits():

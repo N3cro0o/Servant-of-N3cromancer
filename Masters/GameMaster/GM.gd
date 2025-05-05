@@ -38,6 +38,12 @@ var curr_scene : Node
 var transition_iterat = 0
 var window_fix: float
 var debug_label_visible = false
+var extra_speed_level: int = 0:
+	set(val_i):
+		extra_speed_level = val_i
+		real_game_speed = 1.0 + pow(1.2137, pow(val_i, 1.1)) - 1
+		game_speed = real_game_speed
+		SvM.update_extra_speed(val_i)
 
 # Save Data
 var endless_unlock = true
@@ -46,6 +52,8 @@ var current_body = 0
 var line_color = 0
 var inventory_space = 0
 var inventory_space_single = 0
+var show_game_ui = false
+var max_extra_speed_level: int = 0
 
 # Obstacles
 var ready_obstacle_arr: Array[PackedScene]

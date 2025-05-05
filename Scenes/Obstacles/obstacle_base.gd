@@ -44,7 +44,7 @@ func _ready():
 			$CollisionShape2D.set_deferred("disabled", true)
 	
 	# Save gravity force for later use
-	start_gravity = gravity_scale
+	start_gravity = gravity_scale * GmM.real_game_speed
 
 func _physics_process(delta):
 	if grace_check:

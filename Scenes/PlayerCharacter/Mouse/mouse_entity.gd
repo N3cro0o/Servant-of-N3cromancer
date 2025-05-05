@@ -4,7 +4,6 @@ static var instance : MouseEntity1
 
 #region Variables
 
-@export var radius:float # Collider and area radius
 @export var push_strength := 100.0
 @export var disabled_hitbox := false
 @export var mouse_color := Color.GREEN
@@ -49,6 +48,9 @@ var obstacles_hit : Array[PhysicsBody2D] = []
 var frames = 0
 var max_velocity := 0.0
 
+var size_tween: Tween
+
+# Kurwa, ale patola
 var web_rand_array = [0, 0, -2, -1, 1, -1, 2, 0, 2, -2, 0, 1, -1, 2, -2, 1, -2, 2, 0, -2, -1]
 var web_rand_index = 0
 #endregion
@@ -79,6 +81,11 @@ func _physics_process(delta):
 	# Mouse pos
 	var mouse = pos
 	position = position.lerp(mouse, 15 * delta)
+	if position.distance_to(mouse) > 50:
+		position += (mouse - position).normalized() * 50
+	# Prediction
+	var forsee_vec = position - last_position
+	position += forsee_vec
 	# Calc velocity
 	velocity_vec = Vector2(position.x - last_position.x, position.y - last_position.y) / delta
 	velocity_vec = velocity_vec.round()
@@ -157,4 +164,11 @@ func toggle_particles():
 	if !GmM.web_development:
 		particles.emitting = active
 	else:
+		if size_tween != null:
+			size_tween.kill()
+		size_tween = get_tree().create_tween()
+		if active:
+			size_tween.tween_property(particles, "scale", Vector2(1, 1), 0.2)
+		else:
+			size_tween.tween_property(particles, "scale", Vector2(0, 0), 0.4)
 		particles.emitting = false

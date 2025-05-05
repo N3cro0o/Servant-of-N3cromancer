@@ -38,6 +38,8 @@ const PICKUP_BASE = preload(PICKUP_PATH)
 		spawner_offset = vec
 		if is_node_ready():
 			update_spawners()
+@export_group("")
+@export var spawn_sound: SoundHolder
 
 @onready var spawn_points_arr: Array[Node2D] = [
 	$"Spawners/1", $"Spawners/2", $"Spawners/3", $"Spawners/4", $"Spawners/5"]
@@ -73,6 +75,9 @@ func _ready():
 	GmM.on_paused.connect(on_paused)
 	GmM.on_slow_mo.connect(on_game_slow_mo)
 	update_spawners()
+	GmM.extra_speed_level = 0
+	GmM.game_speed = 1.0
+	GmM.real_game_speed = 1.0
 
 func _physics_process(_delta: float):
 	if GameScene.instance != null:
@@ -311,6 +316,8 @@ func spawn(num, object: ObstacleGravityBase, data: SpawnObstacleDataHolder):
 		object = object as ObstacleNonverticalTele
 		object.position = position + spawner_offset
 		object.curr_position = 0
+	# Play sound, ye
+	Sfx.play(spawn_sound)
 	# Return pointer to instance
 	return object
 

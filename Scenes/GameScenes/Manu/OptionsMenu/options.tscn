@@ -122,12 +122,13 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 8.0
 theme_override_styles/panel = SubResource("StyleBoxEmpty_i3u2l")
 tab_alignment = 1
-current_tab = 0
+current_tab = 1
 tabs_visible = false
 use_hidden_tabs_for_min_size = true
 tab_focus_mode = 0
 
 [node name="Tasks" type="Control" parent="Margin/VBox/Main"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -281,7 +282,6 @@ theme_override_font_sizes/font_size = 84
 text = "Reroll"
 
 [node name="PlayerCustomization" type="Control" parent="Margin/VBox/Main"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
@@ -293,17 +293,24 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBox" type="VBoxContainer" parent="Margin/VBox/Main/PlayerCustomization/Margin"]
+[node name="ScrollBox" type="ScrollContainer" parent="Margin/VBox/Main/PlayerCustomization/Margin"]
 layout_mode = 2
+horizontal_scroll_mode = 0
 
-[node name="Body" type="ColorRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox"]
+[node name="VBox" type="VBoxContainer" parent="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox"]
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
-size_flags_stretch_ratio = 2.0
+theme_override_constants/separation = 30
+
+[node name="Body" type="ColorRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox"]
+custom_minimum_size = Vector2(0, 1100)
+layout_mode = 2
+size_flags_stretch_ratio = 1.8
 mouse_filter = 2
 color = Color(0.262745, 0.262745, 0.262745, 0)
 
-[node name="Box" type="VBoxContainer" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body"]
+[node name="Box" type="VBoxContainer" parent="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -312,7 +319,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 35
 
-[node name="Texture" type="TextureRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box"]
+[node name="Texture" type="TextureRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box"]
 texture_filter = 1
 layout_mode = 2
 size_flags_vertical = 3
@@ -320,21 +327,21 @@ size_flags_stretch_ratio = 2.5
 texture = SubResource("PlaceholderTexture2D_tui5s")
 stretch_mode = 5
 
-[node name="Buttons" type="MarginContainer" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box"]
+[node name="Buttons" type="MarginContainer" parent="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box"]
 layout_mode = 2
 size_flags_vertical = 3
+size_flags_stretch_ratio = 0.6
 theme_override_constants/margin_left = 50
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 50
 theme_override_constants/margin_bottom = 40
 
-[node name="Box" type="HBoxContainer" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons"]
+[node name="Box" type="HBoxContainer" parent="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box/Buttons"]
 layout_mode = 2
-size_flags_vertical = 3
 theme_override_constants/separation = 20
 alignment = 1
 
-[node name="Left" type="Button" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box" node_paths=PackedStringArray("image")]
+[node name="Left" type="Button" parent="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box/Buttons/Box" node_paths=PackedStringArray("image")]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
@@ -342,13 +349,13 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_d3uhj")
 script = ExtResource("2_dtl4u")
 image = NodePath("TextureRect")
 
-[node name="TextureRect" type="TextureRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Left"]
+[node name="TextureRect" type="TextureRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box/Buttons/Box/Left"]
 layout_mode = 0
 offset_right = 256.0
 offset_bottom = 128.0
 texture = ExtResource("3_rrsx8")
 
-[node name="Right" type="Button" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box" node_paths=PackedStringArray("image")]
+[node name="Right" type="Button" parent="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box/Buttons/Box" node_paths=PackedStringArray("image")]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
@@ -356,14 +363,14 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_d3uhj")
 script = ExtResource("2_dtl4u")
 image = NodePath("TextureRect")
 
-[node name="TextureRect" type="TextureRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Right"]
+[node name="TextureRect" type="TextureRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box/Buttons/Box/Right"]
 layout_mode = 0
 offset_right = 256.0
 offset_bottom = 128.0
 rotation = 3.14159
 texture = ExtResource("3_rrsx8")
 
-[node name="Left2" type="Button" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box" node_paths=PackedStringArray("image", "click_image")]
+[node name="Left2" type="Button" parent="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box/Buttons/Box" node_paths=PackedStringArray("image", "click_image")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.75
@@ -372,35 +379,37 @@ script = ExtResource("8_ck40c")
 image = NodePath("TextureRect")
 click_image = NodePath("TextureRect2")
 
-[node name="TextureRect2" type="TextureRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Left2"]
+[node name="TextureRect2" type="TextureRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box/Buttons/Box/Left2"]
 visible = false
 modulate = Color(1, 1, 1, 0.196078)
 texture_filter = 1
 layout_mode = 0
-offset_right = 256.0
-offset_bottom = 128.0
+offset_right = 267.0
+offset_bottom = 147.0
+pivot_offset = Vector2(133.5, 73.5)
 texture = SubResource("AtlasTexture_fcpoo")
 stretch_mode = 5
 
-[node name="TextureRect" type="TextureRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Left2"]
+[node name="TextureRect" type="TextureRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box/Buttons/Box/Left2"]
 texture_filter = 1
 layout_mode = 0
-offset_right = 256.0
-offset_bottom = 128.0
+offset_right = 267.0
+offset_bottom = 147.0
+pivot_offset = Vector2(133.5, 73.5)
 texture = SubResource("AtlasTexture_ntv7j")
 stretch_mode = 5
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box"]
+[node name="RichTextLabel" type="RichTextLabel" parent="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box/Buttons/Box"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 theme_override_font_sizes/normal_font_size = 64
 bbcode_enabled = true
-text = "Skul body"
+text = "[center]Skul body"
 fit_content = true
 autowrap_mode = 2
 
-[node name="Right2" type="Button" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box" node_paths=PackedStringArray("image", "click_image")]
+[node name="Right2" type="Button" parent="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box/Buttons/Box" node_paths=PackedStringArray("image", "click_image")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.75
@@ -409,34 +418,35 @@ script = ExtResource("8_ck40c")
 image = NodePath("TextureRect")
 click_image = NodePath("TextureRect2")
 
-[node name="TextureRect2" type="TextureRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Right2"]
+[node name="TextureRect2" type="TextureRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box/Buttons/Box/Right2"]
 visible = false
 modulate = Color(1, 1, 1, 0.196078)
 texture_filter = 1
 layout_mode = 0
-offset_right = 256.0
-offset_bottom = 128.0
+offset_right = 268.0
+offset_bottom = 147.0
 rotation = 3.14159
+pivot_offset = Vector2(134, 73.5)
 texture = SubResource("AtlasTexture_fcpoo")
 stretch_mode = 5
 
-[node name="TextureRect" type="TextureRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Right2"]
+[node name="TextureRect" type="TextureRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box/Buttons/Box/Right2"]
 texture_filter = 1
-custom_minimum_size = Vector2(288, 288)
 layout_mode = 0
-offset_right = 288.0
-offset_bottom = 288.0
+offset_right = 268.0
+offset_bottom = 147.0
 rotation = 3.14159
+pivot_offset = Vector2(134, 73.5)
 texture = SubResource("AtlasTexture_ntv7j")
 stretch_mode = 5
 
-[node name="Line" type="ColorRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox"]
+[node name="Line" type="ColorRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox"]
+custom_minimum_size = Vector2(0, 680)
 layout_mode = 2
-size_flags_vertical = 3
 mouse_filter = 2
 color = Color(0.262745, 0.262745, 0.262745, 0)
 
-[node name="Box" type="VBoxContainer" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line"]
+[node name="Box" type="VBoxContainer" parent="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Line"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -444,14 +454,14 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line/Box"]
+[node name="RichTextLabel" type="RichTextLabel" parent="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Line/Box"]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Line Customization"
 fit_content = true
 autowrap_mode = 0
 
-[node name="Margin" type="MarginContainer" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line/Box"]
+[node name="Margin" type="MarginContainer" parent="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Line/Box"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 50
@@ -459,13 +469,13 @@ theme_override_constants/margin_top = 50
 theme_override_constants/margin_right = 50
 theme_override_constants/margin_bottom = 50
 
-[node name="Grid" type="GridContainer" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line/Box/Margin"]
+[node name="Grid" type="GridContainer" parent="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Line/Box/Margin"]
 layout_mode = 2
 theme_override_constants/h_separation = 50
 theme_override_constants/v_separation = 35
 columns = 3
 
-[node name="BasicColor" type="Button" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line/Box/Margin/Grid"]
+[node name="BasicColor" type="Button" parent="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Line/Box/Margin/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -476,7 +486,7 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_iojhu")
 toggle_mode = true
 button_group = SubResource("ButtonGroup_ldggw")
 
-[node name="ColorRect" type="ColorRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line/Box/Margin/Grid/BasicColor"]
+[node name="ColorRect" type="ColorRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Line/Box/Margin/Grid/BasicColor"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -485,7 +495,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 
-[node name="RedColor" type="Button" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line/Box/Margin/Grid"]
+[node name="RedColor" type="Button" parent="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Line/Box/Margin/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -496,7 +506,7 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_iojhu")
 toggle_mode = true
 button_group = SubResource("ButtonGroup_ldggw")
 
-[node name="ColorRect" type="ColorRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line/Box/Margin/Grid/RedColor"]
+[node name="ColorRect" type="ColorRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Line/Box/Margin/Grid/RedColor"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -505,7 +515,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 
-[node name="BlueColor" type="Button" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line/Box/Margin/Grid"]
+[node name="BlueColor" type="Button" parent="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Line/Box/Margin/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -516,7 +526,7 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_iojhu")
 toggle_mode = true
 button_group = SubResource("ButtonGroup_ldggw")
 
-[node name="ColorRect" type="ColorRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line/Box/Margin/Grid/BlueColor"]
+[node name="ColorRect" type="ColorRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Line/Box/Margin/Grid/BlueColor"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -525,7 +535,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 
-[node name="GreenColor" type="Button" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line/Box/Margin/Grid"]
+[node name="GreenColor" type="Button" parent="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Line/Box/Margin/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -536,7 +546,7 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_iojhu")
 toggle_mode = true
 button_group = SubResource("ButtonGroup_ldggw")
 
-[node name="ColorRect" type="ColorRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line/Box/Margin/Grid/GreenColor"]
+[node name="ColorRect" type="ColorRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Line/Box/Margin/Grid/GreenColor"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -545,7 +555,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 
-[node name="PinkColor" type="Button" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line/Box/Margin/Grid"]
+[node name="PinkColor" type="Button" parent="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Line/Box/Margin/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -556,7 +566,7 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_iojhu")
 toggle_mode = true
 button_group = SubResource("ButtonGroup_ldggw")
 
-[node name="ColorRect" type="ColorRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line/Box/Margin/Grid/PinkColor"]
+[node name="ColorRect" type="ColorRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Line/Box/Margin/Grid/PinkColor"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -565,7 +575,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 
-[node name="YellowColor" type="Button" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line/Box/Margin/Grid"]
+[node name="YellowColor" type="Button" parent="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Line/Box/Margin/Grid"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -576,7 +586,7 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_iojhu")
 toggle_mode = true
 button_group = SubResource("ButtonGroup_ldggw")
 
-[node name="ColorRect" type="ColorRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line/Box/Margin/Grid/YellowColor"]
+[node name="ColorRect" type="ColorRect" parent="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Line/Box/Margin/Grid/YellowColor"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -584,6 +594,30 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
+
+[node name="Diff" type="VBoxContainer" parent="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox"]
+layout_mode = 2
+
+[node name="Speed" type="VBoxContainer" parent="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Diff"]
+layout_mode = 2
+alignment = 1
+
+[node name="ParticleLabel" type="RichTextLabel" parent="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Diff/Speed"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/default_color = Color(0.903598, 0.903598, 0.903598, 1)
+text = "Extra Game Speed"
+fit_content = true
+
+[node name="SpeedSlider" type="HSlider" parent="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Diff/Speed"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 0.0
+rounded = true
+scrollable = false
+tick_count = 2
+ticks_on_borders = true
 
 [node name="Options" type="Control" parent="Margin/VBox/Main"]
 visible = false
@@ -598,34 +632,41 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBox" type="VBoxContainer" parent="Margin/VBox/Main/Options/Margin"]
+[node name="ScrollBox" type="ScrollContainer" parent="Margin/VBox/Main/Options/Margin"]
 layout_mode = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
+
+[node name="VBox" type="VBoxContainer" parent="Margin/VBox/Main/Options/Margin/ScrollBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 theme_override_constants/separation = 50
 
-[node name="GFXLabel" type="Label" parent="Margin/VBox/Main/Options/Margin/VBox"]
+[node name="GFXLabel" type="Label" parent="Margin/VBox/Main/Options/Margin/ScrollBox/VBox"]
 layout_mode = 2
 text = "Graphics options"
 label_settings = ExtResource("5_wuwyj")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Graphics" type="VBoxContainer" parent="Margin/VBox/Main/Options/Margin/VBox"]
+[node name="Graphics" type="VBoxContainer" parent="Margin/VBox/Main/Options/Margin/ScrollBox/VBox"]
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="Particle" type="VBoxContainer" parent="Margin/VBox/Main/Options/Margin/VBox/Graphics"]
+[node name="Particle" type="VBoxContainer" parent="Margin/VBox/Main/Options/Margin/ScrollBox/VBox/Graphics"]
 layout_mode = 2
 size_flags_vertical = 3
 alignment = 1
 
-[node name="ParticleLabel" type="RichTextLabel" parent="Margin/VBox/Main/Options/Margin/VBox/Graphics/Particle"]
+[node name="ParticleLabel" type="RichTextLabel" parent="Margin/VBox/Main/Options/Margin/ScrollBox/VBox/Graphics/Particle"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/default_color = Color(0.903598, 0.903598, 0.903598, 1)
 text = "Particles"
 fit_content = true
 
-[node name="ParticleSlider" type="HSlider" parent="Margin/VBox/Main/Options/Margin/VBox/Graphics/Particle"]
+[node name="ParticleSlider" type="HSlider" parent="Margin/VBox/Main/Options/Margin/ScrollBox/VBox/Graphics/Particle"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -637,36 +678,31 @@ scrollable = false
 tick_count = 6
 ticks_on_borders = true
 
-[node name="DebugLabelButton" type="CheckButton" parent="Margin/VBox/Main/Options/Margin/VBox/Graphics"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.901961, 0.901961, 0.901961, 1)
-text = "Debug label"
-
-[node name="HSeparator" type="HSeparator" parent="Margin/VBox/Main/Options/Margin/VBox"]
+[node name="HSeparator" type="HSeparator" parent="Margin/VBox/Main/Options/Margin/ScrollBox/VBox"]
 layout_mode = 2
 
-[node name="SFXLabel" type="Label" parent="Margin/VBox/Main/Options/Margin/VBox"]
+[node name="SFXLabel" type="Label" parent="Margin/VBox/Main/Options/Margin/ScrollBox/VBox"]
 layout_mode = 2
 text = "Sound options"
 label_settings = ExtResource("5_wuwyj")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="SoundSlider" type="VBoxContainer" parent="Margin/VBox/Main/Options/Margin/VBox"]
+[node name="SoundSlider" type="VBoxContainer" parent="Margin/VBox/Main/Options/Margin/ScrollBox/VBox"]
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="MasterLabel" type="RichTextLabel" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider"]
+[node name="MasterLabel" type="RichTextLabel" parent="Margin/VBox/Main/Options/Margin/ScrollBox/VBox/SoundSlider"]
 layout_mode = 2
 theme_override_colors/default_color = Color(0.903598, 0.903598, 0.903598, 1)
 text = "Master"
 fit_content = true
 
-[node name="Master" type="HBoxContainer" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider"]
+[node name="Master" type="HBoxContainer" parent="Margin/VBox/Main/Options/Margin/ScrollBox/VBox/SoundSlider"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="MasterSlider" type="HSlider" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/Master"]
+[node name="MasterSlider" type="HSlider" parent="Margin/VBox/Main/Options/Margin/ScrollBox/VBox/SoundSlider/Master"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -676,7 +712,7 @@ step = 0.01
 value = 1.0
 scrollable = false
 
-[node name="Mute" type="TextureButton" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/Master"]
+[node name="Mute" type="TextureButton" parent="Margin/VBox/Main/Options/Margin/ScrollBox/VBox/SoundSlider/Master"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.5
@@ -687,17 +723,17 @@ texture_pressed = ExtResource("9_bdasq")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="MusicLabel" type="RichTextLabel" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider"]
+[node name="MusicLabel" type="RichTextLabel" parent="Margin/VBox/Main/Options/Margin/ScrollBox/VBox/SoundSlider"]
 layout_mode = 2
 theme_override_colors/default_color = Color(0.788235, 0.788235, 0.788235, 1)
 text = "Music"
 fit_content = true
 
-[node name="Music" type="HBoxContainer" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider"]
+[node name="Music" type="HBoxContainer" parent="Margin/VBox/Main/Options/Margin/ScrollBox/VBox/SoundSlider"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="MusicSlider" type="HSlider" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/Music"]
+[node name="MusicSlider" type="HSlider" parent="Margin/VBox/Main/Options/Margin/ScrollBox/VBox/SoundSlider/Music"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -707,7 +743,7 @@ step = 0.01
 value = 1.0
 scrollable = false
 
-[node name="Mute" type="TextureButton" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/Music"]
+[node name="Mute" type="TextureButton" parent="Margin/VBox/Main/Options/Margin/ScrollBox/VBox/SoundSlider/Music"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.5
@@ -718,17 +754,17 @@ texture_pressed = ExtResource("9_bdasq")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="ObstacleLabel" type="RichTextLabel" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider"]
+[node name="ObstacleLabel" type="RichTextLabel" parent="Margin/VBox/Main/Options/Margin/ScrollBox/VBox/SoundSlider"]
 layout_mode = 2
 theme_override_colors/default_color = Color(0.788235, 0.788235, 0.788235, 1)
 text = "Obstacles"
 fit_content = true
 
-[node name="Obstacles" type="HBoxContainer" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider"]
+[node name="Obstacles" type="HBoxContainer" parent="Margin/VBox/Main/Options/Margin/ScrollBox/VBox/SoundSlider"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ObstacleSlider" type="HSlider" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/Obstacles"]
+[node name="ObstacleSlider" type="HSlider" parent="Margin/VBox/Main/Options/Margin/ScrollBox/VBox/SoundSlider/Obstacles"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -738,7 +774,7 @@ step = 0.01
 value = 1.0
 scrollable = false
 
-[node name="Mute" type="TextureButton" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/Obstacles"]
+[node name="Mute" type="TextureButton" parent="Margin/VBox/Main/Options/Margin/ScrollBox/VBox/SoundSlider/Obstacles"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.5
@@ -749,17 +785,17 @@ texture_pressed = ExtResource("9_bdasq")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="UILabel" type="RichTextLabel" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider"]
+[node name="UILabel" type="RichTextLabel" parent="Margin/VBox/Main/Options/Margin/ScrollBox/VBox/SoundSlider"]
 layout_mode = 2
 theme_override_colors/default_color = Color(0.788235, 0.788235, 0.788235, 1)
 text = "Interface"
 fit_content = true
 
-[node name="UI" type="HBoxContainer" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider"]
+[node name="UI" type="HBoxContainer" parent="Margin/VBox/Main/Options/Margin/ScrollBox/VBox/SoundSlider"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="UISlider" type="HSlider" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/UI"]
+[node name="UISlider" type="HSlider" parent="Margin/VBox/Main/Options/Margin/ScrollBox/VBox/SoundSlider/UI"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -769,7 +805,7 @@ step = 0.01
 value = 1.0
 scrollable = false
 
-[node name="Mute" type="TextureButton" parent="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/UI"]
+[node name="Mute" type="TextureButton" parent="Margin/VBox/Main/Options/Margin/ScrollBox/VBox/SoundSlider/UI"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.5
@@ -780,18 +816,42 @@ texture_pressed = ExtResource("9_bdasq")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="MarginCredits" type="MarginContainer" parent="Margin/VBox/Main/Options/Margin/VBox"]
+[node name="HSeparator2" type="HSeparator" parent="Margin/VBox/Main/Options/Margin/ScrollBox/VBox"]
+layout_mode = 2
+
+[node name="UILabel" type="Label" parent="Margin/VBox/Main/Options/Margin/ScrollBox/VBox"]
+layout_mode = 2
+text = "HUD options"
+label_settings = ExtResource("5_wuwyj")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Margin/VBox/Main/Options/Margin/ScrollBox/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="PermHUDButton" type="CheckButton" parent="Margin/VBox/Main/Options/Margin/ScrollBox/VBox/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.901961, 0.901961, 0.901961, 1)
+text = "Permanent HUD"
+
+[node name="DebugLabelButton" type="CheckButton" parent="Margin/VBox/Main/Options/Margin/ScrollBox/VBox/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.901961, 0.901961, 0.901961, 1)
+text = "Debug label"
+
+[node name="MarginCredits" type="MarginContainer" parent="Margin/VBox/Main/Options/Margin/ScrollBox/VBox"]
 layout_mode = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_right = 20
 
-[node name="Credits" type="HBoxContainer" parent="Margin/VBox/Main/Options/Margin/VBox/MarginCredits"]
+[node name="Credits" type="HBoxContainer" parent="Margin/VBox/Main/Options/Margin/ScrollBox/VBox/MarginCredits"]
 custom_minimum_size = Vector2(0, 160)
 layout_mode = 2
 theme_override_constants/separation = 15
 alignment = 1
 
-[node name="Itch" type="Button" parent="Margin/VBox/Main/Options/Margin/VBox/MarginCredits/Credits"]
+[node name="Itch" type="Button" parent="Margin/VBox/Main/Options/Margin/ScrollBox/VBox/MarginCredits/Credits"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/icon_normal_color = Color(1, 1, 1, 1)
@@ -801,7 +861,7 @@ icon = ExtResource("5_l6pu5")
 icon_alignment = 1
 expand_icon = true
 
-[node name="Twitter" type="Button" parent="Margin/VBox/Main/Options/Margin/VBox/MarginCredits/Credits"]
+[node name="Twitter" type="Button" parent="Margin/VBox/Main/Options/Margin/ScrollBox/VBox/MarginCredits/Credits"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/icon_normal_color = Color(1, 1, 1, 1)
@@ -811,7 +871,7 @@ icon = ExtResource("6_ilpl1")
 icon_alignment = 1
 expand_icon = true
 
-[node name="WebAd" type="Label" parent="Margin/VBox/Main/Options/Margin/VBox"]
+[node name="WebAd" type="Label" parent="Margin/VBox/Main/Options/Margin/ScrollBox/VBox"]
 visible = false
 modulate = Color(1, 1, 1, 0.6)
 custom_minimum_size = Vector2(800, 0)
@@ -824,14 +884,14 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="ResetData" type="Button" parent="Margin/VBox/Main/Options/Margin/VBox"]
+[node name="ResetData" type="Button" parent="Margin/VBox/Main/Options/Margin/ScrollBox/VBox"]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 48
 theme_override_styles/focus = SubResource("StyleBoxEmpty_arvc5")
 text = "Reset game data"
 
-[node name="Label" type="Label" parent="Margin/VBox/Main/Options/Margin/VBox"]
+[node name="Label" type="Label" parent="Margin/VBox/Main/Options/Margin/ScrollBox/VBox"]
 layout_mode = 2
 size_flags_vertical = 10
 theme_override_font_sizes/font_size = 25
@@ -898,38 +958,40 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
 theme_override_fonts/normal_font = ExtResource("14_sgelq")
 theme_override_font_sizes/normal_font_size = 26
 
-[connection signal="button_down" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Left" to="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Left" method="on_button_update"]
-[connection signal="button_up" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Left" to="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Left" method="on_button_update"]
-[connection signal="pressed" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Left" to="." method="change_body_object" binds= [-1]]
-[connection signal="button_down" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Right" to="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Right" method="on_button_update"]
-[connection signal="button_up" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Right" to="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Right" method="on_button_update"]
-[connection signal="pressed" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Right" to="." method="change_body_object" binds= [1]]
-[connection signal="button_down" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Left2" to="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Left2" method="on_button_update"]
-[connection signal="button_up" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Left2" to="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Left2" method="on_button_update"]
-[connection signal="pressed" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Left2" to="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Left2" method="on_button_pressed"]
-[connection signal="pressed" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Left2" to="." method="change_body_object" binds= [-1]]
-[connection signal="button_down" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Right2" to="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Right2" method="on_button_update"]
-[connection signal="button_up" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Right2" to="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Right2" method="on_button_update"]
-[connection signal="pressed" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Right2" to="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Right2" method="on_button_pressed"]
-[connection signal="pressed" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Body/Box/Buttons/Box/Right2" to="." method="change_body_object" binds= [1]]
-[connection signal="pressed" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line/Box/Margin/Grid/BasicColor" to="." method="player_line_color_change" binds= [0]]
-[connection signal="pressed" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line/Box/Margin/Grid/RedColor" to="." method="player_line_color_change" binds= [1]]
-[connection signal="pressed" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line/Box/Margin/Grid/BlueColor" to="." method="player_line_color_change" binds= [2]]
-[connection signal="pressed" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line/Box/Margin/Grid/GreenColor" to="." method="player_line_color_change" binds= [3]]
-[connection signal="pressed" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line/Box/Margin/Grid/PinkColor" to="." method="player_line_color_change" binds= [4]]
-[connection signal="pressed" from="Margin/VBox/Main/PlayerCustomization/Margin/VBox/Line/Box/Margin/Grid/YellowColor" to="." method="player_line_color_change" binds= [5]]
-[connection signal="value_changed" from="Margin/VBox/Main/Options/Margin/VBox/Graphics/Particle/ParticleSlider" to="." method="change_particle_amount"]
-[connection signal="toggled" from="Margin/VBox/Main/Options/Margin/VBox/Graphics/DebugLabelButton" to="." method="debug_label_toggle"]
-[connection signal="value_changed" from="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/Master/MasterSlider" to="." method="change_master_bus_volume"]
-[connection signal="toggled" from="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/Master/Mute" to="." method="disable_audio_slider" binds= [0]]
-[connection signal="value_changed" from="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/Music/MusicSlider" to="." method="change_music_bus_volume"]
-[connection signal="toggled" from="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/Music/Mute" to="." method="disable_audio_slider" binds= [1]]
-[connection signal="value_changed" from="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/Obstacles/ObstacleSlider" to="." method="change_obstacle_bus_volume"]
-[connection signal="toggled" from="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/Obstacles/Mute" to="." method="disable_audio_slider" binds= [2]]
-[connection signal="value_changed" from="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/UI/UISlider" to="." method="change_ui_bus_volume"]
-[connection signal="toggled" from="Margin/VBox/Main/Options/Margin/VBox/SoundSlider/UI/Mute" to="." method="disable_audio_slider" binds= [3]]
-[connection signal="pressed" from="Margin/VBox/Main/Options/Margin/VBox/MarginCredits/Credits/Itch" to="." method="itch_button_credits"]
-[connection signal="pressed" from="Margin/VBox/Main/Options/Margin/VBox/MarginCredits/Credits/Twitter" to="." method="twitter_button_credits"]
-[connection signal="pressed" from="Margin/VBox/Main/Options/Margin/VBox/ResetData" to="." method="on_game_data_reset"]
+[connection signal="button_down" from="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box/Buttons/Box/Left" to="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box/Buttons/Box/Left" method="on_button_update"]
+[connection signal="button_up" from="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box/Buttons/Box/Left" to="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box/Buttons/Box/Left" method="on_button_update"]
+[connection signal="pressed" from="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box/Buttons/Box/Left" to="." method="change_body_object" binds= [-1]]
+[connection signal="button_down" from="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box/Buttons/Box/Right" to="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box/Buttons/Box/Right" method="on_button_update"]
+[connection signal="button_up" from="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box/Buttons/Box/Right" to="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box/Buttons/Box/Right" method="on_button_update"]
+[connection signal="pressed" from="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box/Buttons/Box/Right" to="." method="change_body_object" binds= [1]]
+[connection signal="button_down" from="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box/Buttons/Box/Left2" to="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box/Buttons/Box/Left2" method="on_button_update"]
+[connection signal="button_up" from="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box/Buttons/Box/Left2" to="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box/Buttons/Box/Left2" method="on_button_update"]
+[connection signal="pressed" from="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box/Buttons/Box/Left2" to="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box/Buttons/Box/Left2" method="on_button_pressed"]
+[connection signal="pressed" from="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box/Buttons/Box/Left2" to="." method="change_body_object" binds= [-1]]
+[connection signal="button_down" from="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box/Buttons/Box/Right2" to="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box/Buttons/Box/Right2" method="on_button_update"]
+[connection signal="button_up" from="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box/Buttons/Box/Right2" to="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box/Buttons/Box/Right2" method="on_button_update"]
+[connection signal="pressed" from="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box/Buttons/Box/Right2" to="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box/Buttons/Box/Right2" method="on_button_pressed"]
+[connection signal="pressed" from="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Body/Box/Buttons/Box/Right2" to="." method="change_body_object" binds= [1]]
+[connection signal="pressed" from="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Line/Box/Margin/Grid/BasicColor" to="." method="player_line_color_change" binds= [0]]
+[connection signal="pressed" from="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Line/Box/Margin/Grid/RedColor" to="." method="player_line_color_change" binds= [1]]
+[connection signal="pressed" from="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Line/Box/Margin/Grid/BlueColor" to="." method="player_line_color_change" binds= [2]]
+[connection signal="pressed" from="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Line/Box/Margin/Grid/GreenColor" to="." method="player_line_color_change" binds= [3]]
+[connection signal="pressed" from="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Line/Box/Margin/Grid/PinkColor" to="." method="player_line_color_change" binds= [4]]
+[connection signal="pressed" from="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Line/Box/Margin/Grid/YellowColor" to="." method="player_line_color_change" binds= [5]]
+[connection signal="value_changed" from="Margin/VBox/Main/PlayerCustomization/Margin/ScrollBox/VBox/Diff/Speed/SpeedSlider" to="." method="udate_max_speed"]
+[connection signal="value_changed" from="Margin/VBox/Main/Options/Margin/ScrollBox/VBox/Graphics/Particle/ParticleSlider" to="." method="change_particle_amount"]
+[connection signal="value_changed" from="Margin/VBox/Main/Options/Margin/ScrollBox/VBox/SoundSlider/Master/MasterSlider" to="." method="change_master_bus_volume"]
+[connection signal="toggled" from="Margin/VBox/Main/Options/Margin/ScrollBox/VBox/SoundSlider/Master/Mute" to="." method="disable_audio_slider" binds= [0]]
+[connection signal="value_changed" from="Margin/VBox/Main/Options/Margin/ScrollBox/VBox/SoundSlider/Music/MusicSlider" to="." method="change_music_bus_volume"]
+[connection signal="toggled" from="Margin/VBox/Main/Options/Margin/ScrollBox/VBox/SoundSlider/Music/Mute" to="." method="disable_audio_slider" binds= [1]]
+[connection signal="value_changed" from="Margin/VBox/Main/Options/Margin/ScrollBox/VBox/SoundSlider/Obstacles/ObstacleSlider" to="." method="change_obstacle_bus_volume"]
+[connection signal="toggled" from="Margin/VBox/Main/Options/Margin/ScrollBox/VBox/SoundSlider/Obstacles/Mute" to="." method="disable_audio_slider" binds= [2]]
+[connection signal="value_changed" from="Margin/VBox/Main/Options/Margin/ScrollBox/VBox/SoundSlider/UI/UISlider" to="." method="change_ui_bus_volume"]
+[connection signal="toggled" from="Margin/VBox/Main/Options/Margin/ScrollBox/VBox/SoundSlider/UI/Mute" to="." method="disable_audio_slider" binds= [3]]
+[connection signal="toggled" from="Margin/VBox/Main/Options/Margin/ScrollBox/VBox/VBoxContainer/PermHUDButton" to="." method="show_game_ui"]
+[connection signal="toggled" from="Margin/VBox/Main/Options/Margin/ScrollBox/VBox/VBoxContainer/DebugLabelButton" to="." method="debug_label_toggle"]
+[connection signal="pressed" from="Margin/VBox/Main/Options/Margin/ScrollBox/VBox/MarginCredits/Credits/Itch" to="." method="itch_button_credits"]
+[connection signal="pressed" from="Margin/VBox/Main/Options/Margin/ScrollBox/VBox/MarginCredits/Credits/Twitter" to="." method="twitter_button_credits"]
+[connection signal="pressed" from="Margin/VBox/Main/Options/Margin/ScrollBox/VBox/ResetData" to="." method="on_game_data_reset"]
 [connection signal="tab_changed" from="Margin/VBox/Tab/TabBar" to="." method="on_change_tab"]
 [connection signal="pressed" from="Margin/VBox/ReturnButotn" to="." method="return_button_pressed"]

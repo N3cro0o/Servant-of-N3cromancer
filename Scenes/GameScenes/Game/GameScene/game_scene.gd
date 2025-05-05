@@ -20,6 +20,8 @@ enum state {
 
 @export var bg_sprites : Array[Sprite2D]
 @export var enemy_stages : Array[StageEnemyData]
+@export_range(10, 1000) var progress_bar_vanish = 500.0
+@export var progress_bar_vanish_curve: Curve
 @export_group("Buttons")
 @export_range(1.0, 2.0) var button_height_scale = 1.0
 @export_group("Music")
@@ -33,6 +35,7 @@ enum state {
 @onready var inventory = $WindowBox/ScrollsBox/InventoryLogic
 @onready var pause_panel: PauseScreen = $WindowBox/PausePanel
 @onready var camera_buttons : Array[TouchScreenButton] = [$Camera2D/ButtonL, $Camera2D/ButtonR]
+@onready var progress_bar: HSlider = $WindowBox/ProgressBar
 
 # Player vars
 var hit_color_zeroing = true
@@ -71,7 +74,7 @@ var left_radius = 0; var right_radius = 0
 var left_color = Color.BLUE; var right_color = Color.RED
 var tw_left_rad: Tween; var tw_left_col: Tween
 var tw_right_rad: Tween; var tw_right_col: Tween
-var max_radius = 500
+var max_radius = 400
 
 # Difficulty vars
 var diff_trunc_val = 1
@@ -80,6 +83,7 @@ var difficulty := 0.0:
 		if !lock_diff:
 			difficulty = d
 			# Max diff
+			difficulty_fract = difficulty / enemy_stages[stage].difficulty_threshold
 			if difficulty >= enemy_stages[stage].difficulty_threshold:
 				lock_diff = true
 				difficulty = enemy_stages[stage].difficulty_threshold
@@ -91,6 +95,7 @@ var difficulty := 0.0:
 				speed_multi = speed / 5
 				if speed > big_boi.return_max_speed():
 					speed = big_boi.return_max_speed()
+var difficulty_fract = 0
 ## speed in [m/s] because metric is far superior, no thing or no one will change this
 var speed := 7.5
 var max_speed := 10.0
@@ -193,6 +198,17 @@ func _process(delta):
 	# Paused saving
 	if !GmM.paused:
 		actual_speed_multi = speed_multi
+	# Progress bar update
+	if progress_bar != null:
+		progress_bar.value = difficulty_fract
+		if !GmM.show_game_ui:
+			var up_dist = small_bubble.position.y
+			if up_dist < progress_bar_vanish:
+				progress_bar.modulate.a = progress_bar_vanish_curve.sample(up_dist / progress_bar_vanish)
+			else:
+				progress_bar.modulate.a = 0
+		else:
+			progress_bar.modulate.a = 1
 	# And lastly, hp diference
 	hp_last = hp
 	
@@ -275,6 +291,7 @@ func advance_stage():
 	difficulty = 0
 	diff_trunc_val = 2
 	accelerate /= 2
+	difficulty_fract = 0
 	# Await for thread to finish
 	while thread.is_alive():
 		await get_tree().process_frame
@@ -283,6 +300,7 @@ func advance_stage():
 func spawn_boss():
 	spawner.active = false
 	boss = spawner.spawn_boss_logic()
+	difficulty_fract = 0
 	boss.on_boss_kill.connect(advance_stage)
 
 # Spawner functions

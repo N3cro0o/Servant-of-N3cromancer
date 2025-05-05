@@ -49,6 +49,7 @@ func play(sound: SoundHolder, what: SoundEnum = SoundEnum.Audio):
 	match what:
 		SoundEnum.UI:
 			player_ui.stream = sound.stream
+			player_ui.volume_db = sound.volume
 			player_ui.play()
 		SoundEnum.Music:
 			sound = sound as MusicHolder
@@ -62,6 +63,7 @@ func play(sound: SoundHolder, what: SoundEnum = SoundEnum.Audio):
 			music.play(offset)
 		SoundEnum.Audio:
 			other_player.stream = sound.stream
+			other_player.volume_db = sound.volume
 			other_player.play()
 
 # Bus functions
