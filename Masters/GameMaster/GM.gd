@@ -200,10 +200,12 @@ func reset_save_data():
 	SvM.reset_data()
 	endless_unlock = true
 	line_customization_unlock = false
-	current_body = 0 
+	current_body = 0
 	line_color = 0
 	inventory_space = 0
 	inventory_space_single = 0
+	show_game_ui = false
+	max_extra_speed_level = 0
 	SvM.save_data()
 	SvM.reset_tasks()
 	# Tasks

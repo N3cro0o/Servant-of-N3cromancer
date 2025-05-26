@@ -35,7 +35,8 @@ enum state {
 @onready var inventory = $WindowBox/ScrollsBox/InventoryLogic
 @onready var pause_panel: PauseScreen = $WindowBox/PausePanel
 @onready var camera_buttons : Array[TouchScreenButton] = [$Camera2D/ButtonL, $Camera2D/ButtonR]
-@onready var progress_bar: HSlider = $WindowBox/ProgressBar
+
+var progress_bar: HSlider
 
 # Player vars
 var hit_color_zeroing = true
@@ -129,6 +130,8 @@ func _ready():
 	# Speed
 	speed_multi = speed / 5
 	#region Buttons
+	if $WindowBox/ProgressBar != null:
+		progress_bar = $WindowBox/ProgressBar
 	var bttn_left :TouchScreenButton = $Camera2D/ButtonL
 	var bttn_right :TouchScreenButton = $Camera2D/ButtonR
 	var screen_size = Vector2(1080, 2400)
@@ -203,10 +206,13 @@ func _process(delta):
 		progress_bar.value = difficulty_fract
 		if !GmM.show_game_ui:
 			var up_dist = small_bubble.position.y
+			var button: Button = progress_bar.get_child(0)
 			if up_dist < progress_bar_vanish:
 				progress_bar.modulate.a = progress_bar_vanish_curve.sample(up_dist / progress_bar_vanish)
+				button.disabled = false
 			else:
 				progress_bar.modulate.a = 0
+				button.disabled = true
 		else:
 			progress_bar.modulate.a = 1
 	# And lastly, hp diference
@@ -222,7 +228,6 @@ func _input(_event: InputEvent):
 		pause_game()
 	if Input.is_action_just_pressed("debug_key_increase"):
 		difficulty += 2.0
-
 
 func _notification(what):
 	# Quit game
@@ -419,8 +424,6 @@ func on_paused(paused):
 	else:
 		actual_speed_multi = speed_multi
 		pause_panel.visible = false
-	#for bttn in camera_buttons:
-		#bttn.visible = !GmM.paused
 
 # Debug functions
 func debug_button_print():

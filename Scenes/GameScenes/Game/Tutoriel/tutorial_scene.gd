@@ -4,6 +4,10 @@ class_name TutorialScene extends GameScene
 #region Variables
 
 @onready var dialogue: DialogueScreen = $WindowBox/Dialogue
+@onready var pause_button: Button = $WindowBox/PauseButton
+@onready var color_l: Sprite2D = $Camera2D/NewButtons/ColorL
+@onready var color_r: Sprite2D = $Camera2D/NewButtons/ColorR
+
 var tutorial_stage = 0:
 	set(toriel):
 		if toriel < 0:
@@ -103,6 +107,9 @@ func stage_2(delta: float):
 		#for button in camera_buttons:
 			#button.visible = true
 		big_boi.lock_movement = false
+		# Tweens
+		get_tree().create_tween().tween_property(color_l,"modulate:a", 0.2, 0.5)
+		get_tree().create_tween().tween_property(color_r,"modulate:a", 0.2, 0.5)
 		# Text
 		var data = DialogueScreen.TextDataV1.new()
 		data.text = "Click the bottom left and right sides of the sceen to move the ending of the Main Line."
@@ -128,6 +135,9 @@ func stage_3(delta: float):
 		big_boi.lock_movement = true
 		big_boi.last_point_pos = PlayerLine1.last_pos.MIDDLE
 		pos_counter = 0
+		# Tweens
+		get_tree().create_tween().tween_property(color_l,"modulate:a", 0, 0.2)
+		get_tree().create_tween().tween_property(color_r,"modulate:a", 0, 0.2)
 		# Text
 		var data = DialogueScreen.TextDataV1.new()
 		var arr: Array[DialogueScreen.TextDataV1]
@@ -283,8 +293,12 @@ func _spawner1_spawn():
 		tutorial_stage = 4
 
 # System functions
+func pause_game():
+	super.pause_game()
+
 func on_paused(paused):
 	super.on_paused(paused)
 	dialogue.on_paused(paused)
 	pause_panel.body_label.text = "[center]The game is paused!\nCurrent stage / out of:\n%s / %s" \
 		% [tutorial_stage, 4]
+	pause_button.disabled = paused

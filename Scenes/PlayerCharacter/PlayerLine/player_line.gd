@@ -126,8 +126,10 @@ func _ready():
 	# Update line colors
 	var color = GmM.line_color_array[GmM.line_color]
 	#default_color = color
-	line_r.default_color = Color(color, line_r.default_color.a)
-	line_l.default_color = Color(color, line_l.default_color.a)
+	line_r.gradient.set_color(0, Color(color, 0.486))
+	line_r.gradient.set_color(1, Color(color, 0.078))
+	line_r_long.gradient.set_color(0, Color(color, 0.078))
+	line_r_long.gradient.set_color(1, Color(color, 0))
 	#line2.default_color = color
 	for gen in particle_gens:
 		gen.modulate = color

@@ -48,12 +48,12 @@ func _ready():
 	if check_path(SAVE_DATA_PATH):
 		load_data()
 	else:
-		reset_data()
+		reset_data(true)
 	# Create task directory
 	DirAccess.make_dir_recursive_absolute(SAVE_RESOURCE_PATH + "tasks")
 
 # Save system functions
-func reset_data():
+func reset_data(reset_audio := false):
 	data["version"] = save_version
 	data["highscore"] = 0
 	data["coins"] = 0
@@ -64,14 +64,15 @@ func reset_data():
 		data["unlocks_shop"][i] = false
 	data["line_color"] = 0
 	# Options data
-	data["volume_master"] = 1.0
-	data["master_muted"] = false
-	data["volume_music"] = 1.0
-	data["music_muted"] = false
-	data["volume_obstacle"] = 1.0
-	data["obstacle_muted"] = false
-	data["volume_ui"] = 1.0
-	data["ui_muted"] = false
+	if reset_audio:
+		data["volume_master"] = 1.0
+		data["master_muted"] = false
+		data["volume_music"] = 1.0
+		data["music_muted"] = false
+		data["volume_obstacle"] = 1.0
+		data["obstacle_muted"] = false
+		data["volume_ui"] = 1.0
+		data["ui_muted"] = false
 	data["particles"] = 0.8
 	data["tutorial"] = false
 	data["show_game_ui"] = false
@@ -134,7 +135,9 @@ func load_data():
 		if data["version"] != save_version:
 			print_rich("[hint=SaveManager]Data wrong version[/hint]")
 			# Will change for better logic later... hopefully
-			reset_data()
+			reset_data(true)
+			if data_loaded["tutorial"]:
+				data["tutorial"] = true
 			await get_tree().process_frame
 			setup_options()
 			on_load_completed.emit()

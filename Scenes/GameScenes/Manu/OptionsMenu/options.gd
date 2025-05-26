@@ -327,11 +327,18 @@ func secret_codes():
 		Sfx.play_sound_ui_number(1)
 		GmM.web_development = !GmM.web_development
 		secret_buffer.clear()
-	if secret_buffer == [0,1,0,1,0,1,0,1]:
-		var text := SvM.read_logs()
-		if text.is_empty():
-			return
-		$Logs/Scroll/LogLabel.text = SvM.read_logs()
-		$Logs.visible = true
+	if secret_buffer == [0, 1, 2, 0, 1, 0, 1, 0]:
+		ScM.coins_game += 50
+		Sfx.play_sound_ui_number(1)
+		secret_buffer.clear()
+	if secret_buffer == [0, 1, 2, 0, 2, 0, 1, 0]:
+		for i in GmM.items.size():
+			var unlock = GmM.items[i]
+			if unlock.bought:
+				continue
+			print_rich(ItemShopData.debug_text % [unlock.name, Time.get_time_dict_from_system()])
+			unlock.on_buy()
+			unlock.bought = true
+			SvM.update_upgrade_shop_bought(i)
 		Sfx.play_sound_ui_number(1)
 		secret_buffer.clear()

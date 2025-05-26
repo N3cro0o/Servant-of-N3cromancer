@@ -23,7 +23,7 @@
 [ext_resource type="PackedScene" uid="uid://cc0c6bo2wcejw" path="res://Scenes/UI/MainGame/GameOverScreen/end_panel.tscn" id="16_fi7fd"]
 
 [sub_resource type="Curve" id="Curve_0wiik"]
-_data = [Vector2(0.304795, 1), 0.0, -1.43842, 0, 1, Vector2(1, 0), -1.43842, 0.0, 1, 0]
+_data = [Vector2(0.4, 1), 0.0, -1.66667, 0, 1, Vector2(1, 0), -1.66667, 0.0, 1, 0]
 point_count = 2
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_xikjp"]
@@ -85,14 +85,16 @@ layout_mode = 0
 offset_top = 40.0
 offset_right = 136.0
 offset_bottom = 176.0
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 0)
 theme_override_colors/font_hover_color = Color(0, 0, 0, 0)
-theme_override_colors/font_pressed_color = Color(1, 0, 0, 0.533333)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 0)
 theme_override_colors/font_color = Color(0.8, 0, 0.188235, 0)
 theme_override_colors/icon_normal_color = Color(0.776471, 0.776471, 0.776471, 0.627451)
 theme_override_colors/icon_focus_color = Color(0.776471, 0.776471, 0.776471, 0.627451)
 theme_override_colors/icon_pressed_color = Color(0.776471, 0.776471, 0.776471, 0.627451)
 theme_override_colors/icon_hover_color = Color(0.776471, 0.776471, 0.776471, 0.627451)
 theme_override_colors/icon_hover_pressed_color = Color(0.776471, 0.776471, 0.776471, 0.627451)
+theme_override_colors/icon_disabled_color = Color(0, 0, 0, 0)
 theme_override_styles/focus = SubResource("StyleBoxEmpty_d7tse")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_am6d1")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_og6cp")
