@@ -90,6 +90,10 @@ var real_game_speed_interpolation_check = true:
 		real_game_speed_interpolation_check = b
 		game_speed_interpolation_check = b
 
+# Ads variables
+var play_repeats: int = 0
+var ads_played: int = 0
+
 signal on_paused(b:bool)
 signal on_slow_mo(b:bool)
 #endregion

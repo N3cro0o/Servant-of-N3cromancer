@@ -228,7 +228,6 @@ theme_override_colors/icon_disabled_color = Color(0, 0, 0, 0)
 theme_override_styles/focus = SubResource("StyleBoxEmpty_7ybqh")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_elcs1")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_gssjg")
-text = "Raucherpause"
 icon = ExtResource("5_eftu4")
 flat = true
 icon_alignment = 1

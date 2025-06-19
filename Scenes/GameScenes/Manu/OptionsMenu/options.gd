@@ -75,12 +75,6 @@ func _ready():
 	particle_slider.value = SvM.return_particle_amount()
 	debug_label_button.button_pressed = GmM.debug_label_visible
 	hud_button.button_pressed = GmM.show_game_ui
-#region Difficulties
-	# Speed
-	speed_slider.max_value = GmM.max_extra_speed_level
-	speed_slider.value = GmM.extra_speed_level
-	if speed_slider.max_value == 0: speed_box.visible = false
-#endregion
 	task_grid.update_data()
 	update_task_label()
 	if TsM.task_arr.size() >= 1:
@@ -185,8 +179,16 @@ func return_button_pressed():
 	Sfx.play_sound_ui_number(0)
 
 func set_unlockable_panels():
+	if !GmM.line_customization_unlock:
+		line.custom_minimum_size = Vector2(0,0)
 	for child in line.get_children():
 		child.visible = GmM.line_customization_unlock
+	setup_difficulties()
+
+func setup_difficulties():
+	speed_slider.max_value = GmM.max_extra_speed_level
+	speed_slider.value = GmM.extra_speed_level
+	if speed_slider.max_value == 0: speed_box.visible = false
 
 func on_change_tab(num : int):
 	Sfx.play_sound_ui_number(0)
