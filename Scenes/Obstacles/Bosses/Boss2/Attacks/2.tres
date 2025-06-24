@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="LineAttackData" load_steps=2 format=3 uid="uid://d3ssmctxbo47p"]
+
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/boss_2_template.gd" id="1_8ikk5"]
+
+[resource]
+script = ExtResource("1_8ikk5")
+start_offset = 1.2
+anim_time = 1.0
+inverse_chance = 0.33
+line_left = true
+line_left_offset = 0.1
+line_middle = false
+line_middle_offset = 0.0
+line_right = true
+line_right_offset = 0.0

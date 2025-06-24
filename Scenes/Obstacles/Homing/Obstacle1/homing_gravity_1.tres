@@ -4,9 +4,12 @@
 
 [resource]
 script = ExtResource("1_hqbwc")
+obstacle_id = 101
 scene_directory = "res://Scenes/Obstacles/Homing/Obstacle1/homing_gravity_1.tscn"
+name = "Fireball"
 type = 2
 weight = 3
 flip = false
 can_lock_rotation = true
 spawner_is_empty = false
+tele_state = false

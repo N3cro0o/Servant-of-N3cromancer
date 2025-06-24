@@ -18,6 +18,7 @@ script = ExtResource("1_j2b4s")
 child_spread = 22.5
 speed = 550.0
 use_rotation = true
+obstacle_id = 2
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("2_vxenc")

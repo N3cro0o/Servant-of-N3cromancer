@@ -1,0 +1,328 @@
+[gd_scene load_steps=32 format=3 uid="uid://vypfdtx3st2g"]
+
+[ext_resource type="PackedScene" uid="uid://cwhxijf40rcnx" path="res://Scenes/PlayerCharacter/PlayerLine/player_line.tscn" id="1_0j60h"]
+[ext_resource type="Script" path="res://Scenes/GameScenes/Game/GameScene/game_scene.gd" id="1_hmcmp"]
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/stage_enemy_data.gd" id="2_3iuus"]
+[ext_resource type="PackedScene" uid="uid://bx18cpaetf7lm" path="res://Scenes/PlayerCharacter/Mouse/mouse_entity.tscn" id="2_fwa26"]
+[ext_resource type="Texture2D" uid="uid://cw4egb0obgrol" path="res://Images/UI/DirectionKey/1/arrow key2.png" id="3_jqbrk"]
+[ext_resource type="Resource" uid="uid://b6qoduwm2l0xk" path="res://Resources/DataHolders/GameStages/stage1.tres" id="3_s3x3a"]
+[ext_resource type="Script" path="res://Scenes/GameScenes/Game/GameScene/inventory_logic.gd" id="4_75syx"]
+[ext_resource type="Resource" uid="uid://b8vm6g730r16k" path="res://Resources/DataHolders/GameStages/stage2.tres" id="4_ehmxr"]
+[ext_resource type="Texture2D" uid="uid://0owx080eewsp" path="res://Images/PickUps/Scrolls/Symbols/repulsor.png" id="4_w28lu"]
+[ext_resource type="PackedScene" uid="uid://cxecydc21mmwa" path="res://Scenes/SceneKiller/killer.tscn" id="5_4g2j3"]
+[ext_resource type="PackedScene" uid="uid://b4f11y5i27dcu" path="res://Scenes/UI/MainGame/PauseScreen/pause_panel.tscn" id="5_7qvcc"]
+[ext_resource type="Resource" uid="uid://c5pnpq5t84gkq" path="res://SFX/MusicData/main_game.tres" id="5_us5x7"]
+[ext_resource type="Texture2D" uid="uid://h5t8ervkebkw" path="res://Images/UI/pause.png" id="6_dwgee"]
+[ext_resource type="Texture2D" uid="uid://2g2u76harw2m" path="res://Images/circle_shape_black.png" id="6_natll"]
+[ext_resource type="Texture2D" uid="uid://jcx2r032ex1m" path="res://Images/PickUps/Scrolls/Symbols/Shield.png" id="8_hwywf"]
+[ext_resource type="Texture2D" uid="uid://8glmydbtnfi0" path="res://Images/UI/DirectionKey/1/arrow key1.png" id="10_7vqps"]
+[ext_resource type="Texture2D" uid="uid://gvpii7lmsrxu" path="res://Images/Player/Damage/hit_frame.png" id="12_ubvyc"]
+[ext_resource type="PackedScene" uid="uid://dj0xd4lvpcrnd" path="res://Scenes/Obstacles/SpawnerV2/spawner_v2.tscn" id="13_ri3jn"]
+[ext_resource type="Texture2D" uid="uid://b613ar7xw3mka" path="res://Images/BG/BG.png" id="13_tjaki"]
+[ext_resource type="Shape2D" uid="uid://c3hrcfy1n4wnh" path="res://Scenes/UI/MainGame/MoveButtons/button_shape_rect.tres" id="14_ejbbi"]
+[ext_resource type="PackedScene" uid="uid://cc0c6bo2wcejw" path="res://Scenes/UI/MainGame/GameOverScreen/end_panel.tscn" id="16_fi7fd"]
+
+[sub_resource type="Curve" id="Curve_0wiik"]
+_data = [Vector2(0.4, 1), 0.0, -1.66667, 0, 1, Vector2(1, 0), -1.66667, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_xikjp"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_i4oq3"]
+color = Color(1, 1, 1, 0)
+thickness = 35
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ii1mo"]
+bg_color = Color(0.776471, 0.776471, 0.776471, 0.627451)
+expand_margin_top = 5.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_d7tse"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_am6d1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_og6cp"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_yrvdb"]
+font_size = 24
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_872gb"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_1b5py"]
+
+[node name="GameScene" type="Node2D" node_paths=PackedStringArray("bg_sprites")]
+script = ExtResource("1_hmcmp")
+bg_sprites = [NodePath("BG/BgUp"), NodePath("BG/Bg"), NodePath("BG/BgDown")]
+enemy_stages = Array[ExtResource("2_3iuus")]([ExtResource("3_s3x3a"), ExtResource("4_ehmxr")])
+progress_bar_vanish = 750.0
+progress_bar_vanish_curve = SubResource("Curve_0wiik")
+button_height_scale = 1.6
+stream = ExtResource("5_us5x7")
+
+[node name="WindowBox" type="Control" parent="."]
+z_index = 101
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1080.0
+offset_bottom = 2400.0
+
+[node name="ProgressBar" type="HSlider" parent="WindowBox"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 35.0
+grow_horizontal = 2
+theme_override_icons/grabber_disabled = SubResource("PlaceholderTexture2D_xikjp")
+theme_override_styles/slider = SubResource("StyleBoxLine_i4oq3")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_ii1mo")
+max_value = 1.0
+step = 0.005
+value = 0.235
+editable = false
+scrollable = false
+
+[node name="PauseButton" type="Button" parent="WindowBox/ProgressBar"]
+layout_mode = 0
+offset_top = 40.0
+offset_right = 136.0
+offset_bottom = 176.0
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 0)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 0)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 0)
+theme_override_colors/font_color = Color(0.8, 0, 0.188235, 0)
+theme_override_colors/icon_normal_color = Color(0.776471, 0.776471, 0.776471, 0.627451)
+theme_override_colors/icon_focus_color = Color(0.776471, 0.776471, 0.776471, 0.627451)
+theme_override_colors/icon_pressed_color = Color(0.776471, 0.776471, 0.776471, 0.627451)
+theme_override_colors/icon_hover_color = Color(0.776471, 0.776471, 0.776471, 0.627451)
+theme_override_colors/icon_hover_pressed_color = Color(0.776471, 0.776471, 0.776471, 0.627451)
+theme_override_colors/icon_disabled_color = Color(0, 0, 0, 0)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_d7tse")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_am6d1")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_og6cp")
+icon = ExtResource("6_dwgee")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="DebugLabel" type="Label" parent="WindowBox"]
+visible = false
+layout_mode = 0
+offset_right = 136.0
+offset_bottom = 34.0
+text = "debug tesat"
+label_settings = SubResource("LabelSettings_yrvdb")
+
+[node name="PausePanel" parent="WindowBox" instance=ExtResource("5_7qvcc")]
+visible = false
+layout_mode = 1
+
+[node name="EndPanel" parent="WindowBox" instance=ExtResource("16_fi7fd")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScrollsBox" type="VBoxContainer" parent="WindowBox"]
+layout_mode = 0
+offset_left = 912.0
+offset_top = 963.0
+offset_right = 1040.0
+offset_bottom = 1965.0
+theme_override_constants/separation = 30
+alignment = 2
+
+[node name="InventoryLogic" type="Node" parent="WindowBox/ScrollsBox"]
+script = ExtResource("4_75syx")
+
+[node name="RepulseButton" type="TextureButton" parent="WindowBox/ScrollsBox"]
+layout_mode = 2
+texture_normal = ExtResource("4_w28lu")
+texture_pressed = ExtResource("4_w28lu")
+texture_disabled = SubResource("CompressedTexture2D_872gb")
+stretch_mode = 0
+
+[node name="TextureRect" type="TextureRect" parent="WindowBox/ScrollsBox/RepulseButton"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_natll")
+
+[node name="Vbox" type="VBoxContainer" parent="WindowBox/ScrollsBox/RepulseButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="NumberLabel" type="RichTextLabel" parent="WindowBox/ScrollsBox/RepulseButton/Vbox"]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 1
+theme_override_colors/default_color = Color(0.764706, 0.764706, 0.764706, 0.635294)
+theme_override_font_sizes/normal_font_size = 96
+text = "0"
+fit_content = true
+autowrap_mode = 0
+
+[node name="ShieldButton" type="TextureButton" parent="WindowBox/ScrollsBox"]
+layout_mode = 2
+texture_normal = ExtResource("8_hwywf")
+texture_pressed = ExtResource("8_hwywf")
+texture_disabled = SubResource("CompressedTexture2D_1b5py")
+stretch_mode = 0
+
+[node name="TextureRect" type="TextureRect" parent="WindowBox/ScrollsBox/ShieldButton"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_natll")
+
+[node name="Vbox" type="VBoxContainer" parent="WindowBox/ScrollsBox/ShieldButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="NumberLabel" type="RichTextLabel" parent="WindowBox/ScrollsBox/ShieldButton/Vbox"]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 1
+theme_override_colors/default_color = Color(0.764706, 0.764706, 0.764706, 0.635294)
+theme_override_font_sizes/normal_font_size = 96
+text = "0"
+fit_content = true
+autowrap_mode = 0
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(540, 1200)
+
+[node name="ButtonL" type="TouchScreenButton" parent="Camera2D"]
+visible = false
+self_modulate = Color(1, 1, 1, 0.745098)
+z_index = 100
+position = Vector2(-505, 876)
+scale = Vector2(1.75, 1.75)
+texture_normal = ExtResource("10_7vqps")
+texture_pressed = ExtResource("3_jqbrk")
+action = "key_left"
+
+[node name="ButtonR" type="TouchScreenButton" parent="Camera2D"]
+visible = false
+self_modulate = Color(1, 1, 1, 0.745098)
+z_index = 100
+position = Vector2(504, 1137)
+rotation = 3.14159
+scale = Vector2(1.87109, 2.14063)
+texture_normal = ExtResource("10_7vqps")
+texture_pressed = ExtResource("3_jqbrk")
+action = "key_right"
+
+[node name="NewButtons" type="Node2D" parent="Camera2D"]
+z_index = 100
+
+[node name="ButtonLeft" type="TouchScreenButton" parent="Camera2D/NewButtons"]
+position = Vector2(-270, 988)
+shape = ExtResource("14_ejbbi")
+
+[node name="CenterLeft" type="Node2D" parent="Camera2D/NewButtons"]
+position = Vector2(-540, 1200)
+
+[node name="ButtonRight" type="TouchScreenButton" parent="Camera2D/NewButtons"]
+position = Vector2(270, 988)
+shape = ExtResource("14_ejbbi")
+
+[node name="CenterRight" type="Node2D" parent="Camera2D/NewButtons"]
+position = Vector2(540, 1200)
+
+[node name="SpawnerV2" parent="." instance=ExtResource("13_ri3jn")]
+spawn_points = 3
+distance_between = 300.0
+spawner_offset = Vector2(540, -300)
+
+[node name="Obstacles" type="Node2D" parent="."]
+
+[node name="Pickups" type="Node2D" parent="."]
+
+[node name="PlayerLine" parent="." instance=ExtResource("1_0j60h")]
+z_index = 20
+position = Vector2(540, 2020)
+
+[node name="MouseEntity" parent="." instance=ExtResource("2_fwa26")]
+z_index = 30
+position = Vector2(540, 1557)
+
+[node name="Killers" type="Node" parent="."]
+
+[node name="ScenesKiller" parent="Killers" instance=ExtResource("5_4g2j3")]
+position = Vector2(540, 3000)
+
+[node name="ScenesKiller2" parent="Killers" instance=ExtResource("5_4g2j3")]
+position = Vector2(540, -621)
+
+[node name="ScenesKiller3" parent="Killers" instance=ExtResource("5_4g2j3")]
+position = Vector2(-300, 1168)
+rotation = 1.57079
+
+[node name="ScenesKiller4" parent="Killers" instance=ExtResource("5_4g2j3")]
+position = Vector2(1380, 1168)
+rotation = 1.57079
+
+[node name="HitFrame" type="Sprite2D" parent="."]
+position = Vector2(540, 1200)
+texture = ExtResource("12_ubvyc")
+
+[node name="Timer" type="Timer" parent="HitFrame"]
+one_shot = true
+
+[node name="BG" type="Node" parent="."]
+
+[node name="BgUp" type="Sprite2D" parent="BG"]
+z_index = -400
+position = Vector2(540, -1200)
+scale = Vector2(3, 3)
+texture = ExtResource("13_tjaki")
+
+[node name="Bg" type="Sprite2D" parent="BG"]
+z_index = -400
+position = Vector2(540, 1200)
+scale = Vector2(3, 3)
+texture = ExtResource("13_tjaki")
+
+[node name="BgDown" type="Sprite2D" parent="BG"]
+z_index = -400
+position = Vector2(540, 3600)
+scale = Vector2(3, 3)
+texture = ExtResource("13_tjaki")
+
+[connection signal="on_failing_level" from="." to="WindowBox/EndPanel" method="update_desc"]
+[connection signal="pressed" from="WindowBox/ProgressBar/PauseButton" to="." method="pause_game"]
+[connection signal="on_game_start_request" from="WindowBox/PausePanel" to="." method="pause_game"]
+[connection signal="on_quit_request" from="WindowBox/PausePanel" to="." method="quit_level_request"]
+[connection signal="on_reset_request" from="WindowBox/PausePanel" to="." method="reset_level_request"]
+[connection signal="on_quit_request" from="WindowBox/EndPanel" to="." method="quit_level_request"]
+[connection signal="on_reset_request" from="WindowBox/EndPanel" to="." method="reset_level_request"]
+[connection signal="pressed" from="WindowBox/ScrollsBox/RepulseButton" to="WindowBox/ScrollsBox/InventoryLogic" method="repulse_use"]
+[connection signal="pressed" from="WindowBox/ScrollsBox/ShieldButton" to="WindowBox/ScrollsBox/InventoryLogic" method="shield_use"]
+[connection signal="pressed" from="Camera2D/NewButtons/ButtonLeft" to="." method="move_button_left"]
+[connection signal="pressed" from="Camera2D/NewButtons/ButtonRight" to="." method="move_button_right"]
+[connection signal="on_spawned_entity" from="SpawnerV2" to="." method="_spawner1_spawn"]
+[connection signal="on_player_death" from="PlayerLine" to="." method="on_player_death"]
+[connection signal="on_player_status_change" from="PlayerLine" to="." method="on_player_hit"]
+[connection signal="timeout" from="HitFrame/Timer" to="." method="on_hit_timer_timeout"]

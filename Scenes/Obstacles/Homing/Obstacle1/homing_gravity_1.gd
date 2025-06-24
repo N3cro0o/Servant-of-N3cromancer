@@ -1,22 +1,28 @@
 class_name ObstacleHomingFireball extends ObstacleGravityBase
 
-# Variables
+#region Variables
 @export var speed : int = 200
 @export_range(0, 1) var rotation_speed : float = 1.5
 @export var sound : SoundHolder
-@onready var velocity_vec = Vector2.UP * speed
 @onready var bum_timer = $BumTimer
 @onready var ball_sprite = $FireBallSprite
 @onready var player = $Player
 @onready var coll_shape = $CollisionShape2D
 
+var actual_speed = speed
+var actual_rotation_speed = rotation_speed
+var velocity_vec = Vector2.UP
 var move_vector = Vector2(0,-1)
 var can_calc_rotation = true
 var mouse_hit_check = false
 var super_lock_rotation := false
-# Signals
 
-# Methods
+#endregion
+#region Signals
+
+#endregion
+
+# Basic Godot functions
 func _init():
 	rotation = PI
 
@@ -25,6 +31,13 @@ func _ready():
 	# Boom sound
 	player.stream = sound.stream
 	player.volume_db = sound.volume
+	actual_rotation_speed = rotation_speed; actual_speed = speed
+	velocity_vec = Vector2.UP * actual_speed
+	# Particle
+	if !GmM.web_development:
+		$GPUParticles2D.amount_ratio = SvM.return_particle_amount()
+	else:
+		$GPUParticles2D.emitting = false
 
 func _process(delta):
 	# Override lock rotation to true
@@ -41,11 +54,12 @@ func _process(delta):
 		move_vector = move_vector.normalized()
 	# Find which way to rotate
 	if !lock_rotation:
-		rotation = rotate_toward(rotation, move_vector.angle() - PI/2, delta * rotation_speed)
+		rotation = rotate_toward(rotation, move_vector.angle() - PI/2, delta * rotation_speed * GmM.game_speed)
 	# Movement
 	if can_move:
-		position += velocity_vec.rotated(rotation) * delta
+		position += velocity_vec.rotated(rotation) * delta * GmM.game_speed
 
+# Scrolls functions
 func repulse(strength:int):
 	can_move = false
 	super_lock_rotation = true
@@ -63,6 +77,7 @@ func on_mouse_hit():
 		bum_timer.start(7)
 		mouse_hit_check = true
 
+# On something functions
 func on_body_hit(b):
 	body_hit = b
 	player.play()
@@ -70,8 +85,20 @@ func on_body_hit(b):
 	ball_sprite.visible = false
 	speed = 0
 
+# Sounds functions
 func _on_bum_timer_timeout():
 	on_sound_end()
 
 func on_sound_end():
 	queue_free()
+
+func on_paused(_paused):
+	#super.on_paused(paused)
+	#if GmM.paused:
+		#actual_rotation_speed = rotation_speed * GmM.paused_slowdown
+		#actual_speed = speed * GmM.paused_slowdown
+	#else:
+		#actual_rotation_speed = rotation_speed
+		#actual_speed = speed
+	#velocity_vec = Vector2.UP * actual_speed
+	pass

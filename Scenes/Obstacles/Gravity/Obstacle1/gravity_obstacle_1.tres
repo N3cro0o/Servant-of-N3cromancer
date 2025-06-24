@@ -4,9 +4,12 @@
 
 [resource]
 script = ExtResource("1_080yq")
+obstacle_id = 1
 scene_directory = "res://Scenes/Obstacles/Gravity/Obstacle1/gravity_obstacle_1.tscn"
+name = "Bone"
 type = 0
 weight = 6
 flip = false
 can_lock_rotation = false
 spawner_is_empty = false
+tele_state = false

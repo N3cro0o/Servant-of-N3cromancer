@@ -13,3 +13,4 @@ desc = "That line I always follow looks boring, make it look so
 category = 90
 resource_script = "custom_line"
 variable1 = 0.0
+variable2 = 0.0

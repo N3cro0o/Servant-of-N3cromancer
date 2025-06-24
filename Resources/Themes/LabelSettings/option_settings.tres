@@ -1,0 +1,12 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://mp2p7an3rv7"]
+
+[ext_resource type="FontFile" uid="uid://dyvj54mbxe5ur" path="res://Resources/Themes/Sitka.ttc" id="1_gvbe7"]
+
+[resource]
+font = ExtResource("1_gvbe7")
+font_size = 74
+font_color = Color(0.887705, 0.889623, 0.858244, 1)
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
+shadow_color = Color(0, 0, 0, 0.203922)
+shadow_offset = Vector2(15, 5)

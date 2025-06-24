@@ -1,6 +1,6 @@
 extends ObstacleNonverticalBase
 
-# Methods
+# Basic Godot functions
 func _physics_process(delta):
 	super._physics_process(delta)
 	if start_attack:

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="SoundHolder" load_steps=3 format=3 uid="uid://rkg2t0qwaxwj"]
+
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/sound_holder.gd" id="1_ic26p"]
+[ext_resource type="AudioStream" uid="uid://dbmaauablawwo" path="res://SFX/Sounds/manu_sound.wav" id="2_317m0"]
+
+[resource]
+script = ExtResource("1_ic26p")
+name = "ui_sound"
+stream = ExtResource("2_317m0")
+volume = 0.0
+autoplay = false
+bus = "UI"

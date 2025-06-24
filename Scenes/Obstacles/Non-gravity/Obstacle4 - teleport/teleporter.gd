@@ -1,17 +1,24 @@
 class_name ObstacleNonverticalTele extends ObstacleNonverticalBase
 
+#region Enums
+
 enum state {
 	LEFT = -1,
 	CENTER = 0,
 	RIGHT = 1
 }
 
-@export_range(0, 1) var teleportation_chance = 0.33
+#endregion
+#region Variables
 
+@export_range(0, 1) var teleportation_chance = 0.33
 var telep_positions = [-300, 0, 300]
 var curr_position : state = state.CENTER
 var iteration = 1
 
+#endregion
+
+# Basic Godot functions
 func _ready():
 	super._ready()
 	teleportation_chance = (1 - teleportation_chance) * 100
@@ -26,6 +33,7 @@ func _physics_process(delta):
 			teleport()
 		iteration += 1
 
+# Special functions
 func start_position(st : state):
 	curr_position = st
 

@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://c5simjy2ny58e"]
+
+[ext_resource type="Script" path="res://Scenes/Obstacles/Bosses/Boss2/AttackLine/attack_line.gd" id="1_3jsl7"]
+[ext_resource type="Texture2D" uid="uid://noecnnt5hxwr" path="res://Images/square_curved.png" id="3_d0pcr"]
+
+[sub_resource type="Curve" id="Curve_nu6n1"]
+_data = [Vector2(0, 0), nan, 0.056775, 1, 0, Vector2(0.10989, 0.110526), 0.638101, 0.638101, 0, 0, Vector2(0.435897, 0.364662), 1.56424, 1.56424, 0, 0, Vector2(1, 0.901099), -0.0588235, -0.752632, 0, 1]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_5n6uo"]
+curve = SubResource("Curve_nu6n1")
+
+[node name="Main" type="Sprite2D"]
+self_modulate = Color(0.476599, 0.498701, 0.881623, 0.156863)
+texture = ExtResource("3_d0pcr")
+script = ExtResource("1_3jsl7")
+size_line = SubResource("CurveTexture_5n6uo")
+
+[node name="Density" type="Sprite2D" parent="."]
+modulate = Color(0.890196, 0.443137, 0.921569, 0.196078)
+texture = ExtResource("3_d0pcr")

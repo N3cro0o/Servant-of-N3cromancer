@@ -1,6 +1,7 @@
 class_name ScoreManager extends Node
 
-# Variables
+#region Variables & Signals
+
 var score : int
 var highscore : int
 var coins : int
@@ -10,7 +11,9 @@ var coins_game : int
 
 signal on_new_highscore
 
-# Methods
+#endregion
+
+# Score functions
 func reset_score():
 	score = 0
 	coins = 0
@@ -19,14 +22,17 @@ func reset_score():
 func finalize_level_score():
 	var s : int = 0
 	s = int(distance / 50)
-	highscore += s
+	score += s
 	coins_game += coins
 	if highscore < score:
 		highscore = score
 		on_new_highscore.emit()
+	# Finish tasks
+	TsM.after_level_listener(score, distance)
 	SvM.update_score(coins_game, highscore)
-	score = 0
+	distance = 0
 	coins = 0
 
+# Coin funtions
 func add_coins(num : int):
 	coins += num

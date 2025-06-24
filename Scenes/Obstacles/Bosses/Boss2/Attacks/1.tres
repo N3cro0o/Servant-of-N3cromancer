@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="LineAttackData" load_steps=2 format=3 uid="uid://ygnrkip44go8"]
+
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/boss_2_template.gd" id="1_fvpvj"]
+
+[resource]
+script = ExtResource("1_fvpvj")
+start_offset = 0.5
+anim_time = 2.0
+inverse_chance = 0.0
+line_left = true
+line_left_offset = 0.25
+line_middle = true
+line_middle_offset = 0.0
+line_right = true
+line_right_offset = 0.5

@@ -1,0 +1,139 @@
+[gd_scene load_steps=22 format=3 uid="uid://dn8k1hm4o1rdl"]
+
+[ext_resource type="Script" path="res://Scenes/Obstacles/Bosses/Boss3/sapper.gd" id="1_h776i"]
+[ext_resource type="Resource" uid="uid://dbegmip07q8gp" path="res://Scenes/Obstacles/Bosses/Boss3/boss_spawns.tres" id="2_8bnck"]
+[ext_resource type="PackedScene" uid="uid://cfaqpf6pwv27" path="res://Scenes/Obstacles/Bosses/Boss3/Eyes/eye1.tscn" id="2_10t3x"]
+[ext_resource type="PackedScene" uid="uid://bi3qkbgdm87u7" path="res://Scenes/Obstacles/Bosses/Boss3/Eyes/eye2.tscn" id="3_38lky"]
+[ext_resource type="Texture2D" uid="uid://ntssueoy6akh" path="res://Images/Obstacles/Boss3/Target/boss3_target.png" id="3_yonxp"]
+[ext_resource type="Texture2D" uid="uid://doodsewg862hr" path="res://Images/Obstacles/Boss3/Target/boss3_target_shadow.png" id="4_7gbgb"]
+[ext_resource type="PackedScene" uid="uid://dwmcfluugkaco" path="res://Scenes/Obstacles/Bosses/Boss3/Eyes/eye3.tscn" id="4_re34q"]
+[ext_resource type="Shader" path="res://Resources/Shaders/group_outline.gdshader" id="5_025tf"]
+[ext_resource type="Resource" uid="uid://77pksg0milnr" path="res://SFX/SoundsData/slime_in.tres" id="6_70w4h"]
+[ext_resource type="Texture2D" uid="uid://b4n2q7vhx2an8" path="res://Images/Obstacles/Boss3/sapper_attack.png" id="6_sas7l"]
+[ext_resource type="Resource" uid="uid://bi2tr6brjph50" path="res://SFX/SoundsData/slime_out.tres" id="7_2hyjy"]
+[ext_resource type="Shader" path="res://Resources/Shaders/slimy_watery.gdshader" id="10_vcc5w"]
+[ext_resource type="Texture2D" uid="uid://buers0s1jr1d" path="res://Images/Obstacles/Boss3/sapper2.png" id="11_p4bov"]
+
+[sub_resource type="Curve" id="Curve_qfbuw"]
+min_value = -1.0
+_data = [Vector2(0, 0), 0.0, 4.05556, 0, 1, Vector2(0.246575, 1), 0.0, 0.0, 0, 0, Vector2(0.75, -1), 0.0, 0.0, 0, 0, Vector2(1, 0), 4.0, 0.0, 1, 0]
+point_count = 4
+
+[sub_resource type="Curve" id="Curve_bngc0"]
+min_value = -1.0
+_data = [Vector2(0, 0), 0.0, 8.0, 0, 1, Vector2(0.125, 1), 0.0, 0.0, 0, 0, Vector2(0.375, -1), 0.0, 0.0, 0, 0, Vector2(0.625, 1), 0.0, 0.0, 0, 0, Vector2(0.875, -1), 0.0, 0.0, 0, 0, Vector2(1, 0), 8.0, 0.0, 1, 0]
+point_count = 6
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_l6enj"]
+radius = 0.01
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xmt3h"]
+shader = ExtResource("5_025tf")
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+shader_parameter/width = 4.0
+
+[sub_resource type="Gradient" id="Gradient_db3lq"]
+colors = PackedColorArray(0.792157, 0.894118, 0, 1, 0.133333, 0.658824, 0, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_6tlq4"]
+seed = 2137
+frequency = 0.005
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_npeao"]
+seamless = true
+seamless_blend_skirt = 1.0
+color_ramp = SubResource("Gradient_db3lq")
+noise = SubResource("FastNoiseLite_6tlq4")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wymgg"]
+shader = ExtResource("10_vcc5w")
+shader_parameter/distortion = 0.1
+shader_parameter/speed = Vector2(-0.15, 0.08)
+shader_parameter/wave_strength = Vector2(5, 3)
+shader_parameter/noise_blend = 0.35
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_npeao")
+
+[node name="Sapper" type="RigidBody2D"]
+gravity_scale = 0.0
+can_sleep = false
+lock_rotation = true
+freeze = true
+script = ExtResource("1_h776i")
+eyes = Array[PackedScene]([ExtResource("2_10t3x"), ExtResource("3_38lky"), ExtResource("4_re34q")])
+obstacle_data = ExtResource("2_8bnck")
+move_x = SubResource("Curve_qfbuw")
+move_y = SubResource("Curve_bngc0")
+attack_sound_in = ExtResource("6_70w4h")
+attack_sound_out = ExtResource("7_2hyjy")
+speed = 0.0
+damage = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_l6enj")
+
+[node name="TargetsSprites" type="Node2D" parent="."]
+
+[node name="Target1" type="Sprite2D" parent="TargetsSprites"]
+z_index = 31
+texture_filter = 1
+position = Vector2(-300, 0)
+rotation = 11.0828
+scale = Vector2(2.1, 2.1)
+texture = ExtResource("3_yonxp")
+
+[node name="Sprite2D" type="Sprite2D" parent="TargetsSprites/Target1"]
+z_index = -31
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("4_7gbgb")
+
+[node name="Target2" type="Sprite2D" parent="TargetsSprites"]
+z_index = 31
+texture_filter = 1
+rotation = 0.366519
+scale = Vector2(2.1, 2.1)
+texture = ExtResource("3_yonxp")
+
+[node name="Sprite2D" type="Sprite2D" parent="TargetsSprites/Target2"]
+z_index = -31
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("4_7gbgb")
+
+[node name="Target3" type="Sprite2D" parent="TargetsSprites"]
+z_index = 31
+texture_filter = 1
+position = Vector2(300, 0)
+rotation = -0.645772
+scale = Vector2(2.1, 2.1)
+texture = ExtResource("3_yonxp")
+
+[node name="Sprite2D" type="Sprite2D" parent="TargetsSprites/Target3"]
+z_index = -31
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("4_7gbgb")
+
+[node name="BossBody" type="CanvasGroup" parent="TargetsSprites"]
+texture_filter = 1
+material = SubResource("ShaderMaterial_xmt3h")
+position = Vector2(-8, -8)
+fit_margin = 20.0
+
+[node name="AttackSprite" type="Sprite2D" parent="TargetsSprites/BossBody"]
+texture_filter = 1
+position = Vector2(0, 475)
+scale = Vector2(2, 2)
+texture = ExtResource("6_sas7l")
+
+[node name="RyjBG" type="Sprite2D" parent="TargetsSprites/BossBody"]
+material = SubResource("ShaderMaterial_wymgg")
+position = Vector2(0, 380)
+scale = Vector2(3, 3)
+texture = ExtResource("11_p4bov")
+
+[node name="Eye1Pos" type="Node2D" parent="TargetsSprites/BossBody"]
+position = Vector2(-356, 224)
+
+[node name="Eye2Pos" type="Node2D" parent="TargetsSprites/BossBody"]
+position = Vector2(-17, 290)
+
+[node name="Eye3Pos" type="Node2D" parent="TargetsSprites/BossBody"]
+position = Vector2(356, 234)

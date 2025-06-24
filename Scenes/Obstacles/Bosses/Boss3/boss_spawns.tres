@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="StageEnemyData" load_steps=5 format=3 uid="uid://dbegmip07q8gp"]
+
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/spawn_obstacle_data_holder.gd" id="1_ctiex"]
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/spawn_pickup_data_holder.gd" id="2_3t0ak"]
+[ext_resource type="Resource" uid="uid://bal5m5yrck2w" path="res://Scenes/Obstacles/Non-gravity/Obstacle1/vertical_obstacle_1.tres" id="2_7gxtp"]
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/stage_enemy_data.gd" id="3_l8pjm"]
+
+[resource]
+script = ExtResource("3_l8pjm")
+spawn_points = 3
+data_1 = Array[ExtResource("1_ctiex")]([ExtResource("2_7gxtp")])
+data_2 = Array[ExtResource("1_ctiex")]([ExtResource("2_7gxtp")])
+data_3 = Array[ExtResource("1_ctiex")]([ExtResource("2_7gxtp")])
+data_4 = Array[ExtResource("1_ctiex")]([])
+data_5 = Array[ExtResource("1_ctiex")]([])
+ignore_static = true
+ignore_repeating = true
+difficulty_threshold = -1.0
+static_skip_chance = 0.35
+spawn_delay_min = 1.5
+spawn_delay_max = 3.5
+bosses = Array[ExtResource("1_ctiex")]([])
+pickups = Array[ExtResource("2_3t0ak")]([])

@@ -1,12 +1,16 @@
 class_name PickUpBase extends RigidBody2D
 
 const debug_string = "[hint=%s]%s[/hint]"
+
+#region Enums
+
 enum pickup_type_enum
 {
 	Coin = 0,
 	Scroll = 1
 }
 
+#endregion
 #region Variables
 ## Used for some specific obstacle variables
 @export var spawn_data : SpawnPickupDataHolder:
@@ -30,23 +34,39 @@ enum pickup_type_enum
 				bg_sprite.visible = true
 				sprite.scale = Vector2(0.825, 0.825)
 				sprite.position = Vector2(-5, 15)
+@export var pickup_id: int
 @export_range(1, 1000) var weight := 1
 @onready var coll_shape := $CollisionShape2D
 @onready var sprite : Sprite2D = $MainSprite
 @onready var bg_sprite = $BGSprite
 @onready var action : PickUpLogicTemplate = $ActionBlock
+var actual_velocity
 var loaded = false
 var fall_speed := 0
 var collision_radius :float:
 	set(i):
 		collision_radius = i
 		coll_shape.shape.radius = i
+
 #endregion
 
-#region Methods
+# Basic Godot functions
+func _ready():
+	if not Engine.is_editor_hint():
+		coll_shape.shape.radius = collision_radius
+	actual_velocity = linear_velocity
+	GmM.on_paused.connect(on_paused)
+	loaded = true
+
+func _physics_process(_delta: float) -> void:
+	linear_velocity = Vector2.DOWN * GmM.game_speed * fall_speed
+
+# Pickup logic functions
 func update_parms():
 	if !loaded:
 		return
+	# ID
+	pickup_id = spawn_data.pickup_id
 	# Strings & enums
 	name = spawn_data.name
 	type = spawn_data.type
@@ -58,13 +78,17 @@ func update_parms():
 	action.set_script(spawn_data.action_logic)
 	weight = spawn_data.weight
 
-func _ready():
-	if not Engine.is_editor_hint():
-		coll_shape.shape.radius = collision_radius
-	loaded = true
-
 func on_hit_activate():
 	print_rich(debug_string % [name, "Picked Up!"])
 	action._do_action()
+	TsM.pickup_listener(pickup_id)
 	queue_free()
+
+# Paused functions
+func on_paused(paused):
+	if paused:
+		# Zero velocity to... idk keep pickups only accesable during normal gameplay
+		linear_velocity = Vector2.ZERO
+	else:
+		linear_velocity = actual_velocity
 #endregion

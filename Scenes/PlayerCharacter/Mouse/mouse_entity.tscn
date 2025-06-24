@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://bx18cpaetf7lm"]
+[gd_scene load_steps=14 format=3 uid="uid://bx18cpaetf7lm"]
 
 [ext_resource type="Script" path="res://Scenes/PlayerCharacter/Mouse/mouse_entity.gd" id="1_k1hii"]
+[ext_resource type="Texture2D" uid="uid://cvwg5tkmgj4l8" path="res://Images/radial_gradient_white.png" id="2_55nrb"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pw3sr"]
 radius = 65.0
@@ -8,11 +9,64 @@ radius = 65.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_g6b0e"]
 radius = 35.0
 
+[sub_resource type="Curve" id="Curve_re2vs"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.638766, 0.692308), 3.06616, 3.06616, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_p5yf3"]
+curve = SubResource("Curve_re2vs")
+
+[sub_resource type="Gradient" id="Gradient_l4xlv"]
+colors = PackedColorArray(0.329412, 1, 1, 1, 0, 0.545098, 0.545098, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_tot1d"]
+gradient = SubResource("Gradient_l4xlv")
+
+[sub_resource type="Curve" id="Curve_wckie"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.757709, 1), 1.49022, 1.49022, 0, 0, Vector2(1, 0.648352), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_lmq5e"]
+curve = SubResource("Curve_wckie")
+
+[sub_resource type="Curve" id="Curve_lwn4h"]
+_data = [Vector2(0, 0.054945), 0.0, 5.92445, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_tdbqo"]
+curve = SubResource("Curve_lwn4h")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_hd4vl"]
+particle_flag_disable_z = true
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 67.0
+emission_ring_inner_radius = 10.0
+inherit_velocity_ratio = 1.0
+direction = Vector3(0, 0, 0)
+spread = 180.0
+initial_velocity_min = 10.0
+initial_velocity_max = 10.0
+radial_velocity_min = 40.0
+radial_velocity_max = 125.0
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -300.0
+radial_accel_max = -300.0
+tangential_accel_min = -2.23517e-06
+tangential_accel_max = 500.0
+tangential_accel_curve = SubResource("CurveTexture_tdbqo")
+damping_max = 20.0
+scale_min = 3.0
+scale_max = 3.0
+scale_curve = SubResource("CurveTexture_lmq5e")
+color_ramp = SubResource("GradientTexture1D_tot1d")
+alpha_curve = SubResource("CurveTexture_p5yf3")
+
 [node name="MouseEntity" type="StaticBody2D" groups=["mouse_thing", "player"]]
 collision_mask = 2
 script = ExtResource("1_k1hii")
-radius = 35.0
-mouse_color = Color(0, 1, 0, 0.0392157)
+mouse_color = Color(0.329412, 1, 1, 0.435294)
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_mask = 6
@@ -26,6 +80,17 @@ debug_color = Color(0, 0.643137, 0.298039, 0.419608)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_g6b0e")
 disabled = true
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+amount = 320
+process_material = SubResource("ParticleProcessMaterial_hd4vl")
+lifetime = 0.2
+fixed_fps = 60
+
+[node name="Circle" type="Sprite2D" parent="."]
+visible = false
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("2_55nrb")
 
 [connection signal="body_entered" from="Area2D" to="." method="game_object_give_velocity"]
 [connection signal="body_exited" from="Area2D" to="." method="game_object_give_velocity_on_exit"]

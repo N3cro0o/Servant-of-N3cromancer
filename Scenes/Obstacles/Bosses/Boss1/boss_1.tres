@@ -4,7 +4,9 @@
 
 [resource]
 script = ExtResource("1_l3uys")
+obstacle_id = -1
 scene_directory = "res://Scenes/Obstacles/Bosses/Boss1/boss_1.tscn"
+name = "kpr. Pajajak"
 type = 4
 weight = 1
 flip = false

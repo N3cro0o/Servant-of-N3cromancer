@@ -1,0 +1,430 @@
+@icon("res://Images/meme/STOP.png")
+class_name GameScene extends Node2D
+static var instance : GameScene
+
+# Stop PauseMenu when dead, force paused when dead, add grace period for skull
+
+#region Enums
+
+enum state {
+	NORMAL = 2, # Normal state
+	SHIELD_BROKEN = 0, # Player can take damage
+	RECHARGE_HIT = -1, # Player takes half damage + its debuffs
+	SHIELD_RECHARGE = 1, # Player buffer hit recharges
+	BROKEN_HIT = -2, # Player takes full damage
+	DED = -3 # Player took an L, massive skill issue
+}
+
+#endregion
+#region Variables
+
+@export var bg_sprites : Array[Sprite2D]
+@export var enemy_stages : Array[StageEnemyData]
+@export_range(10, 1000) var progress_bar_vanish = 500.0
+@export var progress_bar_vanish_curve: Curve
+@export_group("Buttons")
+@export_range(1.0, 2.0) var button_height_scale = 1.0
+@export_group("Music")
+@export var stream: MusicHolder
+@export var play_music = true
+@onready var small_bubble :MouseEntity1 = $MouseEntity
+@onready var big_boi :PlayerLine1 = $PlayerLine
+@onready var spawner: SpawnerBasicV2 = $SpawnerV2
+@onready var debug_label := $WindowBox/DebugLabel
+@onready var hit_frame := $HitFrame
+@onready var inventory = $WindowBox/ScrollsBox/InventoryLogic
+@onready var pause_panel: PauseScreen = $WindowBox/PausePanel
+@onready var camera_buttons : Array[TouchScreenButton] = [$Camera2D/ButtonL, $Camera2D/ButtonR]
+
+var progress_bar: HSlider
+
+# Player vars
+var hit_color_zeroing = true
+var p_state
+## Current player hp
+var hp
+## Variable to store last player HP - calc difference
+var hp_last = 0
+## Start player hp
+var hp_start
+
+# Game vars
+var obstacles_array :Array[ObstacleGravityBase]
+var fps : float:
+	set(f):
+		fps = 1 / f
+var fpsp : float:
+	set(f):
+		fpsp = 1 / f
+var lock_logic := false
+var bg_lock := false
+var lock_diff = false
+var stage = 0
+var boss
+var death_movement = false
+var death_timer = 0.0
+var game_time = 0.0
+
+# Button vars
+var margin_side = 75
+var margin_between = 20
+var margin_bottom = 100
+var lock_buttons = false
+var left_pos = Vector2.ZERO; var right_pos = Vector2.ZERO
+var left_radius = 0; var right_radius = 0
+var left_color = Color.BLUE; var right_color = Color.RED
+var tw_left_rad: Tween; var tw_left_col: Tween
+var tw_right_rad: Tween; var tw_right_col: Tween
+var max_radius = 400
+
+# Difficulty vars
+var diff_trunc_val = 1
+var difficulty := 0.0:
+	set(d):
+		if !lock_diff:
+			difficulty = d
+			# Max diff
+			difficulty_fract = difficulty / enemy_stages[stage].difficulty_threshold
+			if difficulty >= enemy_stages[stage].difficulty_threshold:
+				lock_diff = true
+				difficulty = enemy_stages[stage].difficulty_threshold
+				spawn_boss()
+			# Speed increase
+			if difficulty >= diff_trunc_val:
+				diff_trunc_val += 1
+				speed += accelerate
+				speed_multi = speed / 5
+				if speed > big_boi.return_max_speed():
+					speed = big_boi.return_max_speed()
+var difficulty_fract = 0
+## speed in [m/s] because metric is far superior, no thing or no one will change this
+var speed := 7.5
+var max_speed := 10.0
+var accelerate = 0.1
+static var speed_multi := 1.0
+static var actual_speed_multi := 1.0
+#endregion
+#region Signals
+
+signal on_level_start
+signal on_stage_advance
+signal on_take_damage
+signal on_failing_level
+
+#endregion
+# Basic Godot functions
+func _init():
+	#if instance != null:
+		#instance.queue_free()
+	instance = self
+
+func _ready():
+	GmM.curr_scene = self
+	# Connect to GmM
+	GmM.on_paused.connect(on_paused)
+	debug_label.visible = GmM.debug_label_visible
+	# Hp stuff
+	hit_frame.self_modulate = Color(1,1,1,0)
+	hp = big_boi.health_points
+	hp_start = hp
+	# Speed
+	speed_multi = speed / 5
+	#region Buttons
+	if $WindowBox/ProgressBar != null:
+		progress_bar = $WindowBox/ProgressBar
+	var bttn_left :TouchScreenButton = $Camera2D/ButtonL
+	var bttn_right :TouchScreenButton = $Camera2D/ButtonR
+	var screen_size = Vector2(1080, 2400)
+	# From left border to right --> margin_side px, margin_between px, margin_side px
+	var screen_width = screen_size.x - (2 * margin_side + margin_between)
+	var bttn_height = 128 * button_height_scale
+	# Scale
+	var bttn_size_scalar : float = (screen_width / 2)
+	bttn_size_scalar /= 256
+	bttn_left.scale = Vector2(bttn_size_scalar, button_height_scale)
+	bttn_right.scale = Vector2(bttn_size_scalar, button_height_scale)
+	# Position
+	screen_width = screen_size.x / 2 - margin_side
+	screen_size.y -= $Camera2D.position.y
+	var bttn_position = Vector2(screen_width,screen_size.y - margin_bottom - bttn_height)
+	bttn_left.position = Vector2(-bttn_position.x, bttn_position.y)
+	bttn_right.position = Vector2(bttn_position.x, bttn_position.y + bttn_height)
+	#endregion
+	speed = big_boi.speed
+	accelerate = big_boi.return_accelerate()
+	max_speed = big_boi.return_max_speed()
+	# Spawner
+	spawner.set_obstacle_data(enemy_stages[stage])
+	# Music
+	if play_music:
+		Sfx.play(stream, Sfx.SoundEnum.Music)
+	# Level setup completed
+	pause_panel.visible = false
+	on_level_start.emit()
+	print_rich("Level ready!")
+	#spawner.force_active = false
+
+func _physics_process(delta):
+	# Meta game stuff
+	fpsp = delta
+	game_time += delta * GmM.game_speed
+	# Normal game stuff
+	if !lock_logic:
+		ScM.distance += speed * delta
+	if p_state == state.DED:
+		Sfx.update_bus_volume("music", SvM.data["volume_music"] * 0.1)
+		death_timer += delta
+		#for bttn in camera_buttons:
+			#bttn.visible = false
+		pause_panel.visible = false
+		# Death movement
+		if death_movement && death_timer > 1.5:
+			big_boi.body.position.y = lerpf(big_boi.body.position.y, -150.0, delta * big_boi.death_speed)
+			var hit_obstacle = big_boi.body.last_obstacle_hit
+			if hit_obstacle != null:
+				hit_obstacle.global_position = big_boi.body.global_position + big_boi.body.last_obstacle_offset
+
+func _process(delta):
+	fps = delta
+	queue_redraw()
+	# Hit panel hiding
+	if hit_color_zeroing:
+		var c : Color = hit_frame.self_modulate
+		c = c.lerp(Color(1, 1, 1, (hp_start - hp) * .05), delta * 5)
+		hit_frame.self_modulate = c
+	# BG movement
+	if !bg_lock:
+		for x in bg_sprites:
+			x.position.y += delta * 250 * actual_speed_multi * GmM.game_speed
+			if x.position.y >= 3600:
+				x.position.y -= 2400 * 3 - 1
+	# Paused saving
+	if !GmM.paused:
+		actual_speed_multi = speed_multi
+	# Progress bar update
+	if progress_bar != null:
+		progress_bar.value = difficulty_fract
+		if !GmM.show_game_ui:
+			var up_dist = small_bubble.position.y
+			var button: Button = progress_bar.get_child(0)
+			if up_dist < progress_bar_vanish:
+				progress_bar.modulate.a = progress_bar_vanish_curve.sample(up_dist / progress_bar_vanish)
+				button.disabled = false
+			else:
+				progress_bar.modulate.a = 0
+				button.disabled = true
+		else:
+			progress_bar.modulate.a = 1
+	# And lastly, hp diference
+	hp_last = hp
+	
+	# Don't forget 'bout 'Debug label'
+	debug_label.text = "FPS: %d\nFPSP: %d\nMouse_pos: x %d; y %d\nDiff: %f" \
+		% [Engine.get_frames_per_second(), fpsp, small_bubble.position.x, small_bubble.position.y,\
+		difficulty]
+
+func _input(_event: InputEvent):
+	if Input.is_action_just_pressed("ui_cancel") && !lock_logic:
+		pause_game()
+	if Input.is_action_just_pressed("debug_key_increase"):
+		difficulty += 2.0
+
+func _notification(what):
+	# Quit game
+	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
+		pause_game()
+
+func _draw() -> void:
+	#draw_circle($Camera2D/NewButtons/CenterLeft.global_position, left_radius, left_color)
+	draw_circle(left_pos, left_radius, left_color)
+	draw_circle(right_pos, right_radius, right_color)
+
+# Move buttons functions
+func move_button_left():
+	if !GmM.paused && !lock_logic && !lock_buttons:
+		var move_event = InputEventAction.new()
+		move_event.action = "key_left"
+		move_event.pressed = true
+		Input.parse_input_event(move_event)
+		left_pos = small_bubble.pos
+		left_radius = 0
+		left_color = Color(Color.BLUE, 0.15)
+		if tw_left_rad != null:
+			tw_left_rad.kill()
+		if tw_left_col != null:
+			tw_left_col.kill()
+		tw_left_rad = get_tree().create_tween()
+		tw_left_rad.tween_property(self,"left_radius", max_radius, 0.6).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
+		tw_left_col = get_tree().create_tween()
+		tw_left_col.tween_property(self,"left_color:a", 0, 0.35)
+		move_event = InputEventAction.new()
+		move_event.action = "key_left"
+		move_event.pressed = false
+		Input.parse_input_event(move_event)
+
+func move_button_right():
+	if !GmM.paused && !lock_logic && !lock_buttons:
+		var move_event = InputEventAction.new()
+		move_event.action = "key_right"
+		move_event.pressed = true
+		Input.parse_input_event(move_event)
+		right_pos = small_bubble.pos
+		right_radius = 0
+		right_color = Color(Color.RED, 0.15)
+		if tw_right_rad != null:
+			tw_right_rad.kill()
+		if tw_right_col != null:
+			tw_right_col.kill()
+		tw_right_rad = get_tree().create_tween()
+		tw_right_rad.tween_property(self,"right_radius", max_radius, 0.6).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
+		tw_right_col = get_tree().create_tween()
+		tw_right_col.tween_property(self,"right_color:a", 0, 0.35)
+		move_event = InputEventAction.new()
+		move_event.action = "key_right"
+		move_event.pressed = false
+		Input.parse_input_event(move_event)
+
+# Stages functions
+func advance_stage():
+	boss.on_boss_kill.disconnect(advance_stage)
+	if stage < enemy_stages.size() - 1:
+		stage += 1
+	# Create new thread for updating spawning data
+	var thread:= Thread.new()
+	thread.start(spawner.set_obstacle_data.call_deferred.bind(enemy_stages[stage]))
+	lock_diff = false
+	difficulty = 0
+	diff_trunc_val = 2
+	accelerate /= 2
+	difficulty_fract = 0
+	# Await for thread to finish
+	while thread.is_alive():
+		await get_tree().process_frame
+	on_stage_advance.emit()
+
+func spawn_boss():
+	spawner.active = false
+	boss = spawner.spawn_boss_logic()
+	difficulty_fract = 0
+	boss.on_boss_kill.connect(advance_stage)
+
+# Spawner functions
+func _spawner1_spawn():
+	ScM.score += 1
+
+func _add_obstacle(object:ObstacleGravityBase):
+	$Obstacles.add_child(object)
+	obstacles_array.push_back(object)
+
+func _add_pickup(object):
+	$Pickups.add_child(object)
+
+func activate_spawners(state_spawner : bool, force_disable := false):
+	spawner.active = state_spawner
+	spawner.force_active = !force_disable
+
+func on_obstacle_remove(object):
+	if !lock_logic:
+		var ob = obstacles_array.find(object)
+		if ob >= 0:
+			obstacles_array.remove_at(ob)
+
+# Player functions
+func return_player_pos():
+	return big_boi.return_body_position()
+
+func return_inventory():
+	return inventory
+
+# Old name, please ignore. Too lazy to change
+func on_player_hit(s, hp1):
+	var t :Timer = hit_frame.get_child(0)
+	p_state = s
+	if (s == state.BROKEN_HIT or s == state.RECHARGE_HIT):
+		# Stop hit timer and wait...
+		t.stop()
+		# Take damage check
+		if hp1 != hp_last:
+			hit_color_zeroing = false
+			hit_frame.self_modulate = Color(1,1,1,.95)
+			on_take_damage.emit()
+			if s == state.BROKEN_HIT:
+				GmM.start_slow_mo(1.5, 0.2)
+			if hp_start * 0.33 >= hp1:
+				damage_muffle()
+	if s == state.SHIELD_RECHARGE:
+		# ... for shield recharge
+		t.start(2)
+	hp = hp1
+
+func on_hit_timer_timeout():
+	hit_color_zeroing = true
+
+func on_player_death():
+	if lock_logic:
+		return
+	print_rich("[hint=GameScene]Game Over![/hint]")
+	TsM.time_listener(floor(game_time))
+	Sfx.music.pitch_scale = 0.7
+	death_movement = true
+	p_state = state.DED
+	lock_logic = true
+	bg_lock = true
+	on_failing_level.emit()
+	GmM.after_game_over_logic(0)
+	# Stop spawning
+	spawner.force_active = false
+	# Stop-time
+		# Line 
+	big_boi.set_deferred("process_mode", Node.PROCESS_MODE_DISABLED)
+		# Obstacles
+	for obs in obstacles_array:
+		if obs == null:
+			continue
+		obs.stop_move()
+	spawner.active = false
+	for pickup in $Pickups.get_children() as Array[PickUpBase]:
+		pickup.queue_free()
+		$Pickups.remove_child(pickup)
+	# Visuals YAY
+	big_boi.body.modulate = Color(0.75, 0.75, 0.75, 0.5)
+	big_boi.body.z_index = 150
+	if big_boi.body.last_obstacle_hit != null:
+		big_boi.body.last_obstacle_hit.set_modulate_new(Color(1, 1, 1, 0.75))
+		big_boi.body.last_obstacle_hit.z_index = 149
+
+func damage_muffle():
+	var volume = SvM.data["volume_music"];
+	Sfx.update_bus_volume("music", volume * 0.50)
+
+# Changing scenes logic
+func pause_game():
+	GmM.paused = !GmM.paused
+
+func reset_level_request():
+	var volume = SvM.data["volume_master"];
+	Sfx.update_bus_volume("master", volume)
+	Sfx.update_bus_volume("music", SvM.data["volume_music"])
+	Sfx.music.pitch_scale = 1.0
+	GmM.after_game_over_logic()
+	get_tree().call_deferred("reload_current_scene")
+
+func quit_level_request():
+	var volume = SvM.data["volume_master"];
+	Sfx.update_bus_volume("music", SvM.data["volume_music"])
+	Sfx.update_bus_volume("master", volume)
+	Sfx.music.pitch_scale = 1.0
+	GmM.change_scene(0)
+
+func on_paused(paused):
+	if paused:
+		actual_speed_multi *= GmM.paused_slowdown
+		pause_panel.visible = true
+		pause_panel.body_label.text = "[center]The game is paused!\nDistance: %sm." % round(ScM.distance)
+	else:
+		actual_speed_multi = speed_multi
+		pause_panel.visible = false
+
+# Debug functions
+func debug_button_print():
+	print("Dziala")

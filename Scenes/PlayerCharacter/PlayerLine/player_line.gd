@@ -1,6 +1,8 @@
 class_name PlayerLine1 extends Line2D
 static var instance : PlayerLine1
 
+#region Enums
+
 enum last_pos {
 	LEFT = -1,
 	MIDDLE = 0,
@@ -15,33 +17,47 @@ enum state {
 	DED = -3 # Player took an L, massive skill issue
 }
 
-# Variables
+#endregion
+
+#region Variables
 @export var last_point_pos := last_pos.MIDDLE:
 	set(x):
 		last_point_pos = x
 		if x == last_pos.MIDDLE:
 			left_line_pos = last_pos.LEFT
 			right_line_pos = last_pos.RIGHT
+			line_l.visible = true
+			line_l_long.visible = true
+			line_r.visible = true
+			line_r_long.visible = true
 		elif x == last_pos.LEFT:
 			right_line_pos = last_pos.MIDDLE
+			line_l.visible = false
+			line_l_long.visible = false
 		else:
 			left_line_pos = last_pos.MIDDLE
+			line_r.visible = false
+			line_r_long.visible = false
 		_change_last_point_pos(self, last_point_pos)
 @export var health_points := 5
 ## Used to calculate distance score
-@export var speed : float = 5.0
+@export var speed : float = 7.5
 @export_group("Audio")
-@export var streams : Array[SoundHolder] = [preload("res://SFX/moving.tres"), preload("res://SFX/slap.tres"),\
-	preload("res://SFX/skul_crack.tres")]
+@export var streams : Array[SoundHolder] = [preload("res://SFX/SoundsData/moving.tres"),
+	preload("res://SFX/SoundsData/slap.tres"),
+	preload("res://SFX/SoundsData/skul_crack.tres")]
 @onready var line2 := $AdditionalLine
 @onready var line_r = $HelpLines/LineR
+@onready var line_r_long = $HelpLines/LineRLong
 @onready var line_l = $HelpLines/LineL
-@onready var line_add = $AdditionalLine
+@onready var line_l_long = $HelpLines/LineLLong
 @onready var timer = $ShieldTimer1
 @onready var timer_charge = $ShieldTimer2
 @onready var player_repeat = $PlayerRepeat
 @onready var player_hit = $PlayerHit
 @onready var player_hit_super = $PlayerHitSuper
+@onready var particle_gens: Array[GPUParticles2D] = [$PartGen11,\
+	$PartGen12, $PartGen13, $PartGen2]
 
 var body : PlayerBody
 var skul_dir = 0:
@@ -77,18 +93,23 @@ var velocity := 0.0
 var inv_check = false
 var lock_movement = false
 var greater_line_number = true
-
+## Speed value used while moving skul body on the GameOverScreen
+var death_speed := 0.5
+# Paused variables
+var paused_count := 0
 # Signals
 signal on_player_status_change(s:state, hp:int)
 signal on_player_death
+signal on_position_change(pos:last_pos)
+#endregion
 
-# Methods
-static func simulate_key_press(s:String): # Input just pressed simulation doesn't work for code
-	if s == "key_left":
-		instance.pos_changer(last_pos.LEFT)
-	elif s == "key_right":
-		instance.pos_changer(last_pos.RIGHT)
+#static func simulate_key_press(s:String): # Input just pressed simulation doesn't work for code
+	#if s == "key_left":
+		#instance.pos_changer(last_pos.LEFT)
+	#elif s == "key_right":
+		#instance.pos_changer(last_pos.RIGHT)
 
+# Basic Godot functions
 func _init():
 	instance = self
 
@@ -104,16 +125,23 @@ func _ready():
 	player_hit_super.volume_db = streams[2].volume
 	# Update line colors
 	var color = GmM.line_color_array[GmM.line_color]
-	default_color = color
-	line_r.default_color = Color(color, line_r.default_color.a)
-	line_l.default_color = Color(color, line_l.default_color.a)
-	line_add.default_color = color
+	#default_color = color
+	line_r.gradient.set_color(0, Color(color, 0.486))
+	line_r.gradient.set_color(1, Color(color, 0.078))
+	line_r_long.gradient.set_color(0, Color(color, 0.078))
+	line_r_long.gradient.set_color(1, Color(color, 0))
+	#line2.default_color = color
+	for gen in particle_gens:
+		gen.modulate = color
+		gen.amount_ratio = SvM.return_particle_amount()
 	# Line logic
 	line_points_number = body.line_points_number
 	distance_points = body.distance_points
+	# Check if desired number of points are higher or lower than actual number
 	if line_points_number < points.size():
 		greater_line_number = false
 	var difference = 124
+	# Remove or add required number of points. Simple while loop should work just fine
 	while line_points_number != points.size():
 		if !greater_line_number:
 			remove_point(difference)
@@ -132,6 +160,18 @@ func _ready():
 		line_r.set_point_position(x, Vector2(500, -x * distance_points))
 		line_l.set_point_position(x, Vector2(-500, -x * distance_points))
 		_i += 2 * PI / count
+	for x in 5:
+		line_r_long.set_point_position(x, Vector2(500, -400 * x))
+		line_l_long.set_point_position(x, Vector2(-500, -400 * x))
+	# Web check
+	if GmM.web_development:
+		default_color = Color(default_color, 1)
+		line2.default_color = default_color
+		for gen in particle_gens:
+			gen.emitting = false
+	else:
+		gradient = null
+		line2.gradient = null
 
 func _process(_delta):
 	# Debug inv
@@ -155,28 +195,42 @@ func _process(_delta):
 	else:
 		body.skul_sprites.self_modulate.r = lerpf(body.skul_sprites.self_modulate.r, \
 		1, _delta * 20)
-	if !lock_movement:
-		# Angle calcs
-		var vec : Vector2 = get_point_position(count) - body.position
-		var a = vec.angle() + PI/2
-		skul_dir = a
-		#if skul_dir != 0:
-			#play_autoplay(streams[0], true)
-		#else:
-			#play_autoplay(streams[0], false)
+	# Angle calcs
+	var vec : Vector2 = get_point_position(count) - body.position
+	var a = vec.angle() + PI/2
+	skul_dir = a
+	#if skul_dir != 0:
+		#play_autoplay(streams[0], true)
+	#else:
+		#play_autoplay(streams[0], false)
+	# Game speed logic
+	# For now it's only game_speed => slower than normal. Add the faster logic
+	if (GmM.game_speed < 1.0 and paused_count < (1 / GmM.game_speed) - 1):
+		paused_count += 1
+	else:
 		# Rail Lines position
 		line_r.position = position
+		line_r_long.position = position
 		line_l.position = position
+		line_l_long.position = position
 		_change_last_point_pos(line_r, right_line_pos)
 		_change_last_point_pos(line_l, left_line_pos)
+		# Set Long Lines
+		var pos_vec = line_l.get_point_position(count)
+		line_l_long.set_point_position(0, pos_vec)
+		for x in range(1, 5):
+			var y = line_l_long.get_point_position(x)
+			line_l_long.set_point_position(x, Vector2(pos_vec.x, pos_vec.y - 400 * x))
+		pos_vec = line_r.get_point_position(count)
+		line_r_long.set_point_position(0, pos_vec)
+		for x in range(1, 5):
+			var y = line_r_long.get_point_position(x)
+			line_r_long.set_point_position(x, Vector2(pos_vec.x, pos_vec.y - 400 * x))
 		# Extra long line stuff
 		var point_vec = get_point_position(get_point_count() - 1)
 		line2.set_point_position(0, point_vec)
-		line2.set_point_position(1, Vector2(point_vec.x, point_vec.y - 2000))
-		point_vec = line_r.get_point_position(get_point_count() - 2)
-		line_r.set_point_position(count + 1, Vector2(point_vec.x, point_vec.y - 2000))
-		point_vec = line_l.get_point_position(get_point_count() - 2)
-		line_l.set_point_position(count + 1, Vector2(point_vec.x, point_vec.y - 2000))
+		line2.set_point_position(1, Vector2(point_vec.x, point_vec.y - 970))
+		line2.set_point_position(2, Vector2(point_vec.x, point_vec.y - 3000))
 		# Pushing down position
 		_push_position_down_array(self)
 		_push_position_down_array(line_l)
@@ -188,18 +242,38 @@ func _process(_delta):
 		velocity = lerp(velocity, offset / _delta, _delta)
 		body.position.x += velocity * _delta # delta cuz its smooooooooth now!
 		velocity *= 0.85 # damping
+		paused_count = 0 # Reset counter
+	if !lock_movement:
 		if(Input.is_action_just_pressed("key_left")):
 			pos_changer(last_pos.LEFT)
 		elif(Input.is_action_just_pressed("key_right")):
 			pos_changer(last_pos.RIGHT)
+	# Set up particle gens
+	var half_point = points.size() * 0.25
+	# First three gens
+	for i in 3:
+		particle_gens[i].position = get_point_position(half_point * (i + 1))
+		# Change particle_gens[0] rotation
+		var point_1 = get_point_position(half_point * (i + 1))
+		var point_2 = get_point_position(half_point * (i + 1) + 5)
+		var rotation_1 = (point_2 - point_1).angle()
+		particle_gens[i].rotation = rotation_1 + (PI / 2)
+	particle_gens[3].position = line2.get_point_position(1)
+	# All particles properties
+	for gens in particle_gens:
+		gens.speed_scale = GmM.game_speed
 
+# Position functions
 func pos_changer(move:last_pos):
-	if last_point_pos == last_pos.LEFT and move == last_pos.LEFT:
-		return
-	elif last_point_pos == last_pos.RIGHT and move == last_pos.RIGHT:
-		return
-	@warning_ignore("int_as_enum_without_cast")
-	last_point_pos += move
+	if !GmM.paused:
+		if last_point_pos == last_pos.LEFT and move == last_pos.LEFT:
+			return
+		elif last_point_pos == last_pos.RIGHT and move == last_pos.RIGHT:
+			return
+		@warning_ignore("int_as_enum_without_cast")
+		last_point_pos += move
+		on_position_change.emit(last_point_pos)
+		fire_particles()
 
 func _push_position_down_array(l:Line2D):
 	for x in range(0, count):
@@ -216,6 +290,13 @@ func _change_last_point_pos(l:Line2D, line_pos:last_pos):
 		l.set_point_position(x, Vector2(sin(i) * -mid + pos.x - mid,-x * distance_points))
 		i += PI / count
 
+func return_body_position():
+	return body.position + position
+
+func return_body_global_position():
+	return body.global_position
+
+# Sound functions
 func play_autoplay(stream : SoundHolder, play : bool):
 	if play:
 		if !player_repeat.playing:
@@ -229,44 +310,18 @@ func play_autoplay(stream : SoundHolder, play : bool):
 func repeat_autoplay():
 	player_repeat.play()
 
-func return_body_position():
-	return body.position + position
-
+# SPEED functions
 func return_accelerate():
 	return body.speed_multi
 
 func return_max_speed():
 	return body.max_speed
 
-func on_body_hit(d):
-	var d1 = d - 1
-	if !inv:
-		match p_state:
-			state.NORMAL:
-				p_state = state.SHIELD_BROKEN
-				shield_timer_reset_after_hit(3 + d1)
-			state.SHIELD_RECHARGE:
-				p_state = state.RECHARGE_HIT
-				timer.stop()
-				shield_timer_reset_after_hit(5 + d1 * 2)
-				health_points -= d
-				player_hit.play()
-			state.SHIELD_BROKEN:
-				p_state = state.BROKEN_HIT
-				if d != 0:
-					inv = true
-					shield_timer_reset_after_hit(3.5)
-				health_points -= d * 2
-				player_hit_super.play()
-			state.RECHARGE_HIT:
-				return
-			state.BROKEN_HIT:
-				return
-	else:
-		print_rich("[hint=%s]Hit during invicibility[/hint]" % name)
-
+# Shield functions
 func on_shield_recharge_end():
 	print_rich("[hint=PlayerLine]Shield recharged[/hint]")
+	if !GmM.web_development:
+		body.shield_recharge_gen.emitting = false
 	p_state = state.NORMAL
 
 func on_shield_recharge_start():
@@ -274,6 +329,8 @@ func on_shield_recharge_start():
 	inv = false
 	p_state = state.SHIELD_RECHARGE
 	timer_charge.start(3.5)
+	if !GmM.web_development:
+		body.shield_recharge_gen.emitting = true
 	body.return_shield_color()
 
 func shield_timer_reset_after_hit(time:float):
@@ -281,8 +338,48 @@ func shield_timer_reset_after_hit(time:float):
 	timer.start(time)
 	body.reset_shield_color()
 
+# On something functions
+func on_body_hit(d):
+	var d1 = d - 1
+	if !inv:
+		match p_state:
+			state.NORMAL:
+				if d >= 2:
+					health_points -= (d - 1)  
+				p_state = state.SHIELD_BROKEN
+				shield_timer_reset_after_hit(3 + d1)
+			state.SHIELD_RECHARGE:
+				health_points -= d
+				if d > 0:
+					player_hit.play()
+				p_state = state.RECHARGE_HIT
+				timer.stop()
+				shield_timer_reset_after_hit(5 + d1 * 2)
+			state.SHIELD_BROKEN:
+				health_points -= d * 2
+				if d > 0:
+					player_hit_super.play()
+				p_state = state.BROKEN_HIT
+				if d != 0:
+					inv = true
+					shield_timer_reset_after_hit(3.5)
+			state.RECHARGE_HIT:
+				return
+			state.BROKEN_HIT:
+				return
+	else:
+		print_rich("[hint=%s]Hit during invicibility[/hint]" % name)
+
 func on_game_over():
 	timer.stop()
 	timer_charge.stop()
 	lock_movement = true
 	body.on_game_over()
+
+# Particle functions
+func fire_particles():
+	pass
+	#for _i in 0:
+		#await Engine.get_main_loop().process_frame
+	#for gen: GPUParticles2D in particle_gens:
+		#gen.emitting = true

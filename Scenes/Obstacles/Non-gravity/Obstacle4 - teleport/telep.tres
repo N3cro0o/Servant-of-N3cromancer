@@ -4,7 +4,9 @@
 
 [resource]
 script = ExtResource("1_v51qt")
+obstacle_id = 204
 scene_directory = "res://Scenes/Obstacles/Non-gravity/Obstacle4 - teleport/teleporter.tscn"
+name = "White Star"
 type = 1
 weight = 3
 flip = false

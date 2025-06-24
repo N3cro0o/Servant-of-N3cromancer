@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="SoundHolder" load_steps=3 format=3 uid="uid://c0tmj3hb0bc1c"]
+
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/sound_holder.gd" id="1_myk3k"]
+[ext_resource type="AudioStream" uid="uid://dy46k4y8lceon" path="res://SFX/Sounds/non_vineboom.wav" id="2_hgifu"]
+
+[resource]
+script = ExtResource("1_myk3k")
+name = "fireball_boom"
+stream = ExtResource("2_hgifu")
+volume = -5.0
+autoplay = false
+bus = "Obstacles"

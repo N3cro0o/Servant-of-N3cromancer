@@ -1,0 +1,372 @@
+[gd_scene load_steps=32 format=3 uid="uid://depbnw57vsktm"]
+
+[ext_resource type="Script" path="res://Scenes/GameScenes/Game/Tutoriel/tutorial_scene.gd" id="1_17wag"]
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/stage_enemy_data.gd" id="2_r8dsm"]
+[ext_resource type="Resource" uid="uid://dxxmyg2erd1ms" path="res://Resources/DataHolders/GameStages/tutorial.tres" id="3_6c8r7"]
+[ext_resource type="Resource" uid="uid://c5pnpq5t84gkq" path="res://SFX/MusicData/main_game.tres" id="4_iocke"]
+[ext_resource type="PackedScene" uid="uid://b4f11y5i27dcu" path="res://Scenes/UI/MainGame/PauseScreen/pause_panel.tscn" id="5_86t17"]
+[ext_resource type="Texture2D" uid="uid://h5t8ervkebkw" path="res://Images/UI/pause.png" id="5_eftu4"]
+[ext_resource type="PackedScene" uid="uid://cc0c6bo2wcejw" path="res://Scenes/UI/MainGame/GameOverScreen/end_panel.tscn" id="6_6sern"]
+[ext_resource type="Script" path="res://Scenes/GameScenes/Game/GameScene/inventory_logic.gd" id="7_ntmw5"]
+[ext_resource type="Texture2D" uid="uid://0owx080eewsp" path="res://Images/PickUps/Scrolls/Symbols/repulsor.png" id="8_odvib"]
+[ext_resource type="Texture2D" uid="uid://2g2u76harw2m" path="res://Images/circle_shape_black.png" id="9_tl2wi"]
+[ext_resource type="Texture2D" uid="uid://jcx2r032ex1m" path="res://Images/PickUps/Scrolls/Symbols/Shield.png" id="10_8fmf5"]
+[ext_resource type="PackedScene" uid="uid://dgodseek33sts" path="res://Scenes/UI/MainGame/DialogueScreen/dialogue_screen.tscn" id="10_g7vbc"]
+[ext_resource type="Texture2D" uid="uid://8glmydbtnfi0" path="res://Images/UI/DirectionKey/1/arrow key1.png" id="11_vl0y0"]
+[ext_resource type="Texture2D" uid="uid://cw4egb0obgrol" path="res://Images/UI/DirectionKey/1/arrow key2.png" id="12_f02ej"]
+[ext_resource type="PackedScene" uid="uid://dj0xd4lvpcrnd" path="res://Scenes/Obstacles/SpawnerV2/spawner_v2.tscn" id="13_7hx1p"]
+[ext_resource type="PackedScene" uid="uid://cwhxijf40rcnx" path="res://Scenes/PlayerCharacter/PlayerLine/player_line.tscn" id="14_6ubya"]
+[ext_resource type="Shape2D" uid="uid://c3hrcfy1n4wnh" path="res://Scenes/UI/MainGame/MoveButtons/button_shape_rect.tres" id="14_ytexe"]
+[ext_resource type="PackedScene" uid="uid://bx18cpaetf7lm" path="res://Scenes/PlayerCharacter/Mouse/mouse_entity.tscn" id="15_w05re"]
+[ext_resource type="PackedScene" uid="uid://cxecydc21mmwa" path="res://Scenes/SceneKiller/killer.tscn" id="16_3otaq"]
+[ext_resource type="Shader" path="res://Resources/Shaders/slimy_watery.gdshader" id="16_tlvqa"]
+[ext_resource type="Texture2D" uid="uid://noecnnt5hxwr" path="res://Images/square_curved.png" id="17_00nd3"]
+[ext_resource type="Texture2D" uid="uid://gvpii7lmsrxu" path="res://Images/Player/Damage/hit_frame.png" id="17_ey8sr"]
+[ext_resource type="Texture2D" uid="uid://b613ar7xw3mka" path="res://Images/BG/BG.png" id="18_gus1q"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_yrvdb"]
+font_size = 24
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_872gb"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_1b5py"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7ybqh"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_elcs1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gssjg"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jljb7"]
+shader = ExtResource("16_tlvqa")
+shader_parameter/distortion = 0.01
+shader_parameter/speed = Vector2(1.25, 0.5)
+shader_parameter/wave_strength = Vector2(3, 2)
+shader_parameter/noise_blend = 0.2
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6mxsl"]
+shader = ExtResource("16_tlvqa")
+shader_parameter/distortion = 0.01
+shader_parameter/speed = Vector2(-1.33, 0.4)
+shader_parameter/wave_strength = Vector2(2, 3)
+shader_parameter/noise_blend = 0.2
+
+[node name="TutorialScene" type="Node2D" node_paths=PackedStringArray("bg_sprites")]
+script = ExtResource("1_17wag")
+bg_sprites = [NodePath("BG/BgUp"), NodePath("BG/Bg"), NodePath("BG/BgDown")]
+enemy_stages = Array[ExtResource("2_r8dsm")]([ExtResource("3_6c8r7")])
+button_height_scale = 1.6
+stream = ExtResource("4_iocke")
+
+[node name="WindowBox" type="Control" parent="."]
+z_index = 101
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1080.0
+offset_bottom = 2400.0
+mouse_filter = 1
+
+[node name="DebugLabel" type="Label" parent="WindowBox"]
+visible = false
+layout_mode = 0
+offset_right = 136.0
+offset_bottom = 34.0
+text = "debug tesat"
+label_settings = SubResource("LabelSettings_yrvdb")
+
+[node name="PausePanel" parent="WindowBox" instance=ExtResource("5_86t17")]
+visible = false
+layout_mode = 1
+mouse_filter = 1
+
+[node name="EndPanel" parent="WindowBox" instance=ExtResource("6_6sern")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScrollsBox" type="VBoxContainer" parent="WindowBox"]
+visible = false
+layout_mode = 0
+offset_left = 912.0
+offset_top = 963.0
+offset_right = 1040.0
+offset_bottom = 1965.0
+theme_override_constants/separation = 30
+alignment = 2
+
+[node name="InventoryLogic" type="Node" parent="WindowBox/ScrollsBox"]
+script = ExtResource("7_ntmw5")
+
+[node name="RepulseButton" type="TextureButton" parent="WindowBox/ScrollsBox"]
+layout_mode = 2
+texture_normal = ExtResource("8_odvib")
+texture_pressed = ExtResource("8_odvib")
+texture_disabled = SubResource("CompressedTexture2D_872gb")
+stretch_mode = 0
+
+[node name="TextureRect" type="TextureRect" parent="WindowBox/ScrollsBox/RepulseButton"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("9_tl2wi")
+
+[node name="Vbox" type="VBoxContainer" parent="WindowBox/ScrollsBox/RepulseButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="NumberLabel" type="RichTextLabel" parent="WindowBox/ScrollsBox/RepulseButton/Vbox"]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 1
+theme_override_colors/default_color = Color(0.764706, 0.764706, 0.764706, 0.635294)
+theme_override_font_sizes/normal_font_size = 96
+text = "0"
+fit_content = true
+autowrap_mode = 0
+
+[node name="ShieldButton" type="TextureButton" parent="WindowBox/ScrollsBox"]
+layout_mode = 2
+texture_normal = ExtResource("10_8fmf5")
+texture_pressed = ExtResource("10_8fmf5")
+texture_disabled = SubResource("CompressedTexture2D_1b5py")
+stretch_mode = 0
+
+[node name="TextureRect" type="TextureRect" parent="WindowBox/ScrollsBox/ShieldButton"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("9_tl2wi")
+
+[node name="Vbox" type="VBoxContainer" parent="WindowBox/ScrollsBox/ShieldButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="NumberLabel" type="RichTextLabel" parent="WindowBox/ScrollsBox/ShieldButton/Vbox"]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 1
+theme_override_colors/default_color = Color(0.764706, 0.764706, 0.764706, 0.635294)
+theme_override_font_sizes/normal_font_size = 96
+text = "0"
+fit_content = true
+autowrap_mode = 0
+
+[node name="Dialogue" parent="WindowBox" instance=ExtResource("10_g7vbc")]
+layout_mode = 1
+anchors_preset = -1
+anchor_bottom = 0.865
+offset_bottom = 0.999756
+
+[node name="MarginContainer" type="MarginContainer" parent="WindowBox"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 700
+theme_override_constants/margin_bottom = 950
+
+[node name="ClickCatcher" type="Control" parent="WindowBox/MarginContainer"]
+layout_mode = 2
+mouse_filter = 1
+
+[node name="ColorRect" type="ColorRect" parent="WindowBox/MarginContainer/ClickCatcher"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0.152941)
+
+[node name="PauseButton" type="Button" parent="WindowBox"]
+z_index = 20
+layout_mode = 0
+offset_top = 19.0
+offset_right = 136.0
+offset_bottom = 155.0
+mouse_filter = 1
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 0)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 0)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 0)
+theme_override_colors/font_color = Color(0.8, 0, 0.188235, 0)
+theme_override_colors/icon_normal_color = Color(0.776471, 0.776471, 0.776471, 0.627451)
+theme_override_colors/icon_focus_color = Color(0.776471, 0.776471, 0.776471, 0.627451)
+theme_override_colors/icon_pressed_color = Color(0.776471, 0.776471, 0.776471, 0.627451)
+theme_override_colors/icon_hover_color = Color(0.776471, 0.776471, 0.776471, 0.627451)
+theme_override_colors/icon_hover_pressed_color = Color(0.776471, 0.776471, 0.776471, 0.627451)
+theme_override_colors/icon_disabled_color = Color(0, 0, 0, 0)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_7ybqh")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_elcs1")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_gssjg")
+icon = ExtResource("5_eftu4")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(540, 1200)
+
+[node name="ButtonL" type="TouchScreenButton" parent="Camera2D"]
+visible = false
+self_modulate = Color(1, 1, 1, 0.745098)
+z_index = 1
+position = Vector2(-505, 876)
+scale = Vector2(1.75, 1.75)
+texture_normal = ExtResource("11_vl0y0")
+texture_pressed = ExtResource("12_f02ej")
+action = "key_left"
+
+[node name="ButtonR" type="TouchScreenButton" parent="Camera2D"]
+visible = false
+self_modulate = Color(1, 1, 1, 0.745098)
+z_index = 1
+position = Vector2(504, 1137)
+rotation = 3.14159
+scale = Vector2(1.87109, 2.14063)
+texture_normal = ExtResource("11_vl0y0")
+texture_pressed = ExtResource("12_f02ej")
+action = "key_right"
+
+[node name="NewButtons" type="Node2D" parent="Camera2D"]
+z_index = 100
+
+[node name="ButtonLeft" type="TouchScreenButton" parent="Camera2D/NewButtons"]
+position = Vector2(-270, 987)
+shape = ExtResource("14_ytexe")
+
+[node name="CenterLeft" type="Node2D" parent="Camera2D/NewButtons"]
+position = Vector2(-540, 1200)
+
+[node name="ButtonRight" type="TouchScreenButton" parent="Camera2D/NewButtons"]
+position = Vector2(270, 987)
+shape = ExtResource("14_ytexe")
+
+[node name="CenterRight" type="Node2D" parent="Camera2D/NewButtons"]
+position = Vector2(540, 1200)
+
+[node name="ColorL" type="Sprite2D" parent="Camera2D/NewButtons"]
+modulate = Color(0, 0, 1, 0)
+z_index = -10
+material = SubResource("ShaderMaterial_jljb7")
+position = Vector2(-270, 987)
+scale = Vector2(3.9375, 3.10937)
+texture = ExtResource("17_00nd3")
+
+[node name="ColorR" type="Sprite2D" parent="Camera2D/NewButtons"]
+modulate = Color(1, 0, 0, 0)
+z_index = -10
+material = SubResource("ShaderMaterial_6mxsl")
+position = Vector2(270, 987)
+scale = Vector2(3.9375, 3.10937)
+texture = ExtResource("17_00nd3")
+
+[node name="SpawnerV2" parent="." instance=ExtResource("13_7hx1p")]
+repeat_check = false
+pickup_chance = 0.0
+spawn_points = 3
+distance_between = 300.0
+spawner_offset = Vector2(540, -300)
+
+[node name="Obstacles" type="Node2D" parent="."]
+
+[node name="Pickups" type="Node2D" parent="."]
+
+[node name="PlayerLine" parent="." instance=ExtResource("14_6ubya")]
+z_index = 20
+position = Vector2(540, 2020)
+
+[node name="MouseEntity" parent="." instance=ExtResource("15_w05re")]
+z_index = 30
+position = Vector2(540, 1557)
+
+[node name="Killers" type="Node" parent="."]
+
+[node name="ScenesKiller" parent="Killers" instance=ExtResource("16_3otaq")]
+position = Vector2(540, 3000)
+
+[node name="ScenesKiller2" parent="Killers" instance=ExtResource("16_3otaq")]
+position = Vector2(540, -621)
+
+[node name="ScenesKiller3" parent="Killers" instance=ExtResource("16_3otaq")]
+position = Vector2(-300, 1168)
+rotation = 1.57079
+
+[node name="ScenesKiller4" parent="Killers" instance=ExtResource("16_3otaq")]
+position = Vector2(1380, 1168)
+rotation = 1.57079
+
+[node name="HitFrame" type="Sprite2D" parent="."]
+position = Vector2(540, 1200)
+texture = ExtResource("17_ey8sr")
+
+[node name="Timer" type="Timer" parent="HitFrame"]
+one_shot = true
+
+[node name="BG" type="Node" parent="."]
+
+[node name="BgUp" type="Sprite2D" parent="BG"]
+z_index = -400
+position = Vector2(540, -1200)
+scale = Vector2(3, 3)
+texture = ExtResource("18_gus1q")
+
+[node name="Bg" type="Sprite2D" parent="BG"]
+z_index = -400
+position = Vector2(540, 1200)
+scale = Vector2(3, 3)
+texture = ExtResource("18_gus1q")
+
+[node name="BgDown" type="Sprite2D" parent="BG"]
+z_index = -400
+position = Vector2(540, 3600)
+scale = Vector2(3, 3)
+texture = ExtResource("18_gus1q")
+
+[connection signal="on_failing_level" from="." to="WindowBox/EndPanel" method="update_desc"]
+[connection signal="on_game_start_request" from="WindowBox/PausePanel" to="." method="pause_game"]
+[connection signal="on_quit_request" from="WindowBox/PausePanel" to="." method="quit_level_request"]
+[connection signal="on_reset_request" from="WindowBox/PausePanel" to="." method="reset_level_request"]
+[connection signal="on_quit_request" from="WindowBox/EndPanel" to="." method="quit_level_request"]
+[connection signal="on_reset_request" from="WindowBox/EndPanel" to="." method="reset_level_request"]
+[connection signal="pressed" from="WindowBox/ScrollsBox/RepulseButton" to="WindowBox/ScrollsBox/InventoryLogic" method="repulse_use"]
+[connection signal="pressed" from="WindowBox/ScrollsBox/ShieldButton" to="WindowBox/ScrollsBox/InventoryLogic" method="shield_use"]
+[connection signal="on_text_append_end" from="WindowBox/Dialogue" to="." method="on_dialogue_text_append_end"]
+[connection signal="gui_input" from="WindowBox/MarginContainer/ClickCatcher" to="." method="_click_catcher_input"]
+[connection signal="pressed" from="WindowBox/PauseButton" to="." method="pause_game"]
+[connection signal="pressed" from="Camera2D/NewButtons/ButtonLeft" to="." method="move_button_left"]
+[connection signal="pressed" from="Camera2D/NewButtons/ButtonRight" to="." method="move_button_right"]
+[connection signal="on_spawned_entity" from="SpawnerV2" to="." method="_spawner1_spawn"]
+[connection signal="on_player_death" from="PlayerLine" to="." method="on_player_death"]
+[connection signal="on_player_status_change" from="PlayerLine" to="." method="on_player_hit"]
+[connection signal="on_position_change" from="PlayerLine" to="." method="on_line_position_changed"]
+[connection signal="timeout" from="HitFrame/Timer" to="." method="on_hit_timer_timeout"]

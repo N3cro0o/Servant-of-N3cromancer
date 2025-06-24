@@ -10,6 +10,8 @@ enum category_shop {
 	ENDLESS = 0
 }
 
+# Ingeni-transmiter => ingenium + neurotransmiter
+
 @export_group("Basic")
 @export var name : String = ""
 @export var cost : int = 0
@@ -18,14 +20,16 @@ enum category_shop {
 @export var category : category_shop = category_shop.RANDOM
 @export_group("Script")
 @export_enum("king_nothing", "endless_unlock", "light_skul_unlock",\
-	"scroll_storag_upgrade", "custom_line") var resource_script = "king_nothing"
+	"scroll_storag_upgrade", "custom_line", "extra_speed") var resource_script = "king_nothing"
 @export var variable1 = 0.0
+@export var variable2 = 0.0
 var bought = false
 
 func on_buy():
 	call(resource_script)
 	bought = true
 
+# But the castle's crumbled and you're left with just the name
 func king_nothing():
 	print("Where's your crown, King Nothing?")
 
@@ -36,7 +40,12 @@ func light_skul_unlock():
 	GmM.body_holder_array[variable1].body_unlocked = true
 
 func scroll_storag_upgrade():
-	GmM.inventory_space += variable1
+	GmM.inventory_space += int(variable1)
+	GmM.inventory_space_single += int(variable2)
 
 func custom_line():
 	GmM.line_customization_unlock = true
+
+func extra_speed():
+	GmM.max_extra_speed_level += variable1
+	GmM.extra_speed_level = variable1

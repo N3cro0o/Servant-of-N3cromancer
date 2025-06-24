@@ -1,0 +1,115 @@
+[gd_scene load_steps=6 format=3 uid="uid://cc0c6bo2wcejw"]
+
+[ext_resource type="Theme" uid="uid://do6gg3r8fydfa" path="res://Resources/Themes/main_theme.tres" id="1_ee3aq"]
+[ext_resource type="Script" path="res://Scenes/UI/MainGame/GameOverScreen/end_panel.gd" id="1_nqexy"]
+[ext_resource type="Shader" path="res://Resources/Shaders/blur.gdshader" id="3_1q8bj"]
+[ext_resource type="Texture2D" uid="uid://noecnnt5hxwr" path="res://Images/square_curved.png" id="4_bb4et"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_87l2d"]
+shader = ExtResource("3_1q8bj")
+shader_parameter/lod = 3.49
+
+[node name="EndPanel" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1080.0
+offset_bottom = 2400.0
+theme = ExtResource("1_ee3aq")
+script = ExtResource("1_nqexy")
+
+[node name="Node2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_87l2d")
+position = Vector2(545, 1217)
+scale = Vector2(11, 22)
+texture = ExtResource("4_bb4et")
+
+[node name="BG" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = -100.0
+offset_right = 120.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.201808, 0.202683, 0.339773, 0.352941)
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 75
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 75
+
+[node name="Box" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="Upper" type="MarginContainer" parent="Margin/Box"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.6
+
+[node name="YouDiedBruhLabel" type="RichTextLabel" parent="Margin/Box/Upper"]
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 1
+theme_override_font_sizes/normal_font_size = 180
+bbcode_enabled = true
+text = "[center]You failed!"
+fit_content = true
+
+[node name="Middle" type="MarginContainer" parent="Margin/Box"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VB" type="VBoxContainer" parent="Margin/Box/Middle"]
+layout_mode = 2
+alignment = 1
+
+[node name="DescriptionLabel" type="RichTextLabel" parent="Margin/Box/Middle/VB"]
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 1
+theme_override_font_sizes/normal_font_size = 64
+text = "Papaj"
+fit_content = true
+
+[node name="Control" type="Control" parent="Margin/Box/Middle/VB"]
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 2
+
+[node name="Bottom" type="MarginContainer" parent="Margin/Box"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.3
+
+[node name="VBoxContainer" type="GridContainer" parent="Margin/Box/Bottom"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/h_separation = 200
+columns = 2
+
+[node name="EndButton" type="Button" parent="Margin/Box/Bottom/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 98
+text = "QUIT"
+
+[node name="ResetButton" type="Button" parent="Margin/Box/Bottom/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 98
+text = "RESET"
+
+[connection signal="gui_input" from="." to="." method="hold_timer_gui_input"]
+[connection signal="pressed" from="Margin/Box/Bottom/VBoxContainer/EndButton" to="." method="on_end_bttn_press"]
+[connection signal="pressed" from="Margin/Box/Bottom/VBoxContainer/ResetButton" to="." method="on_reset_bttn_press"]

@@ -14,6 +14,7 @@ freeze = true
 freeze_mode = 1
 script = ExtResource("1_q3neo")
 teleportation_chance = 0.687
+obstacle_id = 8
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("2_fr0tc")

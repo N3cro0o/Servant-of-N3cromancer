@@ -1,0 +1,10 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://dva78tdysb0po"]
+
+[ext_resource type="FontVariation" uid="uid://4eas1nxpss4t" path="res://Resources/Themes/new_font_variation.tres" id="1_qd0mt"]
+
+[resource]
+font = ExtResource("1_qd0mt")
+font_size = 36
+outline_size = 5
+outline_color = Color(0.101961, 0.101961, 0.101961, 0.337255)
+shadow_size = 0

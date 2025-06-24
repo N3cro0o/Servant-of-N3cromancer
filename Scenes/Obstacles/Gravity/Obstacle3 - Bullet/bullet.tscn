@@ -13,6 +13,7 @@ collision_layer = 2
 physics_material_override = ExtResource("1_qfjwv")
 script = ExtResource("1_wl5rs")
 screen_fraction = 0.6
+obstacle_id = 3
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 rotation = -0.785398

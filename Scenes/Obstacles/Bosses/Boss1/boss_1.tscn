@@ -28,9 +28,9 @@ scale = Vector2(2.01563, 2.01563)
 texture = ExtResource("2_8q6ah")
 
 [node name="Sprite2D2" type="Sprite2D" parent="."]
-position = Vector2(3, -753)
+position = Vector2(3.0002, -833.817)
 rotation = -3.14159
-scale = Vector2(2.75972, 3.87011)
+scale = Vector2(2.75972, 4.50149)
 texture = ExtResource("3_33ehy")
 
 [node name="Spawners" type="Node2D" parent="."]

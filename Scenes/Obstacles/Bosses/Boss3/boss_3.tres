@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="SpawnObstacleDataHolder" load_steps=2 format=3 uid="uid://3cpskbts2iwq"]
+
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/spawn_obstacle_data_holder.gd" id="1_7jajq"]
+
+[resource]
+script = ExtResource("1_7jajq")
+obstacle_id = -3
+scene_directory = "res://Scenes/Obstacles/Bosses/Boss3/sapper.tscn"
+name = "krp. Sarajewo"
+type = 4
+weight = 1
+flip = false
+can_lock_rotation = false
+spawner_is_empty = false
+tele_state = false

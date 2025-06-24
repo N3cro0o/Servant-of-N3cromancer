@@ -4,7 +4,9 @@
 
 [resource]
 script = ExtResource("1_ekyi6")
+obstacle_id = 203
 scene_directory = "res://Scenes/Obstacles/Non-gravity/Obstacle3 - GravityShift/shield_static_object.tscn"
+name = "Gravity Shift"
 type = 3
 weight = 1
 flip = false

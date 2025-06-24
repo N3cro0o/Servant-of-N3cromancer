@@ -1,0 +1,6 @@
+Gravity - 000
+Homing - 100
+Non-gravity/Static - 200
+Boss - (going from -1 down)
+
+ID = 0 should be NULL!!!

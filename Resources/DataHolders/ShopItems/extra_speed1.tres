@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ItemShopData" load_steps=3 format=3 uid="uid://b7qynvidav8ij"]
+
+[ext_resource type="Texture2D" uid="uid://tkj5osmlb43l" path="res://Images/UI/speed-buff.png" id="1_n2dn7"]
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/item_shop_data.gd" id="1_yt6mr"]
+
+[resource]
+script = ExtResource("1_yt6mr")
+name = "Ingeni-pred"
+cost = 80
+image = ExtResource("1_n2dn7")
+desc = "Extra toxins and Ingenitransmiters absorbed during my attempts let me see the world in fast-mo."
+category = 0
+resource_script = "extra_speed"
+variable1 = 1.0
+variable2 = 0.0

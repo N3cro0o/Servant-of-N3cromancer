@@ -1,0 +1,230 @@
+[gd_scene load_steps=9 format=3 uid="uid://b4f11y5i27dcu"]
+
+[ext_resource type="Script" path="res://Scenes/UI/MainGame/PauseScreen/pause_panel.gd" id="1_4nai7"]
+[ext_resource type="PackedScene" uid="uid://cx73cqai8ytxp" path="res://Scenes/UI/MainGame/PauseItem/pause_item.tscn" id="2_enlu5"]
+[ext_resource type="Texture2D" uid="uid://noecnnt5hxwr" path="res://Images/square_curved.png" id="2_soiai"]
+[ext_resource type="Shader" path="res://Resources/Shaders/blur.gdshader" id="3_3ftgx"]
+[ext_resource type="Texture2D" uid="uid://d2j5jhadmnc2q" path="res://Images/PickUps/PLN/pln.png" id="3_tbxho"]
+[ext_resource type="Theme" uid="uid://do6gg3r8fydfa" path="res://Resources/Themes/main_theme.tres" id="4_j314y"]
+[ext_resource type="PackedScene" uid="uid://y2q4kerc0f8g" path="res://Scenes/UI/TaskGrid/task_grid.tscn" id="7_1wppf"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r26hk"]
+shader = ExtResource("3_3ftgx")
+shader_parameter/lod = 3.0
+
+[node name="PausePanel" type="Control"]
+z_index = 15
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_j314y")
+script = ExtResource("1_4nai7")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+modulate = Color(0.162066, 0.162066, 0.162066, 0.235294)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_soiai")
+region_rect = Rect2(0, 3, 128, 122)
+
+[node name="Blur" type="TextureRect" parent="."]
+z_index = 2
+material = SubResource("ShaderMaterial_r26hk")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = -100.0
+offset_right = 100.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_soiai")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+z_index = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Items" type="Control" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/VBoxContainer/Items"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.184314, 0.235294, 0.32549, 0.117647)
+
+[node name="ItemsContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/Items"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 5
+alignment = 1
+
+[node name="Coins" parent="MarginContainer/VBoxContainer/Items/ItemsContainer" instance=ExtResource("2_enlu5")]
+layout_mode = 2
+size_flags_horizontal = 3
+image_texture = ExtResource("3_tbxho")
+body_text = "Coins:"
+
+[node name="MainBody" type="Control" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 15.0
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/VBoxContainer/MainBody"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.145098, 0.556863, 0.858824, 0.117647)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MainBody"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 60
+alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer/MainBody/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 64
+bbcode_enabled = true
+text = "[center]The game is Paused!"
+fit_content = true
+autowrap_mode = 2
+
+[node name="TaskGrid" parent="MarginContainer/VBoxContainer/MainBody/VBoxContainer" instance=ExtResource("7_1wppf")]
+layout_mode = 2
+columns = 1
+
+[node name="Buttons" type="Control" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 3.0
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/VBoxContainer/Buttons"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.803922, 0.627451, 0, 0.117647)
+
+[node name="ButtonContainer" type="GridContainer" parent="MarginContainer/VBoxContainer/Buttons"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 2
+
+[node name="PauseMargin" type="MarginContainer" parent="MarginContainer/VBoxContainer/Buttons/ButtonContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="PauseButton" type="Button" parent="MarginContainer/VBoxContainer/Buttons/ButtonContainer/PauseMargin"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("4_j314y")
+theme_override_font_sizes/font_size = 64
+text = "Return to the game"
+autowrap_mode = 2
+
+[node name="PlaceholderMargin" type="MarginContainer" parent="MarginContainer/VBoxContainer/Buttons/ButtonContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="ReturnButton" type="Button" parent="MarginContainer/VBoxContainer/Buttons/ButtonContainer/PlaceholderMargin"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("4_j314y")
+theme_override_font_sizes/font_size = 64
+text = "Reset"
+autowrap_mode = 2
+
+[node name="MenuMargin" type="MarginContainer" parent="MarginContainer/VBoxContainer/Buttons/ButtonContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="MenuButton" type="Button" parent="MarginContainer/VBoxContainer/Buttons/ButtonContainer/MenuMargin"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("4_j314y")
+theme_override_font_sizes/font_size = 64
+text = "Go to menu"
+autowrap_mode = 2
+
+[node name="ReturnMargin" type="MarginContainer" parent="MarginContainer/VBoxContainer/Buttons/ButtonContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="ReturnButton" type="Button" parent="MarginContainer/VBoxContainer/Buttons/ButtonContainer/ReturnMargin"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("4_j314y")
+theme_override_font_sizes/font_size = 64
+text = "Reset"
+autowrap_mode = 2
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Buttons/ButtonContainer/PauseMargin/PauseButton" to="." method="on_pause_bttn_press"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Buttons/ButtonContainer/PlaceholderMargin/ReturnButton" to="." method="on_reset_bttn_press"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Buttons/ButtonContainer/MenuMargin/MenuButton" to="." method="on_end_bttn_press"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Buttons/ButtonContainer/ReturnMargin/ReturnButton" to="." method="on_reset_bttn_press"]

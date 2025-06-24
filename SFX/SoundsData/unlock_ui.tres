@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="SoundHolder" load_steps=3 format=3 uid="uid://b6871yo4sdbe0"]
+
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/sound_holder.gd" id="1_t56ge"]
+[ext_resource type="AudioStream" uid="uid://t1jgclx17og2" path="res://SFX/Sounds/Lock.mp3" id="2_oxrw3"]
+
+[resource]
+script = ExtResource("1_t56ge")
+name = "unlock_secret"
+stream = ExtResource("2_oxrw3")
+volume = 0.0
+autoplay = false
+bus = "UI"

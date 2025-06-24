@@ -1,5 +1,6 @@
 class_name PlayerBody extends Area2D
-# Variables
+#region Variables
+
 ## Max speed
 @export var max_speed := 7.5
 ## Used to accelerate during game
@@ -13,42 +14,35 @@ class_name PlayerBody extends Area2D
 @onready var skul_sprites = $SpriteSkul
 @onready var shield_sprite = $Shield
 @onready var shield_color = shield_sprite.modulate
+@onready var shield_broke_gen: GPUParticles2D = $Particles/ParticleShieldBroke
+@onready var shield_recharge_gen: GPUParticles2D = $Particles/ParticleShieldRecharge
+
 var modulate_shield_color_check = true
 var target_point = 0
 var skul_dir = 0
+## Stores last collided obstacle.[br]CAN BE NULL!!!!!
+var last_obstacle_hit: ObstacleGravityBase
+var last_obstacle_offset
 
-# Signals
+#endregion
+#region Signals
+
 signal on_hit(damage)
 
-# Methods
+#endregion
+# Basic Godot functions
 func _ready():
 	target_point = int(line_points_number * .16)
 	print_rich("[hint=%s]Target point = [/hint]" % name, target_point)
 	MouseEntity1.instance.disabled_hitbox = no_mouse_object_hitbox
 	MouseEntity1.instance.push_strength = mouse_push_strength
-
-func _on_hitbox_activation(body):
-	if body is ObstacleGravityBase:
-		if body.damage >= 0:
-			var d = body.damage
-			body.body_hit = true
-			on_hit.emit(d)
-
-func on_pickbox_activation(body):
-	if body is PickUpBase:
-		body.on_hit_activate()
-
-func reset_shield_color():
-	modulate_shield_color_check = false
-	shield_sprite.modulate = Color(shield_color, 0)
-
-func return_shield_color():
-	modulate_shield_color_check = true
+	shield_broke_gen.amount_ratio = SvM.return_particle_amount()
+	shield_recharge_gen.amount_ratio = SvM.return_particle_amount()
 
 func _process(delta):
 	if modulate_shield_color_check:
 		var c : Color = shield_sprite.modulate
-		c = c.lerp(shield_color, delta)
+		c = c.lerp(shield_color, delta * GmM.game_speed)
 		shield_sprite.modulate = c
 	skul_sprites.frame = abs(skul_dir)
 	shield_sprite.frame = skul_sprites.frame
@@ -58,7 +52,48 @@ func _process(delta):
 	else:
 		skul_sprites.scale.x = 2
 		shield_sprite.scale.x = 2.05
+	# Projectile recharge speed
+	shield_recharge_gen.speed_scale = GmM.game_speed
 
+# Hitbox functions
+func _on_hitbox_activation(body):
+	if body is ObstacleGravityBase:
+		if body.damage >= 0:
+			if GameScene.instance != null && GameScene.instance.p_state != -3:
+				last_obstacle_hit = body
+				last_obstacle_offset = body.global_position - global_position
+			body.body_hit = true
+			var dir_vec: Vector2 = body.global_position - global_position
+			do_damage(body.damage, dir_vec)
+
+func on_pickbox_activation(body):
+	if body is PickUpBase:
+		body.on_hit_activate()
+
+# Damage & shield functions
+func do_damage(damage:int, damage_vec: Vector2 = Vector2.UP):
+	if damage >= 0:
+			if shield_sprite.modulate.a > 0.0 && damage > 0:
+				emit_particle_shield_broke(damage_vec.angle())
+			on_hit.emit(damage)
+
+func reset_shield_color():
+	modulate_shield_color_check = false
+	shield_sprite.modulate = Color(shield_color, 0)
+
+func return_shield_color():
+	modulate_shield_color_check = true
+
+# Particle functions
+func emit_particle_shield_broke(angle: float):
+	if GmM.web_development:
+		return
+	shield_broke_gen.rotation = angle
+	shield_broke_gen.modulate = Color(1,1,1, shield_sprite.modulate.a / shield_color.a)
+	await Engine.get_main_loop().process_frame
+	shield_broke_gen.emitting = true
+
+# Others
 func on_game_over():
 	set_deferred("monitoring", false)
 	set_deferred("monitorable", false)

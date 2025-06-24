@@ -1,10 +1,23 @@
 extends ObstacleNonverticalBase
 
-# Variables
+#region Variables
+
 @onready var left = $Left
 @onready var right = $Right
 @onready var mid_array : Array[AnimatedSprite2D] = [$"Mid/1",$"Mid/2",$"Mid/3"]
 var frame = 0
+
+#endregion
+
+# Basic Godot functions
+func _ready() -> void:
+	super._ready()
+	if !GmM.web_development:
+		$ShiftParticles.amount_ratio = SvM.return_particle_amount()
+		$ShiftParticles2.amount_ratio = SvM.return_particle_amount()
+	else:
+		$ShiftParticles.emitting = false
+		$ShiftParticles2.emitting = false
 
 func _process(_delta):
 	frame += 1
@@ -20,6 +33,7 @@ func _process(_delta):
 		s.frame = f2
 	frame = 0
 
+# On something functions
 func on_player_body_hit(b: Area2D):
 	if b.is_in_group("mainbody") and PlayerLine1.instance.inv == true:
 		PlayerLine1.instance.shield_timer_reset_after_hit(2.5)

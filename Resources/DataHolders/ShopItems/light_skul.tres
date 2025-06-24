@@ -12,3 +12,4 @@ desc = "I found a cracked skul while doing your duties. This one is faster but i
 category = 2
 resource_script = "light_skul_unlock"
 variable1 = 1.0
+variable2 = 0.0

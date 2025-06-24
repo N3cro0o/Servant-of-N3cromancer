@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="SoundHolder" load_steps=3 format=3 uid="uid://rnae5stghthl"]
+
+[ext_resource type="Script" path="res://Resources/DataHolders/Script/sound_holder.gd" id="1_imy16"]
+[ext_resource type="AudioStream" uid="uid://s0coiy8phiox" path="res://SFX/Sounds/whoosh-blow-flutter-shortwav-14678.mp3" id="2_3n5cb"]
+
+[resource]
+script = ExtResource("1_imy16")
+name = "air_whoosh1"
+stream = ExtResource("2_3n5cb")
+volume = 0.0
+autoplay = false
+bus = "Obstacles"
