@@ -1,9 +1,11 @@
-[gd_resource type="Resource" script_class="StageEnemyData" load_steps=5 format=3 uid="uid://dxxmyg2erd1ms"]
+[gd_resource type="Resource" script_class="StageEnemyData" load_steps=7 format=3 uid="uid://dxxmyg2erd1ms"]
 
+[ext_resource type="Texture2D" uid="uid://b613ar7xw3mka" path="res://Images/BG/BG.png" id="1_7oh41"]
 [ext_resource type="Script" path="res://Resources/DataHolders/Script/spawn_obstacle_data_holder.gd" id="1_sksi5"]
 [ext_resource type="Script" path="res://Resources/DataHolders/Script/spawn_pickup_data_holder.gd" id="2_m33e7"]
 [ext_resource type="Resource" uid="uid://chynsxlq4cx8l" path="res://Scenes/Obstacles/Gravity/Obstacle1/gravity_obstacle_1.tres" id="2_qhvw4"]
 [ext_resource type="Script" path="res://Resources/DataHolders/Script/stage_enemy_data.gd" id="3_ycph5"]
+[ext_resource type="Resource" uid="uid://c5pnpq5t84gkq" path="res://SFX/MusicData/main_game.tres" id="4_h8nwv"]
 
 [resource]
 script = ExtResource("3_ycph5")
@@ -21,3 +23,5 @@ spawn_delay_min = 3.0
 spawn_delay_max = 3.0
 bosses = Array[ExtResource("1_sksi5")]([])
 pickups = Array[ExtResource("2_m33e7")]([])
+backround = ExtResource("1_7oh41")
+music = ExtResource("4_h8nwv")

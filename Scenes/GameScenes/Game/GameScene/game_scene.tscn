@@ -11,7 +11,6 @@
 [ext_resource type="Texture2D" uid="uid://0owx080eewsp" path="res://Images/PickUps/Scrolls/Symbols/repulsor.png" id="4_w28lu"]
 [ext_resource type="PackedScene" uid="uid://cxecydc21mmwa" path="res://Scenes/SceneKiller/killer.tscn" id="5_4g2j3"]
 [ext_resource type="PackedScene" uid="uid://b4f11y5i27dcu" path="res://Scenes/UI/MainGame/PauseScreen/pause_panel.tscn" id="5_7qvcc"]
-[ext_resource type="Resource" uid="uid://c5pnpq5t84gkq" path="res://SFX/MusicData/main_game.tres" id="5_us5x7"]
 [ext_resource type="Texture2D" uid="uid://h5t8ervkebkw" path="res://Images/UI/pause.png" id="6_dwgee"]
 [ext_resource type="Texture2D" uid="uid://2g2u76harw2m" path="res://Images/circle_shape_black.png" id="6_natll"]
 [ext_resource type="Texture2D" uid="uid://jcx2r032ex1m" path="res://Images/PickUps/Scrolls/Symbols/Shield.png" id="8_hwywf"]
@@ -21,6 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://b613ar7xw3mka" path="res://Images/BG/BG.png" id="13_tjaki"]
 [ext_resource type="Shape2D" uid="uid://c3hrcfy1n4wnh" path="res://Scenes/UI/MainGame/MoveButtons/button_shape_rect.tres" id="14_ejbbi"]
 [ext_resource type="PackedScene" uid="uid://cc0c6bo2wcejw" path="res://Scenes/UI/MainGame/GameOverScreen/end_panel.tscn" id="16_fi7fd"]
+[ext_resource type="Texture2D" uid="uid://de378ag0k17fu" path="res://Images/BG/BG_options.png" id="21_q8q5s"]
 
 [sub_resource type="Curve" id="Curve_0wiik"]
 _data = [Vector2(0.4, 1), 0.0, -1.66667, 0, 1, Vector2(1, 0), -1.66667, 0.0, 1, 0]
@@ -49,14 +49,14 @@ font_size = 24
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_1b5py"]
 
-[node name="GameScene" type="Node2D" node_paths=PackedStringArray("bg_sprites")]
+[node name="GameScene" type="Node2D" node_paths=PackedStringArray("bg_sprites", "bg_sprites_hidden")]
 script = ExtResource("1_hmcmp")
 bg_sprites = [NodePath("BG/BgUp"), NodePath("BG/Bg"), NodePath("BG/BgDown")]
+bg_sprites_hidden = [NodePath("BG/BgUpSecond"), NodePath("BG/BgSecond"), NodePath("BG/BgDownSecond")]
 enemy_stages = Array[ExtResource("2_3iuus")]([ExtResource("3_s3x3a"), ExtResource("4_ehmxr")])
 progress_bar_vanish = 750.0
 progress_bar_vanish_curve = SubResource("Curve_0wiik")
 button_height_scale = 1.6
-stream = ExtResource("5_us5x7")
 
 [node name="WindowBox" type="Control" parent="."]
 z_index = 101
@@ -310,6 +310,27 @@ z_index = -400
 position = Vector2(540, 3600)
 scale = Vector2(3, 3)
 texture = ExtResource("13_tjaki")
+
+[node name="BgUpSecond" type="Sprite2D" parent="BG"]
+visible = false
+z_index = -401
+position = Vector2(540, -1200)
+scale = Vector2(3, 3)
+texture = ExtResource("21_q8q5s")
+
+[node name="BgSecond" type="Sprite2D" parent="BG"]
+visible = false
+z_index = -401
+position = Vector2(540, 1200)
+scale = Vector2(3, 3)
+texture = ExtResource("21_q8q5s")
+
+[node name="BgDownSecond" type="Sprite2D" parent="BG"]
+visible = false
+z_index = -401
+position = Vector2(540, 3600)
+scale = Vector2(3, 3)
+texture = ExtResource("21_q8q5s")
 
 [connection signal="on_failing_level" from="." to="WindowBox/EndPanel" method="update_desc"]
 [connection signal="pressed" from="WindowBox/ProgressBar/PauseButton" to="." method="pause_game"]

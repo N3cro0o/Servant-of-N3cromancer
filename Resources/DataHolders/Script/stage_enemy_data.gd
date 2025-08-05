@@ -51,3 +51,6 @@ class_name StageEnemyData extends Resource
 @export_group("Other")
 @export var bosses : Array[SpawnObstacleDataHolder]
 @export var pickups : Array[SpawnPickupDataHolder]
+@export_group("Style")
+@export var backround: Texture2D = preload("res://Images/BG/BG.png")
+@export var music: MusicHolder = preload("res://SFX/MusicData/main_game.tres")

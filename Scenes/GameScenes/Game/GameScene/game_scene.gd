@@ -19,13 +19,13 @@ enum state {
 #region Variables
 
 @export var bg_sprites : Array[Sprite2D]
+@export var bg_sprites_hidden : Array[Sprite2D]
 @export var enemy_stages : Array[StageEnemyData]
 @export_range(10, 1000) var progress_bar_vanish = 500.0
 @export var progress_bar_vanish_curve: Curve
 @export_group("Buttons")
 @export_range(1.0, 2.0) var button_height_scale = 1.0
 @export_group("Music")
-@export var stream: MusicHolder
 @export var play_music = true
 @onready var small_bubble :MouseEntity1 = $MouseEntity
 @onready var big_boi :PlayerLine1 = $PlayerLine
@@ -37,6 +37,7 @@ enum state {
 @onready var camera_buttons : Array[TouchScreenButton] = [$Camera2D/ButtonL, $Camera2D/ButtonR]
 
 var progress_bar: HSlider
+var stream: MusicHolder
 
 # Player vars
 var hit_color_zeroing = true
@@ -64,6 +65,7 @@ var boss
 var death_movement = false
 var death_timer = 0.0
 var game_time = 0.0
+var use_hidden_background := false
 
 # Button vars
 var margin_side = 75
@@ -155,6 +157,10 @@ func _ready():
 	max_speed = big_boi.return_max_speed()
 	# Spawner
 	spawner.set_obstacle_data(enemy_stages[stage])
+	# Style
+	for bg in bg_sprites:
+		bg.texture = enemy_stages[stage].backround
+	stream = enemy_stages[stage].music
 	# Music
 	if play_music:
 		Sfx.play(stream, Sfx.SoundEnum.Music)
@@ -194,10 +200,16 @@ func _process(delta):
 		hit_frame.self_modulate = c
 	# BG movement
 	if !bg_lock:
-		for x in bg_sprites:
-			x.position.y += delta * 250 * actual_speed_multi * GmM.game_speed
-			if x.position.y >= 3600:
-				x.position.y -= 2400 * 3 - 1
+		if !use_hidden_background:
+			for x in bg_sprites:
+				x.position.y += delta * 250 * actual_speed_multi * GmM.game_speed
+				if x.position.y >= 3600:
+					x.position.y -= 2400 * 3 - 1
+		else:
+			for x in bg_sprites_hidden:
+				x.position.y += delta * 250 * actual_speed_multi * GmM.game_speed
+				if x.position.y >= 3600:
+					x.position.y -= 2400 * 3 - 1
 	# Paused saving
 	if !GmM.paused:
 		actual_speed_multi = speed_multi
@@ -297,6 +309,29 @@ func advance_stage():
 	diff_trunc_val = 2
 	accelerate /= 2
 	difficulty_fract = 0
+	var target
+	var show_target
+	if use_hidden_background:
+		target = bg_sprites_hidden
+		show_target = bg_sprites
+	else:
+		target = bg_sprites
+		show_target = bg_sprites_hidden
+	for bg: Sprite2D in target:
+		bg.z_index -= 1
+	for bg: Sprite2D in show_target:
+		bg.z_index += 1
+		bg.texture = enemy_stages[stage].backround
+		bg.modulate.a = 0
+		bg.visible = true
+	get_tree().create_tween().tween_property(show_target[0],"modulate:a", 1, 0.3)
+	get_tree().create_tween().tween_property(show_target[1],"modulate:a", 1, 0.3)
+	var t = get_tree().create_tween()
+	t.tween_property(show_target[2],"modulate:a", 1, 0.3)
+	t.finished.connect(func():
+		for bg: Sprite2D in target:
+			bg.visible = false)
+	use_hidden_background = !use_hidden_background
 	# Await for thread to finish
 	while thread.is_alive():
 		await get_tree().process_frame
